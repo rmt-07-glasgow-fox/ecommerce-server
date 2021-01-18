@@ -3,13 +3,6 @@ const env = process.env.NODE_ENV || 'development'
 
 if (env === 'development' || env === 'test') require('dotenv').config()
 
-// const username = process.env['DB_USERNAME' + uppercasedEnv]
-// const password = process.env['DB_PASSWORD' + uppercasedEnv]
-// const database = process.env['DB_NAME' + uppercasedEnv]
-// const host = process.env['DB_HOST' + uppercasedEnv]
-// const dialect = process.env['DB_DIALECT' + uppercasedEnv]
-
-
 module.exports = {
   "development": {
     "username": process.env.DB_USERNAME_DEVELOPMENT,
