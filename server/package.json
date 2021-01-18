@@ -8,6 +8,8 @@
     "db:create:test": "NODE_ENV=test sequelize db:create",
     "db:migrate:dev": "NODE_ENV=development sequelize db:migrate",
     "db:migrate:test": "NODE_ENV=test sequelize db:migrate",
+    "db:migrate:undo:dev": "NODE_ENV=development sequelize db:migrate:undo:all",
+    "db:migrate:undo:test": "NODE_ENV=test sequelize db:migrate:undo:all",
     "db:seed:dev": "NODE_ENV=development sequelize db:seed:all",
     "db:seed:test": "NODE_ENV=test sequelize db:seed:all",
     "dev": "NODE_ENV=development nodemon bin/http.js",

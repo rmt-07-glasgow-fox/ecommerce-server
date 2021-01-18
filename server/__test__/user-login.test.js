@@ -6,7 +6,7 @@ afterAll(done => {
   models.sequelize.close()
   done()
 })
-describe('POST /login', () => {
+describe('POST /login ==> Success', () => {
   it('Login success, return 200 status code', (done) => {
     //setup
     const body = {
@@ -24,14 +24,17 @@ describe('POST /login', () => {
         expect(res.statusCode).toEqual(200)
         expect(typeof res.body).toEqual('object')
         expect(res.body).toHaveProperty('access_token')
+        expect(typeof res.body.access_token).toEqual('string')
         done()
       })
   })
+})
 
+describe('POST /login ==> Failed', () => {
   it('Invalid password, return 401 status code', (done) => {
     const body = {
       email: 'admin@gmail.com',
-      password: 'adaamin'
+      password: 'ada_amin'
     }
     request(app)
       .post('/login')
@@ -47,7 +50,7 @@ describe('POST /login', () => {
 
   it('Email not register, return 401 status code', (done) => {
     const body = {
-      email: 'adaamin@gmail.com',
+      email: 'ada_amin@gmail.com',
       password: 'admin123'
     }
     request(app)
@@ -79,6 +82,4 @@ describe('POST /login', () => {
         done()
       })
   })
-
-  
 })
