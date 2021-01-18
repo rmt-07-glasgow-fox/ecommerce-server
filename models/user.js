@@ -19,12 +19,17 @@ module.exports = (sequelize, DataTypes) => {
   User.init({
     email: {
       type: DataTypes.STRING,
+      allowNull: false,
       validate: {
         isEmail: {
           args: true,
           msg: 'Invalid email address'
         },
         notEmpty: {
+          args: true,
+          msg: 'Email is required'
+        },
+        notNull: {
           args: true,
           msg: 'Email is required'
         }
@@ -36,11 +41,16 @@ module.exports = (sequelize, DataTypes) => {
     },
     password: {
       type: DataTypes.STRING,
+      allowNull: false,
       validate: {
         notEmpty: {
           args: true,
           msg: 'Password is required'
         },
+        notNull: {
+          args: true,
+          msg: 'Password is required'
+        },    
         len: {
           args: [6],
           msg: 'Password at least 6 characters'
@@ -50,11 +60,16 @@ module.exports = (sequelize, DataTypes) => {
     },
     role: {
       type: DataTypes.STRING,
+      allowNull: false,
       validate: {
         notEmpty: {
           args: true,
           msg: 'Role is required'
-        }
+        },
+        notNull: {
+          args: true,
+          msg: 'Role is required'
+        }        
       }
     }
   }, {
