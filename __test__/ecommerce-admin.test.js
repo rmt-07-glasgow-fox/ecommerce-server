@@ -4,11 +4,6 @@ let token = ''
 
 //login
 describe ('POST /login', function() {
-      beforeAll(function(done){
-            let token = login()
-            done()
-      })
-
       afterAll(function(done){
             clearTodos()
                .then(function(){
@@ -19,12 +14,11 @@ describe ('POST /login', function() {
       it("should send response with 200 status code", function(done) {
 
       const body = {
-            email: "tes@mail.com",
-            password: "qweqwe",
+            access_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTYxMDk4MDQ4Nn0.z572svieL056ITuvcfxMDryrP4SHEHdKtcB5OR_4RR8"
       }
 
       request(app)
-            .post('/login')
+            .post('/admin/login')
             .send(body)
             .end(function(err, res){
                   if(err) done(err)
@@ -33,7 +27,7 @@ describe ('POST /login', function() {
             expect(res.statusCode).toEqual(200)
             expect(typeof res.body).toEqual('object')
             expect(res.body).toHaveProperty('access_token')
-            expect(typeof res.body.id).toEqual('string')
+            expect(res.body.access_token).toEqual(body.access_token)
  
             done()
             })

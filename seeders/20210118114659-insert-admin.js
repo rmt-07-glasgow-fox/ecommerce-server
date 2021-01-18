@@ -11,7 +11,7 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
 
     admin.forEach(el => {
-      el.createdAT = new Date()
+      el.createdAt = new Date()
       el.updatedAt = new Date()
     })
     await queryInterface.bulkInsert("Admins", admin, {} )

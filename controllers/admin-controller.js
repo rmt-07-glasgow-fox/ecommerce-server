@@ -1,14 +1,14 @@
 const { Admin } = require('../models')
 const { tokenGenerate } = require('../helper/jwt')
 
-class UserController {
+class AdminController {
       static login(req, res, next) {
             let { email, password } = req.body
 
             Admin.findOne({where: {email}})
                 .then(admin => {
-                      if(!admin) next(err)
-                      if(admin.password !== password) next(err)
+                      if(!admin) res.status(400).json(err)
+                      if(admin.password !== password) res.status(400).json(err)
                       let payload = {
                             id: admin.id,
                             email: admin.email
@@ -17,11 +17,11 @@ class UserController {
                       let access_token = tokenGenerate(payload)
                       res.status(200).json({ access_token })
                 }).catch(err => {
-                      next(err)
+                  res.status(500).json(err)
                 })
 
             
       }
 }
 
-module.exports = UserController
+module.exports = AdminController
