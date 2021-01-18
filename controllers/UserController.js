@@ -6,16 +6,13 @@ class UserController {
 
   static login(req, res, next) {
     const { email, password } = req.body
-    console.log(req.body, '===========')
-    if (!email || !password) {
-      console.log('masuk sindang 1')
-      next({name: 'SequelizeValidationError'})
 
-    } 
+    if (!email || !password) {
+      next({name: 'InvalidPassOrEmail'})
+    }
+
     User.findOne({ where: {email} })
       .then(user => {
-        console.log('masuk sindang 2')
-        console.log(user)
         if (!user) {
           next({ name: 'InvalidPassOrEmail' })
         } else {
@@ -30,7 +27,6 @@ class UserController {
         }
       })
       .catch(err => {
-        console.log('masuk sindang 3')
         next(err)
       })
   }

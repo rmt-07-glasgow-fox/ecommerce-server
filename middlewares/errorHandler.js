@@ -4,10 +4,9 @@ function errorHandler(err, req, res, next) {
       res.status(404).json({message: 'Password or Email is not valid'})
       break
     case 'SequelizeValidationError':
-      console.log(err)
       const errors = err.errors.map(e => e.message)
       
-      res.status(400).json({ message: errors })
+      res.status(400).json({ errors })
       break
     case 'SequelizeUniqueConstraintError':
       res.status(400).json({ message: 'Please register with a different email account' })
