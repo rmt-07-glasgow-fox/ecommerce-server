@@ -17,7 +17,7 @@ describe('POST /login', ()=> {
             if (err) done(err)
 
             // asert
-            expect(res.statusCode).toEqual(201)
+            expect(res.statusCode).toEqual(200)
             expect(typeof res.body).toEqual('object')
             expect(res.body).toHaveProperty('access_token')
             done()
