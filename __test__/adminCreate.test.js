@@ -1,6 +1,8 @@
 const request = require('supertest')
 // require clearProducts here
 
+const app = require('../app')
+
 describe('POST /products', () => {
     //add clearProducts iside beforeAll hooks here
     it('should send response with 201 status code', (done) => {
@@ -62,7 +64,7 @@ describe('POST /products', () => {
                 // Assert
                 expect(res.statusCode).toEqual(400)
                 expect(typeof res.body).toEqual('object')
-                expect(res.body).toHaveProperty(errors)
+                expect(res.body).toHaveProperty('errors')
                 expect(Array.isArray(res.body.errors)).toEqual(true)
                 expect(res.body.errors).toEqual(
                     expect.arrayContaining(['Name required', 'Image_url required', 'Price required', 'Stock required'])
