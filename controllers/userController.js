@@ -49,6 +49,28 @@ class UserController {
       next(err);
     };
   };
+
+  static async getuser(req, res, next) {
+    try {
+      const decode = chkToken(req.headers.access_token);
+      const getuser = await User.findOne({ where: { id: decode.id } });
+
+      if (!getuser) throw { name: 'notFound' };
+
+      return res.status(200).json({
+        id: getuser.id,
+        firstname: getuser.firstname,
+        lastname: getuser.lastname,
+        email: getuser.email,
+        profpic: getuser.profpic,
+        role: getuser.role
+      });
+    } catch (err) {
+      // !decode => err = { "name": "JsonWebTokenError", "message": "jwt must be provided" }
+      // !getuser => err = { "name": "notFound" };
+      res.send(err)
+    };
+  };
 };
 
 module.exports = UserController;

@@ -6,10 +6,13 @@
   "scripts": {
     "db:create": "sequelize db:create",
     "db:migrate": "sequelize db:migrate",
+    "db:seed:all": "sequelize db:seed:all",
     "db:create:development": "SET NODE_ENV=development&npm run db:create",
     "db:create:test": "SET NODE_ENV=test&npm run db:create",
     "db:migrate:development": "SET NODE_ENV=development&npm run db:migrate",
     "db:migrate:test": "SET NODE_ENV=test&npm run db:migrate",
+    "db:seed:all:development": "SET NODE_ENV=development&npm run db:seed:all",
+    "db:seed:all:test": "SET NODE_ENV=test&npm run db:seed:all",
     "dev": "SET NODE_ENV=development&nodemon bin/http.js",
     "test": "SET NODE_ENV=test&npx jest"
   },
