@@ -15,10 +15,12 @@ const authentication = (req, res, next) => {
         return next()
       })
       .catch(err => {
+        console.log(err);
         next(err)
       })
     
   } catch (error) {
+    console.log(error);
     next({ name: "NotLoggedIn" })
   }
 }

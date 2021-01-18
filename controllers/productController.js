@@ -28,6 +28,24 @@ class ProductController {
         next(err)
       })
   }
+
+  static deleteProduct(req, res, next) {
+    let id = req.params.id
+    Product.destroy({
+      where: { id }
+    })
+      .then(data => {
+        if (data == 0) {
+          return next({
+            name: "NotFound"
+          })
+        }
+        res.status(200).json({ message: "Product successfully deleted" })
+      })
+      .catch(err => {
+        next(err)
+      })
+  }
 }
 
 module.exports = ProductController

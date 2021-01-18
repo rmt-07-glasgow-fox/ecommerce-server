@@ -44,22 +44,16 @@ beforeAll(done => {
     })
 })
 
-// afterAll((done) => {
-//   clearProduct()
-//     .then(() => {
-//       done()
-//     })
-//     .catch(console.log)
-// });
+afterAll((done) => {
+  console.log(access_token_notAdmin);
+  clearProduct()
+    .then(() => {
+      done()
+    })
+    .catch(console.log)
+});
 
 describe("POST/products", function () {
-  afterAll((done) => {
-    clearProduct()
-      .then(() => {
-        done()
-      })
-      .catch(console.log)
-  });
 
   describe("POST success", () => {
     it("should send response with 201 status code", function (done) {
@@ -120,10 +114,11 @@ describe("POST/products", function () {
   describe("access_token not belong to admin", () => {
     it('should send response with status code 401', (done) => {
       const body = inputProduct
+      let notAdmin = access_token_notAdmin
 
       request(app)
         .post("/products")
-        .set("access_token", access_token_notAdmin)
+        .set("access_token", notAdmin)
         .send(body)
         .end((err, res) => {
           if (err) done(err)
@@ -387,3 +382,129 @@ describe("POST/products", function () {
   });
 
 })
+
+describe('GET/products', () => {
+  describe('Get success', () => {
+    it('should send response with status code 200', (done) => {
+      //setup
+      //exec
+      request(app)
+        .get("/products")
+        .set({ access_token: access_token_admin})
+        .end((err, res) => {
+          if (err) done(err)
+
+          expect(res.statusCode).toEqual(200);
+          expect(typeof res.body).toEqual("object");
+
+          done()
+        })
+    });
+  });
+
+  describe('Empty access token', () => {
+    it('should send response with status code 401', (done) => {
+      request(app)
+        .get("/product")
+        .set({ access_token: ""})
+        .end((err, res) => {
+          if (err) done(err)
+
+          expect(res.statusCode).toEqual(401)
+          expect(typeof res.body).toEqual("object")
+          expect(res.body).toHaveProperty("message")
+          expect(res.body).toEqual(
+            expect.objectContaining({ message: "Please login first" })
+          )
+
+          done()
+        })
+    });
+  });
+});
+
+describe('DELETE/products', () => {
+  describe("Empty access_token", () => {
+    it("should send response with 401 status code", function (done) {
+      let id = productId
+      //exec
+      request(app)
+        .delete("/products/" + id)
+        .set("access_token", "")
+        .end((err, res) => {
+          if(err) done(err)
+
+          //Assert
+          expect(res.statusCode).toEqual(401)
+          expect(typeof res.body).toEqual("object")
+          expect(res.body).toHaveProperty("message")
+          expect(res.body).toEqual(
+            expect.objectContaining({ message: "Please login first" })
+          )
+
+          done()
+        })
+    })
+  })
+
+  describe("access_token not belong to admin", () => {
+    it('should send response with status code 401', (done) => {
+      let id = productId
+      let notAdmin = access_token_notAdmin
+
+      request(app)
+        .post("/products/" + id)
+        .set("access_token", notAdmin)
+        .end((err, res) => {
+          if (err) done(err)
+
+          expect(res.statusCode).toEqual(401);
+          expect(typeof res.body).toEqual("object");
+          expect(res.body).toHaveProperty("message", "You're unauthorized to do this");
+
+          done()
+        })
+    });
+  })
+
+  describe('Delete success', () => {
+    it('should send response with status code 200', (done) => {
+      let id = productId
+      //exec
+      request(app)
+        .delete("/products/" + id)
+        .set("access_token", access_token_admin)
+
+        .end((err, res) => {
+          if(err) done(err)
+
+          expect(res.statusCode).toEqual(200);
+          expect(typeof res.body).toEqual("object");
+          expect(res.body).toHaveProperty("message", "Product successfully deleted");
+
+          done()
+        })
+    });
+  });
+
+  describe('Data not found', () => {
+    it('should send response with status code 404', (done) => {
+      let id = productId
+      //exec
+      request(app)
+        .delete("/products/" + id)
+        .set("access_token", access_token_admin)
+
+        .end((err, res) => {
+          if(err) done(err)
+
+          expect(res.statusCode).toEqual(404);
+          expect(typeof res.body).toEqual("object");
+          expect(res.body).toHaveProperty("message", "Not found");
+
+          done()
+        })
+    });
+  });
+  
+});
