@@ -61,6 +61,20 @@ describe('User login test http://localhost:3000/login', () => {
         done()
       })
   })
+  it('Failed login with wrong password', (done) => {
+    request(app)
+      .post('/login')
+      .send({
+        email: 'admin@mail.com',
+        password: 'bakmandi'
+      })
+      .end((err, res) => {
+        if(err) done(err)
+        expect(res.statusCode).toEqual(401)
+        expect(res.body).toHaveProperty('message')
+        done()
+      })
+  })
   it('Failed login without email and password', (done) => {
     request(app)
       .post('/login')
