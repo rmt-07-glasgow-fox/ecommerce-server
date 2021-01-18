@@ -12,7 +12,9 @@
     "db:create:test": "NODE_ENV=test npm run db:create",
     "db:create:development": "NODE_ENV=development npm run db:create",
     "db:migrate:development": "NODE_ENV=development npm run db:migrate",
-    "db:migrate:test": "NODE_ENV=test npm run db:migrate"
+    "db:migrate:test": "NODE_ENV=test npm run db:migrate",
+    "db:seed:test": "NODE_ENV=test npx sequelize db:seed:all",
+    "db:seed:development": "NODE_ENV=development npx sequelize db:seed:all"
   },
   "repository": {
     "type": "git",
