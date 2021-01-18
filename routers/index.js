@@ -1,8 +1,9 @@
-import express from 'express';
-import Controller from '../controllers/controller.js';
-import product from './product.js';
+const router = require('express').Router();
+const Controller = require('../controllers/controller.js');
+const product = require('./product.js');
+const user = require('./user.js');
 
-const router = express.Router();
+router.use('/', user);
 
 router.get('/', Controller.home);
 

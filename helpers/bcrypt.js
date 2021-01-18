@@ -1,4 +1,4 @@
-import bcrypt from 'bcryptjs';
+const bcrypt = require('bcryptjs');
 
 let hashPass = userPass => {
   let salt = bcrypt.genSaltSync(10);

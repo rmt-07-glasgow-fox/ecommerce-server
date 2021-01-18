@@ -1,5 +1,5 @@
-import jwt from 'jsonwebtoken';
-import SECRET_KEY from process.env.SECRET_KEY;
+const jwt = require('jsonwebtoken');
+const SECRET_KEY = process.env.SECRET_KEY;
 
 let genToken = payload => jwt.sign(payload, SECRET_KEY);
 
