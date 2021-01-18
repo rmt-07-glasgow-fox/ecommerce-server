@@ -9,9 +9,9 @@ class ProductController{
     let value = {
       name: req.body.name,
       image_url: req.body.image_url,
-      price: req.body.price,
-      stock: req.body.stock,
-      UserId: req.userData.id
+      price: +req.body.price,
+      stock: +req.body.stock,
+      UserId: +req.userData.id
     }
     console.log(value);
     Product.create(value)

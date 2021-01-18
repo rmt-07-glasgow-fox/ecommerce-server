@@ -74,6 +74,107 @@ describe('POST /products ==> Failed', () => {
         if(err) done(err)
         expect(res.statusCode).toEqual(400)
         expect(res.body).toHaveProperty('message')
+        expect(typeof res.body.message).toEqual('string')
+        done()
+      })
+  })
+
+  it('Invalid access token, return 401 status code', (done) => {
+    const body = {
+      name: "Adidas Tennis Shoes",
+      image_url: "https://assets.adidas.com/images/w_320,f_auto,q_auto:sensitive,fl_lossy/69721f2e7c934d909168a80e00818569_9366/Stan_Smith_Shoes_White_M20324_01_standard.jpg",
+      price: 5000000,
+      stock: 10
+    }
+    request(app)
+      .post('/products')
+      .set('access_token', access_token2)
+      .send(body)
+      .end((err, res) => {
+        if(err) done(err)
+        expect(res.statusCode).toEqual(401)
+        expect(res.body).toHaveProperty('message')
+        expect(typeof res.body.message).toEqual('string')
+        done()
+      })
+  })
+
+  it('Required column not filled, return 400 status code', (done) => {
+    const body = {
+      name: "",
+      image_url: "https://assets.adidas.com/images/w_320,f_auto,q_auto:sensitive,fl_lossy/69721f2e7c934d909168a80e00818569_9366/Stan_Smith_Shoes_White_M20324_01_standard.jpg",
+      price: 5000000,
+      stock: ''
+    }
+    request(app)
+      .post('/products')
+      .set('access_token', access_token)
+      .send(body)
+      .end((err, res) => {
+        if(err) done(err)
+        expect(res.statusCode).toEqual(400)
+        expect(res.body).toHaveProperty('message')
+        expect(Array.isArray(res.body.message))
+        done()
+      })
+  })
+
+  it('Stock filled by minus number, return 400 status code', (done) => {
+    const body = {
+      name: "Nike",
+      image_url: "https://assets.adidas.com/images/w_320,f_auto,q_auto:sensitive,fl_lossy/69721f2e7c934d909168a80e00818569_9366/Stan_Smith_Shoes_White_M20324_01_standard.jpg",
+      price: 5000000,
+      stock: -10
+    }
+    request(app)
+      .post('/products')
+      .set('access_token', access_token)
+      .send(body)
+      .end((err, res) => {
+        if(err) done(err)
+        expect(res.statusCode).toEqual(400)
+        expect(res.body).toHaveProperty('message')
+        expect(Array.isArray(res.body.message))
+        done()
+      })
+  })
+
+  it('Price filled by minus number, return 400 status code', (done) => {
+    const body = {
+      name: "Nike",
+      image_url: "https://assets.adidas.com/images/w_320,f_auto,q_auto:sensitive,fl_lossy/69721f2e7c934d909168a80e00818569_9366/Stan_Smith_Shoes_White_M20324_01_standard.jpg",
+      price: -5000000,
+      stock: 10
+    }
+    request(app)
+      .post('/products')
+      .set('access_token', access_token)
+      .send(body)
+      .end((err, res) => {
+        if(err) done(err)
+        expect(res.statusCode).toEqual(400)
+        expect(res.body).toHaveProperty('message')
+        expect(Array.isArray(res.body.message))
+        done()
+      })
+  })
+
+  it('Invalid data type, return 400 status code', (done) => {
+    const body = {
+      name: "Nike",
+      image_url: "https://assets.adidas.com/images/w_320,f_auto,q_auto:sensitive,fl_lossy/69721f2e7c934d909168a80e00818569_9366/Stan_Smith_Shoes_White_M20324_01_standard.jpg",
+      price: 'ini string',
+      stock: 10
+    }
+    request(app)
+      .post('/products')
+      .set('access_token', access_token)
+      .send(body)
+      .end((err, res) => {
+        if(err) done(err)
+        expect(res.statusCode).toEqual(400)
+        expect(res.body).toHaveProperty('message')
+        expect(Array.isArray(res.body.message))
         done()
       })
   })

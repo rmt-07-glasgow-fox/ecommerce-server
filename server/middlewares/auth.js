@@ -24,7 +24,10 @@ function authenticate(req, res, next){
       next(err)
     })
   } catch (error) {
-    next({status: 400})
+    next({
+      status: 400,
+      message: error.message
+    })
   }
 }
 
