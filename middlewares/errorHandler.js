@@ -2,12 +2,8 @@ const errorHandler = (err, req, res, next) => {
   if (err) {
     switch (err.name) {
       case "SequelizeValidationError":
-        let errorMessage = err.errors.map(err => {
-          return {
-            message: err.message
-          }
-        })
-        return res.status(400).json(errorMessage)
+        let errorMessage = err.errors.map(err => err.message)
+        return res.status(400).json({errors: errorMessage})
 
       case "SequelizeUniqueConstraintError":
         return res.status(400).json({
@@ -16,7 +12,7 @@ const errorHandler = (err, req, res, next) => {
 
       case "NotLoggedIn":
         return res.status(401).json({
-          message: "aaaaaaaaaaaaaa"
+          message: "Please login first"
         })
 
       case "WrongLogin":
@@ -26,12 +22,12 @@ const errorHandler = (err, req, res, next) => {
 
       case "Unauthorized":
         return res.status(401).json({
-          message: "aaaaaaaaaaaaaa"
+          message: "You're unauthorized to do this"
         })
 
       case "NotFound":
         return res.status(404).json({
-          message: "aaaaaaaaaaaaaa"
+          message: "Not found"
         })
 
       default:
