@@ -1,9 +1,15 @@
 const request = require('supertest')
-// require clearProducts here
-
 const app = require('../app')
+const clearProducts = require('./helpers/clearProducts')
 
 describe('POST /products', () => {
+    afterAll((done) => {
+        clearProducts()
+            .then(() => {
+                done()
+            })
+            .catch(console.log)
+    })
     //add clearProducts iside beforeAll hooks here
     it('should send response with 201 status code', (done) => {
         // Setup
