@@ -6,11 +6,11 @@
   "scripts": {
     "db:create": "npx sequelize-cli db:create",
     "db:migrate": "npx sequelize-cli db:migrate",
-    "db:create:dev": "NODE_ENV=development npx sequelize-cli db:create",
-    "db:migrate:dev": "NODE_ENV=development npx sequelize-cli db:migrate",
-    "db:create:test": "NODE_ENV=test npx sequelize-cli db:create",
-    "db:migrate:test": "NODE_ENV=test npx sequelize-cli db:migrate",
-    "dev": "NODE_ENV=development nodemon app.js",
+    "db:create:dev": "NODE_ENV=development npm run db:create",
+    "db:migrate:dev": "NODE_ENV=development npm run db:migrate",
+    "db:create:test": "NODE_ENV=test npm run db:create",
+    "db:migrate:test": "NODE_ENV=test npm run db:migrate",
+    "dev": "NODE_ENV=development nodemon bin/http.js",
     "test": "NODE_ENV=test npx jest"
   },
   "repository": {
