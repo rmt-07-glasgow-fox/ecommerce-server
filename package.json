@@ -8,6 +8,7 @@
     "db:migrate:development": "NODE_ENV=development npx sequelize-cli db:migrate",
     "db:create:test": "NODE_ENV=test npx sequelize-cli db:create",
     "db:migrate:test": "NODE_ENV=test npx sequelize-cli db:migrate",
+    "dev": "NODE_ENV=development npx nodemon bin/listen.js",
     "test": "NODE_ENV=test npx jest"
   },
   "repository": {

@@ -1,9 +1,18 @@
+// express
 const express = require('express')
 const app = express()
-const PORT = process.env.PORT || 3000
 
 // middlewares
+app.use(express.urlencoded({ extended: false }))
+app.use(express.json())
 app.use(express.static('assets'))
-app.use('/', (req, res) => { res.send('Welcome to ecommerce server') })
 
-app.listen(PORT, () => { console.log(`>>> SERVER RUNNING AT ${PORT}`) })
+// router
+const productRouter = require('./router/productRouter')
+const userRouter = require('./router/userRouter')
+
+app.use('/', (req, res) => { res.send('Welcome to ecommerce server by abdul rozak') })
+app.use('/user', userRouter)
+app.use('/product', productRouter)
+
+module.exports = app

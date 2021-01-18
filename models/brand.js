@@ -14,8 +14,22 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Brand.init({
-    name: DataTypes.STRING,
-    image_url: DataTypes.STRING
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: { msg: 'name is empty' },
+        notNull: { msg: 'name is null' }
+      }
+    },
+    image_url: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: { msg: 'image_url is empty' },
+        notNull: { msg: 'image_url is null' }
+      }
+    }
   }, {
     sequelize,
     modelName: 'Brand',
