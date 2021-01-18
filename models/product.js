@@ -22,9 +22,7 @@ module.exports = (sequelize, DataTypes) => {
           msg: 'Name required'
         },
         isLetterNumber(value) {
-          const letterNumber = /^[0-9a-zA-Z]+$/
-
-          if (!value.match(letterNumber) || typeof Number(value) !== 'string') {
+          if (!isNaN(Number(value))) {
             throw new Error('Name must contain only alphanumeric characters')
           }
         }
