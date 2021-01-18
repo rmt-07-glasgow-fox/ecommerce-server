@@ -1,26 +1,22 @@
 const request = require('supertest')
-const models = require('../models')
+const { sequelze } = require('../models')
 const app = require('../app')
 
 afterAll(done => {
-  models.sequelize.close()
+  sequelize.close()
   done()
 })
 describe('POST /login ==> Success', () => {
   it('Login success, return 200 status code', (done) => {
-    //setup
     const body = {
       email: 'admin@gmail.com',
       password: 'admin123'
     }
-    // execute
     request(app)
       .post('/login')
       .send(body)
       .end((err, res) => {
         if(err) done(err)
-
-        //Assert
         expect(res.statusCode).toEqual(200)
         expect(typeof res.body).toEqual('object')
         expect(res.body).toHaveProperty('access_token')
@@ -72,7 +68,6 @@ describe('POST /login ==> Failed', () => {
       email: '',
       password: ''
     }
-
     request(app)
       .post('/login')
       .send(body)

@@ -14,14 +14,6 @@ let access_token
 let access_token2
 let productId
 
-afterAll(done => {
-  clearProducts()
-  .then(() => {
-    sequelize.close()
-    done()
-  })
-})
-
 beforeAll(done => {
   access_token = generateToken(admin_account)
   access_token2 = generateToken(fake_account)
@@ -41,6 +33,14 @@ beforeAll(done => {
       productId = res.body.id
       done()
     })
+})
+
+afterAll(done => {
+  clearProducts()
+  .then(() => {
+    sequelize.close()
+    done()
+  })
 })
 
 describe('PUT /products ==> Success', () => {

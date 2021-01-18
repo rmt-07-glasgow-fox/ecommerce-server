@@ -60,6 +60,25 @@ class ProductController{
       }
     })
   }
+
+  static deleteProducts(req, res, next){
+    let id = req.params.id
+    console.log(id);
+    Product.destroy({where: {id}})
+    .then(data => {
+      console.log(data);
+      if(data) {
+        res.status(200).json({
+          message: "Success delete product"
+        })
+      } else {
+        next({status: 404})
+      }
+    })
+    .catch(err => {
+      next(err)
+    })
+  }
 }
 
 module.exports = ProductController

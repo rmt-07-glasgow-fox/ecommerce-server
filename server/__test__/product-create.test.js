@@ -1,6 +1,6 @@
 const request = require('supertest')
 const { clearProducts, generateToken } = require('../helpers')
-const { Product, sequelize } = require('../models')
+const { sequelize } = require('../models')
 const app = require('../app')
 const admin_account = {
   id: 1,
