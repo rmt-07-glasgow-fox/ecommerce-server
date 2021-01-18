@@ -1,10 +1,21 @@
 const request = require('supertest')
 const app = require('../app')
 const clearProducts = require('./helpers/clearProducts')
+const seedProducts = require('./helpers/seedProducts')
 const models = require('../models/')
+const { Product } = require('../models/')
+
+
+let access_token = null
 
 beforeAll((done) => {
-
+    // user login di controller panggil di sini
+    // access_token = login()
+    seedProducts()
+        .then(() => {
+            done()
+        })
+        .catch(console.log)
 })
 
 afterAll((done) => {
@@ -19,41 +30,39 @@ afterAll((done) => {
 
 describe('POST /products', () => {
     it('should send response with 201 status code', (done) => {
-        // Setup
-        const body = {
-            name: 'nice headphones',
-            image_url: 'https://media.wired.com/photos/5e7164aeb9399f00096a2ae6/1:1/w_1800,h_1800,c_limit/Gear-Mont-Blanc-Smart-Headphones-Gold-Front-SOURCE-Mont-Blanc.jpg',
-            price: 120000,
-            stock: 5
-        }
         // Execute
         request(app)
             .post('/products')
-            .send(body)
             .end((err, res) => {
                 //err from supertest
                 if (err) done(err)
 
                 // Assert
-                expect(res.statusCode).toEqual(201)
-                expect(typeof res.body).toEqual('object')
 
-                expect(res.body).toHaveProperty('id')
-                expect(typeof res.body.id).toEqual('number')
+                // check the data in the db
+                Product.findOne({ name: 'nice headphones' })
+                    .then(product => {
+                        expect(res.statusCode).toEqual(201)
+                        expect(typeof product).toEqual('object')
 
-                expect(res.body).toHaveProperty('name')
-                expect(typeof res.body.name).toEqual('string')
+                        expect(product).toHaveProperty('id')
+                        expect(typeof product.id).toEqual('number')
 
-                expect(res.body).toHaveProperty('image_url')
-                expect(typeof res.body.image_url).toEqual('string')
+                        expect(product).toHaveProperty('name')
+                        expect(typeof product.name).toEqual('string')
 
-                expect(res.body).toHaveProperty('price')
-                expect(typeof res.body.price).toEqual('number')
+                        expect(product).toHaveProperty('image_url')
+                        expect(typeof product.image_url).toEqual('string')
 
-                expect(res.body).toHaveProperty('stock')
-                expect(typeof res.body.stock).toEqual('number')
+                        expect(product).toHaveProperty('price')
+                        expect(typeof product.price).toEqual('number')
 
-                done()
+                        expect(product).toHaveProperty('stock')
+                        expect(typeof product.stock).toEqual('number')
+
+                        done()
+                    })
+                    .catch(console.log)
 
             })
     })
@@ -74,7 +83,7 @@ describe('POST /products', () => {
                 //err from supertest
                 if (err) done(err)
 
-                // Assert
+                // check the data in the db
                 expect(res.statusCode).toEqual(400)
                 expect(typeof res.body).toEqual('object')
                 expect(res.body).toHaveProperty('errors')
@@ -84,10 +93,95 @@ describe('POST /products', () => {
                 )
 
                 done()
-
             })
     })
 
+    it('should send response with 400 status code - natural number for price', (done) => {
+        const body = {
+            name: 'nice headphones',
+            image_url: 'https://media.wired.com/photos/5e7164aeb9399f00096a2ae6/1:1/w_1800,h_1800,c_limit/Gear-Mont-Blanc-Smart-Headphones-Gold-Front-SOURCE-Mont-Blanc.jpg',
+            price: -120000,
+            stock: 5
+        }
+
+        // Execute
+        request(app)
+            .post('/products')
+            .send(body)
+            .end((err, res) => {
+                //err from supertest
+                if (err) done(err)
+
+                // Assert
+                expect(res.statusCode).toEqual(400)
+                expect(typeof res.body).toEqual('object')
+                expect(res.body).toHaveProperty('errors')
+                expect(Array.isArray(res.body.errors)).toEqual(true)
+                expect(res.body.errors).toEqual(
+                    expect.arrayContaining(['Price must be greater than zero'])
+                )
+
+                done()
+            })
+    })
+
+    it('should send response with 400 status code - natural number for stock', (done) => {
+        const body = {
+            name: 'nice headphones',
+            image_url: 'https://media.wired.com/photos/5e7164aeb9399f00096a2ae6/1:1/w_1800,h_1800,c_limit/Gear-Mont-Blanc-Smart-Headphones-Gold-Front-SOURCE-Mont-Blanc.jpg',
+            price: 120000,
+            stock: -5
+        }
+
+        // Execute
+        request(app)
+            .post('/products')
+            .send(body)
+            .end((err, res) => {
+                //err from supertest
+                if (err) done(err)
+
+                // Assert
+                expect(res.statusCode).toEqual(400)
+                expect(typeof res.body).toEqual('object')
+                expect(res.body).toHaveProperty('errors')
+                expect(Array.isArray(res.body.errors)).toEqual(true)
+                expect(res.body.errors).toEqual(
+                    expect.arrayContaining(['Stock must be greater than zero'])
+                )
+
+                done()
+            })
+    })
+
+    it('should send response with 400 status code - invalid data types', (done) => {
+        const body = {
+            name: 'nice headphones',
+            image_url: 'https://media.wired.com/photos/5e7164aeb9399f00096a2ae6/1:1/w_1800,h_1800,c_limit/Gear-Mont-Blanc-Smart-Headphones-Gold-Front-SOURCE-Mont-Blanc.jpg',
+            price: '120000',
+            stock: 5
+        }
+
+        // Execute
+        request(app)
+            .post('/products')
+            .send(body)
+            .end((err, res) => {
+                //err from supertest
+                if (err) done(err)
+
+                // Assert
+                expect(res.statusCode).toEqual(400)
+                expect(typeof res.body).toEqual('object')
+                expect(res.body).toHaveProperty('errors')
+                expect(Array.isArray(res.body.errors)).toEqual(true)
+                expect(res.body.errors).toEqual(
+                    expect.arrayContaining(['Price must be a number'])
+                )
+
+                done()
+            })
+    })
 })
 
 
