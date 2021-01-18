@@ -19,48 +19,50 @@ let admin_token
 let customer_token
 let productId
 
-beforeAll((done) => {
-  admin_token = generateToken(adminData)
-  customer_token = generateToken(customerData)
-  sequelize.queryInterface.bulkInsert('Users', [
-    {
-      email: 'admin@mail.com',
-      password: encrypt('1234'),
-      role: 'admin',
-      createdAt: new Date(),
-      updatedAt: new Date()
-    },
-    {
-      email: 'sadKEK@mail.com',
-      password: encrypt('1234'),
-      role: 'customer',
-      createdAt: new Date(),
-      updatedAt: new Date()
-    },
-  ])
-    .then(_ => {
-      done()
-    })
-    .catch(err => {
-      console.log(err)
-      done(err)
-    })
-})
-
-afterAll((done) => {
-  if(process.env.NODE_ENV === 'test'){
-    Product.destroy({where:{}})
-    .then(() => {
-      return User.destroy({where:{}})
-    })
-    .then(() => {
-      sequelize.close()
-      done()
-    })
-  }
-})
 
 describe('Product CRUD test http://localhost:3000/products', () => {
+
+  beforeAll((done) => {
+    admin_token = generateToken(adminData)
+    customer_token = generateToken(customerData)
+    sequelize.queryInterface.bulkInsert('Users', [
+      {
+        email: 'admin@mail.com',
+        password: encrypt('1234'),
+        role: 'admin',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        email: 'sadKEK@mail.com',
+        password: encrypt('1234'),
+        role: 'customer',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+    ])
+      .then(_ => {
+        done()
+      })
+      .catch(err => {
+        console.log(err)
+        done(err)
+      })
+  })
+  
+  afterAll((done) => {
+    if(process.env.NODE_ENV === 'test'){
+      Product.destroy({where:{}})
+      .then(() => {
+        return User.destroy({where:{}})
+      })
+      .then(() => {
+        sequelize.close()
+        done()
+      })
+    }
+  })
+
   describe('Add Product test http://localhost:3000/products', () => {
 
     it('Success add new product', (done) => {
@@ -341,6 +343,7 @@ describe('Product CRUD test http://localhost:3000/products', () => {
         })
     })
   })
+  
 })
 
 
