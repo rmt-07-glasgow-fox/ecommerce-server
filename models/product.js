@@ -37,9 +37,13 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty:{
           msg: 'Price field is required.'
         },
-        min: 0,
+        isLessThanZero(value){
+          if(value < 0){
+            throw new Error('Price must be greather or equal than 0')
+          }
+        },
         isInt:{
-          msg: 'Price data type must be a number.'
+          msg: 'Price must be a number.'
         }
       }
     },
@@ -49,9 +53,13 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty:{
           msg: 'Stock field is required.'
         },
-        min: 0,
+        isLessThanZero(value){
+          if(value < 0){
+            throw new Error('Stock must be greather or equal than 0')
+          }
+        },
         isInt:{
-          msg: 'Stock data type must be a number.'
+          msg: 'Stock must be a number.'
         }
       }
     }
