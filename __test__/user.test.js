@@ -7,7 +7,8 @@ describe('Login', () => {
     models.sequelize.close();
     done();
   });
-  it('enter valid email and valid password', (done) => {
+
+  it('Enter valid email and valid password', (done) => {
     const body = {
       email: 'admin@mail.com',
       password: '1234567890',
