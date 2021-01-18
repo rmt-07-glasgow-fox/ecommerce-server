@@ -6,6 +6,7 @@
   "scripts": {
     "db:create": "npx sequelize-cli db:create",
     "db:migrate": "npx sequelize-cli db:migrate",
+    "db:migrate:reset": "npx sequelize-cli db:migrate:undo:all && npx sequelize-cli db:migrate",
     "db:seed": "npx sequelize-cli db:seed --seed",
     "db:create:development": "NODE_ENV=development npm run db:create",
     "db:create:test": "NODE_ENV=test npm run db:create",
@@ -14,7 +15,7 @@
     "db:seed:development": "NODE_ENV=development npm run db:seed",
     "db:seed:test": "NODE_ENV=test npm run db:seed",
     "dev": "NODE_ENV=development npx nodemon bin/http.js",
-    "test": "NODE_ENV=test npx jest"
+    "test": "NODE_ENV=test npm run db:migrate:reset && npx jest"
   },
   "repository": {
     "type": "git",

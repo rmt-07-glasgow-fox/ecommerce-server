@@ -11,6 +11,7 @@ const authenticate = async (req, res, next) => {
     return next();
   }
   catch (err) {
+    console.log("🚀 ~ file: auth.js ~ line 14 ~ authenticate ~ err", err)    
     return next(err);
   }
 };
