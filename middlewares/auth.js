@@ -40,15 +40,15 @@ const authorize = async (req,res,next) => {
   }
 }
 
-const authorizeCategory = async (req,res,next) => {
+const authorizeProduct = async (req,res,next) => {
   try {
     const { id } = req.params
-    const UserId = req.user.id
-    const category = await Category.findOne({
+    const role = req.user.role
+    const product = await Product.findOne({
       where: {id}
     })
-    if(category){
-      if(UserId == category.UserId){
+    if(product){
+      if(role === "admin"){
         next()
       }else{
         next({name: 'ErrorAuthorize'})
@@ -64,5 +64,5 @@ const authorizeCategory = async (req,res,next) => {
 module.exports = {
   authenticate,
   authorize,
-  authorizeCategory
+  authorizeProduct
 }

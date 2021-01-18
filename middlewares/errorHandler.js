@@ -7,7 +7,6 @@ const errorHandler = (err,req,res,next) => {
       message: message
     })
   }
-
   if(err){
     switch (err.name) {
       case "SequelizeValidationError":
