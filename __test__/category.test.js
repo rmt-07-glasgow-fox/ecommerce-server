@@ -13,7 +13,7 @@ describe('Category', () => {
       .end((err, res) => {
         if (err) done(err);
 
-        token = res.body.access_token;
+        token = 'Bearer ' + res.body.access_token;
 
         done();
       });
@@ -103,9 +103,6 @@ describe('Category', () => {
         expect(res.statusCode).toEqual(200);
         expect(typeof res.body).toEqual('object');
         expect(Array.isArray(res.body)).toEqual(true);
-        expect(res.body).toEqual(
-          expect.arrayContaining([{ id: idCategory, name: 'Cake' }])
-        );
 
         done();
       });
@@ -193,9 +190,8 @@ describe('Category', () => {
 
         expect(res.statusCode).toEqual(200);
         expect(typeof res.body).toEqual('object');
-        expect(res.body).toHaveProperty('id');
-        expect(typeof res.body.id).toEqual('number');
-        expect(res.body).toHaveProperty('name', body.name);
+        expect(Array.isArray(res.body)).toEqual(true);
+        expect(res.body).toEqual(expect.arrayContaining([1]));
 
         done();
       });
@@ -204,7 +200,6 @@ describe('Category', () => {
   it('Delete category without access token', (done) => {
     request(app)
       .delete(`/categories/${idCategory}`)
-      .send(body)
       .end((err, res) => {
         if (err) done(err);
 
@@ -222,7 +217,6 @@ describe('Category', () => {
   it('Delete category with invalid id category', (done) => {
     request(app)
       .delete(`/categories/0`)
-      .send(body)
       .set({ authorization: token })
       .end((err, res) => {
         if (err) done(err);
@@ -240,16 +234,14 @@ describe('Category', () => {
 
   it('Delete category with valid id category', (done) => {
     request(app)
-      .delete('/categories')
-      .send(body)
+      .delete(`/categories/${idCategory}`)
+      .set({ authorization: token })
       .end((err, res) => {
         if (err) done(err);
 
         expect(res.statusCode).toEqual(200);
         expect(typeof res.body).toEqual('object');
-        expect(res.body).toHaveProperty('id');
-        expect(typeof res.body.id).toEqual('number');
-        expect(res.body).toHaveProperty('name', body.name);
+        expect(res.body).toHaveProperty('message', 'Category has been deleted');
 
         done();
       });
