@@ -33,6 +33,7 @@ beforeAll((done) => {
     {
       email: 'sadKEK@mail.com',
       password: encrypt('1234'),
+      role: 'customer',
       createdAt: new Date(),
       updatedAt: new Date()
     },
