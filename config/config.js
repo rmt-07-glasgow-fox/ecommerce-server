@@ -16,6 +16,7 @@ module.exports = {
     host,
     database,
     dialect,
+    logging: false,
   },
   test: {
     username,
@@ -23,6 +24,7 @@ module.exports = {
     host,
     database,
     dialect,
+    logging: false,
   },
   production: {
     use_env_variable: 'DATABASE_URL',

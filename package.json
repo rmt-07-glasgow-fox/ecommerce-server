@@ -4,6 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
+    "db:seed:development": "NODE_ENV=development npx sequelize-cli db:seed:all",
+    "db:seed:test": "NODE_ENV=test npx sequelize-cli db:seed:all",
     "db:create": "npx sequelize-cli db:create",
     "db:migrate": "npx sequelize-cli db:migrate",
     "db:create:development": "NODE_ENV=development npm run db:create",
@@ -12,7 +14,7 @@
     "db:migrate:test": "NODE_ENV=test npm run db:migrate",
     "dev": "NODE_ENV=development nodemon bin/http.js",
     "start": "node bin/http.js",
-    "test": "NODE_ENV=test npm jest"
+    "test": "NODE_ENV=test jest"
   },
   "repository": {
     "type": "git",
