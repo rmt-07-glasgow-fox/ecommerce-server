@@ -8,11 +8,11 @@ app.use(express.json())
 app.use(express.static('assets'))
 
 // router
-const productRouter = require('./router/productRouter')
-const userRouter = require('./router/userRouter')
+const router = require('./router')
+const errorHandlers = require('./middleware/errorHandlers')
 
 app.use('/', (req, res) => { res.send('Welcome to ecommerce server by abdul rozak') })
-app.use('/user', userRouter)
-app.use('/product', productRouter)
+app.use('', router)
+app.use(errorHandlers)
 
 module.exports = app
