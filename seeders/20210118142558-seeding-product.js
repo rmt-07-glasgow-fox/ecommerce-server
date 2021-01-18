@@ -1,20 +1,20 @@
 'use strict';
 
-const {genPass} = require('../helper/bcrypt')
-
-const users = [{
-  email : 'admin@mail.com',
-  password : genPass('123456'),
-  role :'admin',
+const prod = [{
+  name : 'baju kerens',
+  image_url : 'https://tshirtbar.id/wp-content/uploads/2020/10/sample_poly1-545x500.jpg',
+  price : 100000,
+  stock : 2,
   createdAt : new Date(),
   updatedAt : new Date()
+
 }, {
-  email : 'customer@mail.com',
-  password : genPass('123456'),
-  role :'customer',
+  name : 'baju keren 2',
+  image_url : 'https://cdn.elevenia.co.id/g/9/2/5/3/1/3/23925313_B.jpg',
+  price : 120000,
+  stock : 3,
   createdAt : new Date(),
   updatedAt : new Date()
-
 }]
 
 module.exports = {
@@ -28,7 +28,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    await queryInterface.bulkInsert('Users', users, {})
+   await queryInterface.bulkInsert('Products', prod, {})
   },
 
   down: async (queryInterface, Sequelize) => {
@@ -38,6 +38,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    await queryInterface.bulkDelete('Users', null, {})
+    await queryInterface.bulkDelete('Products', null)
   }
 };

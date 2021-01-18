@@ -1,10 +1,11 @@
 const { Product } = require('../../models')
 
 
-function clearProduct() {
+function stopSequelize() {
     if(process.env.NODE_ENV == 'test') {
-        return Product.destroy({where : {}})
+        return models.sequelize.close()
     }
 }
 
-module.exports = clearProduct
+
+module.exports = stopSequelize

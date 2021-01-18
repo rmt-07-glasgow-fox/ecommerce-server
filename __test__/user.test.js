@@ -5,7 +5,7 @@ const app = require('../app')
 
 describe('POST /login',function() {
 
-    describe('good params', function () {
+    describe('good params (SUCCESS)', function () {
 
         // ======================== successfull login ==========================
         it('should status 200, successfull login' ,function (done) {
@@ -30,8 +30,7 @@ describe('POST /login',function() {
         })
     })
 
-    describe('bad params', function() {
-
+    describe('bad params (FAIL)', function() {
 
         // ==========================  error in password  ===============================
         it('should status 400, invalid email and pass' ,function (done) {
@@ -51,6 +50,10 @@ describe('POST /login',function() {
                 expect(res.statusCode).toEqual(200)
                 expect(typeof res.body).toEqual('object')
                 expect(res.body).toHaveProperties('errors')
+                xpect(Array.isArray(res.body.errors)).toEqual(true)
+                expect(res.body.errors).toEqual(
+                    expect.arrayContaining(['email / password not valid'])
+                )
                 done()
             })
         })
@@ -75,6 +78,10 @@ describe('POST /login',function() {
                 expect(res.statusCode).toEqual(400)
                 expect(typeof res.body).toEqual('object')
                 expect(res.body).toHaveProperties('errors')
+                expect(Array.isArray(res.body.errors)).toEqual(true)
+                expect(res.body.errors).toEqual(
+                    expect.arrayContaining(['email / password not valid'])
+                )
                 done()
             })
         })
@@ -99,6 +106,10 @@ describe('POST /login',function() {
                 expect(res.statusCode).toEqual(400)
                 expect(typeof res.body).toEqual('object')
                 expect(res.body).toHaveProperties('errors')
+                xpect(Array.isArray(res.body.errors)).toEqual(true)
+                expect(res.body.errors).toEqual(
+                    expect.arrayContaining(['email / password not valid'])
+                )
                 done()
             })
         })

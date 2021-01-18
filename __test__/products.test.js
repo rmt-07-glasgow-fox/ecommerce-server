@@ -8,34 +8,34 @@ const { login } = require('../controller/userController')
 const clearProduct = require('./helpers/clear-prod-test')
 
 const models = require('../models')
+const stopSequelize = require('./helpers/clear-prod-test')
 
 let token = null
 
 
 describe('GET /products',function() {
-    beforeAll(function() {
-        let data = {
-            id : 1,
-            email : "admin@gmail.com"
-        }
-
-        token = login()
-    }) 
-
-    it('should status 200 fetch all products' ,function (done) {
-        //setup
+    // done
+    describe('good params (SUCCESS)', function() {
+        it('should status 200 fetch all products' ,function (done) {
+            //setup
     
-        //excecute
-        request(app) 
-        .get('/products')
-        .end((err, res) => {
-            if(err) done(err)
-                
-        //assert
-        expect(res.statusCode).toEqual(200)
-        done()
+            let token = 
+        
+            //excecute
+            request(app) 
+            .get('/products')
+            .set(access_token, 'access token')
+            .end((err, res) => {
+                if(err) done(err)
+                    
+            //assert
+            expect(res.statusCode).toEqual(200)
+            expect(typeof res.body).toEqual('array')
+            done()
+            })
         })
     })
+    
 })
 
 // =====================================================================================
@@ -44,10 +44,18 @@ describe('GET /products',function() {
 
 describe('POST /products',function() {
 
+    afterAll(function(done) {
+        stopSequelize()
+        .then(() => {
+            done()
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    })
+
+
     describe('good params', function () {
-        beforeAll(function() {
-            login()
-        }) 
 
         // ======================== berhasil dan benar ================================
         it('should status 201, product successfull create' ,function(done) {
@@ -62,6 +70,7 @@ describe('POST /products',function() {
         
             //excecute
             request(app) 
+            .set(access_token, 'access_token')
             .put(`/products`)
             .end((err, res) => {
                 if(err) done(err)
@@ -86,9 +95,6 @@ describe('POST /products',function() {
     })
 
     describe('bad params', function() {
-        beforeAll(function() {
-            login()
-        }) 
 
         // =============================   don have access token  ========================
         it('should status code 401, dont have authentication',function (done) {
@@ -104,6 +110,7 @@ describe('POST /products',function() {
             //excecute
             request(app) 
             .post('/products')
+            .set(access_token, 'access_token')
             .send(body)
             .end((err, res) => {
                 if(err) done(err)
@@ -129,6 +136,7 @@ describe('POST /products',function() {
             //excecute
             request(app) 
             .post('/products')
+            .set(access_token, 'access_token')
             .send(body)
             .end((err, res) => {
                 if(err) done(err)
@@ -154,6 +162,7 @@ describe('POST /products',function() {
             //excecute
             request(app) 
             .post('/products')
+            .set(access_token, 'access_token')
             .send(body)
             .end((err, res) => {
                 if(err) done(err)
@@ -179,6 +188,7 @@ describe('POST /products',function() {
             //excecute
             request(app) 
             .post('/products')
+            .set(access_token, 'access_token')
             .send(body)
             .end((err, res) => {
                 if(err) done(err)
@@ -204,6 +214,7 @@ describe('POST /products',function() {
             //excecute
             request(app) 
             .post('/products')
+            .set(access_token, 'access_token')
             .send(body)
             .end((err, res) => {
                 if(err) done(err)
@@ -215,7 +226,7 @@ describe('POST /products',function() {
             done()
         })
 
-        // ===========================   diisi type data tidak sesuai ===================
+        // ===========================   diisi type data tidak sesuai ========================
         it('should status code 400, sequelize validation error' ,function (done) {
             //setup
             const body = {
@@ -229,6 +240,7 @@ describe('POST /products',function() {
             //excecute
             request(app) 
             .post('/products')
+            .set(access_token, 'access_token')
             .send(body)
             .end((err, res) => {
                 if(err) done(err)
@@ -249,15 +261,9 @@ describe('POST /products',function() {
 // =========================================================================================
 
 describe('PUT /products/:id',function() {
-
-    beforeAll(function() {
-        login()
-    }) 
-
     afterAll(function(done) {
-        clearProduct()
+        stopSequelize()
         .then(() => {
-            models.sequelize.close()
             done()
         })
         .catch(err => {
@@ -282,6 +288,7 @@ describe('PUT /products/:id',function() {
             //excecute
             request(app) 
             .put(`/products/${id}`)
+            .set(access_token, 'access_token')
             .end((err, res) => {
                 if(err) done(err)
             })
@@ -320,6 +327,7 @@ describe('PUT /products/:id',function() {
             //excecute
             request(app) 
             .put(`/products/${id}`)
+            .set(access_token, 'access_token')
             .send(body)
             .end((err, res) => {
                 if(err) done(err)
@@ -346,6 +354,7 @@ describe('PUT /products/:id',function() {
             //excecute
             request(app) 
             .put(`/products/${id}`)
+            .set(access_token, 'access_token')
             .send(body)
             .end((err, res) => {
                 if(err) done(err)
@@ -373,6 +382,7 @@ describe('PUT /products/:id',function() {
             //excecute
             request(app) 
             .put(`/products/${id}`)
+            .set(access_token, 'access_token')
             .send(body)
             .end((err, res) => {
                 if(err) done(err)
@@ -399,6 +409,7 @@ describe('PUT /products/:id',function() {
             //excecute
             request(app) 
             .put(`/products/${id}`)
+            .set(access_token, 'access_token')
             .send(body)
             .end((err, res) => {
                 if(err) done(err)
@@ -419,6 +430,16 @@ describe('PUT /products/:id',function() {
 
 describe('DELETE /products',function() {
 
+    afterAll(function(done) {
+        stopSequelize()
+        .then(() => {
+            done()
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    })
+    
     describe('good params', function() {
 
         // ===================== success delete ================================
@@ -428,6 +449,7 @@ describe('DELETE /products',function() {
         
             //excecute
             request(app) 
+            .set(access_token, 'access_token')
             .delete(`/products/${id}`)
             .end((err, res) => {
                 if(err) done(err)
@@ -451,6 +473,7 @@ describe('DELETE /products',function() {
         
             //excecute
             request(app) 
+            .set(access_token, 'access_token')
             .delete(`/products/${id}`)
             .end((err, res) => {
                 if(err) done(err)
@@ -471,6 +494,7 @@ describe('DELETE /products',function() {
         
             //excecute
             request(app) 
+            .set(access_token, 'access_token')
             .delete(`/products/${id}`)
             .end((err, res) => {
                 if(err) done(err)
