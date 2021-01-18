@@ -59,8 +59,8 @@ This server is built with test suites with TDD.
   * **Code:** 400 Bad Request <br />
       **Content:** `{
       "errors": [
-        "Price should be greater than zero",
-        "Stock should be greater than zero"
+        "Price must be greater than zero",
+        "Stock must be greater than zero"
       ]
       }
       `
@@ -85,6 +85,15 @@ This server is built with test suites with TDD.
       `
     OR
 
+  * **Code:** 400 Bad Request <br />
+      **Content:** `{
+      "errors": [
+        "Image_url must contain a url"
+      ]
+      }
+      `
+    OR
+
   * **Code:** 500 Internal Server Error <br />
     **Content:** `{
       "errors": [
@@ -98,4 +107,48 @@ This server is built with test suites with TDD.
     `localhost:3000/products`
 
 
+**Update Product**
+----
 
+* **URL**
+  /products/:id
+
+* **Method:** 
+  `PUT`
+
+*  **URL Params**
+
+    `id=[integer]`
+
+* **Data Params**
+    
+    **Content:** `{ 
+    stock: 3,
+    price: 200000
+    }
+    `
+
+* **Success Response:**
+  
+    * **Code:** 201 OK <br />
+    **Content:** `{ 
+    id: 1,
+    name: "nice headset",
+    image_url: "https://media.wired.com/photos/5e7164aeb9399f00096a2ae6/1:1/w_1800,h_1800,c_limit/Gear-Mont-Blanc-Smart-Headphones-Gold-Front-SOURCE-Mont-Blanc.jpg",
+    price: 200000,
+    stock: 3,
+    updatedAt: "2021-01-18T10:38:05.747Z",
+    createdAt: "2021-01-18T10:38:05.747Z"
+    }
+    `
+
+* **Error Response:**
+
+  * **Code:** 400 Bad Request <br />
+      **Content:** `{
+      "errors": [
+        "Price must be greater than zero",
+        "Stock must be greater than zero"
+      ]
+      }
+      `

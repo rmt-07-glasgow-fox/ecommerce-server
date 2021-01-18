@@ -14,6 +14,23 @@ class ProductController {
             })
             .catch(next)
     }
+
+    static update(req, res, next) {
+        const { stock, price } = req.body
+        const id = +req.params.id
+
+        Product.findByPk(id)
+            .then(product => {
+                return product.update({
+                    stock,
+                    price
+                })
+            })
+            .then(updatedProduct => {
+                res.status(200).json(updatedProduct)
+            })
+            .catch(next)
+    }
 }
 
 module.exports = ProductController
