@@ -6,7 +6,13 @@
   "scripts": {
     "test": "NODE_ENV=test npx jest",
     "dev": "NODE_ENV=development npx nodemon bin/http.js",
-    "start": "NODE_ENV=production node bin/http.js"
+    "start": "NODE_ENV=production node bin/http.js",
+    "db:create": "npx sequelize db:create",
+    "db:migrate": "npx sequelize db:migrate",
+    "db:create:test": "NODE_ENV=test npm run db:create",
+    "db:create:development": "NODE_ENV=development npm run db:create",
+    "db:migrate:development": "NODE_ENV=development npm run db:migrate",
+    "db:migrate:test": "NODE_ENV=test npm run db:migrate"
   },
   "repository": {
     "type": "git",
