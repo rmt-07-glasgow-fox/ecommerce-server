@@ -12,7 +12,6 @@ afterAll((done) => {
 
 describe('User login test http://localhost:3000/login', () => {
   it('Success login', (done) => {
-    expect(true).toBe(true)
     request(app)
       .post('/login')
       .send({
@@ -28,10 +27,32 @@ describe('User login test http://localhost:3000/login', () => {
         done()
       })
   })
-  it('Failed login no email in records', () => {
-    expect(true).toBe(true)
+  it('Failed login no email in records', (done) => {
+    request(app)
+      .post('/login')
+      .send({
+        email: 'allo@allo.com',
+        password: '1234'
+      })
+      .end((err, res) => {
+        if(err) done(err)
+        expect(res.statusCode).toEqual(401)
+        expect(res.body).toHaveProperty('message')
+        done()
+      })
   })
-  it('Failed login without email and password', () => {
-    expect(true).toBe(true)
+  it('Failed login without email and password', (done) => {
+    request(app)
+      .post('/login')
+      .send({
+        email: '',
+        password: ''
+      })
+      .end((err, res) => {
+        if(err) done(err)
+        expect(res.statusCode).toEqual(401)
+        expect(res.body).toHaveProperty('message')
+        done()
+      })
   })
 })
