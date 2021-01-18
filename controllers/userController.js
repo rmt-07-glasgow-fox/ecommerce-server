@@ -1,35 +1,49 @@
 const { User } = require('../models')
+const { checkPassword } = require('../helpers/bcrypt')
+const { generateToken } = require('../helpers/jwt')
 
 class UserController {
-  static register (req, res, next) {
+  static login (req, res, next) {
     const input = {
       email: req.body.email,
       password: req.body.password
     }
 
-    User.create(input)
+    User.findOne({
+      where: {
+        email: input.email
+      }
+    })
       .then(user => {
-        const output = {
-          id: user.id,
-          email: user.email
+        if (user) {
+          const checkPass = checkPassword(input.password, user.password)
+
+          if (checkPass) {
+            const payload = {
+              id: user.id,
+              email: user.email
+            }
+  
+            const access_token = generateToken(payload)
+  
+            res.status(200).json({ access_token })
+          } else {
+            res.status(401).json({
+              message: 'Invalid email or password'
+            })
+          }
+        } else {
+          res.status(401).json({
+            message: 'Invalid email or password'
+          })
         }
-        res.status(201).json(output)
       })
       .catch(err => {
-        console.log(err, err.message, '<<<<< di error register');
-        if (err.name === 'SequelizeValidationError') {
-          res.status(400).json({
-            message: err.message
-          })
-        } else {
-          res.status(500).json({
-            message: 'Internal server error'
-          })
-        }
+        res.status(500).json({
+          message: 'Internal server error'
+        })
       })
   }
-
-  static login (req, res, next) {}
 }
 
 module.exports = UserController;

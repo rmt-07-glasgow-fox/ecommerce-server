@@ -7,7 +7,13 @@ function hashPassword(password) {
   return hash
 }
 
+function checkPassword(password, dbPassword) {
+  const check = bcrypt.compareSync(password, dbPassword)
+
+  return check
+}
 
 module.exports = {
-  hashPassword
+  hashPassword,
+  checkPassword
 }

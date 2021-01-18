@@ -4,6 +4,7 @@ const {
 } = require('sequelize');
 
 const { hashPassword } = require('../helpers/bcrypt')
+
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -29,8 +30,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       validate: {
         len: {
-          args: [6],
-          msg: 'Password must be at least 6 characters'
+          args: [4],
+          msg: 'Password must be at least 4 characters'
         }
       }
     },
