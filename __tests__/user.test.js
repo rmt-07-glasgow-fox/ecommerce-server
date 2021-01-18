@@ -1,6 +1,26 @@
 const request = require('supertest')
 const app = require('../app')
 const { User, sequelize } = require('../models')
+const encrypt = require('../helpers/bcryptHelper').encrypt
+
+beforeAll((done) => {
+  sequelize.queryInterface.bulkInsert('Users', [
+    {
+      email: 'admin@mail.com',
+      password: encrypt('1234'),
+      role: 'admin',
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }
+  ])
+    .then(_ => {
+      done()
+    })
+    .catch(err => {
+      console.log(err)
+      done(err)
+    })
+})
 
 afterAll((done) => {
   User.destroy({where:{}})
@@ -27,7 +47,7 @@ describe('User login test http://localhost:3000/login', () => {
         done()
       })
   })
-  it('Failed login no email in records', (done) => {
+  it('Failed login without email in records', (done) => {
     request(app)
       .post('/login')
       .send({
