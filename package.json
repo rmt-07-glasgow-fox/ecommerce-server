@@ -6,10 +6,13 @@
   "scripts": {
     "db:create": "npx sequelize-cli db:create",
     "db:migrate": "npx sequelize-cli db:migrate",
-    "db:create_development": "NODE_ENV=development npm run db:create",
-    "db:create_test": "NODE_ENV=test npm run db:create",
-    "db:migrate_development": "NODE_ENV=development npm run db:migrate",
-    "db:migrate_test": "NODE_ENV=test npm run db:migrate",
+    "db:seed": "npx sequelize-cli db:seed --seed",
+    "db:create:development": "NODE_ENV=development npm run db:create",
+    "db:create:test": "NODE_ENV=test npm run db:create",
+    "db:migrate:development": "NODE_ENV=development npm run db:migrate",
+    "db:migrate:test": "NODE_ENV=test npm run db:migrate",
+    "db:seed:development": "NODE_ENV=development npm run db:seed",
+    "db:seed:test": "NODE_ENV=test npm run db:seed",
     "test": "NODE_ENV=test npx jest"
   },
   "repository": {
@@ -31,6 +34,7 @@
     "supertest": "^6.1.1"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "express": "^4.17.1",
     "pg": "^8.5.1",
     "sequelize": "^6.3.5"
