@@ -56,6 +56,24 @@ This server is built with test suites with TDD.
 
     OR
 
+  * **Code:** 400 Bad Request <br />
+      **Content:** `{
+      "errors": [
+        "Price should be greater than zero"
+      ]
+      }
+      `
+    OR
+
+  * **Code:** 400 Bad Request <br />
+      **Content:** `{
+      "errors": [
+        "Stock should be greater than zero"
+      ]
+      }
+      `
+    OR
+
   * **Code:** 500 Internal Server Error <br />
     **Content:** `{
       "errors": [
