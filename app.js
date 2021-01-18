@@ -11,7 +11,6 @@ app.use(express.static('assets'))
 const router = require('./router')
 const errorHandlers = require('./middleware/errorHandlers')
 
-app.use('/', (req, res) => { res.send('Welcome to ecommerce server by abdul rozak') })
 app.use('', router)
 app.use(errorHandlers)
 

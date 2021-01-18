@@ -5,11 +5,12 @@ class UserController {
 
     static async login(req, res, next) {
         try {
+            // console.log('>>> req.body : ', req.body)
             let { email, password } = req.body
             if (!email || !password) { return next({ name: 400, message: 'email / password is required' }) }
 
             // check email
-            let user = await User({ where: { email } })
+            let user = await User.findOne({ where: { email } })
             if (!user) {
                 return next({ name: 404, message: 'email is not registered' })
             }
