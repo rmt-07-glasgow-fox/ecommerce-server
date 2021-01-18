@@ -1,4 +1,6 @@
 const request = require('supertest');
+const app = require('../app.js');
+const models = require('../models');
 
 describe('POST /products', () => {
   // *Test jika berhasil
