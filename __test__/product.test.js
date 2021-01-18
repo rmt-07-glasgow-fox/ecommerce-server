@@ -96,40 +96,11 @@ describe('POST /products', () => {
             })
     })
 
-    it('should send response with 400 status code - natural number for price', (done) => {
+    it('should send response with 400 status code - natural number for price and stock', (done) => {
         const body = {
             name: 'nice headphones',
             image_url: 'https://media.wired.com/photos/5e7164aeb9399f00096a2ae6/1:1/w_1800,h_1800,c_limit/Gear-Mont-Blanc-Smart-Headphones-Gold-Front-SOURCE-Mont-Blanc.jpg',
             price: -120000,
-            stock: 5
-        }
-
-        // Execute
-        request(app)
-            .post('/products')
-            .send(body)
-            .end((err, res) => {
-                //err from supertest
-                if (err) done(err)
-
-                // Assert
-                expect(res.statusCode).toEqual(400)
-                expect(typeof res.body).toEqual('object')
-                expect(res.body).toHaveProperty('errors')
-                expect(Array.isArray(res.body.errors)).toEqual(true)
-                expect(res.body.errors).toEqual(
-                    expect.arrayContaining(['Price must be greater than zero'])
-                )
-
-                done()
-            })
-    })
-
-    it('should send response with 400 status code - natural number for stock', (done) => {
-        const body = {
-            name: 'nice headphones',
-            image_url: 'https://media.wired.com/photos/5e7164aeb9399f00096a2ae6/1:1/w_1800,h_1800,c_limit/Gear-Mont-Blanc-Smart-Headphones-Gold-Front-SOURCE-Mont-Blanc.jpg',
-            price: 120000,
             stock: -5
         }
 
@@ -147,19 +118,19 @@ describe('POST /products', () => {
                 expect(res.body).toHaveProperty('errors')
                 expect(Array.isArray(res.body.errors)).toEqual(true)
                 expect(res.body.errors).toEqual(
-                    expect.arrayContaining(['Stock must be greater than zero'])
+                    expect.arrayContaining(['Price must be greater than zero', 'Stock must be greater than zero'])
                 )
 
                 done()
             })
     })
 
-    it('should send response with 400 status code - invalid data types', (done) => {
+    it('should send response with 400 status code - invalid data types for price and stock', (done) => {
         const body = {
             name: 'nice headphones',
             image_url: 'https://media.wired.com/photos/5e7164aeb9399f00096a2ae6/1:1/w_1800,h_1800,c_limit/Gear-Mont-Blanc-Smart-Headphones-Gold-Front-SOURCE-Mont-Blanc.jpg',
             price: '120000',
-            stock: 5
+            stock: '5'
         }
 
         // Execute
@@ -176,7 +147,7 @@ describe('POST /products', () => {
                 expect(res.body).toHaveProperty('errors')
                 expect(Array.isArray(res.body.errors)).toEqual(true)
                 expect(res.body.errors).toEqual(
-                    expect.arrayContaining(['Price must be a number'])
+                    expect.arrayContaining(['Price must be a valid number', 'Stock must be a valid number'])
                 )
 
                 done()

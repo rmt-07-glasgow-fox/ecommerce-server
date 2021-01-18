@@ -43,6 +43,11 @@ module.exports = (sequelize, DataTypes) => {
           if (value < 0) {
             throw new Error('Price must be greater than zero')
           }
+        },
+        isNumber(value) {
+          if (typeof value !== 'number') {
+            throw new Error('Price must be a valid number')
+          }
         }
       }
     },
@@ -52,6 +57,11 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: {
           args: true,
           msg: 'Stock required'
+        },
+        isNumber(value) {
+          if (typeof value !== 'number') {
+            throw new Error('Stock must be a valid number')
+          }
         },
         isNaturalNumber(value) {
           if (value < 0) {

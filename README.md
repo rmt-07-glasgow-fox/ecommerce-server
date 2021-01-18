@@ -59,7 +59,8 @@ This server is built with test suites with TDD.
   * **Code:** 400 Bad Request <br />
       **Content:** `{
       "errors": [
-        "Price should be greater than zero"
+        "Price should be greater than zero",
+        "Stock should be greater than zero"
       ]
       }
       `
@@ -68,7 +69,8 @@ This server is built with test suites with TDD.
   * **Code:** 400 Bad Request <br />
       **Content:** `{
       "errors": [
-        "Stock should be greater than zero"
+        "Price must be a valid number",
+        "Stock must be a valid number"
       ]
       }
       `
