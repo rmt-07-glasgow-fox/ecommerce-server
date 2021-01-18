@@ -75,7 +75,7 @@ describe('Banner', () => {
       });
   });
 
-  it('Create banner with valid name', (done) => {
+  it('Create banner with valid title', (done) => {
     const body = {
       title: 'Cake',
       status: true,
@@ -94,7 +94,11 @@ describe('Banner', () => {
         expect(typeof res.body).toEqual('object');
         expect(res.body).toHaveProperty('id');
         expect(typeof res.body.id).toEqual('number');
-        expect(res.body).toHaveProperty('name', body.name);
+        expect(res.body).toHaveProperty('title', body.title);
+        expect(typeof res.body.status).toEqual('boolean');
+        expect(res.body).toHaveProperty('status', body.status);
+        expect(typeof res.body.image_url).toEqual('string');
+        expect(res.body).toHaveProperty('image_url', body.image_url);
 
         idBanner = res.body.id;
 

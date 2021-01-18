@@ -20,6 +20,8 @@ module.exports = (err, req, res, next) => {
       res.status(400).json([{ message: 'Invalid email or password' }]);
     } else if (err.name === 'NotFound') {
       res.status(404).json([{ message: `${err.attr} not found` }]);
+    } else if (err.name === 'Required') {
+      res.status(404).json([{ message: `${err.attr} is required` }]);
     } else if (err.name === 'Auth') {
       res.status(401).json([{ message: 'You must be logged in.' }]);
     } else if (err.name === 'Member') {
