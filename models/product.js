@@ -20,6 +20,13 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: {
           args: true,
           msg: 'Name required'
+        },
+        isLetterNumber(value) {
+          const letterNumber = /^[0-9a-zA-Z]+$/
+
+          if (!value.match(letterNumber) || typeof Number(value) !== 'string') {
+            throw new Error('Name must contain only alphanumeric characters')
+          }
         }
       }
     },
@@ -45,7 +52,7 @@ module.exports = (sequelize, DataTypes) => {
           }
         },
         isNumber(value) {
-          if (typeof value !== 'number') {
+          if (isNaN(Number(value))) {
             throw new Error('Price must be a valid number')
           }
         }
@@ -59,7 +66,7 @@ module.exports = (sequelize, DataTypes) => {
           msg: 'Stock required'
         },
         isNumber(value) {
-          if (typeof value !== 'number') {
+          if (isNaN(Number(value))) {
             throw new Error('Stock must be a valid number')
           }
         },

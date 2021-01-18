@@ -76,6 +76,15 @@ This server is built with test suites with TDD.
       `
     OR
 
+  * **Code:** 400 Bad Request <br />
+      **Content:** `{
+      "errors": [
+        "Name must contain only alphanumeric characters"
+      ]
+      }
+      `
+    OR
+
   * **Code:** 500 Internal Server Error <br />
     **Content:** `{
       "errors": [

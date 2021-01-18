@@ -153,6 +153,35 @@ describe('POST /products', () => {
                 done()
             })
     })
+
+    it('should send response with 400 status code - invalid data types for name', (done) => {
+        const body = {
+            name: 15000,
+            image_url: 'https://media.wired.com/photos/5e7164aeb9399f00096a2ae6/1:1/w_1800,h_1800,c_limit/Gear-Mont-Blanc-Smart-Headphones-Gold-Front-SOURCE-Mont-Blanc.jpg',
+            price: 120000,
+            stock: 5
+        }
+
+        // Execute
+        request(app)
+            .post('/products')
+            .send(body)
+            .end((err, res) => {
+                //err from supertest
+                if (err) done(err)
+
+                // Assert
+                expect(res.statusCode).toEqual(400)
+                expect(typeof res.body).toEqual('object')
+                expect(res.body).toHaveProperty('errors')
+                expect(Array.isArray(res.body.errors)).toEqual(true)
+                expect(res.body.errors).toEqual(
+                    expect.arrayContaining(['Name must contain only characters'])
+                )
+
+                done()
+            })
+    })
 })
 
 
