@@ -1,4 +1,4 @@
-const { checkToken } = require("../helpers/jwt");
+const { checkToken } = require("../helpers/jsonwebtoken");
 const { User } = require("../models");
 
 function authenticate(req, res, next) {
@@ -9,13 +9,13 @@ function authenticate(req, res, next) {
     const decoded = checkToken(req.headers.access_token);
     if (!decoded.id || !decoded.email) {
       next({ name: "InvalidToken" });
+    } else if (decoded.role !== "admin") {
+      next({ name: "Unauthorized" });
     }
 
     User.findByPk(decoded.id).then((user) => {
       if (!user || user.email !== decoded.email) {
         next({ name: "InvalidToken" });
-      } else if (user.role !== "admin") {
-
       } else {
         const current = {
           id: user.id,
