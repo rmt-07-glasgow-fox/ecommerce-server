@@ -1,16 +1,23 @@
 const request = require('supertest')
 const app = require('../app')
 const clearProducts = require('./helpers/clearProducts')
+const models = require('../models/')
+
+beforeAll((done) => {
+
+})
+
+afterAll((done) => {
+    clearProducts()
+        .then(() => {
+            models.sequelize.close()
+            done()
+        })
+        .catch(console.log)
+})
+
 
 describe('POST /products', () => {
-    afterAll((done) => {
-        clearProducts()
-            .then(() => {
-                done()
-            })
-            .catch(console.log)
-    })
-    //add clearProducts iside beforeAll hooks here
     it('should send response with 201 status code', (done) => {
         // Setup
         const body = {
