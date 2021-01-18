@@ -317,6 +317,17 @@ describe('Product CRUD test http://localhost:3000/products', () => {
           done()
         })
     })
+    it('Failed delete a product without access_token', (done) => {
+      request(app)
+        .delete(`/products/${productId}`)
+        .set('Content-Type', 'application/json')
+        .end((err, res) => {
+          if(err) done(err)
+          expect(res.body).toHaveProperty('message')
+          expect(res.statusCode).toEqual(403)
+          done()
+        })
+    })
     it('Failed delete a product with access_token but not admin', (done) => {
       request(app)
         .delete(`/products/${productId}`)
