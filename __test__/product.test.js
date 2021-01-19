@@ -9,6 +9,7 @@ const { generateToken } = require('../helpers/token')
 // user not found
 let oldToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2MTEwMjAxMjR9.8kvexQZje-WHxHlWl4GkHyelPIyxFWkcWAEptKxSIL8"
 let access_token = ''
+let productId = ''
 
 // login as admin and generate token
 beforeAll(async (done) => {
@@ -20,6 +21,17 @@ beforeAll(async (done) => {
             role: user.role
         }
         access_token = generateToken(convertToken)
+
+        let tempProduct = {
+            name: 'compass gazelle low black',
+            image_url: '/products/compass-gazelle-low-black.jpg',
+            price: 200000,
+            stock: 100,
+            BrandId: 1
+        }
+        let createdProduct = await Product.create(tempProduct)
+        console.log('temp Product', createdProduct)
+        productId = createdProduct.id
 
         done()
     } catch (err) {
@@ -402,21 +414,6 @@ describe('POST /products', () => {
 })
 
 // describe('GET /products', () => {
-//     it('Status Code 200 | message : access_token is required', (done) => {
-//         // execute
-//         request(app)
-//             .get('/products')
-//             .set('access_token', '')
-//             .end((err, res) => {
-//                 if (err) done(err)
-//                 // assert
-//                 console.log('>>> res : ', res.body)
-//                 // expect(res.statusCode).toEqual(401)
-//                 // expect(res.body.message).toEqual("access_token is required")
-//                 done()
-//             })
-//     })
-
 //     it('Status Code 401 | message : access_token is required', (done) => {
 //         // execute
 //         request(app)

@@ -81,6 +81,7 @@ async function checkProductId(req, res, next) {
         }
 
         if (product) {
+            req.product = product
             console.log('>>> product is avail', product)
             return next()
         }
