@@ -42,11 +42,11 @@ module.exports = (sequelize, DataTypes) => {
         },
         isInt: {
           args: true,
-          msg: "Price must contains integer value"
+          msg: "Price must contains integer value!"
         },
         isPositive(value) {
           if (value < 0) {
-            throw new Error('Price should contains positive value!');
+            throw new Error('Price must contains positive value!');
           }
         }
       }
@@ -56,11 +56,11 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         isInt: {
           args: true,
-          msg: "Stock must contains integer value"
+          msg: "Stock must contains integer value!"
         },
         isPositive(value) {
           if (value <= 0) {
-            throw new Error('Stock should contains positive value!');
+            throw new Error('Stock must contains positive value!');
           }
         }
       }

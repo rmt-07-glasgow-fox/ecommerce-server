@@ -26,6 +26,48 @@ class Controller {
       next(err)
     })
   }
+
+  static update (req, res, next) {
+    let { name, image_url, price, stock } = req.body
+    let id = +req.params.id
+
+    let input = {
+      name, image_url, price, stock,
+      UserId: +req.user.id
+    }
+
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({message:"Need administrator authorization!"})
+    }
+
+    Product.update(input, {
+      where: {id: id}
+    })
+    .then((data) => {
+      return res.status(201).json({message: "Product updated successfully!"})
+    })
+    .catch((err) => {
+      next(err)
+    })
+  }
+
+  static delete (req, res, next) {
+    let id = +req.params.id
+
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({message:"Need administrator authorization!"})
+    }
+
+    Product.destroy({
+      where:{id:id}
+    })
+    .then((data) => {
+      return res.status(201).json({message: "Product deleted successfully!"})
+    })
+    .catch((err) => {
+      next(err)
+    })
+  }
 }
 
 module.exports = Controller

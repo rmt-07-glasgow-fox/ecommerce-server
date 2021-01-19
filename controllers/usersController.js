@@ -35,13 +35,13 @@ class Controller {
     .then((data) => {
       //if 404
       if (!data) {
-        return res.status(404).json({message: "Email not found"})
+        return res.status(404).json({message: "Email not found!"})
       }
 
       //compare the password
       let isValid = checkPassword(password, data.password)
       if (!isValid) {
-        return res.status(400).json({message: "Invalid password"})
+        return res.status(400).json({message: "Invalid password!"})
       }
 
       //generate token
