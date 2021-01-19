@@ -3,8 +3,11 @@ const productRouter = require('./product')
 const authController = require('../controllers/authController')
 const { authenticate, authorize } = require('../middlewares/auth')
 
-router.post('/login', authController.login)
+router.get('/', (req, res) => {
+  res.status(200).json({ message: 'e-Commerce CMS, hello admin ^_^'})
+})
 
+router.post('/login', authController.login)
 router.use(authenticate)
 router.use(authorize)
 router.use('/products', productRouter)

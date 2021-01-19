@@ -10,8 +10,30 @@ class productController {
     }
     Product.create(newProduct)
     .then(data => {
-      console.log(data)
       res.status(201).json(data)
+    })
+    .catch(err => {
+      next(err)
+    })
+  }
+  static getProduct(req, res, next) {
+    Product.findAll()
+    .then(data => {
+      res.status(200).json(data)
+    })
+    .catch(err => {
+      next(err)
+    })
+  }
+  static getOneProduct(req, res, next) {
+    const id = +req.params.id
+    Product.findByPk(id)
+    .then(data => {
+      if(data) {
+        res.status(200).json(data)
+      } else {
+        next({ name: 'notFound' })
+      }
     })
     .catch(err => {
       next(err)
