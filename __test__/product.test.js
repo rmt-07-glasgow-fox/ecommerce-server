@@ -424,7 +424,77 @@ describe('GET/products', () => {
   });
 });
 
-describe("PUT/products", function () {
+describe('GET/products/:id', () => {
+  describe('Get success', () => {
+    it('should send response with status code 200', (done) => {
+      //setup
+      let id = productId
+      //exec
+      request(app)
+        .get("/products/" + id)
+        .set({ access_token: access_token_admin})
+        .end((err, res) => {
+          if (err) done(err)
+
+          expect(res.statusCode).toEqual(200);
+          expect(typeof res.body).toEqual("object");
+          expect(res.body).toHaveProperty("id")
+          expect(res.body).toHaveProperty("name")
+          expect(res.body).toHaveProperty("imageUrl")
+          expect(res.body).toHaveProperty("price")
+          expect(res.body).toHaveProperty("stock")
+          expect(res.body).toHaveProperty("genre")
+
+          done()
+        })
+    });
+  });
+
+  describe('Empty access token', () => {
+    it('should send response with status code 401', (done) => {
+      let id = productId
+      request(app)
+        .get("/product/" + id)
+        .set({ access_token: ""})
+        .end((err, res) => {
+          if (err) done(err)
+
+          expect(res.statusCode).toEqual(401)
+          expect(typeof res.body).toEqual("object")
+          expect(res.body).toHaveProperty("message")
+          expect(res.body).toEqual(
+            expect.objectContaining({ message: "Please login first" })
+          )
+
+          done()
+        })
+    });
+  });
+
+  describe('Data not found', () => {
+    it('should send response with status code 404', (done) => {
+      let id = productId + 2
+      //exec
+      request(app)
+        .delete("/products/" + id)
+        .set("access_token", access_token_admin)
+
+        .end((err, res) => {
+          if(err) done(err)
+
+          expect(res.statusCode).toEqual(404);
+          expect(typeof res.body).toEqual("object");
+          expect(res.body).toHaveProperty("message", "Not found");
+
+          done()
+        })
+    });
+  });
+
+
+});
+
+describe("PUT/products/:id", function () {
   describe("PUT success", () => {
     it("should send response with 200 status code", function (done) {
       //Setup
@@ -772,7 +842,7 @@ describe("PUT/products", function () {
   });
 })
 
-describe('DELETE/products', () => {
+describe('DELETE/products/:id', () => {
   describe("Empty access_token", () => {
     it("should send response with 401 status code", function (done) {
       let id = productId

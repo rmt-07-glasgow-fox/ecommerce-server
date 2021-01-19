@@ -28,6 +28,22 @@ class ProductController {
       })
   }
 
+  static getOneProduct (req, res, next) {
+    let id = req.params.id
+    Product.findByPk(id)
+      .then(data => {
+        if (!data) {
+          return next({
+            name: "NotFound"
+          })
+        }
+        res.status(200).json(data)
+      })
+      .catch(err => {
+        next(err)
+      })
+  }
+
   static updateProduct(req, res, next) {
     let data = {
       name: req.body.name,
