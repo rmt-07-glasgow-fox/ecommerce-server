@@ -1,5 +1,18 @@
 const request = require('supertest')
 const app = require('../app')
+const { login } = require('../controllers/userController')
+let access_token
+/*
+require jwt
+buat payload berdasarkan admin login
+    ambil access_token dari postmant
+dapetin access_token
+lalu pengecekan apakah access token cocok dengan admin yang terdaftar
+*/
+beforeAll(() => {
+  // login()
+  
+})
 
 describe('POST /products', () => {
   it('should send response with 201 status code', (done) => {

@@ -14,10 +14,74 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Product.init({
-    name: DataTypes.STRING,
-    image_url: DataTypes.STRING,
-    price: DataTypes.INTEGER,
-    stock: DataTypes.INTEGER
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: "Product name must be filled"
+        },
+        notNull: {
+          msg: "Null Product name is not allowed"
+        },
+        isAlphanumeric: {
+          msg: "Invalid character"
+        },
+      }
+    },
+    image_url: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: "Product URL name must be filled"
+        },
+        notNull: {
+          msg: "Null Product URL name is not allowed"
+        },
+        isUrl: {
+          msg: "Invalid format for URL"
+        },
+      }
+    },
+    price: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: "Price name must be filled"
+        },
+        notNull: {
+          msg: "Null Price name is not allowed"
+        },
+        isNumeric: {
+          msg: "Price just allow number"
+        },
+        min: { 
+          args: [1], 
+          msg: 'The price should not be less than 1.' 
+        },
+      }
+    },
+    stock: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: "Stock name must be filled"
+        },
+        notNull: {
+          msg: "Null Stock name is not allowed"
+        },
+        isNumeric: {
+          msg: "Stock just allow number"
+        },
+        min: { 
+          args: [1], 
+          msg: 'The Stoct should not be less than 1.' 
+        },
+      }
+    },
   }, {
     sequelize,
     modelName: 'Product',

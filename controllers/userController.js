@@ -1,30 +1,35 @@
 const { User } = require('../models')
 const { comparePassword } = require('../helper/bcrypt')
+const { generateToken } = require('../helper/jwt')
 
 class UserController {
-  static async login (req, res, next) {
+  static async login(req, res, next) {
     try {
       const { email, password } = req.body
-      const loginUser = await User.findOne({
+      const user = await User.findOne({
         where: {
           email
         }
       })
-      if(!loginUser) {
-        res.status(401).json({ message: "Invalid username / password"})
+      if(!user) {
+        throw {name: 'invalidUserPassword'}
       }
-      const successLogin = comparePassword(password, loginUser.password)
-      if (successLogin) {
-        const access_token = {
-          access_token : ' berhasil login '
+      const successLogin = comparePassword(password, user.password)
+      if (successLogin ) {
+        const payload = {
+          id: user.id,
+          email: user.email
         }
-        res.status(200).json(access_token)
+        const access_token = generateToken(payload)
+        
+        return res.status(200).json({
+          access_token,
+        })
       } else {
-        res.status(401).json({ message: "Invalid username / password"})
+        throw {name: 'invalidUserPassword'}
       }
     } catch (err) {
       next(err)
-      // res.status(401).json({ message: "Invalid username / password"})
     }
   }
 }

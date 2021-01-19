@@ -14,10 +14,49 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   User.init({
-    email: DataTypes.STRING,
-    password: DataTypes.STRING,
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: "Email field must be filled"
+        },
+        notNull: {
+          msg: "Null Email not allowed"
+        },
+        isEmail: {
+          args: true,
+          msg: "Invalid email format"
+        }
+      },
+      unique: {
+        args: true,
+        msg: 'Email address already in use!'
+      }
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: "Password field must be filled"
+        },
+        notNull: {
+          msg: "Null Password not allowed"
+        },
+        len: {
+          args: [4],
+          msg: "Password must contain minimum 4 characters"
+        }
+      },
+    },
     role: DataTypes.STRING
   }, {
+    hooks: {
+      beforeCreate: (user, options) => {
+        user.role = 'customer'
+      }
+    },
     sequelize,
     modelName: 'User',
   });
