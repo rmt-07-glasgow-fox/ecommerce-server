@@ -1,15 +1,5 @@
 const request = require('supertest')
 const app = require('../../app')
-const { sequelize } = require('../../models')
-const { queryInterface } = sequelize
-
-// afterAll(done => {
-//   queryInterface.bulkDelete('Users')
-//     .then(() => {
-//       done()
-//     })
-//     .catch(done)
-// })
 
 describe('POST /login', () => {
   describe('Success', () => {
@@ -31,6 +21,22 @@ describe('POST /login', () => {
   })
 
   describe('Failed', () => {
+    test('login but not admin', (done) => {
+      request(app)
+        .post('/login')
+        .set('Accept', 'application/json')
+        .send({ email: 'user@mail.com', password: '123456'})
+        .then(response => {
+          const { body, status } = response
+          expect(status).toBe(400) //forbidden login but show as wrong email or password
+          expect(body).toHaveProperty('message', 'Email or password wrong!')
+          done()
+        })
+        .catch(err => {
+          done(err)
+        })
+    })
+
     test('failed login email exist with wrong password', (done) => {
       request(app)
         .post('/login')

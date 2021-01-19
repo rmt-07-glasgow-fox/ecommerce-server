@@ -24,8 +24,11 @@ class ProductController {
         returning: true
       })
       .then(product => {
-        const { id, name, image_url, price, stock } = product[1][0].dataValues
-        res.status(200).json({ id, name, image_url, price, stock })
+        if (!product[1][0]) res.status(404).json({ message: 'Product Not Found' })
+        else {
+          const { id, name, image_url, price, stock } = product[1][0].dataValues
+          res.status(200).json({ id, name, image_url, price, stock })
+        }
       })
       .catch(err => {
         const message = err.errors ? err.errors.map(e => e.message) : 'Internal Server Error'
@@ -44,7 +47,6 @@ class ProductController {
           res.status(404).json({ message: 'Product Not Found' })
       })
       .catch(err => {
-        console.log(err);
         res.status(500).json({ message: 'Internal Server Error' })
       })
   }

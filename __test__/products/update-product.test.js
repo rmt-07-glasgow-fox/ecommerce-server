@@ -59,7 +59,6 @@ describe('PUT /products', () => {
         .then(response => {
           const { body, status } = response
           expect(status).toBe(200)
-          console.log(body.id,'???');
           expect(body).toHaveProperty('id', expect.any(Number))
           expect(body).toHaveProperty('name', dataProductUpdate.name)
           expect(body).toHaveProperty('image_url', dataProductUpdate.image_url)
@@ -178,6 +177,22 @@ describe('PUT /products', () => {
               'Price only allow number!',
               'Stock only allow number!'
             ]))
+          done()
+        })
+        .catch(err => {
+          done(err)
+        })
+    })
+    test('Data Not Found', (done) => {
+      request(app)
+        .put('/products/'+id_product+10)
+        .set('Accept', 'application/json')
+        .set('access_token', access_token_admin)
+        .send(dataProductUpdate)
+        .then(response => {
+          const { body, status } = response
+          expect(status).toBe(404)
+          expect(body).toHaveProperty('message', 'Product Not Found')
           done()
         })
         .catch(err => {
