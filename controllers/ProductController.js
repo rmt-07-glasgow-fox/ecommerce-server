@@ -1,4 +1,4 @@
-const { Product, User } = require('../models')
+const { Product } = require('../models')
 
 class ProductController {
   static getProducts(req, res, next) {
@@ -28,15 +28,12 @@ class ProductController {
     const id = +req.params.id
     const { name, image_url, price, stock } = req.body
     const updatedProduct = { name, image_url, price, stock }
-
+    
     Product.update(updatedProduct,{ 
       where: { id }, 
       returning: true, plain: true
     })
       .then(product => {
-        if(!product) {
-          next({ name: 'accessDenied' })
-        }
         return res.status(200).json(product[1])
       })
       .catch(err => {
@@ -46,7 +43,19 @@ class ProductController {
   }
 
   static destroyProduct(req, res, next) {
+    const id = +req.params.id
 
+    Product.destroy({ where: { id } })
+      .then(product => {
+        if (!product) {
+          next({ name: 'resourceNotFound' })
+        } else {
+          return res.status(200).json({ message: 'Product succesfully deleted'})
+        }
+      })
+      .catch(err => {
+        next(err)
+      })
   }
 
 }
