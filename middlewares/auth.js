@@ -46,7 +46,7 @@ const authorization = (req, res, next) => {
       }
     })
       .then(data => {
-        if(!data || data.UserId !== req.userData.id){
+        if(!data || data.UserId !== req.userData.id || req.userData.role !== 'admin'){
           next({
             name: 'Forbidden'
           })
