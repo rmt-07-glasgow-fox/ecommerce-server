@@ -101,7 +101,7 @@ describe('POST /products', () => {
       })
   })
 
-  it.only('should send response with 401 status code - no access_token', (done) => {
+  it('should send response with 401 status code - no access_token', (done) => {
     // Setup
     const body = {
       name: 'nice headphones',
@@ -132,6 +132,37 @@ describe('POST /products', () => {
       })
   })
 
+  it('should send response with 401 status code - invalid access_token', (done) => {
+    // Setup
+    const body = {
+      name: 'nice headphones',
+      image_url: 'https://media.wired.com/photos/5e7164aeb9399f00096a2ae6/1:1/w_1800,h_1800,c_limit/Gear-Mont-Blanc-Smart-Headphones-Gold-Front-SOURCE-Mont-Blanc.jpg',
+      price: 200000,
+      stock: 5
+    }
+    // Execute
+    request(app)
+      .post('/products')
+      .send(body)
+      .set('access_token', access_token_customer)
+      .end((err, res) => {
+        //err from supertest
+        if (err) done(err)
+
+        // Assert
+        // check the data in the db
+        expect(res.statusCode).toEqual(401)
+        expect(typeof res.body).toEqual('object')
+
+        expect(res.body).toHaveProperty('errors')
+        expect(Array.isArray(res.body.errors)).toEqual(true)
+        expect(res.body.errors).toEqual(
+          expect.arrayContaining(['Not authorised'])
+        )
+
+        done()
+      })
+  })
   it('should send response with 400 status code', (done) => {
     // Setup
     const body = {

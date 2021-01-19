@@ -14,6 +14,8 @@ const authenticate = async (req, res, next) => {
       })
       if (!foundUser) {
         next({ name: 'ResourceNotFound' })
+      } else if (foundUser.role !== 'admin') {
+        next({ name: 'NoCredentials' })
       }
       else {
         req.user = {
