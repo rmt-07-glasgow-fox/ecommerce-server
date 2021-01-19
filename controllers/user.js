@@ -1,6 +1,6 @@
 const { User } = require('../models/')
 const { comparePassword } = require('../helpers/bcrypt')
-const { generateToken } = require('../helpers/jwt')
+const { createToken } = require('../helpers/jwt')
 
 class UserController {
   static login(req, res, next) {
@@ -23,7 +23,7 @@ class UserController {
               email: user.email
             }
 
-            const access_token = generateToken(payload)
+            const access_token = createToken(payload)
 
             return res.status(200).json({ access_token })
           }
