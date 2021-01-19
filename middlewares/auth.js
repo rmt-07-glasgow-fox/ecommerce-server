@@ -30,20 +30,21 @@ function authenticate(req, res, next){
 }
 
 function authorize (req, res, next){
-    Product.findOne({where: {id: req.params.id}})
-    .then(data=>{
-        //console.log(data)
-        if(!data){
-            next({name: `notFound`})
-        }else if(data.userId !== req.user.role){
-            next({name: `accessDenied`})
-        }else {
-            next()
-        }
-    })
-    .catch(err =>{
-        next( err)
-    })
+    // Product.findOne({where: {id: req.params.id}})
+    // .then(data=>{
+    //     //console.log(data)
+    //     if(!data){
+    //         next({name: `notFound`})
+    //     }else if(data.userId !== req.user.role){
+    //         next({name: `accessDenied`})
+    //     }else {
+    //         next()
+    //     }
+    // })
+    if(req.user.role !== 'admin'){
+        next({name:`accessDenied`})
+    }
+    next()
 }
 
 module.exports = {

@@ -48,6 +48,18 @@ class Controller {
             next(err)
         })
     }
+
+    static destroy(req, res, next){
+        let id = req.params.id
+
+        Product.destroy({where: {id}})
+        .then(data =>{
+            return res.status(200).json({msg: `product hasbeen deleted`})
+        })
+        .catch(err =>{
+            next(err)
+        })
+    }
 }
 
 module.exports = Controller
