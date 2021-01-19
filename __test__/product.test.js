@@ -380,7 +380,6 @@ describe("POST/products", function () {
         })
     });
   });
-
 })
 
 describe('GET/products', () => {
@@ -422,6 +421,354 @@ describe('GET/products', () => {
     });
   });
 });
+
+describe("PUT/products", function () {
+  describe("PUT success", () => {
+    it("should send response with 200 status code", function (done) {
+      //Setup
+      const body = {
+        name: "Monster Hunter World Next",
+        imageUrl: "https://www.monsterhunterworld.com/sp/images/top/bg_mv.jpg",
+        price: 666666,
+        stock: 50,
+        genre: "adventure",
+      }
+      let id = productId
+      //Execute
+      request(app)
+        .put("/products/" + id)
+        .set("access_token", access_token_admin)
+        .send(body)
+        .end(function (err, res) {
+          if (err) done(err)
+
+          //Assert
+          expect(res.statusCode).toEqual(200)
+          expect(typeof res.body).toEqual("object")
+          expect(res.body).toEqual([1]);
+
+          done()
+        })
+    })
+  })
+
+  describe("Empty access_token", () => {
+    it("should send response with 401 status code", function (done) {
+      //Setup
+      const body = {
+        name: "Monster Hunter World Next",
+        imageUrl: "https://www.monsterhunterworld.com/sp/images/top/bg_mv.jpg",
+        price: 666666,
+        stock: 50,
+        genre: "adventure",
+      }
+      let id = productId
+      //Execute
+      request(app)
+        .put("/products/" + id)
+        .set("access_token", ""  )
+        .send(body)
+        .end(function (err, res) {
+          if (err) done(err)
+
+          //Assert
+          expect(res.statusCode).toEqual(401)
+          expect(typeof res.body).toEqual("object")
+          expect(res.body).toHaveProperty("message")
+          expect(res.body).toEqual(
+            expect.objectContaining({ message: "Please login first" })
+          )
+
+          done()
+        })
+    })
+  })
+
+  describe("access_token not belong to admin", () => {
+    it('should send response with status code 401', (done) => {
+      const body = {
+        name: "Monster Hunter World Next",
+        imageUrl: "https://www.monsterhunterworld.com/sp/images/top/bg_mv.jpg",
+        price: 666666,
+        stock: 50,
+        genre: "adventure",
+      }
+      let id = productId
+      let notAdmin = access_token_notAdmin
+
+      request(app)
+        .put("/products/" + id)
+        .set("access_token", notAdmin)
+        .send(body)
+        .end((err, res) => {
+          if (err) done(err)
+
+          expect(res.statusCode).toEqual(401);
+          expect(typeof res.body).toEqual("object");
+          expect(res.body).toHaveProperty("message", "You're unauthorized to do this");
+
+          done()
+        })
+    });
+  })
+
+  describe("Required name field must not empty", () => {
+    it("should send response with 400 status code", (done) => {
+      //Setup
+      const body = {
+        name: "",
+        imageUrl: "https://www.monsterhunterworld.com/sp/images/top/bg_mv.jpg",
+        price: 699999,
+        stock: 100,
+        genre: "adventure",
+      }
+      let id = productId
+      //Execute
+      request(app)
+        .put("/products/" + id)
+        .set("access_token", access_token_admin)
+        .send(body)
+        .end((err, res) => {
+          if (err) done(err)
+
+          //Assert
+          expect(res.statusCode).toEqual(400)
+          expect(typeof res.body).toEqual("object")
+          expect(res.body).toHaveProperty("errors")
+          expect(Array.isArray(res.body.errors)).toEqual(true)
+          expect(res.body.errors).toEqual(
+            expect.arrayContaining(["Name is required"])
+          );
+
+          done()
+        })
+    })
+  })
+
+  describe('Required imageUrl must not empty', () => {
+    it('should send response with 400 status code', (done) => {
+      const body = {
+        name: "Monster Hunter World",
+        imageUrl: "",
+        price: 699999,
+        stock: 100,
+        genre: "adventure",
+      }
+      let id = productId
+      //Execute
+      request(app)
+        .put("/products/" + id)
+        .set("access_token", access_token_admin)
+        .send(body)
+        .end((err, res) => {
+          if (err) done(err)
+
+          expect(res.statusCode).toEqual(400);
+          expect(typeof res.body).toEqual("object");
+          expect(res.body).toHaveProperty("errors");
+          expect(Array.isArray(res.body.errors)).toEqual(true);
+          expect(res.body.errors).toEqual(
+            expect.arrayContaining(["Image URL is required"])
+          );
+
+          done()
+        })
+    });
+  });
+
+  describe('Required price must not empty', () => {
+    it('should send response with 400 status code', (done) => {
+      //Setup
+      const body = {
+        name: "Monster Hunter World",
+        imageUrl: "https://www.monsterhunterworld.com/sp/images/top/bg_mv.jpg",
+        price: "",
+        stock: 100,
+        genre: "adventure",
+      }
+      let id = productId
+      //Execute
+      request(app)
+        .put("/products/" + id)
+        .set("access_token", access_token_admin)
+        .send(body)
+        .end((err, res) => {
+          if (err) done(err)
+
+          //Assert
+          expect(res.statusCode).toEqual(400);
+          expect(typeof res.body).toEqual("object");
+          expect(res.body).toHaveProperty("errors");
+          expect(Array.isArray(res.body.errors)).toEqual(true);
+          expect(res.body.errors).toEqual(
+            expect.arrayContaining(["Price is required"])
+          );
+
+          done()
+        })
+    });
+  });
+
+  describe('Price must be greater than zero', () => {
+    it('should send response with status code 400', (done) => {
+      //Setup
+      const body = {
+        name: "Monster Hunter World",
+        imageUrl: "https://www.monsterhunterworld.com/sp/images/top/bg_mv.jpg",
+        price: 0,
+        stock: 100,
+        genre: "adventure",
+      }
+      let id = productId
+      //Execute
+      request(app)
+        .put("/products/" + id)
+        .set("access_token", access_token_admin)
+        .send(body)
+        .end((err, res) => {
+          if(err) done(err)
+          //Assert
+          expect(res.statusCode).toEqual(400);
+          expect(typeof res.body).toEqual("object");
+          expect(res.body).toHaveProperty("errors");
+          expect(Array.isArray(res.body.errors)).toEqual(true);
+          expect(res.body.errors).toEqual(
+            expect.arrayContaining(["Price must be greater than zero"])
+          );
+  
+          done()
+        })
+    });
+  });
+
+  describe('Price must be greater than zero', () => {
+    it('should send response with status code 400', (done) => {
+      //Setup
+      const body = {
+        name: "Monster Hunter World",
+        imageUrl: "https://www.monsterhunterworld.com/sp/images/top/bg_mv.jpg",
+        price: -200,
+        stock: 100,
+        genre: "adventure",
+      }
+      let id = productId
+      request(app)
+        .put("/products/" + id)
+        .set("access_token", access_token_admin)
+        .send(body)
+        .end((err, res) => {
+          if(err) done(err)
+  
+          expect(res.statusCode).toEqual(400);
+          expect(typeof res.body).toEqual("object");
+          expect(res.body).toHaveProperty("errors");
+          expect(Array.isArray(res.body.errors)).toEqual(true);
+          expect(res.body.errors).toEqual(
+            expect.arrayContaining(["Price must be greater than zero"])
+          );
+  
+          done()
+        })
+    });
+  });
+
+  describe('Stock must not be less than zero', () => {
+    it('should send response with 400 status code', (done) => {
+      //setup
+      const body = {
+        name: "Monster Hunter World",
+        imageUrl: "https://www.monsterhunterworld.com/sp/images/top/bg_mv.jpg",
+        price: 699999,
+        stock: -20,
+        genre: "adventure",
+      }
+      let id = productId
+      //execute
+      request(app)
+        .put("/products/" + id)
+        .set("access_token", access_token_admin)
+        .send(body)
+        .end((err, res) => {
+          if(err) done(err)
+
+          expect(res.statusCode).toEqual(400);
+          expect(typeof res.body).toEqual("object");
+          expect(res.body).toHaveProperty("errors")
+          expect(Array.isArray(res.body.errors)).toEqual(true);
+          expect(res.body.errors).toEqual(
+            expect.arrayContaining(["Stock must not be less than zero"])
+          );
+
+          done()
+        })
+    });
+  });
+
+  describe('Required genre field must not empty', () => {
+    it('should send response with 400 status code', (done) => {
+      const body = {
+        name: "Monster Hunter World",
+        imageUrl: "https://www.monsterhunterworld.com/sp/images/top/bg_mv.jpg",
+        price: 699999,
+        stock: 200,
+        genre: "",
+      }
+      let id = productId
+      //exec
+      request(app)
+        .put("/products/" + id)
+        .set("access_token", access_token_admin)
+        .send(body)
+        .end((err, res) => {
+          if (err) done(err)
+
+          //assert
+          expect(res.statusCode).toEqual(400);
+          expect(typeof res.body).toEqual("object");
+          expect(res.body).toHaveProperty("errors");
+          expect(Array.isArray(res.body.errors)).toEqual(true);
+          expect(res.body.errors).toEqual(
+            expect.arrayContaining(["Genre is required"])
+          );
+
+          done()
+        })
+    });
+  });
+
+  describe('Data type must be same as required data type', () => {
+    it('should send response with 400 status code', (done) => {
+      const body = {
+        name: 100,
+        imageUrl: 100,
+        price: "hundred",
+        stock: "hundred",
+        genre: 200,
+      }
+      let id = productId
+      //exec
+      request(app)
+        .put("/products/" + id)
+        .set("access_token", access_token_admin)
+        .send(body)
+        .end((err, res) => {
+          if (err) done(err)
+
+          //assert
+          expect(res.statusCode).toEqual(400);
+          expect(typeof res.body).toEqual("object");
+          expect(res.body).toHaveProperty("errors");
+          expect(Array.isArray(res.body.errors)).toEqual(true);
+          expect(res.body.errors).toEqual(
+            expect.arrayContaining(["Name must be string", "Image URL must be string", "Price must be integer",
+            "Stock must be integer", "Genre must be string"])
+          );
+
+          done()
+        })
+    });
+  });
+})
 
 describe('DELETE/products', () => {
   describe("Empty access_token", () => {
@@ -508,3 +855,6 @@ describe('DELETE/products', () => {
   });
   
 });
+
+
+
