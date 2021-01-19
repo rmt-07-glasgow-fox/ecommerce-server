@@ -22,10 +22,21 @@ const errorHandler = (err, req, res, next) => {
             })
             break;
 
+        case "unauthorize":
+            res.status(401).json({
+                errors: 'unauthorize action!'
+            })
+            break;
+
+        case "notFound":
+            res.status(404).json({
+                errors: 'not found!'
+            })
+            break;
+
         default:
             res.status(500).json({
-                status: 'error',
-                message: err.message
+                errors: err.message
             })
             break;
     }

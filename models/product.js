@@ -11,6 +11,9 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             // define association here
+            Product.belongsTo(models.Category, { as: 'category', foreignKey: 'categoryId' });
+            Product.belongsTo(models.User, { as: 'user', foreignKey: 'userId' });
+
         }
     };
     Product.init({
@@ -24,11 +27,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         image_url: {
             type: DataTypes.STRING,
-            validate: {
-                notEmpty: {
-                    msg: 'field image is required'
-                }
-            }
+            allowNull: true
         },
         price: {
             type: DataTypes.INTEGER,
@@ -36,6 +35,10 @@ module.exports = (sequelize, DataTypes) => {
                 notEmpty: {
                     msg: 'field price is required'
                 },
+                min: {
+                    args: [0],
+                    msg: 'price cannot be negative'
+                }
             }
         },
         stock: {
@@ -44,10 +47,28 @@ module.exports = (sequelize, DataTypes) => {
                 notEmpty: {
                     msg: 'field stock is required'
                 },
+                min: {
+                    args: [0],
+                    msg: 'stock cannot be negative'
+                }
             }
         },
-        // categoryId: DataTypes.INTEGER,
-        // userId: DataTypes.INTEGER
+        categoryId: {
+            type: DataTypes.INTEGER,
+            validate: {
+                notEmpty: {
+                    msg: 'field category is required'
+                }
+            }
+        },
+        userId: {
+            type: DataTypes.INTEGER,
+            validate: {
+                notEmpty: {
+                    msg: 'field user is required'
+                }
+            }
+        },
     }, {
         sequelize,
         modelName: 'Product',

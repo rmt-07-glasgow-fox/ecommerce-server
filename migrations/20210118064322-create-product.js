@@ -12,7 +12,8 @@ module.exports = {
                 type: Sequelize.STRING
             },
             image_url: {
-                type: Sequelize.STRING
+                type: Sequelize.STRING,
+                allowNull: true
             },
             price: {
                 type: Sequelize.INTEGER
@@ -20,24 +21,24 @@ module.exports = {
             stock: {
                 type: Sequelize.INTEGER
             },
-            // categoryId: {
-            //     type: Sequelize.INTEGER,
-            //     references: {
-            //         model: 'Categories',
-            //         key: 'id'
-            //     },
-            //     onDelete: 'Cascade',
-            //     onUpdate: 'Cascade'
-            // },
-            // userId: {
-            //     type: Sequelize.INTEGER,
-            //     references: {
-            //         model: 'Users',
-            //         key: 'id'
-            //     },
-            //     onDelete: 'Cascade',
-            //     onUpdate: 'Cascade'
-            // },
+            categoryId: {
+                type: Sequelize.INTEGER,
+                references: {
+                    model: 'Categories',
+                    key: 'id'
+                },
+                onDelete: 'Cascade',
+                onUpdate: 'Cascade'
+            },
+            userId: {
+                type: Sequelize.INTEGER,
+                references: {
+                    model: 'Users',
+                    key: 'id'
+                },
+                onDelete: 'Cascade',
+                onUpdate: 'Cascade'
+            },
             createdAt: {
                 allowNull: false,
                 type: Sequelize.DATE

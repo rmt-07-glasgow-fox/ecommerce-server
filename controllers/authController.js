@@ -25,6 +25,23 @@ class AuthController {
             return next(error);
         }
     }
+
+    static async register(req, res, next) {
+        try {
+            const { email, password, role } = req.body;
+            const input = { email, password, role };
+
+            const create = await User.create(input);
+
+            return res.status(201).json({
+                id: create.id,
+                email: create.email,
+                role: create.role
+            })
+        } catch (error) {
+            next(error)
+        }
+    }
 }
 
 module.exports = AuthController;

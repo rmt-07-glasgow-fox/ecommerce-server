@@ -12,16 +12,47 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             // define association here
+            User.hasMany(models.Product, { as: 'product', foreignKey: 'userId' });
         }
     };
     User.init({
-        email: DataTypes.STRING,
-        password: DataTypes.STRING,
+        email: {
+            type: DataTypes.STRING,
+            validate: {
+                notEmpty: {
+                    msg: 'field email is required'
+                },
+                isEmail: {
+                    msg: 'invalid email'
+                }
+            },
+            unique: true
+        },
+        password: {
+            type: DataTypes.STRING,
+            validate: {
+                notEmpty: {
+                    msg: 'field password is required'
+                },
+                len: {
+                    args: 6,
+                    msg: 'password at least have 6 character'
+                }
+            }
+        },
         role: {
             type: DataTypes.ENUM,
             values: ['admin', 'customer'],
             allowNull: false,
-            defaultValue: 'customer'
+            defaultValue: 'customer',
+            validate: {
+                isIn: {
+                    args: [
+                        ['admin', 'customer']
+                    ],
+                    msg: "role should be one of admin or customer"
+                }
+            }
         }
     }, {
         sequelize,
