@@ -46,8 +46,6 @@ const authorization = (req, res, next) => {
       }
     })
       .then(data => {
-        console.log(data, '<<< data')
-        console.log(req.userData, '<<< user data')
         if(!data || data.UserId !== req.userData.id){
           next({
             name: 'Forbidden'
@@ -57,7 +55,6 @@ const authorization = (req, res, next) => {
         }
       })
       .catch(err => {
-        console.log('here')
         next(err)
       })
   } catch (error) {
