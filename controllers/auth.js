@@ -6,10 +6,11 @@ class UserController {
 
   static async register(req,res,next){
     try {
-      const { email, password } = req.body
+      const { email, password, role } = req.body
       const user = await User.create({
         email: email || '',
-        password: password || ''
+        password: password || '',
+        role: role || ''
       })
       res.status(201).json({
         id: user.id,

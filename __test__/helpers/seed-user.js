@@ -1,11 +1,12 @@
 const { User } = require("../../models");
 
 
-function seedUser(){
+function seedUser(email, password, role){
   if(process.env.NODE_ENV === 'test'){
     const input = {
-      email: 'rafli@gmail.com',
-      password: `123123123`,
+      email,
+      password,
+      role
     }
     return User.create(input)
   }

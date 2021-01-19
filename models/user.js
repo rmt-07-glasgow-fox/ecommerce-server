@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       User.hasMany(models.Product)
+      User.hasMany(models.Banner)
     }
   };
   User.init({
@@ -36,8 +37,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: `password must be filled`
         },
         len: {
-          args: [6],
-          msg: `password atleast 6 character`
+          args: [4],
+          msg: `password atleast 4 character`
         }
       }
     },

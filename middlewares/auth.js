@@ -1,5 +1,5 @@
 const { cekToken } = require('../helpers/jwt')
-const { User, Product } = require('../models')
+const { User, Product, Banner } = require('../models')
 
 const authenticate = async (req,res,next) => {
   try {
@@ -61,8 +61,30 @@ const authorizeProduct = async (req,res,next) => {
   }
 }
 
+const authorizeBanner = async (req,res,next) => {
+  try {
+    const { id } = req.params
+    const role = req.user.role
+    const banner = await Banner.findOne({
+      where: {id}
+    })
+    if(banner){
+      if(role === "admin"){
+        next()
+      }else{
+        next({name: 'ErrorAuthorize'})
+      }
+    }else{
+      next({name: 'ErrorNotFound'})
+    }
+  } catch (err) {
+    next(err)
+  }
+}
+
 module.exports = {
   authenticate,
   authorize,
-  authorizeProduct
+  authorizeProduct,
+  authorizeBanner
 }
