@@ -15,8 +15,6 @@ describe('GET /products API should be working', function() {
       })
   })
 
-  
-  
   it('should response with 200 status code', function(done) {
     request(app)
       .get('/products')

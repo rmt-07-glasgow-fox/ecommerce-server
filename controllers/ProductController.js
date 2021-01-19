@@ -24,6 +24,22 @@ class ProductController {
       })
   }
 
+  static getProductById(req, res, next) {
+    const id = +req.params.id
+
+    Product.findByPk(id)
+      .then(product => {
+        if (!product) {
+          next({ name: 'resourceNotFound' })
+        } else {
+          return res.status(200).json(product)
+        }
+      })
+      .catch(err => {
+        next(err)
+      })
+  }
+
   static updateProduct(req, res, next) {
     const id = +req.params.id
     const { name, image_url, price, stock } = req.body
@@ -39,7 +55,6 @@ class ProductController {
       .catch(err => {
         next(err)
       })
-      
   }
 
   static destroyProduct(req, res, next) {

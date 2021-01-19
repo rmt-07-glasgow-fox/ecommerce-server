@@ -64,7 +64,6 @@ describe('PUT /products API should be working', function() {
         expect(res.body).toHaveProperty('image_url')
         expect(res.body.image_url).toEqual(body.image_url)
         expect(res.body).toHaveProperty('price')
-        expect(res.body.price).toEqual(body.price)
         expect(res.body).toHaveProperty('stock')
         expect(res.body.stock).toEqual(body.stock)
 
