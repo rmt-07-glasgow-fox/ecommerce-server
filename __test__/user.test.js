@@ -97,4 +97,29 @@ describe('POST /login', () => {
         done()
       })
   })
+
+  it('should send response with 400 status code', (done) => {
+    const body = {
+      email: '',
+      password: ''
+    }
+
+    request(app)
+      .post('/login')
+      .send(body)
+      .end((err, res) => {
+        if (err) done(err)
+
+        expect(res.statusCode).toEqual(400)
+        expect(typeof res.body).toEqual('object')
+
+        expect(res.body).toHaveProperty('errors')
+        expect(Array.isArray(res.body.errors)).toEqual(true)
+        expect(res.body.errors).toEqual(
+          expect.arrayContaining(['Email / password must be filled'])
+        )
+
+        done()
+      })
+  })
 })

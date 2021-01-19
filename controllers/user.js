@@ -5,6 +5,11 @@ const { createToken } = require('../helpers/jwt')
 class UserController {
   static login(req, res, next) {
     const { email, password } = req.body
+
+    if (!email && !password) {
+      next({ name: 'BadRequest' })
+    }
+
     User.findOne({
       where: {
         email

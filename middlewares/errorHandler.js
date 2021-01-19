@@ -7,6 +7,10 @@ const errorHandler = (err, req, res, next) => {
         errors.push('Wrong email / password')
         res.status(401).json({ errors })
         break
+      case 'BadRequest':
+        errors.push('Email / password must be filled')
+        res.status(400).json({ errors })
+        break
       case 'ResourceNotFound':
         errors.push('Not found')
         res.status(404).json({ errors })
