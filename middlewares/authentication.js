@@ -9,8 +9,7 @@ function authentication(req, res, next) {
         if (user) {
             req.headers.user = {
                 id: user.id,
-                email: user.email,
-                role: user.role
+                email: user.email
             };
             next();
         } else {
