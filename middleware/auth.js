@@ -1,5 +1,5 @@
 const { readToken } = require('../helpers/token')
-const { User, Product } = require('../models')
+const { User, Product, Brand } = require('../models')
 
 async function authenticate(req, res, next) {
     try {
@@ -46,6 +46,50 @@ async function authorizeAdminOnly(req, res, next) {
     }
 }
 
+async function checkBrandId(req, res, next) {
+    try {
+        console.log('BrandId', req.body.BrandId)
+        let IDBrand = +req.body.BrandId
+
+        if (!IDBrand) { return next({ name: 400, message: 'BrandId should be integer' }) }
+
+        let brand = await Brand.findByPk(IDBrand)
+        console.log('>>> brand ', brand)
+        if (!brand) {
+            return next({ name: 404, message: 'BrandId not found' })
+        }
+
+        if (brand) {
+            console.log('>>> brand is avail : ', IDBrand)
+            return next()
+        }
+
+    } catch (err) {
+        return next(err)
+    }
+}
+
+async function checkProductId(req, res, next) {
+    try {
+        let IDproduct = +req.params.idProduct
+
+        // check product
+        let product = await Product.findByPk(IDproduct)
+
+        if (!product) {
+            return next({ name: 404, message: 'Product not found' })
+        }
+
+        if (product) {
+            console.log('>>> product is avail', product)
+            return next()
+        }
+
+    } catch (err) {
+        return next(err)
+    }
+}
+
 module.exports = {
-    authenticate, authorizeAdminOnly
+    authenticate, authorizeAdminOnly, checkBrandId, checkProductId
 }

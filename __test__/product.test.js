@@ -40,7 +40,7 @@ afterAll(async (done) => {
 
 describe('POST /products', () => {
 
-    it('Status Code 400 | name, image_url, price, stock, BrandId is not send in body', (done) => {
+    it('Status Code 400 | name, image_url, price, stock is not send in body', (done) => {
         console.log('>>> access_token', access_token)
         // setup
         let body = {
@@ -48,7 +48,7 @@ describe('POST /products', () => {
             // image_url: '/products/compass-gazelle-low-black.jpg',
             // price: 200000,
             // stock: 100,
-            // BrandId: 1
+            BrandId: 1
         }
 
         // execute
@@ -60,14 +60,13 @@ describe('POST /products', () => {
                 if (err) done(err)
                 // assert
                 expect(res.statusCode).toEqual(400)
-                
+
                 let error = {
                     "message": [
                         "name is null",
                         "image_url is null",
                         "price should be integer",
-                        "stock should be integer",
-                        "BrandId should be integer"
+                        "stock should be integer"
                     ]
                 }
 
@@ -76,7 +75,7 @@ describe('POST /products', () => {
             })
     })
 
-    it('Status Code 400 | image_url, price, stock, BrandId is not send in body', (done) => {
+    it('Status Code 400 | image_url, price, stock is not send in body', (done) => {
         console.log('>>> access_token', access_token)
         // setup
         let body = {
@@ -84,7 +83,7 @@ describe('POST /products', () => {
             // image_url: '/products/compass-gazelle-low-black.jpg',
             // price: 200000,
             // stock: 100,
-            // BrandId: 1
+            BrandId: 1
         }
 
         // execute
@@ -101,8 +100,7 @@ describe('POST /products', () => {
                     "message": [
                         "image_url is null",
                         "price should be integer",
-                        "stock should be integer",
-                        "BrandId should be integer"
+                        "stock should be integer"
                     ]
                 }
 
@@ -111,7 +109,7 @@ describe('POST /products', () => {
             })
     })
 
-    it('Status Code 400 | price, stock, BrandId is not send in body', (done) => {
+    it('Status Code 400 | price, stock is not send in body', (done) => {
         console.log('>>> access_token', access_token)
         // setup
         let body = {
@@ -119,7 +117,7 @@ describe('POST /products', () => {
             image_url: '/products/compass-gazelle-low-black.jpg',
             // price: 200000,
             // stock: 100,
-            // BrandId: 1
+            BrandId: 1
         }
 
         // execute
@@ -135,8 +133,7 @@ describe('POST /products', () => {
                 let error = {
                     "message": [
                         "price should be integer",
-                        "stock should be integer",
-                        "BrandId should be integer"
+                        "stock should be integer"
                     ]
                 }
 
@@ -145,7 +142,7 @@ describe('POST /products', () => {
             })
     })
 
-    it('Status Code 400 | stock, BrandId is not send in body', (done) => {
+    it('Status Code 400 | stock is not send in body', (done) => {
         console.log('>>> access_token', access_token)
         // setup
         let body = {
@@ -153,7 +150,7 @@ describe('POST /products', () => {
             image_url: '/products/compass-gazelle-low-black.jpg',
             price: 200000,
             // stock: 100,
-            // BrandId: 1
+            BrandId: 1
         }
 
         // execute
@@ -168,8 +165,7 @@ describe('POST /products', () => {
 
                 let error = {
                     "message": [
-                        "stock should be integer",
-                        "BrandId should be integer"
+                        "stock should be integer"
                     ]
                 }
 
@@ -199,11 +195,35 @@ describe('POST /products', () => {
                 // assert
                 expect(res.statusCode).toEqual(400)
 
-                let error = {
-                    "message": [
-                        "BrandId should be integer"
-                    ]
-                }
+                let error = { "message": "BrandId should be integer" }
+
+                expect(res.body).toEqual(error)
+                done()
+            })
+    })
+
+    it('Status Code 404 | BrandId not found', (done) => {
+        console.log('>>> access_token', access_token)
+        // setup
+        let body = {
+            name: 'compass gazelle low black',
+            image_url: '/products/compass-gazelle-low-black.jpg',
+            price: 200000,
+            stock: 100,
+            BrandId: 100
+        }
+
+        // execute
+        request(app)
+            .post('/products')
+            .send(body)
+            .set('access_token', access_token)
+            .end((err, res) => {
+                if (err) done(err)
+                // assert
+                expect(res.statusCode).toEqual(404)
+
+                let error = { "message": "BrandId not found" }
 
                 expect(res.body).toEqual(error)
                 done()
