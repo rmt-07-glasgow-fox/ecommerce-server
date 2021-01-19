@@ -1,5 +1,6 @@
 const { User } = require('../models/')
 const { comparePassword } = require('../helpers/bcrypt')
+const { generateToken } = require('../helpers/jwt')
 
 class UserController {
   static login(req, res, next) {
@@ -10,11 +11,24 @@ class UserController {
       }
     })
       .then(user => {
-        if (user) {
+        if (!user) {
+          next({ name: "AuthError" })
+        }
+        else {
           const match = comparePassword(password, user.password)
 
           if (match) {
-            res.status(200).json(user)
+            const payload = {
+              id: user.id,
+              email: user.email
+            }
+
+            const access_token = generateToken(payload)
+
+            return res.status(200).json({ access_token })
+          }
+          else {
+            next({ name: "AuthError" })
           }
         }
       })
