@@ -354,11 +354,7 @@ describe('POST /products', () => {
    ################# TEST UPDATE PRODUCT #################
    ======================================================= */
 
-describe('PUT /products', () => {
-
-  afterAll( async () => {  
-    models.sequelize.close();
-  })
+describe('PUT /products', () => {  
 
   it('If success should response with 200 status code', (done) => {
     // setup
@@ -665,4 +661,54 @@ describe('PUT /products', () => {
     })
   })
 
+})
+
+descibe('DELETE /products', () => {
+  afterAll( async () => {  
+    models.sequelize.close();
+  })
+
+  // Jika role bukan admin tidak boleh delete
+  it('If role is not admin should response with 401 status code', (done) => {
+
+    // Execute
+    request(app)
+    .delete('/products/1')
+    .set('access_token', access_token_user)
+    .end((err, res) => {
+      if(err) done(err);
+
+      // Assert
+      
+      expect(res.statusCode).toEqual(401);
+      expect(typeof res.body).toEqual('object');
+      expect(res.body).toHaveProperty('name');
+      expect(res.body).toHaveProperty('message');
+      expect(res.body.name).toEqual('Unauthorized');
+      expect(res.body.message).toEqual('Not authorized');
+
+      done();
+    })
+  })
+
+  // Jika berhasil
+  it('If success should response with 401 status code', (done) => {
+
+    // Execute
+    request(app)
+    .delete('/products/1')
+    .set('access_token', access_token)
+    .end((err, res) => {
+      if(err) done(err);
+
+      // Assert
+      
+      expect(res.statusCode).toEqual(200);
+      expect(typeof res.body).toEqual('object');
+      expect(res.body).toHaveProperty('message');
+      expect(res.body.message).toEqual('Success delete task');
+
+      done();
+    })
+  })
 })
