@@ -2,13 +2,14 @@ const request = require("supertest")
 const app = require("../app")
 const {clearProducts} = require("./helpers/clear")
 const models = require("../models")
-const {User} = require("../models")
+const {User, Product} = require("../models")
 const {generateToken} = require("../helpers/jwt")
 
 let access_token_admin = null
 let access_token_customer = null
+let productTest = null
 
-describe('POST /products', () => {
+describe('PUT /products/:id', () => {
     beforeAll((done) => {
         User.findOne({where: {email: 'admin@mail.com'}})
         .then(user => {
@@ -19,8 +20,19 @@ describe('POST /products', () => {
         .then(user => {
             const {id, email} = user
             access_token_customer = generateToken({id, email})
+            const inputProduct = {
+                name: "shampoo",
+                image_url: "test.com",
+                price: 135000,
+                stock: 20
+            }
+            return Product.create(inputProduct)
+        })
+        .then(product => {
+            productTest = product
             done()
         })
+        .catch(err => console.log(err))
     })
     
     afterAll((done) => {
@@ -32,7 +44,7 @@ describe('POST /products', () => {
         .catch(err => console.log(err))
     })
 
-    it('should send response with 201 status code', (done) => {
+    it('should send response with 200 status code', (done) => {
         const body = {
             name: 'Cosrx Advanced Snail Peptide Eye Cream',
             image_url: 'https://media.allure.com/photos/5ec403869415cc0008b788fd/1:1/w_1600%2Cc_limit/Cosrx%2520Advanced%2520Snail%2520Peptide%2520Eye%2520Cream.jpg',
@@ -41,24 +53,16 @@ describe('POST /products', () => {
         };
 
         request(app)
-        .post('/products')
+        .put(`/products/${productTest.id}`)
         .send(body)
         .set('access_token', access_token_admin)
         .end((err, res) => {
             if(err) done(err)
 
-            expect(res.statusCode).toEqual(201);
+            expect(res.statusCode).toEqual(200);
             expect(typeof res.body).toEqual('object');
-            expect(res.body).toHaveProperty('id');
-            expect(typeof res.body.id).toEqual('number');
-            expect(res.body).toHaveProperty('name');
-            expect(res.body.name).toEqual(body.name);
-            expect(res.body).toHaveProperty('image_url');
-            expect(res.body.image_url).toEqual(body.image_url);
-            expect(res.body).toHaveProperty('price');
-            expect(res.body.price).toEqual(body.price);
-            expect(res.body).toHaveProperty('stock');
-            expect(res.body.stock).toEqual(body.stock);
+            expect(res.body).toHaveProperty('message');
+            expect(res.body.message).toEqual("edit product successfull");
 
             done()
         })
@@ -74,7 +78,7 @@ describe('POST /products', () => {
         };
 
         request(app)
-        .post('/products')
+        .put(`/products/${productTest.id}`)
         .send(body)
         .end((err, res) => {
             if(err) done(err)
@@ -98,7 +102,7 @@ describe('POST /products', () => {
         };
 
         request(app)
-        .post('/products')
+        .put(`/products/${productTest.id}`)
         .set('access_token', access_token_customer)
         .send(body)
         .end((err, res) => {
@@ -123,7 +127,7 @@ describe('POST /products', () => {
         };
 
         request(app)
-        .post('/products')
+        .put(`/products/${productTest.id}`)
         .set('access_token', access_token_admin)
         .send(body)
         .end((err, res) => {
@@ -148,7 +152,7 @@ describe('POST /products', () => {
         };
 
         request(app)
-        .post('/products')
+        .put(`/products/${productTest.id}`)
         .set('access_token', access_token_admin)
         .send(body)
         .end((err, res) => {
@@ -173,7 +177,7 @@ describe('POST /products', () => {
         };
 
         request(app)
-        .post('/products')
+        .put(`/products/${productTest.id}`)
         .set('access_token', access_token_admin)
         .send(body)
         .end((err, res) => {
@@ -198,7 +202,7 @@ describe('POST /products', () => {
         };
 
         request(app)
-        .post('/products')
+        .put(`/products/${productTest.id}`)
         .set('access_token', access_token_admin)
         .send(body)
         .end((err, res) => {
@@ -223,7 +227,7 @@ describe('POST /products', () => {
         };
 
         request(app)
-        .post('/products')
+        .put(`/products/${productTest.id}`)
         .set('access_token', access_token_admin)
         .send(body)
         .end((err, res) => {

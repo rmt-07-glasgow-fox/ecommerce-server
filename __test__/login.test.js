@@ -1,18 +1,17 @@
 const request = require("supertest")
 const app = require("../app")
-const {clearUsers} = require("./helpers/clear")
+const models = require("../models")
 
 describe('POST /login', () => {
     afterAll((done) => {
-        clearUsers()
-        .then(() => done())
-        .catch(err => console.log(err))
+        models.sequelize.close()
+        done()
     })
 
     it('should send response with 200 status code', (done) => {
         const body = {
             email: 'admin@mail.com',
-            password: '123456'
+            password: '1234'
         };
 
         request(app)

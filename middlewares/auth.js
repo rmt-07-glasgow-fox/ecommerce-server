@@ -2,19 +2,23 @@ const {checkToken} = require("../helpers/jwt")
 const {User, Product} = require("../models")
 
 function authentication(req, res, next) {
-    const authParams = checkToken(req.headers.access_token)
-    User.findOne({where: {email: authParams.email}})
-    .then(user => {
-        if (!user) {
-            next({name: 'EmailInvalid'})
-        } else {
-            req.user = user
-            next()
-        }
-    })
-    .catch(err => {
-        next(err)
-    })
+    if (!req.headers.access_token) {
+        next({name: "AuthError"})
+    } else {
+        const authParams = checkToken(req.headers.access_token)
+        User.findOne({where: {email: authParams.email}})
+        .then(user => {
+            if (!user || user.email !== 'admin@mail.com') {
+                next({name: "AuthError"})
+            } else {
+                req.user = user
+                next()
+            }
+        })
+        .catch(err => {
+            next(err)
+        })  
+    }
 
 }
 
