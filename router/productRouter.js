@@ -4,9 +4,9 @@ const router = require('express').Router()
 const ProductController = require('../controllers/productController')
 const { authorizeAdminOnly } = require('../middleware/auth')
 
-router.post('/', authorizeAdminOnly, ProductController.createProduct)
-router.get('/', ProductController.readProduct)
-router.put('/', authorizeAdminOnly, ProductController.updateProduct)
-router.delete('/', authorizeAdminOnly, ProductController.deleteProduct)
+router.post('/', authorizeAdminOnly, ProductController.addProduct)
+router.get('/', ProductController.showProduct)
+router.put('/:id', authorizeAdminOnly, ProductController.editProduct)
+router.delete('/:id', authorizeAdminOnly, ProductController.deleteProduct)
 
 module.exports = router

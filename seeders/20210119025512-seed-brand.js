@@ -1,6 +1,5 @@
 'use strict';
 
-const { hashPassword } = require('../helpers/password')
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     /**
@@ -12,18 +11,27 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-
-    await queryInterface.bulkInsert('Users', [{
-      email: 'admin@gmail.com',
-      password: hashPassword('admin'),
-      role: 'admin',
+    await queryInterface.bulkInsert('Brands', [{
+      name: 'Compass',
+      image_url: '/brands/compass.jpg',
       createdAt: new Date(),
       updatedAt: new Date()
     },
     {
-      email: 'user01@gmail.com',
-      password: hashPassword('user01'),
-      role: 'user',
+      name: 'Campess',
+      image_url: '/brands/campess.jpg',
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      name: 'Ventela',
+      image_url: '/brands/ventela.jpg',
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      name: 'Patrobas',
+      image_url: '/brands/patrobas.jpg',
       createdAt: new Date(),
       updatedAt: new Date()
     }], {})
@@ -37,6 +45,6 @@ module.exports = {
      * await queryInterface.bulkDelete('People', null, {});
      */
 
-    await queryInterface.bulkDelete('Users', null, {})
+    await queryInterface.bulkDelete('Brands', null, {})
   }
 };

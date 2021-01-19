@@ -6,13 +6,17 @@
   "scripts": {
     "db:create:development": "cross-env NODE_ENV=development npx sequelize-cli db:create",
     "db:migrate:development": "cross-env NODE_ENV=development npx sequelize-cli db:migrate",
-    "db:seed:development": "cross-env NODE_ENV=development npx sequelize-cli db:seed:all",
-    "db:seed:undo:development": "cross-env NODE_ENV=development npx sequelize-cli db:seed:undo:all",
+    "db:seed:development": "cross-env NODE_ENV=development npx sequelize-cli db:seed",
+    "db:seed:all:development": "cross-env NODE_ENV=development npx sequelize-cli db:seed:all",
+    "db:seed:undo:development": "cross-env NODE_ENV=development npx sequelize-cli db:seed:undo",
+    "db:seed:undo:all:development": "cross-env NODE_ENV=development npx sequelize-cli db:seed:undo:all",
 
     "db:create:test": "cross-env NODE_ENV=test npx sequelize-cli db:create",
     "db:migrate:test": "cross-env NODE_ENV=test npx sequelize-cli db:migrate",
-    "db:seed:test": "cross-env NODE_ENV=test npx sequelize-cli db:seed:all",
-    "db:seed:undo:test": "cross-env NODE_ENV=test npx sequelize-cli db:seed:undo:all",
+    "db:seed:test": "cross-env NODE_ENV=test npx sequelize-cli db:seed",
+    "db:seed:all:test": "cross-env NODE_ENV=test npx sequelize-cli db:seed:all",
+    "db:seed:undo:test": "cross-env NODE_ENV=test npx sequelize-cli db:seed:undo",
+    "db:seed:undo:all:test": "cross-env NODE_ENV=test npx sequelize-cli db:seed:undo:all",
 
     "dev": "cross-env NODE_ENV=development npx nodemon bin/listen.js",
     "test": "cross-env NODE_ENV=test npx jest"

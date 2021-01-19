@@ -2,6 +2,10 @@ function errorHandlers(err, req, res, next) {
     if (err) {
         let { name, message } = err
 
+        if (name === "JsonWebTokenError") {
+            return res.status(400).json({ message: message || 'Bad Request' })
+        }
+
         if (name === 400) {
             return res.status(400).json({ message: message || 'Bad Request' })
         }

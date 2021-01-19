@@ -9,6 +9,6 @@ const { authenticate } = require('../middleware/auth')
 
 // setting router
 router.use('/user', userRouter)
-router.use('/product', authenticate, productRouter)
+router.use('/products', authenticate, productRouter)
 
 module.exports = router
