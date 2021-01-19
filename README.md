@@ -1,5 +1,5 @@
-# Kingame server
-Kingame server is used for Kingame e-commerce web application. Kingame is a website for you to buy digital or physical copy PC games, console games, hand-held console games, you named it.
+# Funorama server
+Funorama server is used for Funorama e-commerce web application. Funorama is a website for you to buy digital or physical copy PC games, console games, hand-held console games, you named it.
 
 > P.S.: This app is still experimental and for educational purpose.
 

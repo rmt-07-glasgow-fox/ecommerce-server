@@ -1,4 +1,4 @@
-# Kingame E-Commerce API Documentation
+# Funorama E-Commerce API Documentation
 For make you easier to develop this app, I make a documentation about API endpoints.
 
 | Route              | Method      | Description                   | Authorization   |
