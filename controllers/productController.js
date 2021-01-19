@@ -31,6 +31,17 @@ class Controller {
         })
     }
 
+    static showById(req, res, next){
+        let id = req.params.id
+        Product.findByPk(id)
+        .then(data =>{
+            return res.status(200).json(data)
+        })
+        .catch(err =>{
+            next(err)
+        })
+    }
+
     static update(req, res, next){
         let id = req.params.id
         let obj = {
