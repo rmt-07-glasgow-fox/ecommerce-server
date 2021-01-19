@@ -4,6 +4,7 @@ const clearProducts = require('./helpers/clearProducts')
 const seedProducts = require('./helpers/seedProducts')
 const models = require('../models/')
 const { Product } = require('../models/')
+// helper jwt di sini
 
 
 let access_token = null
@@ -12,6 +13,13 @@ beforeAll((done) => {
 
     // user login di controller panggil di sini
     // access_token = login()
+    // seedUser di sini
+    // seedUser()
+    // .then((token) => {
+    // generate token dan simpan token di sini
+    // generate token utk admin sama customer
+    //  access_token = token
+    // })
     seedProducts()
         .then(() => {
             done()
