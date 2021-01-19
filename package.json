@@ -11,6 +11,7 @@
     "db:migrate:development": "NODE_ENV=development npm run db:migrate",
     "db:migrate:test": "NODE_ENV=test npm run db:migrate",
     "dev": "NODE_ENV=development nodemon bin/http.js",
+    "testdev": "NODE_ENV=test nodemon bin/http.js",
     "start": "node bin/http.js",
     "test": "NODE_ENV=test npx jest"
   },
