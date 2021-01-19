@@ -349,6 +349,40 @@ describe('POST /products', () => {
   })
 })
 
+/* =======================================================
+   ################ TEST GET ALL PRODUCT #################
+   ======================================================= */
+
+describe('GET /products', () => {
+  // Jika berhasil
+  it('If success should response with 200 status code', (done) => {
+
+    // Execute
+    request(app)
+    .get('/products')
+    .end((err, res) => {
+      if(err) done(err);
+
+      // Assert
+      
+      expect(res.statusCode).toEqual(200);
+      expect(typeof res.body).toEqual('object');
+      expect(res.body).toHaveProperty('id');
+      expect(res.body).toHaveProperty('name');
+      expect(res.body).toHaveProperty('imageUrl');
+      expect(res.body).toHaveProperty('price');
+      expect(res.body).toHaveProperty('stock');
+      expect(res.body.id).toEqual('1');
+      expect(res.body.name).toEqual('Product 1');
+      expect(res.body.imageUrl).toEqual('https://images.unsplash.com/photo-1534196511436-921a4e99f297?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80');
+      expect(res.body.price).toEqual(12500.9);
+      expect(res.body.stock).toEqual(5);
+
+      done();
+    })
+  })
+})
+
 
 /* =======================================================
    ################# TEST UPDATE PRODUCT #################
@@ -662,6 +696,10 @@ describe('PUT /products', () => {
   })
 
 })
+
+/* =======================================================
+   ################# TEST DELETE PRODUCT #################
+   ======================================================= */
 
 describe('DELETE /products', () => {
   afterAll( async () => {  
