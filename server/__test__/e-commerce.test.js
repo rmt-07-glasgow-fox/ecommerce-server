@@ -8,6 +8,12 @@ const { User, Product } = require('../models')
 const { generateToken } = require("../helpers/jwt")
 
 let access_token
+const bukanadminbiasa = {
+    id:100,
+    email: 'bukanadminbiasa@mail.com',
+    role: 'customer'
+}
+let access_token2 = generateToken(bukanadminbiasa)
 const productTest = {
     name: 'Hanayo Koizumi Poster',
     image_url: 'https://static.zerochan.net/Koizumi.Hanayo.full.2349510.jpg',
@@ -35,6 +41,7 @@ beforeAll(done => {
         done()
     })
     .catch(err => {
+        console.log(err);
         done()
     })
 })
@@ -109,6 +116,32 @@ describe('POST/products', function() {
             })
     })
 
+    it('should send response 401 status code when not login as admin', function(done) {
+        //Setup
+        const body = {
+            name: 'Hanayo Koizumi Poster',
+            image_url: 'https://static.zerochan.net/Koizumi.Hanayo.full.2349510.jpg',
+            price: 50000,
+            stock:  999,
+        }
+        //Execute
+        request(app)
+            .post('/products')
+            .set('access_token', access_token2)
+            .send(body)
+            .end(function(err, res) {
+                if (err) done(err)
+
+                //Assert
+                expect(res.statusCode).toEqual(401)
+                expect(typeof res.body).toEqual('object')
+                expect(res.body).toHaveProperty('message')
+                expect(Array.isArray(res.body.message))
+
+                done()
+            })
+    })
+
     it('should send response 400 status code when price and stock in minus', function(done) {
         //Setup
         const body = {
@@ -120,15 +153,16 @@ describe('POST/products', function() {
         //Execute
         request(app)
             .post('/products')
+            .set('access_token', access_token)
             .send(body)
             .end(function(err, res) {
                 if (err) done(err)
 
                 //Assert
-                expect(res.statusCode).toEqual(401)
+                expect(res.statusCode).toEqual(400)
                 expect(typeof res.body).toEqual('object')
-                expect(res.body).toHaveProperty('message')
-                expect(Array.isArray(res.body.message))
+                expect(res.body).toHaveProperty('errors')
+                expect(Array.isArray(res.body.errors))
 
                 done()
             })
@@ -145,15 +179,16 @@ describe('POST/products', function() {
         //Execute
         request(app)
             .post('/products')
+            .set('access_token', access_token)
             .send(body)
             .end(function(err, res) {
                 if (err) done(err)
 
                 //Assert
-                expect(res.statusCode).toEqual(401)
+                expect(res.statusCode).toEqual(400)
                 expect(typeof res.body).toEqual('object')
-                expect(res.body).toHaveProperty('message')
-                expect(Array.isArray(res.body.message))
+                expect(res.body).toHaveProperty('errors')
+                expect(Array.isArray(res.body.errors))
 
                 done()
             })

@@ -6,4 +6,6 @@ const clearProducts = () => {
     }
 }
 
+
+
 module.exports = clearProducts
