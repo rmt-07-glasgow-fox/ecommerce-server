@@ -42,7 +42,7 @@ class ProductController {
                 }]
             })
 
-            res.status(200).json(product)
+            return res.status(200).json(product)
         } catch (err) {
             return next(err)
         }
