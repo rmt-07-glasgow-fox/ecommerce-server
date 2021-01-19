@@ -1,11 +1,11 @@
 function errorHandler(err, req, res, next) {
     if (err) {
-        console.log('ini dari handler')
+        // console.log('ini dari handler')
         // console.log(err)
-        console.log('ini akhir dari hanlder')
+        // console.log('ini akhir dari hanlder')
             switch (err.name) {
                 case 'SequelizeValidationError':
-                    console.log(err.errors)
+                    // console.log(err.errors)
                     let errMes = err.errors.map(el => {
                         // console.log(message, 'ini message dri valid')
                         return el.message
