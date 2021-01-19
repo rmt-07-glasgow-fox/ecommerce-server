@@ -400,3 +400,49 @@ describe('POST /products', () => {
     })
 
 })
+
+describe('GET /products', () => {
+    it('Status Code 401 | message : access_token is required', (done) => {
+        // execute
+        request(app)
+            .get('/products')
+            .set('access_token', '')
+            .end((err, res) => {
+                if (err) done(err)
+                // assert
+                expect(res.statusCode).toEqual(401)
+                expect(res.body.message).toEqual("access_token is required")
+                done()
+            })
+    })
+
+    it('Status Code 401 | message : jwt malformed', (done) => {
+        // execute
+        request(app)
+            .get('/products')
+            .set('access_token', 'wrongtoken')
+            .end((err, res) => {
+                if (err) done(err)
+                // assert
+                expect(res.statusCode).toEqual(401)
+                expect(res.body.message).toEqual("jwt malformed")
+                done()
+            })
+    })
+
+    it('Status Code 404 | message : User not found', (done) => {
+        // setup
+
+        // execute
+        request(app)
+            .get('/products')
+            .set('access_token', oldToken)
+            .end((err, res) => {
+                if (err) done(err)
+                // assert
+                expect(res.statusCode).toEqual(404)
+                expect(res.body.message).toEqual("User not found")
+                done()
+            })
+    })
+})
