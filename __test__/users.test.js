@@ -52,7 +52,7 @@ describe('POST users/login', () => {
   })
 })
 
-// email tidak ada di db
+// // email tidak ada di db
 
 describe('POST users/login', () => {
   it('should send response with 400 status code', (done) => {
@@ -76,6 +76,8 @@ describe('POST users/login', () => {
       })
   })
 })
+
+// tidak memasukkan email dan password
 
 describe('POST users/login', () => {
   it('should send response with 400 status code', (done) => {
