@@ -8,6 +8,7 @@ router.route('/')
   .post(authorize, BannerController.create)
 
 router.route('/:id')
+  .get(BannerController.showOne)
   .put(authorizeBanner, BannerController.edit)
   .delete(authorizeBanner, BannerController.delete)
 

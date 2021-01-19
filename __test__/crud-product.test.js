@@ -1,7 +1,7 @@
 const request = require('supertest')
 
 const app = require('../app')
-const { generateToken, cekToken } = require('../helpers/jwt')
+const { generateToken } = require('../helpers/jwt')
 const models = require('../models')
 
 const clearProduct = require('./helpers/clear-product')
@@ -53,8 +53,7 @@ describe('CRUD /products', () => {
         name: 'Xiaomi Redmi note 8',
         image_url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRG59KsqpvysuZe7OaHqRVFZ13JrXxrzNmj5upiZCm9BsutVfvevcKl95HSOUsLZJfWa3fLl2FY&usqp=CAc',
         price: 2100000,
-        stock: 10,
-        UserId: cekToken(admin_token).id
+        stock: 10
       }
       //execute
       request(app)
@@ -88,8 +87,7 @@ describe('CRUD /products', () => {
         name: 'Xiaomi Redmi note 8',
         image_url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRG59KsqpvysuZe7OaHqRVFZ13JrXxrzNmj5upiZCm9BsutVfvevcKl95HSOUsLZJfWa3fLl2FY&usqp=CAc',
         price: 2100000,
-        stock: 10,
-        UserId: cekToken(admin_token).id
+        stock: 10
       }
       //execute
       request(app)
@@ -115,8 +113,7 @@ describe('CRUD /products', () => {
         name: 'Xiaomi Redmi note 8',
         image_url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRG59KsqpvysuZe7OaHqRVFZ13JrXxrzNmj5upiZCm9BsutVfvevcKl95HSOUsLZJfWa3fLl2FY&usqp=CAc',
         price: 2100000,
-        stock: 10,
-        UserId: cekToken(customer_token).id
+        stock: 10
       }
       //execute
       request(app)
@@ -142,8 +139,7 @@ describe('CRUD /products', () => {
         name: '',
         image_url: '',
         price: '',
-        stock: '',
-        UserId: cekToken(admin_token).id
+        stock: ''
       }
       //execute
       request(app)
@@ -169,8 +165,7 @@ describe('CRUD /products', () => {
         name: 'Xiaomi Redmi note 8',
         image_url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRG59KsqpvysuZe7OaHqRVFZ13JrXxrzNmj5upiZCm9BsutVfvevcKl95HSOUsLZJfWa3fLl2FY&usqp=CAc',
         price: 2100000,
-        stock: -10,
-        UserId: cekToken(admin_token).id
+        stock: -10
       }
       //execute
       request(app)
@@ -199,8 +194,7 @@ describe('CRUD /products', () => {
         name: 'Xiaomi Redmi note 8',
         image_url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRG59KsqpvysuZe7OaHqRVFZ13JrXxrzNmj5upiZCm9BsutVfvevcKl95HSOUsLZJfWa3fLl2FY&usqp=CAc',
         price: -2100000,
-        stock: 10,
-        UserId: cekToken(admin_token).id
+        stock: 10
       }
       //execute
       request(app)
@@ -229,8 +223,7 @@ describe('CRUD /products', () => {
         name: 'Xiaomi Redmi note 8',
         image_url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRG59KsqpvysuZe7OaHqRVFZ13JrXxrzNmj5upiZCm9BsutVfvevcKl95HSOUsLZJfWa3fLl2FY&usqp=CAc',
         price: 'asdsa',
-        stock: 'asdsa',
-        UserId: cekToken(admin_token).id
+        stock: 'asdsa'
       }
       //execute
       request(app)
@@ -262,8 +255,7 @@ describe('CRUD /products', () => {
         name: 'Xiaomi Redmi note 8',
         image_url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRG59KsqpvysuZe7OaHqRVFZ13JrXxrzNmj5upiZCm9BsutVfvevcKl95HSOUsLZJfWa3fLl2FY&usqp=CAc',
         price: 2100000,
-        stock: 10,
-        UserId: cekToken(admin_token).id
+        stock: 10
       }
       //execute
       request(app)
@@ -297,8 +289,7 @@ describe('CRUD /products', () => {
         name: 'Xiaomi Redmi note 8',
         image_url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRG59KsqpvysuZe7OaHqRVFZ13JrXxrzNmj5upiZCm9BsutVfvevcKl95HSOUsLZJfWa3fLl2FY&usqp=CAc',
         price: 2100000,
-        stock: 10,
-        UserId: cekToken(admin_token).id
+        stock: 10
       }
       //execute
       request(app)
@@ -324,8 +315,7 @@ describe('CRUD /products', () => {
         name: 'Xiaomi Redmi note 8',
         image_url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRG59KsqpvysuZe7OaHqRVFZ13JrXxrzNmj5upiZCm9BsutVfvevcKl95HSOUsLZJfWa3fLl2FY&usqp=CAc',
         price: 2100000,
-        stock: 10,
-        UserId: cekToken(customer_token).id
+        stock: 10
       }
       //execute
       request(app)
@@ -351,8 +341,7 @@ describe('CRUD /products', () => {
         name: '',
         image_url: '',
         price: '',
-        stock: '',
-        UserId: cekToken(admin_token).id
+        stock: ''
       }
       //execute
       request(app)
@@ -378,8 +367,7 @@ describe('CRUD /products', () => {
         name: 'Xiaomi Redmi note 8',
         image_url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRG59KsqpvysuZe7OaHqRVFZ13JrXxrzNmj5upiZCm9BsutVfvevcKl95HSOUsLZJfWa3fLl2FY&usqp=CAc',
         price: 2100000,
-        stock: -10,
-        UserId: cekToken(admin_token).id
+        stock: -10
       }
       //execute
       request(app)
@@ -408,8 +396,7 @@ describe('CRUD /products', () => {
         name: 'Xiaomi Redmi note 8',
         image_url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRG59KsqpvysuZe7OaHqRVFZ13JrXxrzNmj5upiZCm9BsutVfvevcKl95HSOUsLZJfWa3fLl2FY&usqp=CAc',
         price: -2100000,
-        stock: 10,
-        UserId: cekToken(admin_token).id
+        stock: 10
       }
       //execute
       request(app)
@@ -438,8 +425,7 @@ describe('CRUD /products', () => {
         name: 'Xiaomi Redmi note 8',
         image_url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRG59KsqpvysuZe7OaHqRVFZ13JrXxrzNmj5upiZCm9BsutVfvevcKl95HSOUsLZJfWa3fLl2FY&usqp=CAc',
         price: 'asdsa',
-        stock: 'asdsa',
-        UserId: cekToken(admin_token).id
+        stock: 'asdsa'
       }
       //execute
       request(app)

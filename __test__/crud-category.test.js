@@ -4,14 +4,14 @@ const app = require('../app')
 const { generateToken } = require('../helpers/jwt')
 const models = require('../models')
 
-const clearBanner = require('./helpers/clear-banner')
+const clearCategory = require('./helpers/clear-category')
 const clearUser = require('./helpers/clear-user')
-const seedBanner = require('./helpers/seed-banner')
+const seedCategory = require('./helpers/seed-category')
 const seedUser = require('./helpers/seed-user')
 
-let admin_token = ''
-let customer_token = ''
-let id = ''
+let admin_token
+let customer_token
+let id
 
 beforeAll(async (done) => {
   try {
@@ -27,8 +27,8 @@ beforeAll(async (done) => {
       email: customer.email,
       role: customer.role
     })
-    const banner = await seedBanner(admin.id)
-    id = banner.id
+    const category = await seedCategory(admin.id)
+    id = category.id
     done()
   } catch (err) {
     console.log(err);
@@ -38,7 +38,7 @@ beforeAll(async (done) => {
 afterAll(async (done) => {
   try {
     await clearUser()
-    await clearBanner()
+    await clearCategory()
     models.sequelize.close()
     done()
   } catch (err) {
@@ -46,16 +46,15 @@ afterAll(async (done) => {
   }
 })
 
-describe('CRUD /banners', ()=> {
-  describe('POST /banners', ()=> {
+
+describe('CRUD /categories', ()=> {
+  describe('POST /categories', ()=> {
     it('success create', (done)=> {
       const body = {
-        title: 'discon shoes',
-        status: 'active',
-        image_url: 'https://img.freepik.com/free-vector/sale-banner-with-product-description_1361-1333.jpg?size=626&ext=jpg',
+        name: 'electronic',
       }
       request(app)
-        .post('/banners')
+        .post('/categories')
         .send(body)
         .set('access_token', admin_token)
         .end((err,res)=> {
@@ -66,24 +65,18 @@ describe('CRUD /banners', ()=> {
           expect(typeof res.body).toEqual('object')
           expect(res.body).toHaveProperty('id')
           expect(typeof res.body.id).toEqual('number')
-          expect(res.body).toHaveProperty('title')
-          expect(res.body.title).toEqual(body.title)
-          expect(res.body).toHaveProperty('status')
-          expect(res.body.status).toEqual(body.status)
-          expect(res.body).toHaveProperty('image_url')
-          expect(res.body.image_url).toEqual(body.image_url)
+          expect(res.body).toHaveProperty('name')
+          expect(res.body.name).toEqual(body.name)
   
           done()
         })
     })
     it('no access_token', (done)=> {
       const body = {
-        title: 'discon shoes',
-        status: 'active',
-        image_url: 'https://img.freepik.com/free-vector/sale-banner-with-product-description_1361-1333.jpg?size=626&ext=jpg',
+        name: 'electronic',
       }
       request(app)
-        .post('/banners')
+        .post('/categories')
         .send(body)
         .set('access_token', '')
         .end((err,res)=> {
@@ -102,12 +95,10 @@ describe('CRUD /banners', ()=> {
     })
     it('not admin', (done)=> {
       const body = {
-        title: 'discon shoes',
-        status: 'active',
-        image_url: 'https://img.freepik.com/free-vector/sale-banner-with-product-description_1361-1333.jpg?size=626&ext=jpg',
+        name: 'electronic',
       }
       request(app)
-        .post('/banners')
+        .post('/categories')
         .send(body)
         .set('access_token', customer_token)
         .end((err,res)=> {
@@ -126,12 +117,10 @@ describe('CRUD /banners', ()=> {
     })
     it('field require not filled', (done)=> {
       const body = {
-        title: '',
-        status: '',
-        image_url: '',
+        name: '',
       }
       request(app)
-        .post('/banners')
+        .post('/categories')
         .send(body)
         .set('access_token', admin_token)
         .end((err,res)=> {
@@ -144,7 +133,7 @@ describe('CRUD /banners', ()=> {
           expect(res.body.status).toEqual('Error')
           expect(res.body).toHaveProperty('message')
           expect(res.body.message).toEqual(
-            expect.arrayContaining(['title must be filled','image_url must be filled'])
+            expect.arrayContaining(['name must be filled'])
           )
   
           done()
@@ -152,15 +141,13 @@ describe('CRUD /banners', ()=> {
     })
   })
 
-  describe('PUT /banners', ()=> {
-    it('success update', (done)=> {
+  describe('PUT /categories', ()=> {
+    it('success edit', (done)=> {
       const body = {
-        title: 'discon shoes',
-        status: 'active',
-        image_url: 'https://img.freepik.com/free-vector/sale-banner-with-product-description_1361-1333.jpg?size=626&ext=jpg',
+        name: 'electronic',
       }
       request(app)
-        .put(`/banners/${id}`)
+        .put(`/categories/${id}`)
         .send(body)
         .set('access_token', admin_token)
         .end((err,res)=> {
@@ -171,24 +158,18 @@ describe('CRUD /banners', ()=> {
           expect(typeof res.body).toEqual('object')
           expect(res.body).toHaveProperty('id')
           expect(typeof res.body.id).toEqual('number')
-          expect(res.body).toHaveProperty('title')
-          expect(res.body.title).toEqual(body.title)
-          expect(res.body).toHaveProperty('status')
-          expect(res.body.status).toEqual(body.status)
-          expect(res.body).toHaveProperty('image_url')
-          expect(res.body.image_url).toEqual(body.image_url)
+          expect(res.body).toHaveProperty('name')
+          expect(res.body.name).toEqual(body.name)
   
           done()
         })
     })
     it('no access_token', (done)=> {
       const body = {
-        title: 'discon shoes',
-        status: 'active',
-        image_url: 'https://img.freepik.com/free-vector/sale-banner-with-product-description_1361-1333.jpg?size=626&ext=jpg',
+        name: 'electronic',
       }
       request(app)
-        .put(`/banners/${id}`)
+        .put(`/categories/${id}`)
         .send(body)
         .set('access_token', '')
         .end((err,res)=> {
@@ -207,12 +188,10 @@ describe('CRUD /banners', ()=> {
     })
     it('not admin', (done)=> {
       const body = {
-        title: 'discon shoes',
-        status: 'active',
-        image_url: 'https://img.freepik.com/free-vector/sale-banner-with-product-description_1361-1333.jpg?size=626&ext=jpg'
+        name: 'electronic',
       }
       request(app)
-        .put(`/banners/${id}`)
+        .put(`/categories/${id}`)
         .send(body)
         .set('access_token', customer_token)
         .end((err,res)=> {
@@ -231,12 +210,10 @@ describe('CRUD /banners', ()=> {
     })
     it('field require not filled', (done)=> {
       const body = {
-        title: '',
-        status: '',
-        image_url: '',
+        name: '',
       }
       request(app)
-        .put(`/banners/${id}`)
+        .put(`/categories/${id}`)
         .send(body)
         .set('access_token', admin_token)
         .end((err,res)=> {
@@ -249,7 +226,7 @@ describe('CRUD /banners', ()=> {
           expect(res.body.status).toEqual('Error')
           expect(res.body).toHaveProperty('message')
           expect(res.body.message).toEqual(
-            expect.arrayContaining(['title must be filled','image_url must be filled'])
+            expect.arrayContaining(['name must be filled'])
           )
   
           done()
@@ -257,19 +234,14 @@ describe('CRUD /banners', ()=> {
     })
   })
 
-  describe('DELETE /banners', ()=> {
+  describe('DELETE /categories', ()=> {
     it('no access_token', (done)=> {
-      const body = {
-        title: 'discon shoes',
-        status: 'active',
-        image_url: 'https://img.freepik.com/free-vector/sale-banner-with-product-description_1361-1333.jpg?size=626&ext=jpg',
-      }
       request(app)
-        .delete(`/banners/${id}`)
+        .delete(`/categories/${id}`)
         .set('access_token', '')
         .end((err,res)=> {
           if (err) done(err)
-
+  
           //Assert
           expect(res.statusCode).toEqual(403)
           expect(typeof res.body).toEqual('object')
@@ -277,22 +249,17 @@ describe('CRUD /banners', ()=> {
           expect(res.body.status).toEqual('Error')
           expect(res.body).toHaveProperty('message')
           expect(res.body.message).toEqual('Jwt needed')
-
+  
           done()
         })
     })
     it('not admin', (done)=> {
-      const body = {
-        title: 'discon shoes',
-        status: 'active',
-        image_url: 'https://img.freepik.com/free-vector/sale-banner-with-product-description_1361-1333.jpg?size=626&ext=jpg'
-      }
       request(app)
-        .delete(`/banners/${id}`)
+        .delete(`/categories/${id}`)
         .set('access_token', customer_token)
         .end((err,res)=> {
           if (err) done(err)
-
+  
           //Assert
           expect(res.statusCode).toEqual(403)
           expect(typeof res.body).toEqual('object')
@@ -300,28 +267,23 @@ describe('CRUD /banners', ()=> {
           expect(res.body.status).toEqual('Error')
           expect(res.body).toHaveProperty('message')
           expect(res.body.message).toEqual('you dont have access')
-
+  
           done()
         })
     })
     it('success delete', (done)=> {
-      const body = {
-        title: 'discon shoes',
-        status: 'active',
-        image_url: 'https://img.freepik.com/free-vector/sale-banner-with-product-description_1361-1333.jpg?size=626&ext=jpg',
-      }
       request(app)
-        .delete(`/banners/${id}`)
+        .delete(`/categories/${id}`)
         .set('access_token', admin_token)
         .end((err,res)=> {
           if (err) done(err)
-
+  
           //Assert
           expect(res.statusCode).toEqual(200)
           expect(typeof res.body).toEqual('object')
           expect(res.body).toHaveProperty('message')
-          expect(res.body.message).toEqual('banner deleted successfully')
-
+          expect(res.body.message).toEqual('category deleted successfully')
+  
           done()
         })
     })

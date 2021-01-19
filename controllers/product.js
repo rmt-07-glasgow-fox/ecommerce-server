@@ -1,11 +1,11 @@
-const { Product, User } = require('../models')
+const { Product, User, Category } = require('../models')
 
 class ProductController {
   static async showAll(req,res,next){
     try {
       const product = await Product.findAll({
         order: [['id']],
-        include: [User]
+        include: [User, Category]
       })
       res.status(200).json(product)
     } catch (err) {
@@ -29,14 +29,15 @@ class ProductController {
 
   static async create(req,res,next){
     try {
-      const { name, image_url, price, stock } = req.body
+      const { name, image_url, price, stock, CategoryId } = req.body
       const UserId = req.user.id
       const input = {
         name: name || '',
         image_url: image_url || '',
         price: +price,
         stock: +stock,
-        UserId
+        UserId,
+        CategoryId: CategoryId || null
       }
       const product = await Product.create(input)
       res.status(201).json(product)
@@ -48,14 +49,15 @@ class ProductController {
   static async edit(req,res,next){
     try {
       const {id} = req.params
-      const { name, image_url, price, stock } = req.body
+      const { name, image_url, price, stock, CategoryId } = req.body
       const UserId = req.user.id
       const input = {
         name: name || '',
         image_url: image_url || '',
         price: +price,
         stock: +stock,
-        UserId
+        UserId,
+        CategoryId: CategoryId || null
       }
       const product = await Product.update(input, {
         where: {id},
