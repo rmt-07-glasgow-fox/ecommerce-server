@@ -1,7 +1,9 @@
 const express = require('express')
 const router = express.Router()
-const admin = require('./admin-router')
+const user = require('./user-router')
+const product = require('./product-router')
 
-router.use('/admin', admin )
+router.use('/', user )
+router.use('/', product )
 
 module.exports = router

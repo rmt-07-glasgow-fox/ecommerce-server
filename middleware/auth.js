@@ -14,3 +14,5 @@ function authenticate(req, res, next){
                   next(err)
             })
 }
+
+module.exports = { authenticate, authorize }

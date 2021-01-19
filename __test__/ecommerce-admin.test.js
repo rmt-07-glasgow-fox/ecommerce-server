@@ -1,43 +1,58 @@
-const { afterAll } = require('@jest/globals')
+const { User } = require('../models')
 const request = require('supertest')
+
+const app = require('../app')
+
 let token = ''
 
 //login
 describe ('POST /login', function() {
+
       afterAll(function(done){
-            clearTodos()
-               .then(function(){
-                     module.sequelize.close()
-                     done()
-               })
+            User.findAll()
+                .then(user => {
+                      user.forEach(el => {
+                            if(el.id !== 1){
+                                  User.destroy({where: {}})
+                            }
+                      })
+                      done()
+                }).then(() => {
+                      done()
+                }).catch(err => {
+                      console.log(err);
+                      done()
+                })
       })
+
       it("should send response with 200 status code", function(done) {
 
       const body = {
-            access_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTYxMDk4MDQ4Nn0.z572svieL056ITuvcfxMDryrP4SHEHdKtcB5OR_4RR8"
+       email: "admin@mail.com",
+       password: "qweqwe"
       }
 
       request(app)
-            .post('/admin/login')
+            .post('/login')
             .send(body)
             .end(function(err, res){
                   if(err) done(err)
 
-
-            expect(res.statusCode).toEqual(200)
+            expect(res.status).toBe(200)
             expect(typeof res.body).toEqual('object')
             expect(res.body).toHaveProperty('access_token')
-            expect(res.body.access_token).toEqual(body.access_token)
+            expect(typeof res.body.access_token).toEqual('string')
+  
  
             done()
             })
 
       })
 
-      it("should send response with status code 400", function(done){
+      it("should send response with status code 401", function(done){
             const body = {
-                  email: "",
-                  password: "",
+                  email: "admina@mail.com",
+                  password: "qweqwe",
  
             }  
 
@@ -48,181 +63,34 @@ describe ('POST /login', function() {
                   if(err) done(err)
 
 
-                  expect(res.statusCode).toEqual(400)
-                  expect(res.body).toEqual('object')
-                  expect(res.body).toHaveProperty('errors')
-                  expect(Array.isArray(res.body.errors)).toEqual(true)
-                  expect(res.body.errors).toEqual(
-                        expect.arrayContaining({ 
-                              errors: [
-                                    'email is required',
-                                    'password is required',
-                                    'email must be email format',
-                                    'password at least have 6 characters',
-                                    'invalid email or password'
-                              ] 
-                        })
-                  )
+                  expect(res.status).toBe(401)
+                  expect(typeof res.body).toEqual('object')
+                  expect(res.body).toHaveProperty('message')
+                  expect(res.body.message).toEqual("invalid email/password")
 
             done()
             })
       })
 
+      it("should send response with status code 401", function(done){
+            const body = {
+                  email: "admin@mail.com",
+                  password: "qeeweew",
+            }  
+
+            request(app)
+            .post('/login')
+            .send(body)
+            .end(function(err, res){
+                  if(err) done(err)
+
+
+                  expect(res.status).toBe(401)
+                  expect(typeof res.body).toEqual('object')
+                  expect(res.body).toHaveProperty('message')
+                  expect(res.body.message).toEqual("invalid email/password")
+            done()
+            })
+      })
+      
 })
-
-// describe ('POST /products', function() {
-//       beforeAll(function(){
-//             token = login()
-//       })
-
-//       afterAll
-//       it("should send response with 201 status code", function(done) {
-
-//       const body = {
-//             name: "Sepatu Adidas",
-//             image_url: "https://assets.adidas.com/images/w_600,f_auto,q_auto/4e894c2b76dd4c8e9013aafc016047af_9366/Superstar_Shoes_White_FV3284_01_standard.jpg",
-//             price: 100.3,
-//             stock: 30
-//       }
-
-//       request(app)
-//             .post('/products')
-//             .send(body)
-//             .end(function(err, res){
-//                   if(err) done(err)
-
-            
-
-
-//             expect(res.statusCode).toEqual(201)
-//             expect(typeof res.body).toEqual('object')
-//             expect(res.body).toHaveProperty('id')
-//             expect(typeof res.body.id).toEqual('number')
-//             expect(res.body).toHaveProperty('name')
-//             expect(typeof res.body.name).toEqual('string')
-//             expect(res.body).toHaveProperty('image_url')
-//             expect(typeof res.body.image_url).toEqual('string')
-//             expect(res.body).toHaveProperty('price')
-//             expect(typeof res.body.price).toEqual('double')
-//             expect(res.body).toHaveProperty('stock')
-//             expect(typeof res.body.stock).toEqual('number')
- 
-//             done()
-//             })
-
-//       })
-
-//       it("should send response with status code 400", function(done){
-//             const body = {
-//                   name: "",
-//                   image_url: "",
-//                   price: "",
-//                   stock: ""
-//             }  
-
-//             request(app)
-//             .post('/products')
-//             .send(body)
-//             .end(function(err, res){
-//                   if(err) done(err)
-
-
-//                   expect(res.statusCode).toEqual(400)
-//                   expect(res.body).toEqual('object')
-//                   expect(res.body).toHaveProperty('errors')
-//                   expect(Array.isArray(res.body.errors)).toEqual(true)
-//                   expect(res.body.errors).toEqual(
-//                         expect.arrayContaining({ 
-//                               errors: [
-//                                     'title is required',
-//                                     'image_url is required',
-//                                     'price is required',
-//                                     'stock is required',
-//                                     'price cannot be lower than 0',
-//                                     'stock cannot be lower than 0',
-//                               ] 
-//                         })
-//                   )
-
- 
-//             done()
-//             })
-//       })
-
-// })
-
-// describe ('GET /products', function() {
-//       it("should send response with 200 status code", function(done) {
-
-//       const body = {
-//             name: "Sepatu Adidas",
-//             image_url: "https://assets.adidas.com/images/w_600,f_auto,q_auto/4e894c2b76dd4c8e9013aafc016047af_9366/Superstar_Shoes_White_FV3284_01_standard.jpg",
-//             price: 100.3,
-//             stock: 30
-//       }
-
-//       request(app)
-//             .get('/products')
-//             .send(body)
-//             .end(function(err, res){
-//                   if(err) done(err)
-
-            
-
-
-//             expect(res.statusCode).toEqual(200)
-//             expect(typeof res.body).toEqual('object')
-//             expect(res.body).toHaveProperty('id')
-//             expect(typeof res.body.id).toEqual('number')
-//             expect(res.body).toHaveProperty('name')
-//             expect(typeof res.body.name).toEqual('string')
-//             expect(res.body).toHaveProperty('image_url')
-//             expect(typeof res.body.image_url).toEqual('string')
-//             expect(res.body).toHaveProperty('price')
-//             expect(typeof res.body.price).toEqual('double')
-//             expect(res.body).toHaveProperty('stock')
-//             expect(typeof res.body.stock).toEqual('number')
- 
-//             done()
-//             })
-
-//       })
-
-//       it("should send response with status code 400", function(done){
-//             const body = {
-//                   name: "",
-//                   image_url: "",
-//                   price: "",
-//                   stock: ""
-//             }  
-
-//             request(app)
-//             .post('/products')
-//             .send(body)
-//             .end(function(err, res){
-//                   if(err) done(err)
-
-
-//                   expect(res.statusCode).toEqual(400)
-//                   expect(res.body).toEqual('object')
-//                   expect(res.body).toHaveProperty('errors')
-//                   expect(Array.isArray(res.body.errors)).toEqual(true)
-//                   expect(res.body.errors).toEqual(
-//                         expect.arrayContaining({ 
-//                               errors: [
-//                                     'title is required',
-//                                     'image_url is required',
-//                                     'price is required',
-//                                     'stock is required',
-//                                     'price cannot be lower than 0',
-//                                     'stock cannot be lower than 0',
-//                               ] 
-//                         })
-//                   )
-
- 
-//             done()
-//             })
-//       })
-
-// })
