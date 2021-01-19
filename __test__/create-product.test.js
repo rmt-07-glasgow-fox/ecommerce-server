@@ -1,10 +1,24 @@
 const request = require('supertest')
 const app = require('../app.js')
-const { login } = require('../controllers/controllerAuth.js')
 const clearProduct = require('./helpers/clear-products.js')
+const { generateToken } = require('../helpers/jwt.js')
+const getToken = require('./helpers/get-token.js')
 const models = require('../models')
 
+let token = ''
+
 describe('POST /products', () => {
+    // beforeAll( () => {
+    //     const data = getToken()
+    //     const payload = {
+    //         id: data.id,
+    //         email: data.email,
+    //         role: data.role
+    //     }
+    //     token = generateToken(payload)
+    //     console.log(token);
+    //     done()
+    // } )
     afterAll( () => {
         clearProduct()
         .then( () => {
@@ -25,6 +39,7 @@ describe('POST /products', () => {
         //execute
         request(app) 
             .post('/products')
+            .set('access_token', token)
             .send(body)
             .end( (err, res) => {
                 if (err) {
@@ -56,6 +71,7 @@ describe('POST /products', () => {
         //execute
         request(app) 
             .post('/products')
+            .set('access_token', token)
             .send(body)
             .end( (err, res) => {
                 if (err) {
@@ -84,6 +100,7 @@ describe('POST /products', () => {
         //execute
         request(app) 
             .post('/products')
+            .set('access_token', token)
             .send(body)
             .end( (err, res) => {
                 if (err) {

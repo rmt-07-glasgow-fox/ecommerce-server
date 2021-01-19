@@ -1,5 +1,6 @@
-const { User } = require('../models')
+const { User, Sequelize } = require('../models')
 const { checkPassword } = require('../helpers/bcryptjs.js')
+const { generateToken } = require('../helpers/jwt')
 
 module.exports = class ControllerAuth {
     static register(req, res, next) {
@@ -22,18 +23,29 @@ module.exports = class ControllerAuth {
         try {
             const { email, password, role } = req.body
             const found = await User.findOne({
-                where: {
+                where: Sequelize.and({
                     email: email,
                     role: role
-                }
+                })
             })
-
+            console.log(found);
             if (!found) next({ name: "loginFailed" })
 
             const match = checkPassword(password, found.password)
 
             if (!match) next({ name: "loginFailed" })
-            else return res.status(200).json({ message: "Login success" })
+            else {
+                const payload = {
+                    id: found.id,
+                    email: found.email,
+                    role: found.role
+                }
+                const access_token = generateToken(payload)
+
+                return res.status(200).json({
+                    access_token: access_token
+                })
+            }
         } catch (err) {
             next(err)
         }
