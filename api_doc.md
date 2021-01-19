@@ -1,30 +1,35 @@
-# E-Commerce API Documentation
+# Kingame E-Commerce API Documentation
 For make you easier to develop this app, I make a documentation about API endpoints.
 
-
-| Route            | Method      | Description                   | Authorization |
-| ---------------- | ----------- | ----------------------------- | ------------- |
-| `/register`      | POST        | For register user             | Everyone      |
-| `/login`         | POST        | For login user                | Everyone      |
-| `/glogin`        | POST        | For login user with Google    | Everyone      |
-| `/getuser`       | GET         | For get user information      | Everyone      |
-|                                                                                |
-| `/product`       | POST        | For add product to list       | Admin         | 
-| `/product`       | GET         | For see product list          | Everyone      |
-| `/product/:id`   | GET         | For see detailed              | Everyone      |
-| `/product/:id`   | PUT         | For update product            | Admin         |
-| `/product/:id`   | PATCH       | For change status product     | Admin         |
-| `/product/:id`   | DELETE      | For delete product            | Admin         |
-|                                                                                |
-| `/banner`        | POST        | For add banner to list        | Admin         | 
-| `/banner`        | GET         | For see banner list           | Everyone      |
-| `/banner/:id`    | GET         | For see detailed              | Everyone      |
-| `/banner/:id`    | PUT         | For update banner             | Admin         |
-| `/banner/:id`    | PATCH       | For change status banner      | Admin         |
-| `/banner/:id`    | DELETE      | For delete banner             | Admin         |
+| Route              | Method      | Description                   | Authorization   |
+| ------------------ | ----------- | ----------------------------- | --------------- |
+| `/register`        | POST        | For register user             | Everyone        |
+| `/login`           | POST        | For login user                | Everyone        |
+| `/getuser`         | GET         | For get user information      | Everyone        |
+|                                                                                    |
+| `/product`         | POST        | For add product to list       | Admin           |
+| `/product`         | GET         | For see product list          | Everyone        |
+| `/product/:id`     | GET         | For see detailed              | Admin, Customer |
+| `/product/:id`     | PUT         | For update product            | Admin           |
+| `/product/:id`     | DELETE      | For delete product            | Admin           |
+|                                                                                    |
+| `/category`        | POST        | For add category to list      | Admin           |
+| `/category`        | GET         | For see category list         | Everyone        |
+| `/category/:id`    | GET         | For see detailed              | Everyone        |
+| `/category/:id`    | PUT         | For update category           | Admin           |
+| `/category/:id`    | DELETE      | For delete category           | Admin           |
+|                                                                                    |
+| `/banner`          | POST        | For add banner to list        | Admin           |
+| `/banner`          | GET         | For see banner list           | Everyone        |
+| `/banner/:id`      | GET         | For see detailed              | Everyone        |
+| `/banner/:id`      | PUT         | For update banner             | Admin           |
+| `/banner/:id`      | DELETE      | For delete banner             | Admin           |
 <br>
 
 ## Detailed Endpoints
+<hr>
+
+## User
 ### POST /register
 _Request Header_
 ```
@@ -65,6 +70,13 @@ _Response (409)_
 }
 ```
 
+_Response (500)_
+```json
+{
+  "name": "Internal server error"
+}
+```
+
 ### POST /login
 _Request Header_
 ```
@@ -82,7 +94,7 @@ _Request Body_
 _Response (200)_
 ```json
 {
-"access_token": "<your access token>"
+  "access_token": "<your access token>"
 }
 ```
 
@@ -90,5 +102,801 @@ _Response (401)_
 ```json
 {
   "name": "invalidLogin"
+}
+```
+
+_Response (500)_
+```json
+{
+  "name": "Internal server error"
+}
+```
+
+### GET /getuser
+_Request Header_
+```json
+{
+  "access_token": "<your access token>"
+}
+```
+
+_Request Body_
+```
+Unneeded
+```
+
+_Response (200)_
+```json
+{
+  "id": "<your id>",
+  "firstname": "<your firstname>",
+  "lastname": "<your lastname>",
+  "email": "<your email>",
+  "profpic": "<your profpic link>",
+  "role": "<your role>
+}
+```
+
+_Response (401)_
+```json
+{
+  "name": "invalidLogin"
+}
+```
+
+_Response (404)_
+```json
+{
+  "name": "notFound"
+}
+```
+
+_Response (500)_
+```json
+{
+  "name": "Internal server error"
+}
+```
+
+## Product
+### POST /product
+_Request Header_
+```json
+{
+  "access_token": "<admin access_token>"
+}
+```
+
+_Request Body_
+```json
+{
+  "name": "<product name>",
+  "image_url": "<product image_url>",
+  "price": "<product price>",
+  "stock": "<product stock>",
+  "CategoryId": "<product CategoryId>"
+}
+```
+
+_Response (201)_
+```json
+{
+  "id": "<product id>",
+  "name": "<product name>",
+  "image_url": "<product image_url>",
+  "price": "<product price>",
+  "stock": "<product stock>",
+  "CategoryId": "<product CategoryId>",
+  "UserId": "<admin UserId>",
+  "updatedAt": "<product updated date>",
+  "createdAt": "<product created date>",
+}
+```
+
+_Response (400)_
+```json
+{
+  "name": "SequelizeValidationError"
+}
+```
+
+_Response (401)_
+```json
+{
+  "name": "unauthorize"
+}
+```
+
+_Response (409)_
+```json
+{
+  "name": "SequelizeUniqueConstraintError"
+}
+```
+
+_Response (500)_
+```json
+{
+  "name": "Internal server error"
+}
+```
+
+### GET /product
+_Request Header_
+```
+Unneeded
+```
+
+_Request Body_
+```
+Unneeded
+```
+
+_Response (200)_
+```json
+[
+  {
+    "id": "<product id>",
+    "name": "<product name>",
+    "image_url": "<product image_url>",
+    "price": "<product price>",
+    "stock": "<product stock>",
+    "CategoryId": "<product CategoryId>",
+    "UserId": "<admin UserId>",
+    "updatedAt": "<product updated date>",
+    "createdAt": "<product created date>",
+    "User": {
+      "id": "<admin UserId>"
+    },
+    "Category":{
+      "id": "<category id>",
+      "name": "<category name>"
+    }
+  },
+  ...
+]
+```
+
+_Response (500)_
+```json
+{
+  "name": "Internal server error"
+}
+```
+
+### GET /product/:id
+_Request Header_
+```json
+{
+  "access_token": "<your access_token>"
+}
+```
+
+_Request Body_
+```
+Unneeded
+```
+
+_Response (200)_
+```json
+{
+  "id": "<product id>",
+  "name": "<product name>",
+  "image_url": "<product image_url>",
+  "price": "<product price>",
+  "stock": "<product stock>",
+  "CategoryId": "<product CategoryId>",
+  "UserId": "<admin UserId>",
+  "updatedAt": "<product updated date>",
+  "createdAt": "<product created date>",
+  "User": {
+    "id": "<admin UserId>"
+  },
+  "Category":{
+    "id": "<category id>",
+    "name": "<category name>"
+  }
+}
+```
+
+_Response (401)_
+```json
+{
+  "name": "unauthorize"
+}
+```
+
+_Response (404)_
+```json
+{
+  "name": "notFound"
+}
+```
+
+_Response (500)_
+```json
+{
+  "name": "Internal server error"
+}
+```
+
+### PUT /product/:id
+_Request Header_
+```json
+{
+  "access_token": "<admin access_token>"
+}
+```
+
+_Request Body_
+```json
+{
+  "name": "<product name>",
+  "image_url": "<product image_url>",
+  "price": "<product price>",
+  "stock": "<product stock>",
+  "CategoryId": "<product CategoryId>"
+}
+```
+
+_Response (200)_
+```json
+{
+  "id": "<[new] product id>",
+  "name": "<[new] product name>",
+  "image_url": "<[new] product image_url>",
+  "price": "<[new] product price>",
+  "stock": "<[new] product stock>",
+  "CategoryId": "<[new] product CategoryId>",
+  "UserId": "<admin UserId>",
+  "updatedAt": "<[new] product updated date>",
+  "createdAt": "<product created date>",
+}
+```
+
+_Response (400)_
+```json
+{
+  "name": "SequelizeValidationError"
+}
+```
+
+_Response (401)_
+```json
+{
+  "name": "unauthorize"
+}
+```
+
+_Response (404)_
+```json
+{
+  "name": "notFound"
+}
+```
+
+_Response (409)_
+```json
+{
+  "name": "SequelizeUniqueConstraintError"
+}
+```
+
+_Response (500)_
+```json
+{
+  "name": "Internal server error"
+}
+```
+
+### DELETE /product/:id
+_Request Header_
+```json
+{
+  "access_token": "<admin access_token>"
+}
+```
+
+_Request Body_
+```
+Unneeded
+```
+
+_Response (200)_
+```json
+{
+  "message": "Product has been deleted."
+}
+```
+
+_Response (401)_
+```json
+{
+  "name": "unauthorize"
+}
+```
+
+_Response (404)_
+```json
+{
+  "name": "notFound"
+}
+```
+
+_Response (500)_
+```json
+{
+  "name": "Internal server error"
+}
+```
+
+## Category
+### POST /category
+_Request Header_
+```json
+{
+  "access_token": "<admin access_token>"
+}
+```
+
+_Request Body_
+```json
+{
+  "name": "<category name>",
+}
+```
+
+_Response (201)_
+```json
+{
+  "id": "<category id>",
+  "name": "<category name>",
+  "updatedAt": "<category updated date>",
+  "createdAt": "<category created date>",
+}
+```
+
+_Response (400)_
+```json
+{
+  "name": "SequelizeValidationError"
+}
+```
+
+_Response (401)_
+```json
+{
+  "name": "unauthorize"
+}
+```
+
+_Response (409)_
+```json
+{
+  "name": "SequelizeUniqueConstraintError"
+}
+```
+
+_Response (500)_
+```json
+{
+  "name": "Internal server error"
+}
+```
+
+### GET /category
+_Request Header_
+```
+Unneeded
+```
+
+_Request Body_
+```
+Unneeded
+```
+
+_Response (200)_
+```json
+[
+  {
+    "id": "<category id>",
+    "name": "<category name>",
+    "Products": {
+      "id": "<product id>",
+      "name": "<product name>",
+      "image_url": "<product image_url>",
+      "price": "<product price>",
+      "stock": "<product stock>",
+      "CategoryId": "<product CategoryId>",
+    }
+  },
+  ...
+]
+```
+
+_Response (500)_
+```json
+{
+  "name": "Internal server error"
+}
+```
+
+### GET /category/:id
+_Request Header_
+```json
+{
+  "access_token": "<your access_token>"
+}
+```
+
+_Request Body_
+```
+Unneeded
+```
+
+_Response (200)_
+```json
+{
+  "id": "<category id>",
+  "name": "<category name>",
+  "Products": {
+    "id": "<product id>",
+    "name": "<product name>",
+    "image_url": "<product image_url>",
+    "price": "<product price>",
+    "stock": "<product stock>",
+    "CategoryId": "<product CategoryId>",
+}
+```
+
+_Response (401)_
+```json
+{
+  "name": "unauthorize"
+}
+```
+
+_Response (404)_
+```json
+{
+  "name": "notFound"
+}
+```
+
+_Response (500)_
+```json
+{
+  "name": "Internal server error"
+}
+```
+
+### PUT /category/:id
+_Request Header_
+```json
+{
+  "access_token": "<admin access_token>"
+}
+```
+
+_Request Body_
+```json
+{
+  "name": "<category name>",
+}
+```
+
+_Response (200)_
+```json
+{
+  "id": "<[new] category id>",
+  "name": "<[new] category name>",
+  "updatedAt": "<[new] category updated date>",
+  "createdAt": "<category created date>",
+}
+```
+
+_Response (400)_
+```json
+{
+  "name": "SequelizeValidationError"
+}
+```
+
+_Response (401)_
+```json
+{
+  "name": "unauthorize"
+}
+```
+
+_Response (404)_
+```json
+{
+  "name": "notFound"
+}
+```
+
+_Response (409)_
+```json
+{
+  "name": "SequelizeUniqueConstraintError"
+}
+```
+
+_Response (500)_
+```json
+{
+  "name": "Internal server error"
+}
+```
+
+### DELETE /category/:id
+_Request Header_
+```json
+{
+  "access_token": "<admin access_token>"
+}
+```
+
+_Request Body_
+```
+Unneeded
+```
+
+_Response (200)_
+```json
+{
+  "message": "Category has been deleted."
+}
+```
+
+_Response (401)_
+```json
+{
+  "name": "unauthorize"
+}
+```
+
+_Response (404)_
+```json
+{
+  "name": "notFound"
+}
+```
+
+_Response (500)_
+```json
+{
+  "name": "Internal server error"
+}
+```
+
+## Banner
+### POST /banner
+_Request Header_
+```json
+{
+  "access_token": "<admin access_token>"
+}
+```
+
+_Request Body_
+```json
+{
+  "name": "<banner name>",
+}
+```
+
+_Response (201)_
+```json
+{
+  "id": "<banner id>",
+  "name": "<banner name>",
+  "image_url": "<banner image url>",
+  "updatedAt": "<banner updated date>",
+  "createdAt": "<banner created date>",
+}
+```
+
+_Response (400)_
+```json
+{
+  "name": "SequelizeValidationError"
+}
+```
+
+_Response (401)_
+```json
+{
+  "name": "unauthorize"
+}
+```
+
+_Response (409)_
+```json
+{
+  "name": "SequelizeUniqueConstraintError"
+}
+```
+
+_Response (500)_
+```json
+{
+  "name": "Internal server error"
+}
+```
+
+### GET /banner
+_Request Header_
+```
+Unneeded
+```
+
+_Request Body_
+```
+Unneeded
+```
+
+_Response (200)_
+```json
+[
+  {
+    "id": "<banner id>",
+    "name": "<banner name>",
+    "image_url": "<banner image url>"
+  },
+  ...
+]
+```
+
+_Response (500)_
+```json
+{
+  "name": "Internal server error"
+}
+```
+
+### GET /banner/:id
+_Request Header_
+```json
+{
+  "access_token": "<your access_token>"
+}
+```
+
+_Request Body_
+```
+Unneeded
+```
+
+_Response (200)_
+```json
+{
+  "id": "<banner id>",
+  "name": "<banner name>",
+  "image_url": "<banner image url>"
+}
+```
+
+_Response (401)_
+```json
+{
+  "name": "unauthorize"
+}
+```
+
+_Response (404)_
+```json
+{
+  "name": "notFound"
+}
+```
+
+_Response (500)_
+```json
+{
+  "name": "Internal server error"
+}
+```
+
+### PUT /banner/:id
+_Request Header_
+```json
+{
+  "access_token": "<admin access_token>"
+}
+```
+
+_Request Body_
+```json
+{
+  "name": "<banner name>",
+}
+```
+
+_Response (200)_
+```json
+{
+  "id": "<[new] banner id>",
+  "name": "<[new] banner name>",
+  "image_url": "<banner image url>",
+  "updatedAt": "<[new] banner updated date>",
+  "createdAt": "<banner created date>",
+}
+```
+
+_Response (400)_
+```json
+{
+  "name": "SequelizeValidationError"
+}
+```
+
+_Response (401)_
+```json
+{
+  "name": "unauthorize"
+}
+```
+
+_Response (404)_
+```json
+{
+  "name": "notFound"
+}
+```
+
+_Response (409)_
+```json
+{
+  "name": "SequelizeUniqueConstraintError"
+}
+```
+
+_Response (500)_
+```json
+{
+  "name": "Internal server error"
+}
+```
+
+### DELETE /banner/:id
+_Request Header_
+```json
+{
+  "access_token": "<admin access_token>"
+}
+```
+
+_Request Body_
+```
+Unneeded
+```
+
+_Response (200)_
+```json
+{
+  "message": "Banner has been deleted."
+}
+```
+
+_Response (401)_
+```json
+{
+  "name": "unauthorize"
+}
+```
+
+_Response (404)_
+```json
+{
+  "name": "notFound"
+}
+```
+
+_Response (500)_
+```json
+{
+  "name": "Internal server error"
 }
 ```
