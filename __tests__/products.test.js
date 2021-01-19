@@ -75,7 +75,7 @@ describe('Product CRUD test http://localhost:3000/products', () => {
           image_url:"https://cf.shopee.co.id/file/a782a5b475f99b995245eb4b1a6a11f4",
           price: 120000,
           stock: 69420,
-          UserId: verifyToken(admin_token).id
+          // UserId: verifyToken(admin_token).id
         })
         .end((err, res) => {
           if(err) done(err)
@@ -94,7 +94,7 @@ describe('Product CRUD test http://localhost:3000/products', () => {
           image_url:"https://cf.shopee.co.id/file/a782a5b475f99b995245eb4b1a6a11f4",
           price: 120000,
           stock: 69420,
-          UserId: verifyToken(admin_token).id
+          // UserId: verifyToken(admin_token).id
         })
         .end((err, res) => {
           if(err) done(err)
@@ -114,7 +114,7 @@ describe('Product CRUD test http://localhost:3000/products', () => {
           image_url:"https://cf.shopee.co.id/file/a782a5b475f99b995245eb4b1a6a11f4",
           price: 120000,
           stock: 69420,
-          UserId: verifyToken(admin_token).id
+          // UserId: verifyToken(admin_token).id
         })
         .end((err, res) => {
           if(err) done(err)
@@ -134,7 +134,7 @@ describe('Product CRUD test http://localhost:3000/products', () => {
           image_url:"",
           price: "",
           stock: "",
-          UserId: verifyToken(admin_token).id
+          // UserId: verifyToken(admin_token).id
         })
         .end((err, res) => {
           if(err) done(err)
@@ -154,7 +154,7 @@ describe('Product CRUD test http://localhost:3000/products', () => {
           image_url:"https://cf.shopee.co.id/file/a782a5b475f99b995245eb4b1a6a11f4",
           price: -2,
           stock: 69420,
-          UserId: verifyToken(admin_token).id
+          // UserId: verifyToken(admin_token).id
         })
         .end((err, res) => {
           if(err) done(err)
@@ -174,7 +174,7 @@ describe('Product CRUD test http://localhost:3000/products', () => {
           image_url:"https://cf.shopee.co.id/file/a782a5b475f99b995245eb4b1a6a11f4",
           price: 120002,
           stock: -694,
-          UserId: verifyToken(admin_token).id
+          // UserId: verifyToken(admin_token).id
         })
         .end((err, res) => {
           if(err) done(err)
@@ -194,7 +194,7 @@ describe('Product CRUD test http://localhost:3000/products', () => {
           image_url:"https://cf.shopee.co.id/file/a782a5b475f99b995245eb4b1a6a11f4",
           price: "allo",
           stock: "test",
-          UserId: verifyToken(admin_token).id
+          // UserId: verifyToken(admin_token).id
         })
         .end((err, res) => {
           if(err) done(err)
@@ -216,12 +216,32 @@ describe('Product CRUD test http://localhost:3000/products', () => {
           image_url:"https://cf.shopee.co.id/file/a782a5b475f99b995245eb4b1a6a11f4",
           price: 100000,
           stock: 420,
-          UserId: verifyToken(admin_token).id
+          // UserId: verifyToken(admin_token).id
         })
         .end((err, res) => {
           if(err) done(err)
           expect(res.body).toHaveProperty('message')
           expect(res.statusCode).toEqual(200)
+          done()
+        })
+    })
+
+    it('Failed edit a product with access_token but not admin', (done) => {
+      request(app)
+        .put(`/products/${productId}`)
+        .set('access_token', customer_token)
+        .set('Content-Type', 'application/json')
+        .send({
+          name: "sepatu compass",
+          image_url:"https://cf.shopee.co.id/file/a782a5b475f99b995245eb4b1a6a11f4",
+          price: 100000,
+          stock: 420,
+          // UserId: verifyToken(admin_token).id
+        })
+        .end((err, res) => {
+          if(err) done(err)
+          expect(res.body).toHaveProperty('message')
+          expect(res.statusCode).toEqual(403)
           done()
         })
     })
@@ -235,7 +255,7 @@ describe('Product CRUD test http://localhost:3000/products', () => {
           image_url:"https://cf.shopee.co.id/file/a782a5b475f99b995245eb4b1a6a11f4",
           price: 120000,
           stock: 69420,
-          UserId: verifyToken(admin_token).id
+          // UserId: verifyToken(admin_token).id
         })
         .end((err, res) => {
           if(err) done(err)
@@ -255,7 +275,7 @@ describe('Product CRUD test http://localhost:3000/products', () => {
           image_url:"https://cf.shopee.co.id/file/a782a5b475f99b995245eb4b1a6a11f4",
           price: 120002,
           stock: -694,
-          UserId: verifyToken(admin_token).id
+          // UserId: verifyToken(admin_token).id
         })
         .end((err, res) => {
           if(err) done(err)
@@ -275,7 +295,7 @@ describe('Product CRUD test http://localhost:3000/products', () => {
           image_url:"https://cf.shopee.co.id/file/a782a5b475f99b995245eb4b1a6a11f4",
           price: 120002,
           stock: -694,
-          UserId: verifyToken(admin_token).id
+          // UserId: verifyToken(admin_token).id
         })
         .end((err, res) => {
           if(err) done(err)
@@ -295,7 +315,7 @@ describe('Product CRUD test http://localhost:3000/products', () => {
           image_url:"https://cf.shopee.co.id/file/a782a5b475f99b995245eb4b1a6a11f4",
           price: "allo",
           stock: "test",
-          UserId: verifyToken(admin_token).id
+          // UserId: verifyToken(admin_token).id
         })
         .end((err, res) => {
           if(err) done(err)
@@ -319,6 +339,7 @@ describe('Product CRUD test http://localhost:3000/products', () => {
           done()
         })
     })
+    
     it('Failed delete a product without access_token', (done) => {
       request(app)
         .delete(`/products/${productId}`)
@@ -330,6 +351,7 @@ describe('Product CRUD test http://localhost:3000/products', () => {
           done()
         })
     })
+
     it('Failed delete a product with access_token but not admin', (done) => {
       request(app)
         .delete(`/products/${productId}`)
@@ -345,5 +367,3 @@ describe('Product CRUD test http://localhost:3000/products', () => {
   })
   
 })
-
-
