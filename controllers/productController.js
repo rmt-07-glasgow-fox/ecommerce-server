@@ -3,11 +3,31 @@ const { Product } = require('../models')
 class ProductController {
     static async addProduct(req, res, next) {
         try {
-            // let { } = req.body
+            let { name, image_url, price, stock, BrandId } = req.body
+            console.log('>>> req.body : ', req.body)
 
-            res.status(200).json(req.body)
+            let newProduct = {
+                name: name,
+                image_url: image_url,
+                price: +price,
+                stock: +stock,
+                BrandId: +BrandId
+            }
+            console.log('>>> newProduct', newProduct)
+
+            let insertProduct = await Product.create(newProduct)
+            let response = {
+                id: insertProduct.id,
+                name: insertProduct.name,
+                image_url: insertProduct.image_url,
+                price: insertProduct.price,
+                stock: insertProduct.stock,
+                BrandId: insertProduct.BrandId
+            }
+
+            return res.status(201).json(response)
         } catch (err) {
-            res.status(500).json(err)
+            return next(err)
         }
     }
 
@@ -15,7 +35,7 @@ class ProductController {
         try {
             res.status(200).json(req.body)
         } catch (err) {
-            res.status(500).json(err)
+            return next(err)
         }
     }
 
@@ -23,7 +43,7 @@ class ProductController {
         try {
             res.status(200).json(req.body)
         } catch (err) {
-            res.status(500).json(err)
+            return next(err)
         }
     }
 
@@ -31,7 +51,7 @@ class ProductController {
         try {
             res.status(200).json(req.body)
         } catch (err) {
-            res.status(500).json(err)
+            return next(err)
         }
     }
 }

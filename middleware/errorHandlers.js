@@ -2,8 +2,14 @@ function errorHandlers(err, req, res, next) {
     if (err) {
         let { name, message } = err
 
-        if (name === "JsonWebTokenError") {
+        if (name === "SequelizeValidationError") {
+            let message = err.errors.map(error => { return error.message })
+            console.log('>>> sequelize validation error : ',message)
             return res.status(400).json({ message: message || 'Bad Request' })
+        }
+
+        if (name === "JsonWebTokenError") {
+            return res.status(401).json({ message: message || 'Bad Request' })
         }
 
         if (name === 400) {

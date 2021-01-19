@@ -38,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notEmpty: { msg: 'price is empty' },
         notNull: { msg: 'price is null' },
-        isInt: { msg: 'price should be number' }
+        isInt: { msg: 'price should be integer' }
       }
     },
     stock: {

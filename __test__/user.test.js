@@ -37,6 +37,7 @@ describe('POST /user/login', () => {
             .end((err, res) => {
                 if (err) done(err)
                 // assert
+                expect(res.statusCode).toEqual(400)
                 expect(res.body.message).toEqual("email / password is required")
                 done()
             })
@@ -56,6 +57,7 @@ describe('POST /user/login', () => {
             .end((err, res) => {
                 if (err) done(err)
                 // assert
+                expect(res.statusCode).toEqual(404)
                 expect(res.body.message).toEqual("email is not registered")
                 done()
             })
@@ -75,6 +77,7 @@ describe('POST /user/login', () => {
             .end((err, res) => {
                 if (err) done(err)
                 // assert
+                expect(res.statusCode).toEqual(400)
                 expect(res.body.message).toEqual("password is not matched")
                 done()
             })

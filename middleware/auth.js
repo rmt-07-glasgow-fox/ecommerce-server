@@ -38,7 +38,7 @@ async function authorizeAdminOnly(req, res, next) {
         }
 
         if (req.user.role === 'admin') {
-            console.log('you are admin')
+            console.log('>>> you are admin')
             return next()
         }
     } catch (err) {
