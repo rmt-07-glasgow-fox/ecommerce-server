@@ -8,8 +8,8 @@ const { Product } = require('../models/')
 
 let access_token = null
 
-
 beforeAll((done) => {
+
     // user login di controller panggil di sini
     // access_token = login()
     seedProducts()
@@ -48,29 +48,29 @@ describe('POST /products', () => {
                 // Assert
 
                 // check the data in the db
-                Product.findOne({ name: 'nice headphones' })
-                    .then(product => {
-                        expect(res.statusCode).toEqual(201)
-                        expect(typeof product).toEqual('object')
+                expect(res.statusCode).toEqual(201)
+                expect(typeof res.body).toEqual('object')
 
-                        expect(product).toHaveProperty('id')
-                        expect(typeof product.id).toEqual('number')
+                expect(res.body).toHaveProperty('id')
+                expect(typeof res.body.id).toEqual('number')
 
-                        expect(product).toHaveProperty('name')
-                        expect(typeof product.name).toEqual('string')
+                expect(res.body).toHaveProperty('name')
+                expect(typeof res.body.name).toEqual('string')
+                expect(res.body.name).toEqual(body.name)
 
-                        expect(product).toHaveProperty('image_url')
-                        expect(typeof product.image_url).toEqual('string')
+                expect(res.body).toHaveProperty('image_url')
+                expect(typeof res.body.image_url).toEqual('string')
+                expect(res.body.image_url).toEqual(body.image_url)
 
-                        expect(product).toHaveProperty('price')
-                        expect(typeof product.price).toEqual('number')
+                expect(res.body).toHaveProperty('price')
+                expect(typeof res.body.price).toEqual('number')
+                expect(res.body.price).toEqual(body.price)
 
-                        expect(product).toHaveProperty('stock')
-                        expect(typeof product.stock).toEqual('number')
+                expect(res.body).toHaveProperty('stock')
+                expect(typeof res.body.stock).toEqual('number')
+                expect(res.body.stock).toEqual(body.stock)
 
-                        done()
-                    })
-                    .catch(console.log)
+                done()
 
             })
     })

@@ -1,9 +1,8 @@
 const { User } = require('../../models/')
 
-
 const clearUsers = () => {
     if (process.env.NODE_ENV === 'test') {
-        User.destroy({
+        return User.destroy({
             where: {}
         })
     }
