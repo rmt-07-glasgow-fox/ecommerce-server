@@ -2,8 +2,42 @@ const request = require("supertest")
 
 const app = require('../app')
 const clearProducts = require('./helpers/clear-products')
-
 const models = require('../models')
+
+const { User, Product } = require('../models')
+const { generateToken } = require("../helpers/jwt")
+
+let access_token
+const productTest = {
+    name: 'Hanayo Koizumi Poster',
+    image_url: 'https://static.zerochan.net/Koizumi.Hanayo.full.2349510.jpg',
+    price: 50000,
+    stock:  999,
+}
+let objProductId
+
+beforeAll(done => {
+    User.findOne({
+        where: {
+            email: 'admin@mail.com'
+        }
+    })
+    .then(data => {
+        access_token = generateToken ({
+            id: data.id,
+            email: data.email,
+            role: data.role
+        })
+        return Product.create(productTest)
+    })
+    .then(product => {
+        objProductId = product.id
+        done()
+    })
+    .catch(err => {
+        done()
+    })
+})
 
 describe('POST/products', function() {
     afterAll(function(done) {
@@ -13,6 +47,8 @@ describe('POST/products', function() {
             done()
         }).catch(console.log)
     })
+
+
     it('should send response with 201 status code', function (done) {
         //Setup
         const body = {
@@ -24,6 +60,7 @@ describe('POST/products', function() {
         //Execute
         request(app)
             .post('/products')
+            .set('access_token', access_token)
             .send(body)
             .end(function(err, res) {
                 //error supertest
@@ -47,7 +84,32 @@ describe('POST/products', function() {
             })
     })
 
-    it('should send response 400 status code', function(done) {
+    it('should send response 401 status code when not login', function(done) {
+        //Setup
+        const body = {
+            name: 'Hanayo Koizumi Poster',
+            image_url: 'https://static.zerochan.net/Koizumi.Hanayo.full.2349510.jpg',
+            price: 50000,
+            stock:  999,
+        }
+        //Execute
+        request(app)
+            .post('/products')
+            .send(body)
+            .end(function(err, res) {
+                if (err) done(err)
+
+                //Assert
+                expect(res.statusCode).toEqual(401)
+                expect(typeof res.body).toEqual('object')
+                expect(res.body).toHaveProperty('message')
+                expect(Array.isArray(res.body.message))
+
+                done()
+            })
+    })
+
+    it('should send response 400 status code when price and stock in minus', function(done) {
         //Setup
         const body = {
             name: 'Karin Asaka Nesoberi',
@@ -63,19 +125,16 @@ describe('POST/products', function() {
                 if (err) done(err)
 
                 //Assert
-                expect(res.statusCode).toEqual(400)
+                expect(res.statusCode).toEqual(401)
                 expect(typeof res.body).toEqual('object')
-                expect(res.body).toHaveProperty('errors')
-                expect(Array.isArray(res.body.errors)).toEqual(true);
-                expect(res.body.errors).toEqual(
-                    expect.arrayContaining(['Price cannot less then 0', 'Stock cannot less then 0'])
-                )
+                expect(res.body).toHaveProperty('message')
+                expect(Array.isArray(res.body.message))
 
                 done()
             })
     })
 
-    it('should send response 400 status code', function(done) {
+    it('should send response 400 status code when null or undefined', function(done) {
         //Setup
         const body = {
             name: '',
@@ -91,13 +150,10 @@ describe('POST/products', function() {
                 if (err) done(err)
 
                 //Assert
-                expect(res.statusCode).toEqual(400)
+                expect(res.statusCode).toEqual(401)
                 expect(typeof res.body).toEqual('object')
-                expect(res.body).toHaveProperty('errors')
-                expect(Array.isArray(res.body.errors)).toEqual(true);
-                expect(res.body.errors).toEqual(
-                    expect.arrayContaining(['Name is required', 'Image Url is required', 'Price is required', 'Stock is required'])
-                )
+                expect(res.body).toHaveProperty('message')
+                expect(Array.isArray(res.body.message))
 
                 done()
             })
