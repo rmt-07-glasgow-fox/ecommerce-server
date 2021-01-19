@@ -72,4 +72,29 @@ describe('POST /login', () => {
         done()
       })
   })
+
+  it('should send response with 404 status code', (done) => {
+    const body = {
+      email: 'usertest@mail.com',
+      password: 'testingpassword'
+    }
+
+    request(app)
+      .post('/login')
+      .send(body)
+      .end((err, res) => {
+        if (err) done(err)
+
+        expect(res.statusCode).toEqual(404)
+        expect(typeof res.body).toEqual('object')
+
+        expect(res.body).toHaveProperty('errors')
+        expect(Array.isArray(res.body.errors)).toEqual(true)
+        expect(res.body.errors).toEqual(
+          expect.arrayContaining(['Not found'])
+        )
+
+        done()
+      })
+  })
 })

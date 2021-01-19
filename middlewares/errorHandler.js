@@ -3,15 +3,20 @@ const errorHandler = (err, req, res, next) => {
     const errors = []
 
     switch (err.name) {
-      case "AuthError":
-        errors.push("Wrong email / password")
+      case 'AuthError':
+        errors.push('Wrong email / password')
         res.status(401).json({ errors })
+        break
+      case 'ResourceNotFound':
+        errors.push('Not found')
+        res.status(404).json({ errors })
         break
       default:
         errors = err.errors.map(error => error.message)
         res.status(400).json({
           errors
         })
+        break
     }
   }
 }

@@ -12,7 +12,7 @@ class UserController {
     })
       .then(user => {
         if (!user) {
-          next({ name: "AuthError" })
+          next({ name: "ResourceNotFound" })
         }
         else {
           const match = comparePassword(password, user.password)
