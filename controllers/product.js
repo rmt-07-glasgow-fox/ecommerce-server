@@ -16,14 +16,16 @@ class ProductController {
     }
 
     static update(req, res, next) {
-        const { stock, price } = req.body
+        const { stock, price, name, image_url } = req.body
         const id = +req.params.id
 
         Product.findByPk(id)
             .then(product => {
                 return product.update({
                     stock,
-                    price
+                    price,
+                    name,
+                    image_url
                 })
             })
             .then(updatedProduct => {

@@ -123,6 +123,8 @@ This server is built with test suites with TDD.
 * **Data Params**
     
     **Content:** `{ 
+    name: "nice headset",
+    image_url: "https://media.wired.com/photos/5e7164aeb9399f00096a2ae6/1:1/w_1800,h_1800,c_limit/Gear-Mont-Blanc-Smart-Headphones-Gold-Front-SOURCE-Mont-Blanc.jpg",
     stock: 3,
     price: 200000
     }
@@ -149,6 +151,24 @@ This server is built with test suites with TDD.
       "errors": [
         "Price must be greater than zero",
         "Stock must be greater than zero"
+      ]
+      }
+      `
+    OR
+
+  * **Code:** 400 Bad Request <br />
+      **Content:** `{
+      "errors": [
+        'Name must contain only alphanumeric characters'
+      ]
+      }
+      `
+    OR
+
+  * **Code:** 400 Bad Request <br />
+      **Content:** `{
+      "errors": [
+        'Image_url must contain a url'
       ]
       }
       `
