@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      User.hasMany(models.Product)
     }
   };
   User.init({
@@ -21,6 +22,11 @@ module.exports = (sequelize, DataTypes) => {
         isEmail: {
           args: true,
           msg: "Invalid Email / Password"
+        },
+        emailRequired(value) {
+          if(this.email === '') {
+            value = 'Email is required'
+          }
         }
       },
       unique: true
@@ -31,6 +37,11 @@ module.exports = (sequelize, DataTypes) => {
         len: {
           args: [6],
           msg: "Password at least 6 characters"
+        },
+        passwordRequired(value) {
+          if(this.password === '') {
+            value = 'Password is required'
+          }
         }
       }
     },

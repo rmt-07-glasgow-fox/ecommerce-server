@@ -24,7 +24,7 @@ module.exports = {
     host,
     dialect,
   },
-  development: {
+  production: {
     username: 'root',
     password: null,
     database: 'database_production',

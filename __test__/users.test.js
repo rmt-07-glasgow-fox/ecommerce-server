@@ -1,73 +1,43 @@
 const request = require('supertest')
 const app = require('../app')
-const clearUsers = require('./helpers/clear-users')
 
-describe('POST users/register', () => {
-  // afterAll((done) => {
-  //   clearUsers()
-  //     .then(() => {
-  //       done()
-  //     })
-  //     .catch(console.log)
-  // })
+// Success test cases
 
-  it('should send response with 201 status code', (done) => {
+describe('POST users/login', () => {
+  it('should send response with 200 status code', (done) => {
     const body = {
-      email: 'user@mail.com',
+      email: "user@mail.com",
       password: '123456',
-      role: 'customer'
     }
 
     request(app)
-      .post('/users/register')
+      .post('/users/login')
       .send(body)
       .end((err, res) => {
         if(err) done(err)
 
-        expect(res.statusCode).toEqual(201)
+
+        expect(res.statusCode).toEqual(200)
         expect(typeof res.body).toEqual('object')
-        expect(res.body).toHaveProperty('id')
-        expect(typeof res.body.id).toEqual('number')
-        expect(res.body).toHaveProperty('email')
+        expect(res.body).toHaveProperty('access_token')
+        expect(typeof res.body.access_token).toEqual('string')
+
         done()
       })
   })
 })
 
-describe('POST users/register', () => {
+// email ada, password salah
+
+describe('POST users/login', () => {
   it('should send response with 400 status code', (done) => {
     const body = {
-      email: 'user@mail.com',
-      password: '1234',
-      role: 'customer'
+      email: "user@mail.com",
+      password: '1234567',
     }
 
     request(app)
-      .post('/users/register')
-      .send(body)
-      .end((err, res) => {
-        if(err) done(err)
-
-        expect(res.statusCode).toEqual(400)
-        expect(typeof res.body).toEqual('object')
-        expect(res.body).toHaveProperty('message')
-        expect(res.body.message).toEqual('Password at least 6 characters')
-        expect(typeof res.body.message).toEqual('string')
-        done()
-      })
-  })
-})
-
-describe('POST users/register', () => {
-  it('should send response with 400 status code', (done) => {
-    const body = {
-      email: 'user@mail.com',
-      password: '1234',
-      role: 'customer'
-    }
-
-    request(app)
-      .post('/users/register')
+      .post('/users/login')
       .send(body)
       .end((err, res) => {
         if(err) done(err)
@@ -75,23 +45,24 @@ describe('POST users/register', () => {
         expect(res.statusCode).toEqual(400)
         expect(typeof res.body).toEqual('object')
         expect(res.body).toHaveProperty('message')
-        expect(res.body.message).toEqual('Password at least 6 characters')
         expect(typeof res.body.message).toEqual('string')
+        expect(res.body.message).toEqual('Invalid Email or Password')
         done()
       })
   })
 })
 
-describe('POST users/register', () => {
+// email tidak ada di db
+
+describe('POST users/login', () => {
   it('should send response with 400 status code', (done) => {
     const body = {
-      email: 'user@mail.com',
+      email: "usarr@mail.com",
       password: '123456',
-      role: ''
     }
 
     request(app)
-      .post('/users/register')
+      .post('/users/login')
       .send(body)
       .end((err, res) => {
         if(err) done(err)
@@ -99,9 +70,36 @@ describe('POST users/register', () => {
         expect(res.statusCode).toEqual(400)
         expect(typeof res.body).toEqual('object')
         expect(res.body).toHaveProperty('message')
-        expect(res.body.message).toEqual('Role is required')
         expect(typeof res.body.message).toEqual('string')
+        expect(res.body.message).toEqual('Invalid Email or Password')
         done()
       })
   })
 })
+
+describe('POST users/login', () => {
+  it('should send response with 400 status code', (done) => {
+    const body = {
+      email: '',
+      password: '',
+    }
+
+    request(app)
+      .post('/users/login')
+      .send(body)
+      .end((err, res) => {
+        if(err) done(err)
+
+        expect(res.statusCode).toEqual(400)
+        expect(typeof res.body).toEqual('object')
+        expect(res.body).toHaveProperty('message')
+        expect(typeof res.body.message).toEqual('string')
+        expect(res.body.message).toEqual('Invalid Email or Password')
+        done()
+      })
+  })
+})
+
+
+
+

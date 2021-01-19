@@ -13,8 +13,9 @@ const authenticate = ((req, res, next) => {
       if(!user) {
         res.status(401).json({message: "Please login first"})
       } else {
-        req.user = { 
-          id: user.id
+        req.user = {
+          id: user.id,
+          role: user.role
         }
         next()
       }
@@ -33,7 +34,8 @@ const authorize = ((req, res, next) => {
   Product.findOne({
     where: {
       id: productId
-    }
+    },
+    Include: User
   })
   .then(product => {
     if(!product || product.UserId !== req.user.id) {

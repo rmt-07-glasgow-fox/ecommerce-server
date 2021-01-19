@@ -13,7 +13,7 @@ class UserController {
 
     User.create(payload)
       .then(user => {
-        res.status(201).json({ id: user.id, email: user.email})
+        res.status(201).json({ id: user.id, email: user.email, role: user.role})
       }).catch(err => {
         if(err.errors[0].validatorName === 'len') {
           next({ name: 'len'})
