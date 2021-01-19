@@ -13,6 +13,28 @@ class ProductController {
     }
   }
 
+  static async getAll(req, res, next) {
+    try {
+      const products = await Product.findAll();      
+      return res.status(200).json(products);
+    }
+    catch (err) {     
+      return next(err);
+    }
+  }
+
+  static async getProductById(req, res, next) {
+    try {
+      const id = req.params.id;
+      const product = await Product.findByPk(id);      
+      if(!product) return next({ name: 'Unauthorized' });
+      return res.status(200).json(product);
+    }
+    catch (err) {   
+      return next(err)
+    }
+  }
+
   static async update(req, res, next) {
     try {
       const id = +req.params.id;

@@ -367,22 +367,22 @@ describe('GET /products', () => {
       
       expect(res.statusCode).toEqual(200);
       expect(typeof res.body).toEqual('object');
-      expect(res.body).toHaveProperty('id');
-      expect(res.body).toHaveProperty('name');
-      expect(res.body).toHaveProperty('imageUrl');
-      expect(res.body).toHaveProperty('price');
-      expect(res.body).toHaveProperty('stock');
-      expect(res.body.id).toEqual('1');
-      expect(res.body.name).toEqual('Product 1');
-      expect(res.body.imageUrl).toEqual('https://images.unsplash.com/photo-1534196511436-921a4e99f297?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80');
-      expect(res.body.price).toEqual(12500.9);
-      expect(res.body.stock).toEqual(5);
+      expect(Array.isArray(res.body)).toEqual(true);
+      expect(res.body[0]).toHaveProperty('id');
+      expect(res.body[0]).toHaveProperty('name');
+      expect(res.body[0]).toHaveProperty('imageUrl');
+      expect(res.body[0]).toHaveProperty('price');
+      expect(res.body[0]).toHaveProperty('stock');
+      expect(res.body[0].id).toEqual(1);
+      expect(res.body[0].name).toEqual('Product 1');
+      expect(res.body[0].imageUrl).toEqual('https://images.unsplash.com/photo-1534196511436-921a4e99f297?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80');
+      expect(res.body[0].price).toEqual(12500.9);
+      expect(res.body[0].stock).toEqual(5);
 
       done();
     })
   })
 })
-
 
 /* =======================================================
    ################# TEST UPDATE PRODUCT #################
@@ -695,6 +695,61 @@ describe('PUT /products', () => {
     })
   })
 
+})
+
+/* =======================================================
+   ################ TEST GET PRODUCT BY ID ###############
+   ======================================================= */
+
+describe('GET /products/:id', () => {
+  it('If success should response with 200 status code', (done) => {
+
+    // Execute
+    request(app)
+    .get('/products/1')
+    .end((err, res) => {
+      if(err) done(err);
+
+      // Assert
+      
+      expect(res.statusCode).toEqual(200);
+      expect(typeof res.body).toEqual('object');
+      expect(res.body).toHaveProperty('id');
+      expect(typeof res.body.id).toEqual('number');
+      expect(res.body).toHaveProperty('name');
+      expect(res.body.name).toEqual('Update Product 1');
+      expect(res.body).toHaveProperty('imageUrl');
+      expect(res.body.imageUrl).toEqual('https://images.unsplash.com/photo-1534196511436-921a4e99f297');
+      expect(res.body).toHaveProperty('price');
+      expect(res.body.price).toEqual(125000);
+      expect(res.body).toHaveProperty('stock');
+      expect(res.body.stock).toEqual(10);
+
+      done();
+    })
+  })
+
+  // Jika product id yg di kirim tidak ada di db
+  it('If product is not found should response with 401 status code', (done) => {
+
+    // Execute
+    request(app)
+    .get('/products/99')
+    .end((err, res) => {
+      if(err) done(err);
+
+      // Assert
+      
+      expect(res.statusCode).toEqual(401);
+      expect(typeof res.body).toEqual('object');
+      expect(res.body).toHaveProperty('name');
+      expect(res.body).toHaveProperty('message');
+      expect(res.body.name).toEqual('Unauthorized');
+      expect(res.body.message).toEqual('Not authorized');
+
+      done();
+    })
+  })  
 })
 
 /* =======================================================
