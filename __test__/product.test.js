@@ -210,6 +210,103 @@ describe('POST /products', () => {
             })
     })
 
+    it('Status Code 400 | minimum stock is 0, minimum price 100000', (done) => {
+        console.log('>>> access_token', access_token)
+        // setup
+        let body = {
+            name: 'compass gazelle low black',
+            image_url: '/products/compass-gazelle-low-black.jpg',
+            price: 20_000,
+            stock: -5,
+            BrandId: 1
+        }
+
+        // execute
+        request(app)
+            .post('/products')
+            .send(body)
+            .set('access_token', access_token)
+            .end((err, res) => {
+                if (err) done(err)
+                // assert
+                expect(res.statusCode).toEqual(400)
+
+                let error = {
+                    "message": [
+                        "minimum price is 100000",
+                        "minimum stock is 0"
+                    ]
+                }
+
+                expect(res.body).toEqual(error)
+                done()
+            })
+    })
+
+    it('Status Code 400 | minimum stock is 0', (done) => {
+        console.log('>>> access_token', access_token)
+        // setup
+        let body = {
+            name: 'compass gazelle low black',
+            image_url: '/products/compass-gazelle-low-black.jpg',
+            price: 200_000,
+            stock: -5,
+            BrandId: 1
+        }
+
+        // execute
+        request(app)
+            .post('/products')
+            .send(body)
+            .set('access_token', access_token)
+            .end((err, res) => {
+                if (err) done(err)
+                // assert
+                expect(res.statusCode).toEqual(400)
+
+                let error = {
+                    "message": [
+                        "minimum stock is 0"
+                    ]
+                }
+
+                expect(res.body).toEqual(error)
+                done()
+            })
+    })
+
+    it('Status Code 400 | minimum price 100000', (done) => {
+        console.log('>>> access_token', access_token)
+        // setup
+        let body = {
+            name: 'compass gazelle low black',
+            image_url: '/products/compass-gazelle-low-black.jpg',
+            price: 20_000,
+            stock: 0,
+            BrandId: 1
+        }
+
+        // execute
+        request(app)
+            .post('/products')
+            .send(body)
+            .set('access_token', access_token)
+            .end((err, res) => {
+                if (err) done(err)
+                // assert
+                expect(res.statusCode).toEqual(400)
+
+                let error = {
+                    "message": [
+                        "minimum price is 100000"
+                    ]
+                }
+
+                expect(res.body).toEqual(error)
+                done()
+            })
+    })
+
     it('Status Code 401 | message : access_token is required', (done) => {
         // setup
         let body = {

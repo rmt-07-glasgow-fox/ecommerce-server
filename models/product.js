@@ -38,7 +38,8 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notEmpty: { msg: 'price is empty' },
         notNull: { msg: 'price is null' },
-        isInt: { msg: 'price should be integer' }
+        isInt: { msg: 'price should be integer' },
+        min: { args: [100000], msg: 'minimum price is 100000' }
       }
     },
     stock: {
@@ -47,7 +48,8 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notEmpty: { msg: 'stock is empty' },
         notNull: { msg: 'stock is null' },
-        isInt: { msg: 'stock should be integer' }
+        isInt: { msg: 'stock should be integer' },
+        min: { args: [0], msg: 'minimum stock is 0' }
       }
     },
     BrandId: {
