@@ -1,32 +1,28 @@
 const { verifyToken } = require('../helper/jwt')
 
-const { User, Product } = require('../models')
+const { User } = require('../models')
 
 async function auth (req, res, next) {
 
-    const { access_token } = req.headers
-
     try {
 
-        if( !access_token ) {
-            next({ name : 'authError'} ) 
-        } else {
-            const decoded = verifyToken(access_token)
+        let accessToken = req.headers.access_token
+        let decoded = verifyToken(accessToken)
+        
+        const user = await User.findOne({
+            where : {email : decoded.email}
+        })
 
-            req.loginUser = decoded
-
-            console.log(req.loginUser)
-
-            const data = await User.findOne({ where :
-                { id : decoded.id }
-            })
-
-            if(data) {
-                // console.log(data)
-                next()
-            } else {
-                next({name : 'authError'})
+        if(user) {
+            req.userLogin = {
+                id : user.id,
+                email : user.email,
+                role : user.role
             }
+
+            next()
+        } else {
+            next( {name : 'userNotFound'} )
         }
 
     } catch (err) {
@@ -35,27 +31,15 @@ async function auth (req, res, next) {
 }
 
 async function author (req, res, next) {
+    if(req.userLogin.role == 'admin') {
+    
+        next()
 
-    let id = +req.params.id
+    } else {
 
-    try {
-        const prod = await Product.findByPk(id)
-
-        if(prod) {
-            if(prod.UserId == req.loginUser.id) {
-                next()
-
-            } else {
-                next( { name : 'authError' })
-            }
-        } else {
-            
-            next({ name : 'notFound' })
-        }
-
-    } catch (err) {
-        next(err)
+        next( { name : 'notAuthorize' })
     }
+
 }
 
 module.exports = {

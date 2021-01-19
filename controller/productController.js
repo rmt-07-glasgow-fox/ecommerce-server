@@ -29,23 +29,14 @@ class ProductController {
             image_url : req.body.image_url,
             price : req.body.price,
             stock : req.body.stock,
-            // UserId : req.loginUser.id
-            UserId : req.loginUser.id,
         }
 
         try {
             const data = await Product.create(newProd)
 
-            res.status(201).json({
-                msg : 'data successfull create',
-                name : data.name,
-                image_url: data.image_url,
-                price : data.price,
-                stock : data.stock,
-                UserId : data.UserId
-            })
+            res.status(201).json(data)
         } catch (err) {
-            // console.log(err)
+
             next(err)
         }
 
@@ -65,14 +56,17 @@ class ProductController {
         }
 
         try {
-            const data = await Product.update(updating, {where : {id : prodId}})
+            const data = await Product.update(updating, {
+                where : {id : prodId},
+                returning : true,
+                plain :true
+            
+            })
 
             if(!data) {
                 next({ name : 'notFound'})
             } else {
-                res.status(201).json({
-                    msg: `Task ${taskId} sucseccfull update`
-                })
+                res.status(201).json(data[1])
             }
 
         } catch(err) {
@@ -93,8 +87,7 @@ class ProductController {
                 next({ name : 'notFound' })
             } else {
                 res.status(200).json({
-                    // id : data.id,
-                    msg : `Product ${id} success to delete`
+                    message : `Product success to delete`
                 })
             }
         } catch (err) {

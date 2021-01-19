@@ -4,17 +4,11 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "db-migrate": "npx sequelize db:migrate",
-    "db-create": "npx sequelize db:create",
-    "db-seed": "npx sequelize db:seed:all",
-    "test-mig": "NODE_ENV=test npm run db-migrate",
-    "dev-mig": "NODE_ENV=development npm run db-migrate",
-    "test-seed": "NODE_ENV=test npm run db-seed",
-    "dev-seed": "NODE_ENV=test npm run db-seed",
-    "test-create": "NODE_ENV=test npm run db-create && npm run test-mig && npm run test-seed",
-    "dev-create": "NODE_ENV=development npm run db-create && npm run dev-mig && npm run dev-seed",
-    "dev": "NODE_ENV=development npx nodemon bin/http.js",
-    "test": "NODE_ENV=test npx jest"
+    "set-test": "SET NODE_ENV=test",
+    "set-dev" : "SET NODE_ENV=development",
+    "create-db": "npx sequelize db:create & npx sequelize db:migrate & npx sequelize db:seed:all",
+    "dev": "SET NODE_ENV=test&npx nodemon bin/http.js",
+    "test": "npx jest"
   },
   "keywords": [],
   "author": "",

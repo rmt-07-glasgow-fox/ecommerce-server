@@ -1,63 +1,77 @@
-// const { doesNotMatch } = require('assert')
-// const { expect } = require('@jest/globals')
 const request = require('supertest')
 
 const app = require('../app')
-const { login } = require('../controller/userController')
 
-const clearProduct = require('./helpers/clear-prod-test')
+const { genToken } = require('../helper/jwt')
 
-const models = require('../models')
-const stopSequelize = require('./helpers/clear-prod-test')
-
-let token = null
-
+const { User } = require('../models')
 
 describe('GET /products',function() {
-    // done
-    describe('good params (SUCCESS)', function() {
-        it('should status 200 fetch all products' ,function (done) {
+    let access_token = null
+
+    beforeAll(done => {
+        User.findOne( {where : { email : 'admin@mail.com'}} )
+        .then(user => {
+            const payload = { 
+                id : user.id, 
+                email : user.email 
+            }
+
+            access_token = genToken(payload)
+
+            done()
+        })
+    })
+
+    it('should status 200 fetch all products' ,function (done) {
             //setup
     
-            let token = 
-        
             //excecute
             request(app) 
             .get('/products')
-            .set(access_token, 'access token')
+            .set('access_token', access_token)
             .end((err, res) => {
                 if(err) done(err)
                     
             //assert
-            expect(res.statusCode).toEqual(200)
-            expect(typeof res.body).toEqual('array')
-            done()
+                expect(res.statusCode).toEqual(200)
+                expect(Array.isArray(res.body)).toEqual(true)
+                expect(typeof res.body[0]).toEqual('object')
+                expect(res.body[0]).toHaveProperty('id')
+                expect(res.body[0]).toHaveProperty('name')
+                expect(res.body[0]).toHaveProperty('image_url')
+                expect(res.body[0]).toHaveProperty('price')
+                expect(res.body[0]).toHaveProperty('stock')
+            
+                done()
             })
-        })
     })
     
 })
 
 // =====================================================================================
-// ================================= POST CREATE NEW PRODUCTS =========================
+// ================================= POST CREATE NEW PRODUCTS ==========================
 // ======================================================================================
 
-describe('POST /products',function() {
+describe('create product POST /products',function() {
 
-    afterAll(function(done) {
-        stopSequelize()
-        .then(() => {
-            done()
+        let access_token = null
+
+        beforeAll(done => {
+            User.findOne( {where : { email : 'admin@mail.com'}} )
+            .then(user => {
+                const payload = { 
+                    id : user.id, 
+                    email : user.email 
+                }
+    
+                access_token = genToken(payload)
+
+                done()
+            })
         })
-        .catch(err => {
-            console.log(err)
-        })
-    })
 
-
-    describe('good params', function () {
-
-        // ======================== berhasil dan benar ================================
+        // ======================== success create ================================
         it('should status 201, product successfull create' ,function(done) {
             //setup
             const body = {
@@ -65,113 +79,59 @@ describe('POST /products',function() {
                 image_url : 'https://ecs7.tokopedia.net/img/cache/700/product-1/2019/9/1/6708815/6708815_9154e541-994c-49db-a5e6-c2a0657b1fe6_712_712.jpg',
                 price : 100000,
                 stock : 5,
-                access_token : req.headers.access_token
             }
         
             //excecute
             request(app) 
             .set(access_token, 'access_token')
-            .put(`/products`)
+            .post(`/products`)
             .end((err, res) => {
                 if(err) done(err)
-            })
-        
-            //assert
-            expect(res.statusCode).toEqual(200)
-            expect(typeof res.body).toEqual('object')
-            expect(res.body).toHaveProperty('msg')
-            expect(res.body).toHaveProperty('id')
-            expect(typeof body.id).toEqual('number')
-            expect(res.body).toHaveProperty('name')
-            expect(typeof body.name).toEqual('string')
-            expect(res.body).toHaveProperty('image_url')
-            expect(typeof body.image_url).toEqual('string')
-            expect(res.body).toHaveProperty('price')
-            expect(typeof body.price).toEqual('number')
-            expect(res.body).toHaveProperty('stock')
-            expect(typeof body.stock).toEqual('number')
-            done()
-        })
-    })
+            
+                //assert
+                expect(res.statusCode).toEqual(201)
+                expect(typeof res.body).toEqual('object')
+                expect(res.body).toHaveProperty('id')
+                expect(typeof res.body.id).toEqual('number')
+                expect(res.body).toHaveProperty('name')
+                expect(res.body.name).toEqual(body.name)
+                expect(res.body).toHaveProperty('image_url')
+                expect(res.body.image_url).toEqual(body.image_url)
+                expect(res.body).toHaveProperty('price')
+                expect(res.body.price).toEqual(body.price)
+                expect(res.body).toHaveProperty('stock')
+                expect(res.body.stock).toEqual(body.stock)
 
-    describe('bad params', function() {
 
-        // =============================   don have access token  ========================
-        it('should status code 401, dont have authentication',function (done) {
-            //setup
-            const body = {
-                name : 'baju keren',
-                image_url : 'https://ecs7.tokopedia.net/img/cache/700/product-1/2019/9/1/6708815/6708815_9154e541-994c-49db-a5e6-c2a0657b1fe6_712_712.jpg',
-                price : 100000,
-                stock : 5,
-                access_token : req.headers.access_token
-            }
-        
-            //excecute
-            request(app) 
-            .post('/products')
-            .set(access_token, 'access_token')
-            .send(body)
-            .end((err, res) => {
-                if(err) done(err)
+                done()
             })
-        
-            //assert
-            expect(res.statusCode).toEqual(401)
-            expect(typeof res.body).toEqual('object')
-            done()
-        })
-
-        //  ================================= not admin ===================================
-        it('not admin, should status code 401, dont have authorization' ,function (done) {
-            //setup
-            const body = {
-                name : 'baju keren',
-                image_url : 'https://ecs7.tokopedia.net/img/cache/700/product-1/2019/9/1/6708815/6708815_9154e541-994c-49db-a5e6-c2a0657b1fe6_712_712.jpg',
-                price : 100000,
-                stock : 5,
-                access_token : req.headers.access_token
-            }
-        
-            //excecute
-            request(app) 
-            .post('/products')
-            .set(access_token, 'access_token')
-            .send(body)
-            .end((err, res) => {
-                if(err) done(err)
-            })
-        
-            //assert
-            expect(res.statusCode).toEqual(401)
-            expect(typeof res.body).toEqual('object')
-            done()
         })
 
         // ========================  data requirement tidak diisi ============================
-        it('should status code 400, name must be filled' ,function (done) {
+        it('should status code 400, name is required' ,function (done) {
             //setup
             const body = {
                 name : '',
                 image_url : 'https://ecs7.tokopedia.net/img/cache/700/product-1/2019/9/1/6708815/6708815_9154e541-994c-49db-a5e6-c2a0657b1fe6_712_712.jpg',
                 price : 100000,
                 stock : 5,
-                access_token : req.headers.access_token
             }
         
             //excecute
             request(app) 
             .post('/products')
-            .set(access_token, 'access_token')
+            .set('access_token', access_token)
             .send(body)
             .end((err, res) => {
                 if(err) done(err)
+
+                //assert
+                expect(res.statusCode).toEqual(400)
+                expect(typeof res.body).toEqual('object')
+                expect(res.body).toHaveProperty('message')
+                expect(res.body.message).toEqual('name is required')
+                done()
             })
-        
-            //assert
-            expect(res.statusCode).toEqual(400)
-            expect(typeof res.body).toEqual('object')
-            done()
         })
 
         //  ========================= stock diisi minus ================================
@@ -182,22 +142,23 @@ describe('POST /products',function() {
                 image_url : 'https://ecs7.tokopedia.net/img/cache/700/product-1/2019/9/1/6708815/6708815_9154e541-994c-49db-a5e6-c2a0657b1fe6_712_712.jpg',
                 price : 100000,
                 stock : -5,
-                access_token : req.headers.access_token
             }
         
             //excecute
             request(app) 
             .post('/products')
-            .set(access_token, 'access_token')
+            .set('access_token', access_token)
             .send(body)
             .end((err, res) => {
                 if(err) done(err)
+
+                //assert
+                expect(res.statusCode).toEqual(400)
+                expect(typeof res.body).toEqual('object')
+                expect(res.body).toHaveProperty('message')
+                expect(res.body.message).toEqual(`price / stock can't be negative`)
+                done()
             })
-        
-            //assert
-            expect(res.statusCode).toEqual(400)
-            expect(typeof res.body).toEqual('object')
-            done()
         })
 
         // =================================== price negative ==================================
@@ -208,70 +169,160 @@ describe('POST /products',function() {
                 image_url : 'https://ecs7.tokopedia.net/img/cache/700/product-1/2019/9/1/6708815/6708815_9154e541-994c-49db-a5e6-c2a0657b1fe6_712_712.jpg',
                 price : -100000,
                 stock : 5,
-                access_token : req.headers.access_token
             }
         
             //excecute
             request(app) 
             .post('/products')
-            .set(access_token, 'access_token')
+            .set('access_token', access_token)
             .send(body)
             .end((err, res) => {
                 if(err) done(err)
+
+
+                //assert
+                expect(res.statusCode).toEqual(401)
+                expect(typeof res.body).toEqual('object')
+                expect(res.body).toHaveProperty('message')
+                expect(res.body.message).toEqual(`price / stock can't be negative`)
+                done()
             })
-        
-            //assert
-            expect(res.statusCode).toEqual(401)
-            expect(typeof res.body).toEqual('object')
-            done()
         })
 
         // ===========================   diisi type data tidak sesuai ========================
         it('should status code 400, sequelize validation error' ,function (done) {
             //setup
             const body = {
-                name : 4444,
+                name : 'baju keren',
                 image_url : 'https://ecs7.tokopedia.net/img/cache/700/product-1/2019/9/1/6708815/6708815_9154e541-994c-49db-a5e6-c2a0657b1fe6_712_712.jpg',
                 price : 100000,
-                stock : '5',
-                access_token : req.headers.access_token
+                stock : 'aaa',
             }
         
             //excecute
             request(app) 
             .post('/products')
-            .set(access_token, 'access_token')
+            .set('access_token', access_token)
             .send(body)
             .end((err, res) => {
                 if(err) done(err)
+
+
+                //assert
+                expect(res.statusCode).toEqual(401)
+                expect(typeof res.body).toEqual('object')
+                expect(Array.isArray(res.body)).toEqual(true)
+                expect(res.body[0]).toHaveProperty('message')
+                expect(res.body[0].message).toEqual('allow for number only')
+                done()
             })
-        
-            //assert
-            expect(res.statusCode).toEqual(401)
-            expect(typeof res.body).toEqual('object')
-            done()
         })
 
+    describe('failed for getting access_token POST /products', function() {
+
+        // =============================   don have access token  ========================
+        it('should status code 401, dont have authentication',function (done) {
+            //setup
+            const body = {
+                name : 'baju keren',
+                image_url : 'https://ecs7.tokopedia.net/img/cache/700/product-1/2019/9/1/6708815/6708815_9154e541-994c-49db-a5e6-c2a0657b1fe6_712_712.jpg',
+                price : 100000,
+                stock : 5,
+            }
+        
+            //excecute
+            request(app) 
+            .post('/products')
+            .send(body)
+            .end((err, res) => {
+                if(err) done(err)
+
+                //assert
+                expect(res.statusCode).toEqual(401)
+                expect(typeof res.body).toEqual('object')
+                expect(res.body).toHaveProperty('message')
+                expect(res.body.message).toEqual('Please login first')
+                done()
+            })
+        })
+
+    })
+
+    describe('failed because not admin login POST /products', function() {
+        
+        let access_token = null
+
+        beforeAll(done => {
+            User.findOne( {where : { email : 'customer@mail.com'}} )
+            .then(user => {
+                if(user.role == 'admin') {
+                    const payload = { 
+                        id : user.id, 
+                        email : user.email 
+                    }
+        
+                    access_token = genToken(payload)
+                    done()
+                }
+            })
+        })
+        
+        //  ================================= not admin ===================================
+        it('not admin, should status code 401, dont have authorization' ,function (done) {
+            //setup
+            const body = {
+                name : 'baju keren',
+                image_url : 'https://ecs7.tokopedia.net/img/cache/700/product-1/2019/9/1/6708815/6708815_9154e541-994c-49db-a5e6-c2a0657b1fe6_712_712.jpg',
+                price : 100000,
+                stock : 5,
+            }
+        
+            //excecute
+            request(app) 
+            .post('/products')
+            .set('access_token', access_token)
+            .send(body)
+            .end((err, res) => {
+                if(err) done(err)
+
+                //assert
+                expect(res.statusCode).toEqual(401)
+                expect(typeof res.body).toEqual('object')
+                expect(res.body).toHaveProperty('message')
+                expect(res.body.message).toEqual(`You're not admin`)
+                done()
+            })
+        })
     })
     
 })
 
-// =========================================================================================
+// ==========================================================================================
 // ========================= testing form update products ===================================
-// =========================================================================================
+// ==========================================================================================
 
 describe('PUT /products/:id',function() {
-    afterAll(function(done) {
-        stopSequelize()
-        .then(() => {
-            done()
-        })
-        .catch(err => {
-            console.log(err)
-        })
+    afterAll(done => {
+        models.sequelize.close()
+        done()
     })
 
-    describe('good params', function() {
+    describe('success request update product PUT /products', function() {
+        beforeAll(done => {
+            User.findOne( {where : { email : 'admin@mail.com'}} )
+            .then(user => {
+                const payload = { 
+                    id : user.id, 
+                    email : user.email 
+                }
+    
+                access_token = genToken(payload)
+                done()
+            })
+        })
+    
+
+        //get access_token
 
         // ============================== successfull update ===========================
         it('should status 200 update by id' ,function () {
@@ -282,62 +333,88 @@ describe('PUT /products/:id',function() {
                 image_url : 'https://ecs7.tokopedia.net/img/cache/700/product-1/2019/9/1/6708815/6708815_9154e541-994c-49db-a5e6-c2a0657b1fe6_712_712.jpg',
                 price : 100000,
                 stock : 5,
-                access_token : req.headers.access_token
             }
         
             //excecute
             request(app) 
             .put(`/products/${id}`)
-            .set(access_token, 'access_token')
+            .set('access_token', access_token)
             .end((err, res) => {
                 if(err) done(err)
+
+                //assert
+                expect(res.statusCode).toEqual(200)
+                expect(typeof res.body).toEqual('object')
+                expect(res.body).toHaveProperty('msg')
+                expect(res.body).toHaveProperty('id')
+                expect(typeof body.id).toEqual('number')
+                expect(res.body).toHaveProperty('name')
+                expect(typeof body.name).toEqual('string')
+                expect(res.body).toHaveProperty('image_url')
+                expect(typeof body.image_url).toEqual('string')
+                expect(res.body).toHaveProperty('price')
+                expect(typeof body.price).toEqual('number')
+                expect(res.body).toHaveProperty('stock')
+                expect(typeof body.stock).toEqual('number')
+
+
+                done()
             })
-        
-            //assert
-            expect(res.statusCode).toEqual(200)
-            expect(typeof res.body).toEqual('object')
-            expect(res.body).toHaveProperty('msg')
-            expect(res.body).toHaveProperty('id')
-            expect(typeof body.id).toEqual('number')
-            expect(res.body).toHaveProperty('name')
-            expect(typeof body.name).toEqual('string')
-            expect(res.body).toHaveProperty('image_url')
-            expect(typeof body.image_url).toEqual('string')
-            expect(res.body).toHaveProperty('price')
-            expect(typeof body.price).toEqual('number')
-            expect(res.body).toHaveProperty('stock')
-            expect(typeof body.stock).toEqual('number')
-            done()
         })
     })
 
-    describe('bad params', function() {
+    describe('failed bad request update product PUT /products', function() {
 
         // ===========   tidak ada access_token ===================
         it('should status code 400, sequelize validation error' ,function (done) {
             //setup
+            let id = 1
+
             const body = {
                 name : 'baju keren',
                 image_url : 'https://ecs7.tokopedia.net/img/cache/700/product-1/2019/9/1/6708815/6708815_9154e541-994c-49db-a5e6-c2a0657b1fe6_712_712.jpg',
                 price : 100000,
                 stock : 5,
-                access_token : req.headers.access_token
             }
         
             //excecute
             request(app) 
             .put(`/products/${id}`)
-            .set(access_token, 'access_token')
             .send(body)
             .end((err, res) => {
                 if(err) done(err)
+
+                //assert
+                expect(res.statusCode).toEqual(401)
+                expect(typeof res.body).toEqual('object')
+                //error
+                done()
             })
         
-            //assert
-            expect(res.statusCode).toEqual(401)
-            expect(typeof res.body).toEqual('object')
-            done()
+
         })
+
+    })
+
+    describe('failed for not admin PUT /products', function() {
+        let access_token = null
+
+        beforeAll(done => {
+            User.findOne( {where : { email : 'customer@mail.com'}} )
+            .then(user => {
+                if(user.role == 'admin') {
+                    const payload = { 
+                        id : user.id, 
+                        email : user.email 
+                    }
+        
+                    access_token = genToken(payload)
+                    done()
+                }
+                done()
+            })
+        })
+    
 
         // ===========   not admin ===================
         it('should status code 400, sequelize validation error' ,function (done) {
@@ -348,22 +425,41 @@ describe('PUT /products/:id',function() {
                 image_url : 'https://ecs7.tokopedia.net/img/cache/700/product-1/2019/9/1/6708815/6708815_9154e541-994c-49db-a5e6-c2a0657b1fe6_712_712.jpg',
                 price : 100000,
                 stock : 5,
-                access_token : req.headers.access_token
             }
         
             //excecute
             request(app) 
             .put(`/products/${id}`)
-            .set(access_token, 'access_token')
+            .set('access_token', access_token)
             .send(body)
             .end((err, res) => {
                 if(err) done(err)
+
+                //assert
+                expect(res.statusCode).toEqual(401)
+                expect(typeof res.body).toEqual('object')
+                done()
             })
+        })
+    })
+
+    describe('failed for bad request update products PUT /porducts', function() {
+        let access_token = null
+
+        beforeAll(done => {
+            User.findOne( {where : { email : 'admin@mail.com'}} )
+            .then(user => {
+                if(user.role == 'admin') {
+                    const payload = { 
+                        id : user.id, 
+                        email : user.email 
+                    }
         
-            //assert
-            expect(res.statusCode).toEqual(401)
-            expect(typeof res.body).toEqual('object')
-            done()
+                    access_token = genToken(payload)
+                    done()
+                }
+                done()
+            })
         })
 
         // ===========   stock minus ===================
@@ -376,22 +472,22 @@ describe('PUT /products/:id',function() {
                 image_url : 'https://ecs7.tokopedia.net/img/cache/700/product-1/2019/9/1/6708815/6708815_9154e541-994c-49db-a5e6-c2a0657b1fe6_712_712.jpg',
                 price : 100000,
                 stock : -5,
-                access_token : req.headers.access_token
             }
         
             //excecute
             request(app) 
             .put(`/products/${id}`)
-            .set(access_token, 'access_token')
+            .set('access_token', access_token)
             .send(body)
             .end((err, res) => {
                 if(err) done(err)
+
+                //assert
+                expect(res.statusCode).toEqual(401)
+                expect(typeof res.body).toEqual('object')
+                done()
             })
-        
-            //assert
-            expect(res.statusCode).toEqual(401)
-            expect(typeof res.body).toEqual('object')
-            done()
+    
         })
 
         // ===========   diisi type data tidak sesuai ===================
@@ -403,22 +499,21 @@ describe('PUT /products/:id',function() {
                 image_url : 'https://ecs7.tokopedia.net/img/cache/700/product-1/2019/9/1/6708815/6708815_9154e541-994c-49db-a5e6-c2a0657b1fe6_712_712.jpg',
                 price : 100000,
                 stock : '5',
-                access_token : req.headers.access_token
             }
         
             //excecute
             request(app) 
             .put(`/products/${id}`)
-            .set(access_token, 'access_token')
+            .set('access_token', access_token)
             .send(body)
             .end((err, res) => {
                 if(err) done(err)
+                
+                //assert
+                expect(res.statusCode).toEqual(401)
+                expect(typeof res.body).toEqual('object')
+                done()
             })
-        
-            //assert
-            expect(res.statusCode).toEqual(401)
-            expect(typeof res.body).toEqual('object')
-            done()
         })
     })
     
@@ -429,42 +524,47 @@ describe('PUT /products/:id',function() {
 // =========================================================================================
 
 describe('DELETE /products',function() {
+   
+    describe('success for deleting product DELETE /products', function() {
+        let access_token = null
 
-    afterAll(function(done) {
-        stopSequelize()
-        .then(() => {
-            done()
+        beforeAll(done => {
+            User.findOne( {where : { email : 'admin@mail.com'}} )
+            .then(user => {
+                const payload = { 
+                    id : user.id, 
+                    email : user.email 
+                }
+        
+                access_token = genToken(payload)
+                done()
+            })
         })
-        .catch(err => {
-            console.log(err)
-        })
-    })
-    
-    describe('good params', function() {
 
         // ===================== success delete ================================
-        it('should status 200',function (done) {
+        it('should status 200 delete success',function (done) {
             //setup
             let id = 1
         
             //excecute
             request(app) 
-            .set(access_token, 'access_token')
+            .set("access_token", access_token)
             .delete(`/products/${id}`)
             .end((err, res) => {
                 if(err) done(err)
-            })
-        
-            //assert
-            expect(res.statusCode).toEqual(200)
-            expect(typeof res.body).toEqual('object')
 
-            done()
+                //assert
+                expect(res.statusCode).toEqual(200)
+                expect(typeof res.body).toEqual('object')
+                expect(res.body).toHaveProperty('msg')
+                expect(res.body.msg)
+
+                done()
+            })
         })
     })
 
-    describe('bad params' , function () {
-
+    describe('failed for error in access_token DELETE /products' , function () {
 
         // ===================== not access_token =============================
         it('should status 400 dont have authentication',function (done) {
@@ -473,17 +573,36 @@ describe('DELETE /products',function() {
         
             //excecute
             request(app) 
-            .set(access_token, 'access_token')
             .delete(`/products/${id}`)
             .end((err, res) => {
                 if(err) done(err)
-            })
-        
-            //assert
-            expect(res.statusCode).toEqual(400)
-            expect(typeof res.body).toEqual('object')
 
-            done()
+                //assert
+                expect(res.statusCode).toEqual(400)
+                expect(typeof res.body).toEqual('object')
+
+                done()
+            })
+        })
+    })
+
+    describe('failed for not admin DELETE /products', function() {
+        let access_token = null
+
+        beforeAll(done => {
+            User.findOne( {where : { email : 'customer@mail.com'}} )
+            .then(user => {
+                if(user.role == 'admin') {
+                    const payload = { 
+                        id : user.id, 
+                        email : user.email 
+                    }
+        
+                    access_token = genToken(payload)
+                    done()
+                }
+                done()
+            })
         })
 
 
@@ -494,19 +613,21 @@ describe('DELETE /products',function() {
         
             //excecute
             request(app) 
-            .set(access_token, 'access_token')
+            .set('access_token', access_token)
             .delete(`/products/${id}`)
             .end((err, res) => {
                 if(err) done(err)
-            })
-        
-            //assert
-            expect(res.statusCode).toEqual(400)
-            expect(typeof res.body).toEqual('object')
 
-            done()
+                //assert
+                expect(res.statusCode).toEqual(400)
+                expect(typeof res.body).toEqual('object')
+
+                done()
+            })
         })
     })
+
+ 
 })
 
 

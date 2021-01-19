@@ -5,10 +5,8 @@ const app = require('../app')
 
 describe('POST /login',function() {
 
-    describe('good params (SUCCESS)', function () {
-
         // ======================== successfull login ==========================
-        it('should status 200, successfull login' ,function (done) {
+        it('should status 200, successfull login' ,function (done) { //ok
             //setup
             const body = {
                 email : 'admin@mail.com',
@@ -18,6 +16,7 @@ describe('POST /login',function() {
             //excecute
             request(app) 
             .post('/login')
+            .send(body)
             .end((err, res) => {
                 if(err) done(err)
                         
@@ -25,15 +24,17 @@ describe('POST /login',function() {
                 expect(res.statusCode).toEqual(200)
                 expect(typeof res.body).toEqual('object')
                 expect(res.body).toHaveProperties('access_token')
+                expect(res.body).toEqual({
+                    access_token : expect.any(String)
+                })
+
+
                 done()
             })
         })
-    })
-
-    describe('bad params (FAIL)', function() {
 
         // ==========================  error in password  ===============================
-        it('should status 400, invalid email and pass' ,function (done) {
+        it('should status 400, invalid for password / not found in database' ,function (done) {
             //setup
             const body = {
                 email : 'admin@mail.com',
@@ -43,24 +44,22 @@ describe('POST /login',function() {
             //excecute
             request(app) 
             .post('/login')
+            .send(body)
             .end((err, res) => {
                 if(err) done(err)
                         
                 //assert
-                expect(res.statusCode).toEqual(200)
+                expect(res.statusCode).toEqual(401)
                 expect(typeof res.body).toEqual('object')
-                expect(res.body).toHaveProperties('errors')
-                xpect(Array.isArray(res.body.errors)).toEqual(true)
-                expect(res.body.errors).toEqual(
-                    expect.arrayContaining(['email / password not valid'])
-                )
+                expect(res.body).toHaveProperties('message')
+                expect(res.body.message).toEqual('Invalid email / password')
                 done()
             })
         })
 
 
         // ====================== email tidak ada di db ===========================
-        it('should status 400, invalid email and pass' ,function (done) {
+        it('should status 400, invalid for email / not found in database' ,function (done) {
             //setup
             const body = {
                 email : 'administrator@mail.com',
@@ -75,13 +74,11 @@ describe('POST /login',function() {
                 if(err) done(err)
                         
                 //assert
-                expect(res.statusCode).toEqual(400)
+                expect(res.statusCode).toEqual(401)
                 expect(typeof res.body).toEqual('object')
-                expect(res.body).toHaveProperties('errors')
-                expect(Array.isArray(res.body.errors)).toEqual(true)
-                expect(res.body.errors).toEqual(
-                    expect.arrayContaining(['email / password not valid'])
-                )
+                expect(res.body).toHaveProperties('message')
+                expect(res.body.message).toEqual('Invalid email / password')
+
                 done()
             })
         })
@@ -105,13 +102,11 @@ describe('POST /login',function() {
                 //assert
                 expect(res.statusCode).toEqual(400)
                 expect(typeof res.body).toEqual('object')
-                expect(res.body).toHaveProperties('errors')
-                xpect(Array.isArray(res.body.errors)).toEqual(true)
-                expect(res.body.errors).toEqual(
-                    expect.arrayContaining(['email / password not valid'])
-                )
+                expect(res.body).toHaveProperties('message')
+                expect(res.body.message).toEqual('Email / Password must be filled')
+
                 done()
             })
         })
-    })
+
 })

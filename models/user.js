@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       type : DataTypes.STRING,
       allowNull : {
         args : false,
-        msg : 'email must be filled'
+        msg : 'Email / Passowrd must be filled'
       },
       validate : {
         isEmail : {
@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
       type : DataTypes.STRING,
       allowNull : {
         args : false,
-        msg : 'password must be filled'
+        msg : 'Email / Passowrd must be filled'
       }
     },
     role: {
