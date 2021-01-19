@@ -9,7 +9,7 @@ async function authenticate(req, res, next) {
 
         // read token
         let decodedToken = readToken(access_token)
-        console.log('>>> decodedToken : ', decodedToken)
+        // console.log('>>> decodedToken : ', decodedToken)
 
         // check user
         let user = await User.findByPk(decodedToken.id)
@@ -21,7 +21,7 @@ async function authenticate(req, res, next) {
             email: decodedToken.email,
             role: decodedToken.role
         }
-        console.log('Authentic req.user : ', req.user)
+        // console.log('Authentic req.user : ', req.user)
 
         next()
 
@@ -32,6 +32,8 @@ async function authenticate(req, res, next) {
 
 async function authorizeAdminOnly(req, res, next) {
     try {
+        // console.log(req.user)
+
         if (req.user.role !== 'admin') {
             console.log('you are not admin')
             return next({ name: 401, message: 'Admin only' })
