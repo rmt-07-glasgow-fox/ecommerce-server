@@ -38,7 +38,6 @@ describe('POST users/login', () => {
       .end((err, res) => {
         if(err) done(err)
 
-
         expect(res.statusCode).toEqual(400)
         expect(typeof res.body).toEqual('object')
         expect(res.body).toHaveProperty('message')

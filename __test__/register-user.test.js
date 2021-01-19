@@ -3,13 +3,13 @@ const app = require('../app')
 const clearUsers = require('./helpers/clear-users')
 
 describe('POST users/register', () => {
-  afterAll((done) => {
-    clearUsers()
-      .then(() => {
-        done()
-      })
-      .catch(console.log)
-  })
+  // afterAll((done) => {
+  //   clearUsers()
+  //     .then(() => {
+  //       done()
+  //     })
+  //     .catch(console.log)
+  // })
 
   it('should send response with 201 status code', (done) => {
     const body = {
@@ -35,14 +35,6 @@ describe('POST users/register', () => {
 })
 
 describe('POST users/register', () => {
-  afterAll((done) => {
-    clearUsers()
-      .then(() => {
-        done()
-      })
-      .catch(console.log)
-  })
-
   it('should send response with 400 status code', (done) => {
     const body = {
       email: 'user@mail.com',
@@ -67,14 +59,6 @@ describe('POST users/register', () => {
 })
 
 describe('POST users/register', () => {
-  afterAll((done) => {
-    clearUsers()
-      .then(() => {
-        done()
-      })
-      .catch(console.log)
-  })
-
   it('should send response with 400 status code', (done) => {
     const body = {
       email: 'user@mail.com',
@@ -99,14 +83,6 @@ describe('POST users/register', () => {
 })
 
 describe('POST users/register', () => {
-  afterAll((done) => {
-    clearUsers()
-      .then(() => {
-        done()
-      })
-      .catch(console.log)
-  })
-
   it('should send response with 400 status code', (done) => {
     const body = {
       email: 'user@mail.com',
