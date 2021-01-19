@@ -33,11 +33,11 @@ class ProductController {
 
     static async showProduct(req, res, next) {
         try {
-            let product = await Brand.findAll({
+            let product = await Product.findAll({
                 order: [['id']],
                 attributes: { exclude: ['createdAt', 'updatedAt'] },
                 include: [{
-                    model: Product,
+                    model: Brand,
                     attributes: { exclude: ['createdAt', 'updatedAt'] }
                 }]
             })
