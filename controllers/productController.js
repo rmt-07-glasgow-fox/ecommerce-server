@@ -1,6 +1,29 @@
 const { Product } = require('../models')
 
 class ProductController {
+  static findAll(req, res, next) {
+    Product
+      .findAll()
+      .then(products => {
+        res.status(200).json(products)
+      })
+      .catch(err => {
+        res.status(500).json({ message: 'Internal Server Error' })
+      })
+  }
+
+  static findByPk(req, res, next) {
+    Product
+      .findByPk(+req.params.id)
+      .then(product => {
+        product ? res.status(200).json(product) :
+        res.status(404).json({ message: 'Product Not Found' })
+      })
+      .catch(err => {
+        res.status(500).json({ message: 'Internal Server Error' })
+      })
+  }
+
   static create(req, res, next) {
     const { name, image_url, price, stock } = req.body
     Product.create({ name, image_url, price, stock })
