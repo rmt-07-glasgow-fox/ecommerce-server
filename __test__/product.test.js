@@ -2,8 +2,7 @@ const request = require("supertest")
 const app = require("../app")
 const { User, Product } = require("../models")
 const { generateToken } = require("../helpers/jwt")
-const { clearProduct } = require("../helpers/clearAll")
-
+const { clearProduct, clearNewUser } = require("../helpers/clearAll")
 
 let access_token_admin
 let access_token_notAdmin
@@ -47,6 +46,9 @@ beforeAll(done => {
 afterAll((done) => {
   console.log(access_token_notAdmin);
   clearProduct()
+    .then(() => {
+      return clearNewUser()
+    })
     .then(() => {
       done()
     })
@@ -800,7 +802,7 @@ describe('DELETE/products', () => {
       let notAdmin = access_token_notAdmin
 
       request(app)
-        .post("/products/" + id)
+        .delete("/products/" + id)
         .set("access_token", notAdmin)
         .end((err, res) => {
           if (err) done(err)
