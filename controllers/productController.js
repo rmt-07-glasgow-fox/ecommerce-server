@@ -50,7 +50,21 @@ class ProductController {
 
     static async editProduct(req, res, next) {
         try {
-            res.status(200).json(req.body)
+            let idProduct = +req.params.idProduct
+
+            console.log('>>> req.product', req.product)
+
+            let name = req.body.name
+            let image_url = req.body.image_url
+            let price = +req.body.price
+            let stock = +req.body.stock
+            let BrandId = +req.body.BrandId
+
+            let updateProduct = await Product.update({ name, image_url, price, stock, BrandId }, {
+                where: { id: idProduct }
+            })
+
+            return res.status(200).json({ message: `Product id : ${idProduct} is updated` })
         } catch (err) {
             return next(err)
         }
