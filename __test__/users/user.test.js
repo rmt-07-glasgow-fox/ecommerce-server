@@ -3,37 +3,13 @@ const app = require('../../app')
 const { sequelize } = require('../../models')
 const { queryInterface } = sequelize
 
-afterAll(done => {
-  queryInterface.bulkDelete('Users')
-    .then(() => {
-      done()
-    })
-    .catch(done)
-})
-
-describe('POST /register', () => {
-  const userValid = { name: 'Hani', email: 'hanii@gmail.com', password: '123456', role: 'admin'}
-  describe('Success', () => {
-    test('Register Success', (done) => {
-      request(app)
-        .post('/register')
-        .set('Accept', 'application/json')
-        .send(userValid)
-        .then(response => {
-          const { body, status } = response
-          expect(status).toBe(201)
-          expect(body).toHaveProperty('id', expect.any(Number))
-          expect(body).toHaveProperty('name', userValid.name)
-          expect(body).toHaveProperty('email', userValid.email)
-          expect(body).toHaveProperty('role', userValid.role)
-          done()
-        })
-        .catch(err => {
-          done(err)
-        })
-    })
-  })
-})
+// afterAll(done => {
+//   queryInterface.bulkDelete('Users')
+//     .then(() => {
+//       done()
+//     })
+//     .catch(done)
+// })
 
 describe('POST /login', () => {
   describe('Success', () => {
@@ -41,7 +17,7 @@ describe('POST /login', () => {
       request(app)
         .post('/login')
         .set('Accept', 'application/json')
-        .send({ email: 'hanii@gmail.com', password: '123456'})
+        .send({ email: 'admin@mail.com', password: '123456'})
         .then(response => {
           const { body, status } = response
           expect(status).toBe(200)
@@ -59,7 +35,7 @@ describe('POST /login', () => {
       request(app)
         .post('/login')
         .set('Accept', 'application/json')
-        .send({ email: 'hanii@gmail.com', password: 'wrong123456'})
+        .send({ email: 'admin@mail.com', password: 'wrong123456'})
         .then(response => {
           const { body, status } = response
           expect(status).toBe(400)
@@ -75,7 +51,7 @@ describe('POST /login', () => {
       request(app)
         .post('/login')
         .set('Accept', 'application/json')
-        .send({ email: 'wronghanii@gmail.com', password: '123456'})
+        .send({ email: 'wrongadmin@mail.com', password: '123456'})
         .then(response => {
           const { body, status } = response
           expect(status).toBe(400)
