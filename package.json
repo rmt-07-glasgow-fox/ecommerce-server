@@ -1,0 +1,36 @@
+{
+  "name": "ecommerce-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "db:create:test": "NODE_ENV=test sequelize db:create",
+    "db:migrate:test": "NODE_ENV=test sequelize db:migrate",
+    "test": "jest --detectOpenHandles --forceExit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Miftakhunnurudin/ecommerce-server.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Miftakhunnurudin/ecommerce-server/issues"
+  },
+  "homepage": "https://github.com/Miftakhunnurudin/ecommerce-server#readme",
+  "devDependencies": {
+    "jest": "^26.6.3",
+    "supertest": "^6.1.1"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "google-auth-library": "^6.1.4",
+    "jsonwebtoken": "^8.5.1",
+    "pg": "^8.5.1",
+    "sequelize": "^6.4.0"
+  }
+}
