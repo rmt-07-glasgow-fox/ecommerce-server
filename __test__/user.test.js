@@ -13,7 +13,7 @@ describe('POST /login', function() {
     }
     User.create(newUser)
       .then(data => {
-        console.log(data)
+        // console.log(data)
         done()
       })
       .catch(err => {
