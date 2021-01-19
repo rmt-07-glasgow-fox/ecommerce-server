@@ -22,7 +22,18 @@ class ProductController {
       return next();
     }
     catch (err) {
-      console.log("🚀 ~ file: product.js ~ line 25 ~ ProductController ~ update ~ err", err)
+      return next(err);
+    }
+  }
+
+  static async delete(req, res, next) {
+    try {
+      const id = req.params.id;
+      const deletedProduct = await Product.destroy({ where: {id} });
+      if(deletedProduct === 1) return res.status(200).json({ message: 'Success delete task'});      
+      return next();
+    }
+    catch (err) {
       return next(err);
     }
   }

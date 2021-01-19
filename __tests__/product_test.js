@@ -663,7 +663,7 @@ describe('PUT /products', () => {
 
 })
 
-descibe('DELETE /products', () => {
+describe('DELETE /products', () => {
   afterAll( async () => {  
     models.sequelize.close();
   })
@@ -692,7 +692,7 @@ descibe('DELETE /products', () => {
   })
 
   // Jika berhasil
-  it('If success should response with 401 status code', (done) => {
+  it('If success should response with 200 status code', (done) => {
 
     // Execute
     request(app)
