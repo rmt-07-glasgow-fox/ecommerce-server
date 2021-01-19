@@ -14,6 +14,12 @@ app.use(function(err, req, res, next){
         })
     } else if(err.name === "Incorrect Email / Password"){
         res.status(401).json({message : "Incorrect Email / Password"})
+    } else if(err.name === "Do not have access"){
+        res.status(401).json({message : "Do not have access"})
+    } else if(err.name === "Login Required"){
+        res.status(403).json({message : "Login Required"})
+    } else if(err.name === "Not found"){
+        res.status(404).json({message : "Not found"})
     } else {
         res.status(500).json({message : "Internal Server Error"})
     }

@@ -16,7 +16,7 @@ describe('POST /register (SUCCESS)',  function(){
     it('should send response with 201 status code and return an object with id and email', function(done){
         //setup
         const body = {
-            email: 'example@mail.com',
+            email: 'example2@mail.com',
             password : 'password'
         }
         //execute
@@ -94,7 +94,7 @@ describe('POST /register (FAIL) because of empty email and password', function()
 describe('POST /login (SUCCESS) ', function(){
     it('should send response with 200 status code', function(done){
         const body = {
-            email: 'example@mail.com',
+            email: 'example2@mail.com',
             password : 'password'
         }
         request(app)
