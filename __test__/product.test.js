@@ -4,7 +4,7 @@ const models = require('../models');
 
 describe('Product', () => {
   let token = '';
-  let idBanner = 0;
+  let idProduct = 0;
 
   beforeAll((done) => {
     request(app)
@@ -76,7 +76,63 @@ describe('Product', () => {
       });
   });
 
-  it('Create product with valid name', (done) => {
+  it('Create product with price value less than 0', (done) => {
+    const body = {
+      name: 'Cake',
+      image_url:
+        'https://www.kamspalace.co.uk/wp-content/gallery/our-cake-selection/IMG-20150114-WA0000-1024x576.jpg',
+      price: -1,
+      stock: 10,
+      CategoryId: 1,
+    };
+
+    request(app)
+      .post('/products')
+      .send(body)
+      .set({ authorization: token })
+      .end((err, res) => {
+        if (err) done(err);
+
+        expect(res.statusCode).toEqual(400);
+        expect(typeof res.body).toEqual('object');
+        expect(Array.isArray(res.body)).toEqual(true);
+        expect(res.body).toEqual(
+          expect.arrayContaining([{ message: 'Price must greater than 0' }])
+        );
+
+        done();
+      });
+  });
+
+  it('Create product with stock value less than 0', (done) => {
+    const body = {
+      name: 'Cake',
+      image_url:
+        'https://www.kamspalace.co.uk/wp-content/gallery/our-cake-selection/IMG-20150114-WA0000-1024x576.jpg',
+      price: 100000,
+      stock: -1,
+      CategoryId: 1,
+    };
+
+    request(app)
+      .post('/products')
+      .send(body)
+      .set({ authorization: token })
+      .end((err, res) => {
+        if (err) done(err);
+
+        expect(res.statusCode).toEqual(400);
+        expect(typeof res.body).toEqual('object');
+        expect(Array.isArray(res.body)).toEqual(true);
+        expect(res.body).toEqual(
+          expect.arrayContaining([{ message: 'Stock must greater than 0' }])
+        );
+
+        done();
+      });
+  });
+
+  it('Create product with valid inputs', (done) => {
     const body = {
       name: 'Cake',
       image_url:
@@ -107,7 +163,7 @@ describe('Product', () => {
         expect(typeof res.body.CategoryId).toEqual('number');
         expect(res.body).toHaveProperty('CategoryId', body.CategoryId);
 
-        idBanner = res.body.id;
+        idProduct = res.body.id;
 
         done();
       });
@@ -139,7 +195,7 @@ describe('Product', () => {
     };
 
     request(app)
-      .put(`/products/${idBanner}`)
+      .put(`/products/${idProduct}`)
       .send(body)
       .end((err, res) => {
         if (err) done(err);
@@ -194,7 +250,7 @@ describe('Product', () => {
     };
 
     request(app)
-      .put(`/products/${idBanner}`)
+      .put(`/products/${idProduct}`)
       .send(body)
       .set({ authorization: token })
       .end((err, res) => {
@@ -205,6 +261,62 @@ describe('Product', () => {
         expect(Array.isArray(res.body)).toEqual(true);
         expect(res.body).toEqual(
           expect.arrayContaining([{ message: 'Name is required' }])
+        );
+
+        done();
+      });
+  });
+
+  it('Update product with price less than 0', (done) => {
+    const body = {
+      name: '',
+      image_url:
+        'https://www.kamspalace.co.uk/wp-content/gallery/our-cake-selection/IMG-20150114-WA0000-1024x576.jpg',
+      price: -1,
+      stock: 10,
+      CategoryId: 1,
+    };
+
+    request(app)
+      .put(`/products/${idProduct}`)
+      .send(body)
+      .set({ authorization: token })
+      .end((err, res) => {
+        if (err) done(err);
+
+        expect(res.statusCode).toEqual(400);
+        expect(typeof res.body).toEqual('object');
+        expect(Array.isArray(res.body)).toEqual(true);
+        expect(res.body).toEqual(
+          expect.arrayContaining([{ message: 'Price must greater than 0' }])
+        );
+
+        done();
+      });
+  });
+
+  it('Update product with stock less than 0', (done) => {
+    const body = {
+      name: '',
+      image_url:
+        'https://www.kamspalace.co.uk/wp-content/gallery/our-cake-selection/IMG-20150114-WA0000-1024x576.jpg',
+      price: 100000,
+      stock: -1,
+      CategoryId: 1,
+    };
+
+    request(app)
+      .put(`/products/${idProduct}`)
+      .send(body)
+      .set({ authorization: token })
+      .end((err, res) => {
+        if (err) done(err);
+
+        expect(res.statusCode).toEqual(400);
+        expect(typeof res.body).toEqual('object');
+        expect(Array.isArray(res.body)).toEqual(true);
+        expect(res.body).toEqual(
+          expect.arrayContaining([{ message: 'Stock must greater than 0' }])
         );
 
         done();
@@ -222,7 +334,7 @@ describe('Product', () => {
     };
 
     request(app)
-      .put(`/products/${idBanner}`)
+      .put(`/products/${idProduct}`)
       .send(body)
       .set({ authorization: token })
       .end((err, res) => {
@@ -239,7 +351,7 @@ describe('Product', () => {
 
   it('Delete product without access token', (done) => {
     request(app)
-      .delete(`/products/${idBanner}`)
+      .delete(`/products/${idProduct}`)
       .end((err, res) => {
         if (err) done(err);
 
@@ -274,7 +386,7 @@ describe('Product', () => {
 
   it('Delete product with valid id product', (done) => {
     request(app)
-      .delete(`/products/${idBanner}`)
+      .delete(`/products/${idProduct}`)
       .set({ authorization: token })
       .end((err, res) => {
         if (err) done(err);
