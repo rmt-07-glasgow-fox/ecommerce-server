@@ -3,7 +3,9 @@ const { Product, Category } = require('../models');
 class ProductController {
     static async getAll(req, res, next) {
         try {
-            const product = await Product.findAll();
+            const product = await Product.findAll({
+                include: ['category']
+            });
 
             return res.status(200).json(product)
         } catch (error) {
