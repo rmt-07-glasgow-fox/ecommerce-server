@@ -15,12 +15,58 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Product.init({
-    name: DataTypes.STRING,
-    image_url: DataTypes.STRING,
-    price: DataTypes.INTEGER,
-    stock: DataTypes.INTEGER,
+    name: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: "Name of product must not be empty"
+        }
+      }
+    },
+    image_url: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: "Image URL of product must not be empty"
+        }
+      }
+    },
+    price: {
+      type: DataTypes.INTEGER,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: "Price of product must not be empty"
+        },
+        isInt: {
+          args: true,
+          msg: "Price must contains integer value"
+        },
+        isPositive(value) {
+          if (value < 0) {
+            throw new Error('Price should contains positive value!');
+          }
+        }
+      }
+    },
+    stock: {
+      type: DataTypes.INTEGER,
+      validate: {
+        isInt: {
+          args: true,
+          msg: "Stock must contains integer value"
+        },
+        isPositive(value) {
+          if (value <= 0) {
+            throw new Error('Stock should contains positive value!');
+          }
+        }
+      }
+    },
     UserId: {
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       references: {
         model: {
           tableName: 'Users',

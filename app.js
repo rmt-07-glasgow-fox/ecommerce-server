@@ -14,7 +14,7 @@ app.use(routes)
 app.use(errorHandlers)
 function errorHandlers(err, req, res, next) {
   if (err.name === 'JsonWebTokenError') {
-    return res.status(400).json({message: 'Invalid token!'})
+    return res.status(401).json({message: 'Please provide a token!'})
   }
   if (err.name === 'SequelizeValidationError') {
     let errMessages = []

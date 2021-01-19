@@ -3,6 +3,25 @@ const { hashPassword, checkPassword} = require('../helpers/bcrypt')
 const { generateToken, checkToken } = require('../helpers/jwt')
 
 class Controller {
+
+  static register(req, res, next) {
+    let { email, password, role } = req.body
+
+    let input = { email, password, role }
+    console.log(input);
+
+    User.create(input, {
+      returning: true
+    })
+    .then((data) => {
+      return res.status(201).json({message: "User created:" + data.email + 'role:' + data.role})
+    })
+    .catch((err) => {
+      next(err)
+    })
+  }
+
+
   static login(req, res, next) {
     let { email, password } = req.body
 
