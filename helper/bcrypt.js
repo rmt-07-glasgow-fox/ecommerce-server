@@ -5,8 +5,8 @@ function hashPassword (inputPassword) {
     const hash = bcrypt.hashSync(inputPassword, salt);
     return hash
 }
-function checkPass (inputPassword) {
-    return bcrypt.compareSync(inputPassword, hash)
+function checkPass (inputPassword, input) {
+    return bcrypt.compareSync(inputPassword, input)
 }
 
 module.exports = { hashPassword, checkPass }

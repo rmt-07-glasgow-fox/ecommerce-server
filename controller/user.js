@@ -3,21 +3,34 @@ const { generateToken } = require('../helper/jwt')
 const { User } = require('../models')
 
 class UserController {
-    static async login (req, res) {
-        const { email, password } = req.body
+    static async login (req, res, next) {
+        const {email, password} = req.body
         try {
-            const admin = await User.findOne( {where: { email }})
-            const userPassword = await checkPass(password, find.password)
-            if (admin && userPassword) {
-                const access_token = generateToken({email, password})
-                res.status(200).json(access_token)
+            const find = await User.findOne({
+                where: { email }
+            })
+            if (find) {
+                const matchPassword = checkPass(password, find.password)
+                if (matchPassword) {
+                    const data = {
+                        id: find.id,
+                        email: find.email,
+                        password: find.password
+                    }
+                    const access_token = generateToken(data)
+                    res.status(200).json({access_token})
+                } else {
+                    next({
+                        name: 'failLogin'
+                    })
+                }
             } else {
-                res.status(400).json({
-                    msg: 'email or password is undefined'
+                next({
+                    name: 'failLogin'
                 })
             }
         } catch (err) {
-            res.status(500).json(err)
+            next(err)
         }
     }
 }

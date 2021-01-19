@@ -1,13 +1,12 @@
 const { Product } = require('../models')
 
-
 class productController {
     static async readProduct (req, res) {
         try {
             const read = await Product.readAll()
             res.status(200).json(read)
         } catch (err) {
-            res.status(500).json(err)
+            next(err)
         }
     }
     static async createProduct (req, res) {
@@ -17,9 +16,9 @@ class productController {
             const input = await Product.create({
                 name, image_url, price, stock
             })
-            res.status(201).json('product has been added')
+            res.status(201).json(input)
         } catch (err) {
-            res.status(500).json(err)
+            next(err)
         }
     }
     static async update (req, res) {
@@ -36,12 +35,23 @@ class productController {
                 }, {where: { id }})
                 res.status(200).json(update)
             } else {
-                res.status(404).json({
-                    msg: 'Data not found'
+                next({
+                    name: 'undefined' 
                 })
             }
         } catch (err) {
-            res.status(500).json(err)
+            next(err)
+        }
+    }
+    static async delete (req, res) {
+        const id = req.params.id
+        try {
+            const data = await Product.destroy({where: { id }})
+            res.status(200).json({
+                msg: 'product was deleted'
+            })
+        } catch (err) {
+            next(err)
         }
     }
 }

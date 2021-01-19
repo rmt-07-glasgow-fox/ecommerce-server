@@ -1,23 +1,40 @@
-const { User, Product } = require('../models')
+const { User } = require('../models')
 const { verifyJWT } = require('../helper/jwt')
 
 async function authenticate (req, res, next) {
     try {
         const decode = verifyJWT(req.headers.access_token)
         const data = await User.findOne({
-            where: { id: decode.id}
+            where: { email: decode.email}
         })
         if (!data) {
-            res.status(400).json({
-                msg: 'Please login'
+            return next({
+                name: 'undefined'
+            })
+        } else if (!decode) { 
+            return next({
+                name: 'access_token'
             })
         } else { 
             req.user = data
             next()
         }
     } catch (err) {
-        res.status(500).json(err)
+        next(err)
+    }
+}
+async function authorization (req, res, next) {
+    console.log(req.user.role);
+    try {
+        if (req.user.role.toLowerCase() === 'admin') next()
+        else {
+            return next({ 
+                name: 'customer'
+            })
+        }
+    } catch (err) {
+        next(err)
     }
 }
 
-module.exports = { authenticate }
+module.exports = { authenticate, authorization }
