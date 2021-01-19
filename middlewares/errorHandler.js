@@ -1,6 +1,6 @@
 const errorHandler = (err, req, res, next) => {
   if (err) {
-    const errors = []
+    let errors = []
 
     switch (err.name) {
       case 'AuthError':
@@ -15,7 +15,12 @@ const errorHandler = (err, req, res, next) => {
         errors.push('Not found')
         res.status(404).json({ errors })
         break
+      case 'NoCredentials':
+        errors.push('Not authorised')
+        res.status(401).json({ errors })
+        break
       default:
+        console.log(err)
         errors = err.errors.map(error => error.message)
         res.status(400).json({
           errors

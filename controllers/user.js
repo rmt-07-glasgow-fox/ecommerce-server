@@ -6,7 +6,7 @@ class UserController {
   static login(req, res, next) {
     const { email, password } = req.body
 
-    if (!email && !password) {
+    if (!email || !password) {
       next({ name: 'BadRequest' })
     }
 
@@ -25,7 +25,8 @@ class UserController {
           if (match) {
             const payload = {
               id: user.id,
-              email: user.email
+              email: user.email,
+              role: user.role
             }
 
             const access_token = createToken(payload)
