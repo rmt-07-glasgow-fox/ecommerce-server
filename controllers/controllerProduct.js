@@ -22,7 +22,7 @@ module.exports = class ControllerProduct {
         }
         Product.create(newData)
         .then( data => {
-            return res.status(201).json({ message: "Product has been added" })
+            return res.status(201).json(data)
         } )
         .catch( err => {
             next(err)

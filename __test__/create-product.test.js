@@ -1,7 +1,18 @@
 const request = require('supertest')
 const app = require('../app.js')
+const { login } = require('../controllers/controllerAuth.js')
+const clearProduct = require('./helpers/clear-products.js')
+const models = require('../models')
 
 describe('POST /products', () => {
+    afterAll( () => {
+        clearProduct()
+        .then( () => {
+            models.sequelize.close()
+            done()
+        } )
+        .catch()
+    } )
     it('should send response with 201 status code', (done) => {
         //setup
         const body = {
@@ -32,8 +43,6 @@ describe('POST /products', () => {
                 expect(res.body.price).toEqual(body.price)
                 expect(res.body).toHaveProperty('stock')
                 expect(res.body.stock).toEqual(body.stock)
-                expect(res.body).toHaveProperty('UserId')
-                expect(res.body.UserId).toEqual(body.UserId)
                 
                 done()
             } )
@@ -60,13 +69,8 @@ describe('POST /products', () => {
                 expect(res.body).toHaveProperty('name')
                 expect(res.body.name).toEqual(body.name)
                 expect(res.body).toHaveProperty('image_url')
-                expect(res.body.image_url).toEqual(body.image_url)
                 expect(res.body).toHaveProperty('price')
-                expect(res.body.price).toEqual(body.price)
                 expect(res.body).toHaveProperty('stock')
-                expect(res.body.stock).toEqual(body.stock)
-                expect(res.body).toHaveProperty('UserId')
-                expect(res.body.UserId).toEqual(body.UserId)
                 
                 done()
             } )
@@ -88,10 +92,8 @@ describe('POST /products', () => {
                 //assert
                 expect(res.statusCode).toEqual(400)
                 expect(typeof res.body).toEqual('object')
-                expect(res.body).toHaveProperty('errors')
-                expect(Array.isArray(res.body.errors)).toEqual(true)
                 expect(res.body.errors).toEqual(
-                    expect.arrayContaining(['Name Product cant be Empty'])
+                    expect.arrayContaining([{"message": "Name Product cant be Empty"}])
                 )
 
                 done()

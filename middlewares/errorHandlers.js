@@ -5,7 +5,9 @@ const errorHandlers = (err, req, res, next) => {
                 const errMsg = err.errors.map( el => {
                     return { message: el.message }
                 } )
-                res.status(400).json(errMsg)
+                return res.status(400).json({
+                    errors: errMsg
+                })
                 break;
             case "loginFailed":
                 res.status(400).json({ message: "Invalid email/ password" })
