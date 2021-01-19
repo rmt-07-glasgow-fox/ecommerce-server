@@ -9,6 +9,27 @@ let errorHandlers = (err, req, res, next) => {
       case "invalidLogin":
         res.status(401).json({ errors: 'Your Email or Password is invalid' });
         break;
+      case "JsonWebTokenError":
+        res.status(401).json({ errors: 'Please login first!' });
+        break;
+      case "unauthenticate":
+        res.status(401).json({ errors: 'Please login first!' });
+        break;
+      case "unauthorize":
+        res.status(401).json({ errors: 'You don\'t have authorization to do this task.' });
+        break;
+      case "notFound":
+        res.status(404).json({ errors: 'Your request is not found.' });
+        break;
+      case "productNotFound":
+        res.status(404).json({ errors: 'Product is not found.' });
+        break;
+      case "categoryNotFound":
+        res.status(404).json({ errors: 'Category is not found.' });
+        break;
+      case "bannerNotFound":
+        res.status(404).json({ errors: 'Banner is not found.' });
+        break;
       case "SequelizeUniqueConstraintError":
         errors = err.errors.map(error => error.message);
         res.status(409).json({ errors });

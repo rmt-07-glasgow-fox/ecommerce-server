@@ -45,7 +45,6 @@ class UserController {
 
       res.status(200).json({ access_token });
     } catch (err) {
-      // console.log(err)
       next(err);
     };
   };
@@ -66,9 +65,7 @@ class UserController {
         role: getuser.role
       });
     } catch (err) {
-      // !decode => err = { "name": "JsonWebTokenError", "message": "jwt must be provided" }
-      // !getuser => err = { "name": "notFound" };
-      res.send(err)
+      next(err);
     };
   };
 };

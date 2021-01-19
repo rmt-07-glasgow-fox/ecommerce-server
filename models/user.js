@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      User.hasMany(models.Product, { foreignKey: 'UserId' });
     }
   };
   User.init({
@@ -40,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
           args: true,
           msg: 'Email is required'
         },
-        isEmail:{
+        isEmail: {
           args: true,
           msg: 'Format email is invalid'
         },
@@ -69,6 +69,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     hooks: {
       beforeCreate(user, options) {
+        user.firstname = user.firstname[0].toUpperCase() + user.firstname.slice(1).toLowerCase();
         user.password = hashPass(user.password);
         !user.lastname ? user.lastname = user.firstname : user.lastname;
         !user.profpic ? user.profpic = `https://ui-avatars.com/api/?name=${user.firstname}&background=random&length=1&bold=true&color=ffffff` : user.profpic;

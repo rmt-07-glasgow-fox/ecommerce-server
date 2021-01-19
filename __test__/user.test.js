@@ -3,7 +3,7 @@ const app = require('../app.js');
 const models = require('../models/index.js');
 const clearUser = require('./helpers/testClearUser.js');
 
-describe('User Test Unit', () => {
+describe('User Test Suite', () => {
   afterAll(done => {
     clearUser('johndoe@mail.com')
       .then(() => clearUser('siri@mail.com'))

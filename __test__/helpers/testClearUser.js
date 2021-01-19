@@ -9,7 +9,7 @@ let clearUser = async (email) => {
     };
   } catch (err) {
     console.log(err);
-  }
-}
+  };
+};
 
 module.exports = clearUser;

@@ -1,0 +1,44 @@
+[
+  {
+    "name": "action"
+  },
+  {
+    "name": "adventure"
+  },
+  {
+    "name": "battleroyal"
+  },
+  {
+    "name": "fighting"
+  },
+  {
+    "name": "fps"
+  },
+  {
+    "name": "horror"
+  },
+  {
+    "name": "moba"
+  },
+  {
+    "name": "puzzle"
+  },
+  {
+    "name": "rhythm"
+  },
+  {
+    "name": "rpg"
+  },
+  {
+    "name": "racing"
+  },
+  {
+    "name": "simulation"
+  },
+  {
+    "name": "shooter"
+  },
+  {
+    "name": "tps"
+  }
+]

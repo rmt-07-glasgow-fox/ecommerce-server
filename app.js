@@ -6,7 +6,6 @@ const app = express();
 const router = require('./routers/index.js');
 const errorHandlers = require('./middlewares/errorHandlers.js');
 
-
 app.use(cors());
 
 app.use(express.json());
@@ -14,6 +13,5 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(router);
 app.use(errorHandlers);
-//TODO: Error Handler in middlewares/errorHandlers.js
 
 module.exports = app;
