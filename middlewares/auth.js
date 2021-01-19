@@ -3,7 +3,6 @@ const { verifyToken } = require('../helpers/jwt')
 
 
 const authenticate = async (req, res, next) => {
-  let errors = []
   try {
     if (req.headers.access_token) {
       const decodedPayload = await verifyToken(req.headers.access_token)

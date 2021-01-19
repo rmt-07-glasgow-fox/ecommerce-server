@@ -8,11 +8,20 @@ const products = [
         stock: 5,
         createdAt: new Date(),
         updatedAt: new Date()
+    },
+    {
+        name: 'macbook pro',
+        image_url: 'https://i.pcmag.com/imagery/reviews/038Dr5TVEpwIv8rCljx6UcF-13..1588802180.jpg',
+        price: 2000000,
+        stock: 1,
+        createdAt: new Date(),
+        updatedAt: new Date()
     }
+
 ]
 
 const seedProducts = () => {
-    return Product.bulkCreate(products)
+    return Product.bulkCreate(products, { individualHooks: true })
 }
 
 module.exports = seedProducts
