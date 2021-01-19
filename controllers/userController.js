@@ -1,5 +1,6 @@
 const { User } = require('../models')
 const { isPasswordValid } = require('../helpers/password')
+const { generateToken } = require('../helpers/token')
 
 class UserController {
 
@@ -20,13 +21,15 @@ class UserController {
                 return next({ name: 400, message: 'password is not matched' })
             }
 
-            let response = {
+            let convertToken = {
                 id: user.id,
                 email: user.email,
                 role: user.role
             }
 
-            res.status(200).json(response)
+            let token = generateToken(convertToken)
+
+            res.status(200).json({ access_token: token })
 
         } catch (err) {
             return next(err)

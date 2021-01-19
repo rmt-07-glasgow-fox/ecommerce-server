@@ -18,13 +18,7 @@ describe('POST /user/login', () => {
                 if (err) done(err)
 
                 // assert
-                expect(res.body).toHaveProperty('id')
-                expect(res.body).toHaveProperty('role')
-                expect(res.body).toHaveProperty('email')
-
-                expect(res.body.role).toEqual('admin')
-                expect(res.body.email).toEqual(body.email)
-
+                expect(res.body).toHaveProperty('access_token')
                 done()
             })
     })
