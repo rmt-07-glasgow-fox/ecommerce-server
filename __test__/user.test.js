@@ -52,8 +52,28 @@ describe('POST /login', () => {
   })
 
   // unauthorised case
-  //it('should send response with 401 status code', (done) => {
+  it('should send response with 401 status code', (done) => {
+    const body = {
+      email: 'admin@mail.com',
+      password: 'failedpassword'
+    }
 
-  //})
+    request(app)
+      .post('/login')
+      .send(body)
+      .end((err, res) => {
+        if (err) done(err)
 
+        expect(res.statusCode).toEqual(401)
+        expect(typeof res.body).toEqual('object')
+
+        expect(res.body).toHaveProperty('errors')
+        expect(Array.isArray(res.body.errors)).toEqual(true)
+        expect(res.body.errors).toEqual(
+          expect.arrayContaining(['Wrong email / password'])
+        )
+
+        done()
+      })
+  })
 })
