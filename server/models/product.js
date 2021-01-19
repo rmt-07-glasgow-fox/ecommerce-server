@@ -65,6 +65,7 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
+    description: DataTypes.TEXT,
     UserId: DataTypes.INTEGER
   }, {
     sequelize,

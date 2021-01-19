@@ -17,7 +17,6 @@ function errorHandler(err, req, res, next) {
         }
         break;
       case 401:
-        // res.status(401).json(err)
         if (err.message) {
           res.status(401).json({
             message: err.message

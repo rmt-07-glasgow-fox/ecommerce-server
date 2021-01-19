@@ -2,7 +2,19 @@ const { Product } = require('../models')
 
 class ProductController{
   static getProducts(req, res, next){
-
+    Product.findAll({
+      order: [['createdAt', 'ASC']]
+    })
+    .then(data => {
+      if(data) {
+        res.status(200).json(data)
+      } else {
+        next({status: 404})
+      }
+    })
+    .catch(err => {
+      next(err)
+    })
   }
 
   static addProducts(req, res, next){
@@ -11,6 +23,7 @@ class ProductController{
       image_url: req.body.image_url,
       price: +req.body.price,
       stock: +req.body.stock,
+      description: req.body.description,
       UserId: +req.userData.id
     }
     console.log(value);
@@ -30,6 +43,21 @@ class ProductController{
     })
   }
 
+  static getProductsId(req, res, next){
+    let id = req.params.id
+    Product.findByPk(id)
+    .then(data => {
+      if(data) {
+        res.status(200).json(data)
+      } else {
+        next({status: 404})
+      }
+    })
+    .catch(err => {
+      next(err)
+    })
+  }
+
   static editProducts(req, res, next){
     let id = req.params.id
     let value = {
@@ -37,6 +65,7 @@ class ProductController{
       image_url: req.body.image_url,
       price: +req.body.price,
       stock: +req.body.stock,
+      description: req.body.description,
       UserId: +req.userData.id
     }
     Product.update(value,{

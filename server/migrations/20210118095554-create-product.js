@@ -20,6 +20,9 @@ module.exports = {
       stock: {
         type: Sequelize.INTEGER
       },
+      description: {
+        type: Sequelize.TEXT
+      },
       UserId: {
         type: Sequelize.INTEGER,
         references: {
