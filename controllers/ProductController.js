@@ -49,6 +49,25 @@ class ProductController {
     })
   }
 
+  static getProductById(req, res, next) {
+    const productId = +req.params.id
+
+    Product.findByPk(productId, {
+      include: User
+    })
+    .then(product => {
+      if(req.user.role === 'admin') {
+        res.status(200).json(product)
+      } else {
+        next({name: 'unauthorized'})
+      }
+    })
+    .catch(err => {
+      next(err)
+    })
+  } 
+
+
   static putProductById(req, res, next) {
     const productId = +req.params.id
 
@@ -56,7 +75,8 @@ class ProductController {
       name: req.body.name,
       image_url: req.body.image_url,
       price: req.body.price,
-      stock: req.body.stock
+      stock: req.body.stock,
+      UserId: req.user.id
     }
 
     Product.update(updatedProduct, {

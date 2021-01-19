@@ -8,7 +8,7 @@ class UserController {
     const payload = {
       email: req.body.email,
       password: req.body.password,
-      role: req.body.role
+      role: "customer"
     }
 
     User.create(payload)

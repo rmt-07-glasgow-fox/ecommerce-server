@@ -26,7 +26,7 @@ const errorHandlers = ((err, req, res, next) => {
         res.status(401).json({message: 'Unauthorized', errorMessage: err.message})
         break
       case 'mustInteger':
-        res.status(404).json({message: 'Stock Must Be Integer', errorMessage: err.message})
+        res.status(400).json({message: 'Stock Must Be Integer', errorMessage: err.message})
         break
       case 'notFound': 
         res.status(404).json({message: 'Product Not Found', errorMessage: err.message})
