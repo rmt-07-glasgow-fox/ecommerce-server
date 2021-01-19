@@ -1,4 +1,5 @@
 const { User } = require('../models')
+const { generateToken } = require('../helpers/jwt')
 
 class UserController {
     static login(req,res,next){
@@ -7,13 +8,13 @@ class UserController {
         }})
         .then(data => {
             if(data){
+                const payload = {
+                    id: data.id,
+                    email: data.email
+                }
+                const access_token = generateToken(payload)
                 if(req.body.password == data.password){
-                    res.status(200).json({
-                        id: data.id,
-                        name: data.name, 
-                        email: data.email,
-                        role: data.role
-                    }) 
+                    res.status(200).json({ access_token }) 
                 } else {
                     throw {
                         status: 401,

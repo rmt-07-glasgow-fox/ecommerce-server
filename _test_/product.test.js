@@ -35,7 +35,8 @@ describe("Create Product POST /product", () => {
                 name: "sepatu" ,
                 imageUrl: "gambar" ,
                 price: 200000,
-                stock: 50
+                stock: 50,
+                category: 'fashion'
             })
             .end((err,res) => {
                 const { body,status } = res
@@ -48,6 +49,7 @@ describe("Create Product POST /product", () => {
                 expect(body).toHaveProperty("price", 200000)
                 expect(body).toHaveProperty("stock", 50)
                 expect(body).toHaveProperty("imageUrl", "gambar")
+                expect(body).toHaveProperty("category", "fashion")
                 done()
             })
         })  
@@ -65,7 +67,8 @@ describe("error when Create Product", () => {
             name: "sepatu" ,
             imageUrl: "gambar" ,
             price: 200000,
-            stock: 50
+            stock: 50,
+            category: 'fashion'
         })
         .end((err,res) => {
             const { body,status } = res
@@ -91,7 +94,8 @@ describe("error when Create Product", () => {
                 name: "sepatu" ,
                 imageUrl: "gambar" ,
                 price: 200000,
-                stock: 50
+                stock: 50,
+                category: 'fashion'
             })
             .end((err,res) => {
                 const { body,status } = res
@@ -117,7 +121,8 @@ describe("error when Create Product", () => {
             name:  "",
             imageUrl: "" ,
             price: 0,
-            stock: 0
+            stock: 0,
+            category: 'fashion'
         })
         .end((err,res) => {
             const expected = ["product name cannot be empty","image url cannot be empty"];
@@ -144,7 +149,8 @@ describe("error when Create Product", () => {
             name:  "baju",
             imageUrl: "baju" ,
             price: "baju",
-            stock: "baju"
+            stock: "baju",
+            category: 'fashion'
         })
         .end((err,res) => {
             const { body,status } = res
@@ -170,7 +176,8 @@ describe("error when Create Product", () => {
             name:  "baju",
             imageUrl: "baju" ,
             price: -1,
-            stock: -1
+            stock: -1,
+            category: 'fashion'
         })
         .end((err,res) => {
             const { body,status } = res
@@ -196,7 +203,8 @@ describe("update Product PUT /product/:id", () => {
                 name: "baju" ,
                 imageUrl: "sendal" ,
                 price: 300000,
-                stock: 50
+                stock: 50,
+                category: 'fashion'
             })
             .end((err,res) => {
                 const { body,status } = res
@@ -208,6 +216,7 @@ describe("update Product PUT /product/:id", () => {
                 expect(body).toHaveProperty("price", 300000)
                 expect(body).toHaveProperty("stock", 50)
                 expect(body).toHaveProperty("imageUrl", "sendal")
+                expect(body).toHaveProperty("category", "fashion")
                 done()
             })
         })  
@@ -225,7 +234,8 @@ describe("update error no token Product PUT /product/:id", () => {
                 name: "baju" ,
                 imageUrl: "sendal" ,
                 price: 300000,
-                stock: 50
+                stock: 50,
+                category: 'fashion'
             })
             .end((err,res) => {
                 const { body,status } = res
@@ -252,7 +262,8 @@ describe("update error user not an admin PUT /product/:id", () => {
                 name: "baju" ,
                 imageUrl: "sendal" ,
                 price: 300000,
-                stock: 50
+                stock: 50,
+                category: 'fashion'
             })
             .end((err,res) => {
                 const { body,status } = res
@@ -279,7 +290,8 @@ describe("update error when required field not filled PUT /product/:id", () => {
                 name: "" ,
                 imageUrl: "" ,
                 price: 300000,
-                stock: 50
+                stock: 50,
+                category: 'fashion'
             })
             .end((err,res) => {
                 const { body,status } = res
@@ -306,7 +318,8 @@ describe("update error when required field filled with another type of required 
                 name: "baju" ,
                 imageUrl: "sandal" ,
                 price: "baju",
-                stock: "baju"
+                stock: "baju",
+                category: 'fashion'
             })
             .end((err,res) => {
                 const { body,status } = res
@@ -333,7 +346,8 @@ describe("update error when stock and price filled less than 0 PUT /product/:id"
                 name: "baju" ,
                 imageUrl: "sandal" ,
                 price: -1,
-                stock: -1
+                stock: -1,
+                category: 'fashion'
             })
             .end((err,res) => {
                 const { body,status } = res
@@ -353,7 +367,7 @@ describe("delete Product DELETE /product/:id", () => {
     describe("Success delete Product", () => {
         test("delete Product with accept body value", done => {
             request(app)
-            .delete("/product/26")
+            .delete("/product/1")
             .set('access_token', access_token)
             .end((err,res) => {
                 console.log(err)
