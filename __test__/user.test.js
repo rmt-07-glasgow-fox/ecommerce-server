@@ -40,12 +40,8 @@ describe('POST /login', () => {
         expect(res.statusCode).toEqual(200)
         expect(typeof res.body).toEqual('object')
 
-        expect(res.body).toHaveProperty('id')
-        expect(typeof res.body.id).toEqual('number')
-
-        expect(res.body).toHaveProperty('email')
-        expect(typeof res.body.email).toEqual('string')
-        expect(res.body.email).toEqual(body.email)
+        expect(res.body).toHaveProperty('access_token')
+        expect(typeof res.body.access_token).toEqual('string')
 
         done()
       })
