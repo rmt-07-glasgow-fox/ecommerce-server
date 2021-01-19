@@ -4,14 +4,14 @@ const app = require('../app')
 describe('POST /login', () => {
   it('should send response with 200 status code', (done) => {
     //Setup
-    const body = {
+    const loginUser = {
       email: 'admin@mail.com',
       password: '1234'
     }
     //Execute
     request(app)
       .post('/login')
-      .send(body)
+      .send(loginUser)
       .end((err, res) => {
         if(err) {
           done(err)
@@ -23,32 +23,72 @@ describe('POST /login', () => {
         done()
       })
   })
+
+  it('should send response with 401 status code', (done) => {
+    const loginUser = {
+      email: 'admin@mail.com',
+      password: ''
+    }
+    request(app)
+      .post('/login')
+      .send(loginUser)
+      .end((err, res) => {
+        if(err) {
+          done(err)
+        }
+        expect(res.statusCode).toEqual(401)
+        expect(typeof res.body).toEqual('object')
+        expect(res.body).toHaveProperty('message')
+        expect(Array.isArray(res.body)).toEqual(false)
+        expect(res.body.message).toEqual("Invalid username / password")
+        done()
+      })
+  })
+  
+  it('should send response with 401 status code', (done) => {
+    const loginUser = {
+      email: '',
+      password: ''
+    }
+    request(app)
+      .post('/login')
+      .send(loginUser)
+      .end((err, res) => {
+        if(err) {
+          done(err)
+        }
+        expect(res.statusCode).toEqual(401)
+        expect(typeof res.body).toEqual('object')
+        expect(res.body).toHaveProperty('message')
+        expect(Array.isArray(res.body)).toEqual(false)
+        expect(res.body.message).toEqual("Invalid username / password")
+        done()
+      })
+  })
+  
+  it('should send response with 401 status code', (done) => {
+    const loginUser = {
+      email: '',
+      password: '1234'
+    }
+    request(app)
+      .post('/login')
+      .send(loginUser)
+      .end((err, res) => {
+        if(err) {
+          done(err)
+        }
+        expect(res.statusCode).toEqual(401)
+        expect(typeof res.body).toEqual('object')
+        expect(res.body).toHaveProperty('message')
+        expect(Array.isArray(res.body)).toEqual(false)
+        expect(res.body.message).toEqual("Invalid username / password")
+        done()
+      })
+  })
 })
-it('should send response with 401 status code', (done) => {
-  //Setup
-  const body = {
-    email: 'admin@mail.com',
-    password: ''
-  }
-  //Execute
-  request(app)
-    .post('/login')
-    .send(body)
-    .end((err, res) => {
-      if(err) {
-        done(err)
-      }
-      //Assert
-      expect(res.statusCode).toEqual(401)
-      expect(typeof res.body).toEqual('object')
-      expect(res.body).toHaveProperty('message')
-      expect(Array.isArray(res.body)).toEqual(false)
-      expect(res.body.message).toEqual(
-        "Invalid username / password"
-        // expect.arrayContaining(['Pasword is require'])
-      )
-      done()
-    })
-})
+
+
+
 
 
