@@ -45,14 +45,18 @@ const authorization = (req, res, next) => {
         id
       }
     })
-      .then(data => {
-        if(!data || data.UserId !== req.userData.id || req.userData.role !== 'admin'){
-          next({
-            name: 'Forbidden'
-          })
-        }else{
-          next()
-        }
+    .then(data => {
+      if(!data){
+        next({
+          name: 'NoData'
+        })
+      }else if(data.UserId !== req.userData.id || req.userData.role !== 'admin'){
+        next({
+          name: 'Forbidden'
+        })
+      }else{
+        next()
+      }
       })
       .catch(err => {
         next(err)
