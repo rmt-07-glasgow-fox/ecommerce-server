@@ -4,11 +4,12 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "set-test": "SET NODE_ENV=test",
-    "set-dev" : "SET NODE_ENV=development",
-    "create-db": "npx sequelize db:create & npx sequelize db:migrate & npx sequelize db:seed:all",
-    "dev": "SET NODE_ENV=test&npx nodemon bin/http.js",
-    "test": "npx jest"
+    "create-db-test": "SET NODE_ENV=test&npx sequelize db:create&npx sequelize db:migrate&npx sequelize db:seed:all",
+    "create-db-dev" : "SET NODE_ENV=development&npx sequelize db:create&npx sequelize db:migrate&npx sequelize db:seed:all",
+    "drop-db-test": "SET NODE_ENV=test&npx sequelize db:drop",
+    "drop-db-dev": "SET NODE_ENV=development&npx sequelize db:drop",
+    "dev": "SET NODE_ENV=development&npx nodemon bin/http.js",
+    "test": "SET NODE_ENV=test&npx jest"
   },
   "keywords": [],
   "author": "",

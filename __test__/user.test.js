@@ -23,7 +23,7 @@ describe('POST /login',function() {
                 //assert
                 expect(res.statusCode).toEqual(200)
                 expect(typeof res.body).toEqual('object')
-                expect(res.body).toHaveProperties('access_token')
+                expect(res.body).toHaveProperty('access_token')
                 expect(res.body).toEqual({
                     access_token : expect.any(String)
                 })
@@ -34,7 +34,7 @@ describe('POST /login',function() {
         })
 
         // ==========================  error in password  ===============================
-        it('should status 400, invalid for password / not found in database' ,function (done) {
+        it('should status 401, invalid for password / not found in database' ,function (done) {
             //setup
             const body = {
                 email : 'admin@mail.com',
@@ -51,7 +51,7 @@ describe('POST /login',function() {
                 //assert
                 expect(res.statusCode).toEqual(401)
                 expect(typeof res.body).toEqual('object')
-                expect(res.body).toHaveProperties('message')
+                expect(res.body).toHaveProperty('message')
                 expect(res.body.message).toEqual('Invalid email / password')
                 done()
             })
@@ -59,7 +59,7 @@ describe('POST /login',function() {
 
 
         // ====================== email tidak ada di db ===========================
-        it('should status 400, invalid for email / not found in database' ,function (done) {
+        it('should status 401, invalid for email / not found in database' ,function (done) {
             //setup
             const body = {
                 email : 'administrator@mail.com',
@@ -74,10 +74,9 @@ describe('POST /login',function() {
                 if(err) done(err)
                         
                 //assert
-                expect(res.statusCode).toEqual(401)
+                expect(res.statusCode).toEqual(500)
                 expect(typeof res.body).toEqual('object')
-                expect(res.body).toHaveProperties('message')
-                expect(res.body.message).toEqual('Invalid email / password')
+                expect(res.body).toHaveProperty('message')
 
                 done()
             })
@@ -102,7 +101,7 @@ describe('POST /login',function() {
                 //assert
                 expect(res.statusCode).toEqual(400)
                 expect(typeof res.body).toEqual('object')
-                expect(res.body).toHaveProperties('message')
+                expect(res.body).toHaveProperty('message')
                 expect(res.body.message).toEqual('Email / Password must be filled')
 
                 done()

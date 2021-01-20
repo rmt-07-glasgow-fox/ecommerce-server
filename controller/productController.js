@@ -66,7 +66,7 @@ class ProductController {
             if(!data) {
                 next({ name : 'notFound'})
             } else {
-                res.status(201).json(data[1])
+                res.status(200).json(data[1])
             }
 
         } catch(err) {

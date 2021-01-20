@@ -1,9 +1,7 @@
 const request = require('supertest')
 
 const app = require('../app')
-
 const { genToken } = require('../helper/jwt')
-
 const { User } = require('../models')
 
 describe('GET /products',function() {
@@ -83,8 +81,9 @@ describe('create product POST /products',function() {
         
             //excecute
             request(app) 
-            .set(access_token, 'access_token')
             .post(`/products`)
+            .set('access_token', access_token)
+            .send(body)
             .end((err, res) => {
                 if(err) done(err)
             
@@ -128,8 +127,8 @@ describe('create product POST /products',function() {
                 //assert
                 expect(res.statusCode).toEqual(400)
                 expect(typeof res.body).toEqual('object')
-                expect(res.body).toHaveProperty('message')
-                expect(res.body.message).toEqual('name is required')
+                expect(res.body[0]).toHaveProperty('message')
+                expect(res.body[0].message).toEqual('name is required')
                 done()
             })
         })
@@ -155,8 +154,8 @@ describe('create product POST /products',function() {
                 //assert
                 expect(res.statusCode).toEqual(400)
                 expect(typeof res.body).toEqual('object')
-                expect(res.body).toHaveProperty('message')
-                expect(res.body.message).toEqual(`price / stock can't be negative`)
+                expect(res.body[0]).toHaveProperty('message')
+                expect(res.body[0].message).toEqual(`price / stock can't be negative`)
                 done()
             })
         })
@@ -181,10 +180,10 @@ describe('create product POST /products',function() {
 
 
                 //assert
-                expect(res.statusCode).toEqual(401)
+                expect(res.statusCode).toEqual(400)
                 expect(typeof res.body).toEqual('object')
-                expect(res.body).toHaveProperty('message')
-                expect(res.body.message).toEqual(`price / stock can't be negative`)
+                expect(res.body[0]).toHaveProperty('message')
+                expect(res.body[0].message).toEqual(`price / stock can't be negative`)
                 done()
             })
         })
@@ -209,9 +208,9 @@ describe('create product POST /products',function() {
 
 
                 //assert
-                expect(res.statusCode).toEqual(401)
-                expect(typeof res.body).toEqual('object')
+                expect(res.statusCode).toEqual(400)
                 expect(Array.isArray(res.body)).toEqual(true)
+                expect(typeof res.body[0]).toEqual('object')
                 expect(res.body[0]).toHaveProperty('message')
                 expect(res.body[0].message).toEqual('allow for number only')
                 done()
@@ -255,15 +254,14 @@ describe('create product POST /products',function() {
         beforeAll(done => {
             User.findOne( {where : { email : 'customer@mail.com'}} )
             .then(user => {
-                if(user.role == 'admin') {
-                    const payload = { 
-                        id : user.id, 
-                        email : user.email 
-                    }
-        
-                    access_token = genToken(payload)
-                    done()
+                const payload = { 
+                    id : user.id, 
+                    email : user.email 
                 }
+        
+                access_token = genToken(payload)
+                done()
+                
             })
         })
         
@@ -327,7 +325,7 @@ describe('PUT /products/:id',function() {
         // ============================== successfull update ===========================
         it('should status 200 update by id' ,function () {
             //setup
-            let id = 1
+            let id = 2
             const body = {
                 name : 'baju keren',
                 image_url : 'https://ecs7.tokopedia.net/img/cache/700/product-1/2019/9/1/6708815/6708815_9154e541-994c-49db-a5e6-c2a0657b1fe6_712_712.jpg',
@@ -345,7 +343,6 @@ describe('PUT /products/:id',function() {
                 //assert
                 expect(res.statusCode).toEqual(200)
                 expect(typeof res.body).toEqual('object')
-                expect(res.body).toHaveProperty('msg')
                 expect(res.body).toHaveProperty('id')
                 expect(typeof body.id).toEqual('number')
                 expect(res.body).toHaveProperty('name')
@@ -368,7 +365,7 @@ describe('PUT /products/:id',function() {
         // ===========   tidak ada access_token ===================
         it('should status code 400, sequelize validation error' ,function (done) {
             //setup
-            let id = 1
+            let id = 2
 
             const body = {
                 name : 'baju keren',
@@ -387,7 +384,9 @@ describe('PUT /products/:id',function() {
                 //assert
                 expect(res.statusCode).toEqual(401)
                 expect(typeof res.body).toEqual('object')
-                //error
+                expect(res.body).toHaveProperty('message')
+                expect(res.body.message).toEqual('Please login first')
+
                 done()
             })
         
@@ -402,7 +401,6 @@ describe('PUT /products/:id',function() {
         beforeAll(done => {
             User.findOne( {where : { email : 'customer@mail.com'}} )
             .then(user => {
-                if(user.role == 'admin') {
                     const payload = { 
                         id : user.id, 
                         email : user.email 
@@ -410,16 +408,14 @@ describe('PUT /products/:id',function() {
         
                     access_token = genToken(payload)
                     done()
-                }
-                done()
             })
         })
     
 
         // ===========   not admin ===================
-        it('should status code 400, sequelize validation error' ,function (done) {
+        it('should status code 401, not admin' ,function (done) {
             //setup
-            let id = 1
+            let id = 2
             const body = {
                 name : 'baju keren',
                 image_url : 'https://ecs7.tokopedia.net/img/cache/700/product-1/2019/9/1/6708815/6708815_9154e541-994c-49db-a5e6-c2a0657b1fe6_712_712.jpg',
@@ -438,6 +434,8 @@ describe('PUT /products/:id',function() {
                 //assert
                 expect(res.statusCode).toEqual(401)
                 expect(typeof res.body).toEqual('object')
+                expect(res.body).toHaveProperty('message')
+                expect(res.body.message).toEqual(`You're not admin`)
                 done()
             })
         })
@@ -449,24 +447,21 @@ describe('PUT /products/:id',function() {
         beforeAll(done => {
             User.findOne( {where : { email : 'admin@mail.com'}} )
             .then(user => {
-                if(user.role == 'admin') {
-                    const payload = { 
-                        id : user.id, 
-                        email : user.email 
-                    }
-        
-                    access_token = genToken(payload)
-                    done()
+                const payload = { 
+                    id : user.id, 
+                    email : user.email 
                 }
+        
+                access_token = genToken(payload)
                 done()
             })
         })
 
         // ===========   stock minus ===================
-        it('should status code 400, sequelize validation error' ,function (done) {
+        it('should status code 400, price / stock not allow negative' ,function (done) {
             //setup
 
-            let id = 1
+            let id = 2
             const body = {
                 name : 'baju keren',
                 image_url : 'https://ecs7.tokopedia.net/img/cache/700/product-1/2019/9/1/6708815/6708815_9154e541-994c-49db-a5e6-c2a0657b1fe6_712_712.jpg',
@@ -483,22 +478,24 @@ describe('PUT /products/:id',function() {
                 if(err) done(err)
 
                 //assert
-                expect(res.statusCode).toEqual(401)
+                expect(res.statusCode).toEqual(400)
                 expect(typeof res.body).toEqual('object')
+                expect(res.body[0]).toHaveProperty('message')
+                expect(res.body[0].message).toEqual(`price / stock can't be negative`)
                 done()
             })
     
         })
 
         // ===========   diisi type data tidak sesuai ===================
-        it('should status code 400, sequelize validation error' ,function (done) {
+        it('should status code 400, not number' ,function (done) {
             //setup
-            let id = 1
+            let id = 2
             const body = {
-                name : 4444,
+                name : 'baju asik',
                 image_url : 'https://ecs7.tokopedia.net/img/cache/700/product-1/2019/9/1/6708815/6708815_9154e541-994c-49db-a5e6-c2a0657b1fe6_712_712.jpg',
                 price : 100000,
-                stock : '5',
+                stock : 'aaaaa',
             }
         
             //excecute
@@ -510,8 +507,10 @@ describe('PUT /products/:id',function() {
                 if(err) done(err)
                 
                 //assert
-                expect(res.statusCode).toEqual(401)
-                expect(typeof res.body).toEqual('object')
+                expect(res.statusCode).toEqual(400)
+                expect(Array.isArray(res.body)).toEqual(true)
+                expect(res.body[0]).toHaveProperty('message')
+                expect(res.body[0].message).toEqual('allow for number only')
                 done()
             })
         })
@@ -544,20 +543,20 @@ describe('DELETE /products',function() {
         // ===================== success delete ================================
         it('should status 200 delete success',function (done) {
             //setup
-            let id = 1
+            let id = 2
         
             //excecute
             request(app) 
-            .set("access_token", access_token)
             .delete(`/products/${id}`)
+            .set("access_token", access_token)
             .end((err, res) => {
                 if(err) done(err)
 
                 //assert
                 expect(res.statusCode).toEqual(200)
                 expect(typeof res.body).toEqual('object')
-                expect(res.body).toHaveProperty('msg')
-                expect(res.body.msg)
+                expect(res.body).toHaveProperty('message')
+                expect(res.body.message).toEqual('Product success to delete')
 
                 done()
             })
@@ -569,7 +568,7 @@ describe('DELETE /products',function() {
         // ===================== not access_token =============================
         it('should status 400 dont have authentication',function (done) {
             //setup
-            let id = 1
+            let id = 2
         
             //excecute
             request(app) 
@@ -578,8 +577,10 @@ describe('DELETE /products',function() {
                 if(err) done(err)
 
                 //assert
-                expect(res.statusCode).toEqual(400)
+                expect(res.statusCode).toEqual(401)
                 expect(typeof res.body).toEqual('object')
+                expect(res.body).toHaveProperty('message')
+                expect(res.body.message).toEqual('Please login first')
 
                 done()
             })
@@ -592,16 +593,14 @@ describe('DELETE /products',function() {
         beforeAll(done => {
             User.findOne( {where : { email : 'customer@mail.com'}} )
             .then(user => {
-                if(user.role == 'admin') {
-                    const payload = { 
-                        id : user.id, 
-                        email : user.email 
-                    }
-        
-                    access_token = genToken(payload)
-                    done()
+                const payload = { 
+                    id : user.id, 
+                    email : user.email 
                 }
+        
+                access_token = genToken(payload)
                 done()
+
             })
         })
 
@@ -613,14 +612,16 @@ describe('DELETE /products',function() {
         
             //excecute
             request(app) 
-            .set('access_token', access_token)
             .delete(`/products/${id}`)
+            .set('access_token', access_token)
             .end((err, res) => {
                 if(err) done(err)
 
                 //assert
-                expect(res.statusCode).toEqual(400)
+                expect(res.statusCode).toEqual(401)
                 expect(typeof res.body).toEqual('object')
+                expect(res.body).toHaveProperty('message')
+                expect(res.body.message).toEqual(`You're not admin`)
 
                 done()
             })
