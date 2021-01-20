@@ -12,6 +12,7 @@ class UserController {
       return res.status(201).json({ message: 'Success create user' });
     }
     catch (err) {
+      console.log(err);
       return next(err);
     }    
   }

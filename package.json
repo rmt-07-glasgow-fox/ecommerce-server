@@ -15,7 +15,7 @@
     "db:seed:development": "NODE_ENV=development npm run db:seed",
     "db:seed:test": "NODE_ENV=test npm run db:seed",
     "dev": "NODE_ENV=development npx nodemon bin/http.js",
-    "test": "NODE_ENV=test npm run db:migrate:reset && npx jest"
+    "test": "NODE_ENV=test npm run db:migrate:reset && npx jest --detectOpenHandles"
   },
   "repository": {
     "type": "git",
@@ -37,6 +37,7 @@
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "pg": "^8.5.1",

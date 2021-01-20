@@ -16,9 +16,10 @@ describe('POST /products', () => {
       role: 'admin'
     }
     // Execute login admin
-    await request(app)
-    .post('/register')
-    .send(body)
+    // await request(app)
+    // .post('/register')
+    // .send(body)
+
 
     const response = await request(app)
     .post('/login')
