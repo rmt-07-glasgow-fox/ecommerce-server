@@ -28,7 +28,28 @@ function authenticate(req, res, next){
 }
 
 function authorized(req, res, next){
-
+  try {
+    let decode = verifyToken(req.headers.access_token)
+    User.findByPk(decode.id)
+    .then(data => {
+      if(data) {
+        if(data.role === 'admin') {
+          next()
+        } else {
+          next({status: 401})
+        }
+      } else {
+        next({status: 401})
+      }
+    }).catch(err => {
+      next(err)
+    })
+  } catch (error) {
+    next({
+      status: 400,
+      message: error.message
+    })
+  }
 }
 
 module.exports = {

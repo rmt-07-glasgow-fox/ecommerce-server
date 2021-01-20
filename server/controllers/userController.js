@@ -5,6 +5,7 @@ class UserController{
   static handleLogin(req, res, next){
     let email = req.body.email
     let password = req.body.password
+    console.log(email);
     User.findOne({
       where: {
         email
