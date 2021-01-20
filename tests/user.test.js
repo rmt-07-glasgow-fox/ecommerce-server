@@ -1,17 +1,18 @@
 const request = require('supertest')
 const app = require('../app')
-const { sequelize } = require('../models')
-const { queryInterface } = sequelize
+// const { sequelize } = require('../models')
+// const { queryInterface } = sequelize
 
 const userObjValid = { email: 'admin@mail.com', password: 'admin123', role: 'admin'}
 
-afterAll((done) => {
-    queryInterface.bulkDelete('users')
-      .then(() => {
-        done()
-      })
-      .catch(done)
-  })
+// afterAll((done) => {
+//     queryInterface.bulkDelete('users')
+//       .then(() => {
+//         done()
+//       })
+//       .catch(done)
+//   })
+
 describe( 'POST /login success', ()=> {
     test('login success', (done)=> {
         request(app)

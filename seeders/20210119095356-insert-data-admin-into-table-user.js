@@ -12,7 +12,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-   const dataAdmin = JSON.parse(fs.readFileSync('./dataAdmin.json', 'utf-8'))
+   const dataAdmin = JSON.parse(fs.readFileSync('./dataUser.json', 'utf-8'))
    dataAdmin.forEach(el => {
      el.password = hashPassword(el.password)
      el.createdAt = new Date()

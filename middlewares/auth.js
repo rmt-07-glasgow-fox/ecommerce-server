@@ -5,16 +5,20 @@ class Auth {
     static authentication (req, res, next) {
         try {
             let decoded = checkToken(req.headers.access_token)
-            // console.log( decoded);
             user.findOne({where: {
                 email: decoded.email
             }})
             .then( data => {
-                if(!data) {
-                    res.status(401).json({message: 'Please Login First'})
+                let role = data.dataValues.role
+                if(role !== 'admin'){
+                    return res.status(401).json({message: 'Please Login First'})
                 } else {
-                    req.user = data
-                    next()
+                    if(!data) {
+                        res.status(401).json({message: 'Please Login First'})
+                    } else {
+                        req.user = data
+                        next()
+                    }
                 }
             })
             .catch( err => {
@@ -22,11 +26,11 @@ class Auth {
             })
         } 
         catch (err) { 
-            res.status(500).json({message: err.message})
+            res.status(401).json({message: 'Please Login First'})
         }
     }
 
-    static authorization (req, res, next) {
+    static authAdmin (req, res, next) {
         const id = +req.params.id
         const userId = +req.user.id
 

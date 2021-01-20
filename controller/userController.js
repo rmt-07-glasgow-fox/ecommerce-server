@@ -17,7 +17,6 @@ class UserController {
             })
             
             .then( data => {
-                console.log(data);
                 if(data){
                     let data_login = data.dataValues
                     const passMatch = comparePassword(login.password, data_login.password)  

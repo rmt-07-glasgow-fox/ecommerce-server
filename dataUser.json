@@ -3,5 +3,10 @@
         "email": "admin@mail.com",
         "password": "admin123",
         "role": "admin"
+    },
+    {
+        "email": "cust@mail.com",
+        "password": "cust123",
+        "role": "customer"
     }
 ]
