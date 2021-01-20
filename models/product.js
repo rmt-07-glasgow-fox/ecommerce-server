@@ -32,8 +32,9 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         min: {
           args: [0],
-          msg: "Invalid price value"
-        }
+          msg: "Invalid price value, minimum value is 0"
+        },
+        isNumeric: { msg: "Invalid type of price value" }
       },
       defaultValue: 0
     },
@@ -42,8 +43,9 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         min: {
           args: [0],
-          msg: "Invalid stock value"
-        }
+          msg: "Invalid stock value, minimum value is 0"
+        },
+        isNumeric: { msg: "Invalid type of stock value" }
       },
       defaultValue: 0
     },

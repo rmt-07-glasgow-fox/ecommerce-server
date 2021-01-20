@@ -5,9 +5,10 @@ const errorHandlers = (err, req, res, next) => {
                 const errMsg = err.errors.map( el => {
                     return { message: el.message }
                 } )
-                return res.status(400).json({
-                    errors: errMsg
-                })
+                res.status(400).json(errMsg)
+                break;
+            case "emptyLogin":
+                res.status(400).json({ message: "Please input email & password first" })
                 break;
             case "loginFailed":
                 res.status(400).json({ message: "Invalid email/ password" })
@@ -18,6 +19,9 @@ const errorHandlers = (err, req, res, next) => {
             case "notEnoughStock":
                 res.status(400).json({ message: "Stock is not enough" })
                 break;
+            case "SequelizeDatabaseError":
+                res.status(400).json({ message: err.message })
+                break;
             case "notLogin":
                 res.status(401).json({
                     message: "Please login first",
@@ -27,7 +31,7 @@ const errorHandlers = (err, req, res, next) => {
             case "JsonWebTokenError":
                 res.status(401).json({
                     message: "Please login first",
-                    description: "JWT error (not provided or malformed)"
+                    description: err.message
                 })
                 break;
             case "unauthorized":

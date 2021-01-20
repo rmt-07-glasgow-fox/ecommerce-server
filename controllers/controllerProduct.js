@@ -49,7 +49,11 @@ module.exports = class ControllerProduct {
             price,
             stock
         }
-        Product.update(newData)
+        Product.update(newData, {
+            where: {
+                id: +req.params.id
+            }
+        })
         .then( data => {
             return res.status(200).json({ message: "Update success" })
         } )

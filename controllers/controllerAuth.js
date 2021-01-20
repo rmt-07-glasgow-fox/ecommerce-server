@@ -22,13 +22,16 @@ module.exports = class ControllerAuth {
     static async login(req, res, next) {
         try {
             const { email, password, role } = req.body
+
+            if (!email && !password) next({ name: "emptyLogin" })
+            
             const found = await User.findOne({
                 where: Sequelize.and({
                     email: email,
                     role: role
                 })
             })
-            console.log(found);
+
             if (!found) next({ name: "loginFailed" })
 
             const match = checkPassword(password, found.password)

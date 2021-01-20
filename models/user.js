@@ -39,7 +39,7 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: { msg: "Role cant be Empty" },
         isIn: {
           args: [['admin', 'customer']],
-          msg:"Invalid input"
+          msg:"Invalid role value"
         }
       },
       defaultValue: "customer"

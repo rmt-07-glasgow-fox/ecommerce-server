@@ -1,8 +1,8 @@
 const { User } = require('../../models')
 
-async function getToken() {
+ function getToken() {
     if (process.env.NODE_ENV === 'test') {
-        return await User.findOne({
+        return User.findOne({
             where: {
                 email: 'admin@mail.com'
             }
