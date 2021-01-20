@@ -13,15 +13,24 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-   let data = {
-    email: 'mail@email.com',
-    password: hash('binmail'),
-    role: 'admin',
-    createdAt: new Date(),
-    updatedAt: new Date()
-   }
+   let data = [
+     {
+      email: 'mail@email.com',
+      password: hash('binmail'),
+      role: 'admin',
+      createdAt: new Date(),
+      updatedAt: new Date()
+     },
+     {
+      email: 'ultraman@email.com',
+      password: hash('ultraman'),
+      role: 'customer',
+      createdAt: new Date(),
+      updatedAt: new Date()
+     }
+  ] 
 
-   await queryInterface.bulkInsert('Users',[data],{})
+   await queryInterface.bulkInsert('Users',data,{})
   },
 
   down: async (queryInterface, Sequelize) => {

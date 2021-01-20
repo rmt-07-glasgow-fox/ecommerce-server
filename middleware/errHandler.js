@@ -4,6 +4,7 @@ module.exports = {
         // console.log(err.name,'>>>>>>');
         // console.log(err);
 
+
         let statusCode = 500
         let message = 'Internal Server Error'
 
@@ -16,7 +17,10 @@ module.exports = {
                 if(err.parent.code === '23502'){
                     statusCode = 400
                     message = err.errors[0].message
-                }            
+                }else if(err.parent.code === '22P02'){
+                    statusCode = 400
+                    message = 'invalid input data type'
+                }
                 break;
             case "SequelizeUniqueConstraintError":
                 statusCode = 400
@@ -47,6 +51,7 @@ module.exports = {
                 message = err.message
                 break
         }
+        
         res.status(statusCode).json({message})
     }
 }

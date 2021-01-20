@@ -12,7 +12,6 @@ class AuthController {
                 }
             })
             if(result){
-                console.log(result);
                 if(compare(password,result.password)){
                     if(result.role == 'admin'){
                         let payload = {
