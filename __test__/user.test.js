@@ -143,13 +143,8 @@ describe('POST /login user', () => {
         // assertion
         expect(res.statusCode).toEqual(401)
         expect(typeof res.body).toEqual('object')
-        expect(res.body).toHaveProperty('errors')
-        expect(Array.isArray(res.body.errors)).toEqual(true)
-        expect(res.body).toHaveProperty('msg', expect.arrayContaining([
-          'Email required',
-          'Password required',
-          'Password atleast 6 characters'
-        ]))
+        expect(res.body).toHaveProperty('msg', 'Invalid email / password')
+        expect(Array.isArray(res.body.errors)).toEqual(false)
 
         done()
       })

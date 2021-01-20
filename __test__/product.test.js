@@ -2,7 +2,7 @@ const request = require('supertest')
 const app = require('../app')
 const { generateToken } = require('../helpers/jwt')
 const { hashingPassword } = require('../helpers/bcrypt')
-const { sequelize, User } = require('../models')
+const { sequelize, User, Product } = require('../models')
 const { queryInterface } = sequelize
 const models = require('../models')
 
@@ -20,6 +20,16 @@ beforeAll((done) => {
     updatedAt: new Date()
   }])
   .then(() => {
+    let productObj = {
+      name: 'Mobil',
+      image_url: 'asdfasdf',
+      price: 400,
+      stock: 2
+    }
+    return Product.create(productObj)
+  })
+  .then((data) => {
+    productId = data.id
     return User.findOne({where: {email: 'admin@admin.com'}})
   })
   .then((admin) => {
@@ -76,6 +86,7 @@ describe('Create product, POST /products', () => {
         expect(res.statusCode).toEqual(201)
         expect(typeof res.body).toEqual('object')
 
+        productId = res.body.id
         expect(res.body).toHaveProperty('id')
         expect(typeof res.body.id).toEqual('number')
 
@@ -177,7 +188,7 @@ describe('Create product, POST /products', () => {
         expect(typeof res.body).toEqual('object')
         expect(res.body).toHaveProperty('errors')
         expect(Array.isArray(res.body.errors)).toEqual(true)
-        expect(res.body).toHaveProperty('msg', expect.arrayContaining([
+        expect(res.body).toHaveProperty('errors', expect.arrayContaining([
           'Product name required',
           'Image required',
           'Price required',
@@ -210,7 +221,10 @@ describe('Create product, POST /products', () => {
         expect(res.statusCode).toEqual(400)
         expect(typeof res.body).toEqual('object')
         expect(res.body).toHaveProperty('errors')
-        expect(res.body).toHaveProperty('msg', 'Stock must be greater than 0')
+        // expect(res.body).toHaveProperty('errors', 'Stock must be greater than 0')
+        expect(res.body).toHaveProperty('errors', expect.arrayContaining([
+          'Stock must be greater than 0'
+        ]))
         done()
       })
 
@@ -238,7 +252,10 @@ describe('Create product, POST /products', () => {
         expect(res.statusCode).toEqual(400)
         expect(typeof res.body).toEqual('object')
         expect(res.body).toHaveProperty('errors')
-        expect(res.body).toHaveProperty('msg', 'Price must be greater than 0')
+        // expect(res.body).toHaveProperty('msg', 'Price must be greater than 0')
+        expect(res.body).toHaveProperty('errors', expect.arrayContaining([
+          'Price must be greater than 0'
+        ]))
         done()
       })
 
@@ -267,7 +284,7 @@ describe('Create product, POST /products', () => {
         expect(typeof res.body).toEqual('object')
         expect(res.body).toHaveProperty('errors')
         expect(Array.isArray(res.body.errors)).toEqual(true)
-        expect(res.body).toHaveProperty('msg', expect.arrayContaining([
+        expect(res.body).toHaveProperty('errors', expect.arrayContaining([
           'Price must be number',
           'Stock must be number'
         ]))
@@ -280,7 +297,7 @@ describe('Create product, POST /products', () => {
 
 describe('Update product, UPDATE /products', () => {
   // Success test case update product
-  it('if success update should send response with 200 status code', () => {
+  it('if success update should send response with 200 status code', (done) => {
     // 1. setup
 
     const body = {
@@ -402,7 +419,7 @@ describe('Update product, UPDATE /products', () => {
         expect(res.statusCode).toEqual(400)
         expect(typeof res.body).toEqual('object')
         expect(res.body).toHaveProperty('errors')
-        expect(res.body).toHaveProperty('msg', 'Stock must be greater than 0')
+        expect(res.body).toHaveProperty('errors', expect.arrayContaining(['Stock must be greater than 0']))
         done()
       })
 
@@ -431,7 +448,7 @@ describe('Update product, UPDATE /products', () => {
         expect(typeof res.body).toEqual('object')
         expect(res.body).toHaveProperty('errors')
         expect(Array.isArray(res.body.errors)).toEqual(true)
-        expect(res.body).toHaveProperty('msg', expect.arrayContaining([
+        expect(res.body).toHaveProperty('errors', expect.arrayContaining([
           'Price must be number',
           'Stock must be number'
         ]))
@@ -462,7 +479,7 @@ describe('Update product, UPDATE /products', () => {
         expect(res.statusCode).toEqual(400)
         expect(typeof res.body).toEqual('object')
         expect(res.body).toHaveProperty('errors')
-        expect(res.body).toHaveProperty('msg', 'Price must be greater than 0')
+        expect(res.body).toHaveProperty('errors', expect.arrayContaining(['Price must be greater than 0']))
         done()
       })
 

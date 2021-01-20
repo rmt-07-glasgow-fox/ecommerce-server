@@ -39,9 +39,14 @@ module.exports = (sequelize, DataTypes) => {
           args: true,
           msg: 'Price required'
         },
-        len: {
-          args: [0],
-          msg: 'Price must be greater than 0'
+        // min: {
+        //   args: 0,
+        //   msg: 'Price must be greater than 0'
+        // },,
+        checkMin(val) {
+          if (val < 0) {
+            throw new Error('Price must be greater than 0')
+          }
         },
         isNumeric: {
           args: true,
@@ -56,9 +61,14 @@ module.exports = (sequelize, DataTypes) => {
           args: true,
           msg: 'Stock required'
         },
-        len: {
-          args: [0],
-          msg: 'Stock must be greater than 0'
+        // min: {
+        //   args: 0,
+        //   msg: 'Stock must be greater than 0'
+        // },
+        checkMin(val) {
+          if (val < 0) {
+            throw new Error('Stock must be greater than 0')
+          }
         },
         isNumeric: {
           args: true,
