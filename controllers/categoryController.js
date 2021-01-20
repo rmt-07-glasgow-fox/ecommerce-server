@@ -7,8 +7,7 @@ class CategoryController {
             const categories = await Category.findAll({
                 attributes: {
                     exclude: ['createdAt', 'updatedAt']
-                },
-                order: ['name', 'ASC']
+                }
             });
             res.status(200).json(categories);
         }

@@ -1,0 +1,122 @@
+[
+  {
+    "name": "Shirt One",
+    "url": "https://hm-media-prod.s3.amazonaws.com/pub/media/catalog/product/medium/062d452ee3dfb4d34a515effd887b4dda2429b67_xxl-1.jpg",
+    "price": "200000",
+    "stock": "10",
+    "status": "in stock",
+    "CategoryId": "1"
+  },
+  {
+    "name": "Shirt Two",
+    "url": "https://hm-media-prod.s3.amazonaws.com/pub/media/catalog/product/medium/c79385f3fad6180b2243bd0ecc37c1d4d8314379_xxl-1.jpg",
+    "price": "200000",
+    "stock": "10",
+    "status": "in stock",
+    "CategoryId": "1"
+  },
+  {
+    "name": "Shirt Three",
+    "url": "https://hm-media-prod.s3.amazonaws.com/pub/media/catalog/product/medium/fc7d537bcc5930bc920785f08832527ba2a096bd_xxl-1.jpg",
+    "price": "200000",
+    "stock": "0",
+    "status": "out of stock",
+    "CategoryId": "1"
+  },
+  {
+    "name": "Shirt Four",
+    "url": "https://hm-media-prod.s3.amazonaws.com/pub/media/catalog/product/medium/869a44bc9a3cb1f8e1dd1dc485992c6b4f70ac61_xxl-1.jpg",
+    "price": "200000",
+    "stock": "10",
+    "status": "in stock",
+    "CategoryId": "1"
+  },
+  {
+    "name": "Knitwear One",
+    "url": "https://hm-media-prod.s3.amazonaws.com/pub/media/catalog/product/medium/c782b9be4a72509b549613e3463413016b3271cf_xxl-1.jpg",
+    "price": "200000",
+    "stock": "10",
+    "status": "in stock",
+    "CategoryId": "3"
+  },
+  {
+    "name": "Jeans One",
+    "url": "https://hm-media-prod.s3.amazonaws.com/pub/media/catalog/product/medium/5bccc2e1cc098e66d068f5ddda3a6af8eebc825b_xxl-1.jpg",
+    "price": "200000",
+    "stock": "10",
+    "status": "in stock",
+    "CategoryId": "2"
+  },
+  {
+    "name": "Jeans Two",
+    "url": "https://hm-media-prod.s3.amazonaws.com/pub/media/catalog/product/medium/cbfcf9ef3291bb717858442eae24906a590ef341_xxl-1.jpg",
+    "price": "200000",
+    "stock": "10",
+    "status": "in stock",
+    "CategoryId": "2"
+  },
+  {
+    "name": "Jumpers One",
+    "url": "https://hm-media-prod.s3.amazonaws.com/pub/media/catalog/product/medium/71a40ecf9d0d55460335a750d69d20216b4fd368_xxl-1.jpg",
+    "price": "200000",
+    "stock": "10",
+    "status": "in stock",
+    "CategoryId": "4"
+  },
+  {
+    "name": "Sportswear One",
+    "url": "https://hm-media-prod.s3.amazonaws.com/pub/media/catalog/product/medium/1d6218259aa90fbb006a68265794b86ab61f397c_xxl-1.jpg",
+    "price": "200000",
+    "stock": "10",
+    "status": "in stock",
+    "CategoryId": "5"
+  },
+  {
+    "name": "Shoes One",
+    "url": "https://hm-media-prod.s3.amazonaws.com/pub/media/catalog/product/medium/23ee722f0ed3722d66053961951daca6ce1f165f_xxl-1.jpg",
+    "price": "200000",
+    "stock": "10",
+    "status": "in stock",
+    "CategoryId": "6"
+  },
+  {
+    "name": "Shoes Two",
+    "url": "https://hm-media-prod.s3.amazonaws.com/pub/media/catalog/product/medium/29820b1fbb11d52a1aaa5893caddff8cc9d11e49_xxl-1.jpg",
+    "price": "200000",
+    "stock": "10",
+    "status": "in stock",
+    "CategoryId": "6"
+  },
+  {
+    "name": "Shoes Three",
+    "url": "https://hm-media-prod.s3.amazonaws.com/pub/media/catalog/product/medium/b2841bb6af0cf00589fe103004798a3aff9db57a_xxl-1.jpg",
+    "price": "200000",
+    "stock": "0",
+    "status": "out of stock",
+    "CategoryId": "6"
+  },
+  {
+    "name": "Acc One",
+    "url": "https://hm-media-prod.s3.amazonaws.com/pub/media/catalog/product/medium/ef0c7d0eb34148d5c1b3c9422fe9bb2dcf0de761_xxl-1.jpg",
+    "price": "200000",
+    "stock": "10",
+    "status": "in stock",
+    "CategoryId": "7"
+  },
+  {
+    "name": "Acc Two",
+    "url": "https://hm-media-prod.s3.amazonaws.com/pub/media/catalog/product/medium/dc1988f044b0d50815ebcbfd490e5dd44530856f_xxl-1.jpg",
+    "price": "200000",
+    "stock": "10",
+    "status": "in stock",
+    "CategoryId": "7"
+  },
+  {
+    "name": "Acc Three",
+    "url": "https://hm-media-prod.s3.amazonaws.com/pub/media/catalog/product/medium/aca418f812064dfefd8b0aad4cd93249eee7eb0c_xxl-1.jpg",
+    "price": "200000",
+    "stock": "10",
+    "status": "in stock",
+    "CategoryId": "7"
+  }
+]
