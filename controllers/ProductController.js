@@ -3,7 +3,10 @@ const { Product, Category, ProductCategory } = require('../models')
 class ProductController {
   static getAllProducts(req, res, next){
     Product.findAll({
-      include: [ Category ]
+      include: [ Category ],
+      order: [
+        ['id', 'ASC']
+      ]
     })
       .then(data => {
         res.send(data)
@@ -13,7 +16,9 @@ class ProductController {
       })
   }
   static getProductById(req, res, next){
-    Product.findByPk(req.params.id)
+    Product.findByPk(req.params.id, {
+      include: [ Category ],
+    })
       .then(data => {
         if(data){
           res.status(200).json(data)
@@ -28,6 +33,7 @@ class ProductController {
       })
   }
   static addProduct(req, res, next){
+    let ProductId
     Product.create({
       name: req.body.name || '',
       image_url: req.body.image_url || '',
@@ -35,6 +41,13 @@ class ProductController {
       stock: req.body.stock || '',
       UserId: req.userData.id,
     })
+      .then(data => {
+        ProductId = data.id
+        return ProductCategory.create({
+          CategoryId: req.body.CategoryId,
+          ProductId
+        })
+      })
       .then(data => {
         res.status(201).json({
           data
