@@ -20,7 +20,6 @@ const errorHandler = (err, req, res, next) => {
         res.status(401).json({ errors })
         break
       default:
-        console.log(err)
         errors = err.errors.map(error => error.message)
         res.status(400).json({
           errors

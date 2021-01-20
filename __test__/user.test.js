@@ -5,7 +5,6 @@ const seedUsers = require('./helpers/seedUsers')
 const clearUsers = require('./helpers/clearUsers')
 
 beforeAll((done) => {
-  // create user di sini, jangan lupa hooks beforeCreate utk hash password
   seedUsers()
     .then(() => {
       done()
