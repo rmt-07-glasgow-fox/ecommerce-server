@@ -184,6 +184,7 @@ describe('POST /products', () => {
     // Execute
     request(app)
       .post('/products')
+      .set('access_token', access_token_admin)
       .send(body)
       .end((err, res) => {
         //err from supertest
@@ -214,6 +215,7 @@ describe('POST /products', () => {
     request(app)
       .post('/products')
       .send(body)
+      .set('access_token', access_token_admin)
       .end((err, res) => {
         //err from supertest
         if (err) done(err)
@@ -243,6 +245,7 @@ describe('POST /products', () => {
     request(app)
       .post('/products')
       .send(body)
+      .set('access_token', access_token_admin)
       .end((err, res) => {
         //err from supertest
         if (err) done(err)
@@ -271,6 +274,7 @@ describe('POST /products', () => {
     // Execute
     request(app)
       .post('/products')
+      .set('access_token', access_token_admin)
       .send(body)
       .end((err, res) => {
         //err from supertest
@@ -301,6 +305,7 @@ describe('POST /products', () => {
     request(app)
       .post('/products')
       .send(body)
+      .set('access_token', access_token_admin)
       .end((err, res) => {
         //err from supertest
         if (err) done(err)
@@ -339,6 +344,7 @@ describe('PUT /products/:id', () => {
         request(app)
           .put(`/products/${id}`)
           .send(body)
+          .set('access_token', access_token_admin)
           .end((err, res) => {
             //err from supertest
             if (err) done(err)
@@ -394,7 +400,7 @@ describe('PUT /products/:id', () => {
       })
   })
 
-  it.only('should send response with 401 status code - invalid access_token', (done) => {
+  it('should send response with 401 status code - invalid access_token', (done) => {
     // Setup
     const body = {
       name: 'nice headphones',
@@ -447,6 +453,7 @@ describe('PUT /products/:id', () => {
         request(app)
           .put(`/products/${id}`)
           .send(body)
+          .set('access_token', access_token_admin)
           .end((err, res) => {
             if (err) done(err)
 
@@ -484,6 +491,7 @@ describe('PUT /products/:id', () => {
         request(app)
           .put(`/products/${id}`)
           .send(body)
+          .set('access_token', access_token_admin)
           .end((err, res) => {
             //err from supertest
             if (err) done(err)
@@ -520,6 +528,7 @@ describe('PUT /products/:id', () => {
         const id = product.id
         request(app)
           .put(`/products/${id}`)
+          .set('access_token', access_token_admin)
           .send(body)
           .end((err, res) => {
             //err from supertest
@@ -558,6 +567,7 @@ describe('PUT /products/:id', () => {
         // Execute
         request(app)
           .put(`/products/${id}`)
+          .set('access_token', access_token_admin)
           .send(body)
           .end((err, res) => {
             //err from supertest
@@ -579,5 +589,60 @@ describe('PUT /products/:id', () => {
   })
 })
 
+describe('DELETE /products/:id', () => {
+  it('should send response with 200 status code', (done) => {
+    request(app)
+      .delete(`/products/${productId}`)
+      .set('access_token', access_token_admin)
+      .end((err, res) => {
+        if (err) done(err)
 
+        expect(res.statusCode).toEqual(200)
+        expect(typeof res.body).toEqual('object')
+        expect(res.body).toHaveProperty('confirmDelete')
+        expect(Array.isArray(res.body.confirmDelete)).toEqual(true)
+        expect(res.body.confirmDelete).toEqual(
+          expect.arrayContaining(['Product deleted'])
+        )
 
+        done()
+      })
+  })
+
+  it('should send response with 401 status code - no token provided', (done) => {
+    request(app)
+      .delete(`/products/${productId}`)
+      .end((err, res) => {
+        if (err) done(err)
+
+        expect(res.statusCode).toEqual(401)
+        expect(typeof res.body).toEqual('object')
+        expect(res.body).toHaveProperty('errors')
+        expect(Array.isArray(res.body.errors)).toEqual(true)
+        expect(res.body.errors).toEqual(
+          expect.arrayContaining(['Not authorised'])
+        )
+
+        done()
+      })
+  })
+
+  it('should send response with 401 status code - invalid token', (done) => {
+    request(app)
+      .delete(`/products/${productId}`)
+      .set('access_token', access_token_customer)
+      .end((err, res) => {
+        if (err) done(err)
+
+        expect(res.statusCode).toEqual(401)
+        expect(typeof res.body).toEqual('object')
+        expect(res.body).toHaveProperty('errors')
+        expect(Array.isArray(res.body.errors)).toEqual(true)
+        expect(res.body.errors).toEqual(
+          expect.arrayContaining(['Not authorised'])
+        )
+
+        done()
+      })
+  })
+})

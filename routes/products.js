@@ -5,6 +5,7 @@ const { authorize } = require('../middlewares/auth')
 
 router.post('/', ProductController.create)
 router.put('/:id', authorize, ProductController.update)
+router.delete('/:id', authorize, ProductController.delete)
 
 module.exports = router
 
