@@ -320,3 +320,76 @@ This server is built with test suites with TDD.
     `localhost:3000/products/1`
 
 
+### Users
+
+**Login**
+----
+
+* **URL**
+  /login
+
+* **Method:** 
+  `POST`
+
+*  **URL Params**
+
+    None
+
+* **Data Params**
+    
+    **Content:** `{ 
+    email: 'admin@mail.com',
+    password: 'thisisnotapassword'
+    }
+    `
+
+* **Success Response:**
+  
+  * **Code:** 200 OK <br />
+      **Content:** `{ 
+      access_token: <random_access_token_here>
+      }
+      `
+
+* **Error Response:**
+
+  * **Code:** 401 Unauthorised <br />
+      **Content:** `{
+       'errors':   
+          [
+           'Wrong email / password'
+          ]
+      }`
+
+    OR
+
+  * **Code:** 400 Bad Request <br />
+      **Content:** `{
+      "errors": [
+        'Email / password must be filled'
+      ]
+      }
+      `
+
+    OR
+
+  * **Code:** 404 Bad Request <br />
+      **Content:** `{
+      "errors": [
+      'Not found'
+      ]
+      }
+      `
+    OR
+
+  * **Code:** 500 Internal Server Error <br />
+    **Content:** `{
+      "errors": [
+        "Internal server error"
+      ]
+      }
+      `
+
+* **Sample Call:**
+
+    `localhost:3000/login`
