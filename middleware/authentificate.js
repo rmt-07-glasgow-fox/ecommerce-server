@@ -8,16 +8,10 @@ exports.authentificate = (req, res, next) => {
         req.user = user
         next()
       } else {
-        throw {
-          code: 403,
-          message: 'User Invalid'
-        }
+        res.status(403).json({errors:['User Invalid']})
       }
     } else {
-      throw {
-        code: 400, 
-        message: 'Login first'
-      }
+      res.status(400).json({errors:['Login first']})
     }
   } catch (error) {
     next(error)
