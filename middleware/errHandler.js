@@ -1,10 +1,10 @@
 module.exports = {
     errHandler : (err,req,res,next)=>{
 
-        console.log(err.name,'>>>>>>');
-        console.log(err);
+        // console.log(err.name,'>>>>>>');
+        // console.log(err);
 
-        let StatusCode = 500
+        let statusCode = 500
         let message = 'Internal Server Error'
 
         switch (err.name) {
@@ -29,6 +29,7 @@ module.exports = {
             case 'BadRequest':
                 statusCode = 400
                 message = err.message
+                break
             case 'NotFound':
                 statusCode = 404
                 message = err.message
@@ -46,6 +47,6 @@ module.exports = {
                 message = err.message
                 break
         }
-        res.status(StatusCode).json({message})
+        res.status(statusCode).json({message})
     }
 }

@@ -12,8 +12,9 @@ class AuthController {
                 }
             })
             if(result){
+                console.log(result);
                 if(compare(password,result.password)){
-                    if(result.role !== 'admin'){
+                    if(result.role == 'admin'){
                         let payload = {
                             id: result.id,
                             email: result.email,
@@ -26,10 +27,10 @@ class AuthController {
                         next({name:'Unauthorized',message:'Only admins !'})
                     }
                 }else{
-                    next({name:'BadRequest',message:'email/password wrong'})
+                    next({name:'BadRequest',message:'invalid email / password'})
                 }
             }else{
-                next({name:'BadRequest',message:'email/password wrong'})
+                next({name:'BadRequest',message:'invalid email / password'})
             }
             
         } catch (error) {
