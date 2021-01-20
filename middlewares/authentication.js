@@ -1,5 +1,5 @@
 const { cekToken } = require('../helper/jwt')
-const { User } = require('../models')
+const { User,Product } = require('../models')
 
 function authenticate(req, res, next) {
     try {
@@ -26,4 +26,22 @@ function authenticate(req, res, next) {
     }
 }
 
-module.exports = { authenticate }
+function authorize(req, res, next) {
+    Product.findOne({
+        where:{
+            id: req.params.id
+        }
+    })
+    .then(data => {
+        if (data && 'Customer' != req.user.role) {
+            next()
+        } else {
+            res.status(401).json({ msg: 'Not yours' })
+        }
+    })
+    .catch(err => {
+        res.status(500).json({ msg: err.msg })
+    })
+}
+
+module.exports = { authenticate,authorize }

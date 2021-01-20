@@ -5,7 +5,7 @@ const productRouter = require('./product')
 const {authenticate} = require('../middlewares/authentication')
 
 router.use(userRouter)
-// router.use(authenticate)
+router.use(authenticate)
 router.use(productRouter)
 
 module.exports = router

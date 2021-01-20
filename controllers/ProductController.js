@@ -44,7 +44,6 @@ class ProductController{
         })
     }
     static editProduct(req,res,next){
-        console.log(req.body);
         const newProduct = {
             name: req.body.name,
             description: req.body.description,
