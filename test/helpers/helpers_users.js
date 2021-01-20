@@ -1,4 +1,5 @@
-const { User } = require('../../models')
+const { User, sequelize } = require('../../models')
+const { queryInterface } = sequelize;
 
 function clearUsers() {
     if (process.env.NODE_ENV === 'test') {
@@ -6,16 +7,15 @@ function clearUsers() {
     }
 }
 
-function createProduct() {
+function registerUser() {
     if (process.env.NODE_ENV === 'test') {
         const obj = {
-            name: 'tes',
-            image_url: 'tes2',
-            price: 1000,
-            stock: 14
+            email: 'tes5@mail.com',
+            password: '123123',
+            role: 'admin'
         }
         return User.create(obj)
     }
 }
 
-module.exports = { clearUsers, createProduct }
+module.exports = { clearUsers, registerUser }

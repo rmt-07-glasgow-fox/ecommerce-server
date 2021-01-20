@@ -1,11 +1,17 @@
 const app = require('../app')
 const request = require('supertest')
-const { clearProducts, createProduct } = require('./helpers/helpers_products')
+const { clearProducts, createProduct, getToken } = require('./helpers/helpers_products')
+const { clearUsers } = require('./helpers/helpers_users')
+
 let dummyId = ''
+let tokenAdmin = ''
 
 describe('POST/products', function() {
     afterAll(function(done) {
         clearProducts()
+        .then(data => {
+            return clearUsers
+        })
         .then(data => {
             done()
         })
