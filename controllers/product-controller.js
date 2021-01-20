@@ -2,13 +2,20 @@ const { Product } = require('../models')
 
 class ProductController{
       static createProduct(req, res, next) {
-            let { name, image_url, price, stock } = req.body
+            let newProduct = {
+                  name: req.body.name,
+                  image_url: req.body.image_url,
+                  price: req.body.price,
+                  stock: req.body.stock
+            }
 
-            Product.create({ name, image_url, price, stock })
+            Product.create(newProduct)
                    .then(product => {
                        res.status(201).json(product)  
                    }).catch(err => {
-                        res.status(400).json(err)
+                        
+                        if(err.name === 'SequelizeValidationError') res.status(400).json(err)
+                        next(err)
                    })
 
       }
@@ -18,19 +25,32 @@ class ProductController{
                    .then(product => {
                          res.status(200).json(product)
                    }).catch(err => {
-                         res.status(500).json
+                        if(err.name === 'SequelizeValidationError') res.status(400).json(err)
+                         next(err)
                    })
       }
 
       static updateProduct(req, res, next) {
-            let { name, image_url, price, stock } = req.body
+            let editedProduct = {
+                  name: req.body.name,
+                  image_url: req.body.image_url,
+                  price: req.body.price,
+                  stock: req.body.stock
+            }
             let { id } = req.params
 
-            Product.update({ name, image_url, price, stock },{ where: {id}})
-                   .then(product => {
-                       res.status(200).json({message: "update success"})  
-                   }).catch(err => {
-                        res.status(400).json(err)
+            Product.update(editedProduct,{ where: {id}})
+                   .then(()=> {
+                        
+                       return Product.findOne({where: {id}})  
+                   }).then(product => {
+                     
+                       res.status(200).json(product)
+                  }).catch(err => {
+                        
+                        if(err.name === 'SourceNotFound') next({name: 'SourceNotFound'})
+                        if(err.name === 'SequelizeValidationError') res.status(400).json(err)
+                        next(err)
                    })
       }
 
@@ -38,10 +58,14 @@ class ProductController{
             let { id } = req.params
 
             Product.destroy({where: {id}})
-                    .then(() => {
+                    .then(data => {
+                        if (data == 0) res.status(404).json({message: "Not found"})
+                        console.log(data);
                         res.status(200).json({message: 'delete success'})
                     }).catch(err => {
-                          res.status(400).json(err)
+                        if(err.name === 'SourceNotFound') next({name: 'SourceNotFound'})
+                          next(err)
+
                     })
       }
 }

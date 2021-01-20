@@ -40,9 +40,8 @@ module.exports = (sequelize, DataTypes) => {
           args: true,
           msg: "price is required"
         },
-        min: {
-          args: 0,
-          msg: "price cannot be lower than 0"
+        isMinus(){
+          if(this.price  < 1) throw new Error("price cannot be less than zero")
         }
       }
       },
@@ -53,9 +52,8 @@ module.exports = (sequelize, DataTypes) => {
           args: true,
           msg: "stock is required"
         },
-        min: {
-          args: 0,
-          msg: "price cannot be lower than 0"
+        isMinus(){
+          if(this.stock  < 1) throw new Error("stock cannot be less than zero")
         }
       }
       },
