@@ -47,6 +47,23 @@ class ProductController {
       })
       .catch(next)
   }
+
+  static fetchAll(req, res, next) {
+    Product.findAll()
+      .then(products => {
+        res.status(200).json(products)
+      })
+      .catch(next)
+  }
+
+  static fetchById(req, res, next) {
+    const id = +req.params.id
+    Product.findByPk(id)
+      .then(product => {
+        res.status(200).json(product)
+      })
+      .catch(next)
+  }
 }
 
 module.exports = ProductController
