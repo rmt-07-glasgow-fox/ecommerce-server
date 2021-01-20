@@ -20,7 +20,7 @@ exports.create = async (req, res, next) => {
 
 exports.list = async (req, res, next) => {
   try {
-    const banners = await Banner.findAll();
+    const banners = await Banner.findAll({ order: [['createdAt', 'ASC']] });
 
     return res.status(200).json(banners);
   } catch (err) {

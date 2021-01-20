@@ -18,7 +18,7 @@ exports.create = async (req, res, next) => {
 
 exports.list = async (req, res, next) => {
   try {
-    const categories = await Category.findAll();
+    const categories = await Category.findAll({ order: [['createdAt', 'ASC']] });
 
     return res.status(200).json(categories);
   } catch (err) {
