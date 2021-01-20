@@ -12,7 +12,7 @@ describe('POST /products', function () {
         };
 
         request(app)
-            .post('/users')
+            .post('/users/login')
             .send(body)
             .end(function (err, res) {
                 if (err) done(err)

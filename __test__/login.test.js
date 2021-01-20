@@ -2,12 +2,13 @@ const request = require("supertest")
 const app = require("../app")
 const models = require('../models')
 
-// afterAll((done) => {
-//     models.sequelize.close()
-//     done()
-// })
 
-describe('POST /users', function () {
+describe('POST /users/login', function () {
+    afterAll((done) => {
+        models.sequelize.close()
+        done()
+    })
+    
     it('should send response with status code 200', function (done) {
         const body = {
             email: "admin@mail.com",
@@ -15,7 +16,7 @@ describe('POST /users', function () {
         };
 
         request(app)
-            .post('/users')
+            .post('/users/login')
             .send(body)
             .end(function (err, res) {
                 if (err) done(err)
@@ -34,7 +35,7 @@ describe('POST /users', function () {
         };
         
         request(app)
-            .post('/users')
+            .post('/users/login')
             .send(body)
             .end(function (err, res) {
                 if (err) done(err)
