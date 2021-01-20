@@ -39,10 +39,7 @@ class ProductController {
 
             next(err)
         }
-
-
     }
-
 
     static async updateProd(req, res, next) {
 
