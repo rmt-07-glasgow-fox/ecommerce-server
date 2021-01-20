@@ -1,12 +1,15 @@
 const express = require('express')
 const app = express()
 const routes = require('./routes')
+const cors = require('cors')
 
 app.use(express.urlencoded({extended : false}))
 app.use(express.json())
+app.use(cors())
 
 app.use(routes)
 app.use(function(err, req, res, next){
+    console.log(err)
     if(err.errors){
         const errors = err.errors.map(error => error.message)
         res.status(400).json({

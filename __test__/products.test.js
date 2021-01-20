@@ -18,6 +18,7 @@ test
 3. price tidak kurang dari 1
 4. stock minimal 0
 5. need to be login and authorized to be able to CRUD
+urutan CRUD
 */
 
 let id = ''

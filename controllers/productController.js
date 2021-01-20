@@ -11,6 +11,25 @@ class productController {
         })
     }
 
+    static getOneProduct(req, res, next){
+        const id = req.params.id
+        Product.findOne({
+            where : {
+                id
+            }
+        })
+        .then(product => {
+            if(product === null){
+                next({name : "Not found"})
+            } else {
+                res.status(200).json(product)
+            }
+        })
+        .catch(err => {
+            next(err)
+        })
+    }
+
     static postProduct(req, res, next){
         const product = {
             name : req.body.name,
