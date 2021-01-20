@@ -1,6 +1,16 @@
 const { product } = require('../models') 
 
 class ProductController {
+    static getall (req, res, next) {
+        product.findAll()
+        .then( dataProduct => {
+            res.status(200).json({products: dataProduct})
+        })
+        .catch( err => {
+            res.status(500).json({message: 'Internal server error'})
+        })
+    }
+
     static create (req, res, next) {
         let newProduct = {
             name: req.body.name,
@@ -46,6 +56,21 @@ class ProductController {
             } else {
                 res.status(500).json({message: 'Internal server error'})
             }
+        })
+    }
+
+    static delete (req, res, next) {
+        let id = +req.params.id
+        product.destroy({
+            where: {
+                id
+            }
+        })
+        .then( data => {
+            res.status(200).json({message: 'Product has been deleted'})
+        })
+        .catch( err => {
+            res.status(500).json({message: 'Internal server error'})
         })
     }
 }

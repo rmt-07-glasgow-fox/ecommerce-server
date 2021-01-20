@@ -53,13 +53,13 @@ beforeAll( (done) => {
     })
 })
 
-afterAll((done) => {
-    queryInterface.bulkDelete('products')
-      .then(() => {
-        done()
-      })
-      .catch(done)
-  })
+// afterAll((done) => {
+//     queryInterface.bulkDelete('products')
+//       .then(() => {
+//         done()
+//       })
+//       .catch(done)
+//   })
 
 let productValid = { name: 'Jersey MU',image_url: 'MU.jpg', price: 135000, stock: 5}
 let productFieldEmpty = { name: '',image_url: '', price: '', stock: ''}
@@ -113,7 +113,7 @@ describe( 'PUT /product/update/id failed', ()=> {
         .then( response => {
             const {status, body} = response
             expect(status).toBe(401)
-            expect(body).toHaveProperty('message', 'Please Login First')
+            expect(body).toHaveProperty('message', 'You don\'t have an access')
             done()
         })
         .catch( err => {

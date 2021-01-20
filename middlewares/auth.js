@@ -11,7 +11,7 @@ class Auth {
             .then( data => {
                 let role = data.dataValues.role
                 if(role !== 'admin'){
-                    return res.status(401).json({message: 'Please Login First'})
+                    return res.status(401).json({message: 'You don\'t have an access'})
                 } else {
                     if(!data) {
                         res.status(401).json({message: 'Please Login First'})
@@ -28,25 +28,6 @@ class Auth {
         catch (err) { 
             res.status(401).json({message: 'Please Login First'})
         }
-    }
-
-    static authAdmin (req, res, next) {
-        const id = +req.params.id
-        const userId = +req.user.id
-
-        task.findByPk(id)
-        .then(data => {
-            if(!data){
-                res.status(404).json({msg : 'Task Not Found'})
-            } else if(userId !== data.UserId){
-                res.status(403).json({msg : `You don't have access`})
-            } else {
-                next()
-            }
-        })
-        .catch(err => {
-            res.status(500).json({msg : err.message})
-        })
     }
 }
 

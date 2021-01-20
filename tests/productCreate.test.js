@@ -104,7 +104,7 @@ describe( 'POST /product failed', ()=> {
         .then( response => {
             const {status, body} = response
             expect(status).toBe(401)
-            expect(body).toHaveProperty('message', 'Please Login First')
+            expect(body).toHaveProperty('message', 'You don\'t have an access')
             done()
         })
         .catch( err => {
