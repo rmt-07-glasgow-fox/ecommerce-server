@@ -333,40 +333,31 @@ describe('PUT /products/:id', () => {
       price: 200000
     }
 
-    return Product.findOne({
-      where: {
-        name: 'nice headphones'
-      }
-    })
-      .then(product => {
-        const id = product.id
-        // Execute
-        request(app)
-          .put(`/products/${id}`)
-          .send(body)
-          .set('access_token', access_token_admin)
-          .end((err, res) => {
-            //err from supertest
-            if (err) done(err)
+    // Execute
+    request(app)
+      .put(`/products/${productId}`)
+      .send(body)
+      .set('access_token', access_token_admin)
+      .end((err, res) => {
+        //err from supertest
+        if (err) done(err)
 
-            // Assert
+        // Assert
 
-            // check the data in the db
-            expect(res.statusCode).toEqual(200)
-            expect(typeof res.body).toEqual('object')
+        // check the data in the db
+        expect(res.statusCode).toEqual(200)
+        expect(typeof res.body).toEqual('object')
 
-            expect(res.body).toHaveProperty('price')
-            expect(typeof res.body.price).toEqual('number')
-            expect(res.body.price).toEqual(body.price)
+        expect(res.body).toHaveProperty('price')
+        expect(typeof res.body.price).toEqual('number')
+        expect(res.body.price).toEqual(body.price)
 
-            expect(res.body).toHaveProperty('stock')
-            expect(typeof res.body.stock).toEqual('number')
-            expect(res.body.stock).toEqual(body.stock)
+        expect(res.body).toHaveProperty('stock')
+        expect(typeof res.body.stock).toEqual('number')
+        expect(res.body.stock).toEqual(body.stock)
 
-            done()
-          })
+        done()
       })
-      .catch(console.log)
   })
 
   it('should send response with 401 status code - no access_token', (done) => {
@@ -441,34 +432,24 @@ describe('PUT /products/:id', () => {
       image_url: 'https://media.wired.com/photos/5e7164aeb9399f00096a2ae6/1:1/w_1800,h_1800,c_limit/Gear-Mont-Blanc-Smart-Headphones-Gold-Front-SOURCE-Mont-Blanc.jpg'
     }
 
-    return Product.findOne({
-      where: {
-        name: 'nice headphones'
-      }
-    })
-      .then(product => {
-        const id = product.id
+    // Execute
+    request(app)
+      .put(`/products/${productId}`)
+      .send(body)
+      .set('access_token', access_token_admin)
+      .end((err, res) => {
+        if (err) done(err)
 
-        // Execute
-        request(app)
-          .put(`/products/${id}`)
-          .send(body)
-          .set('access_token', access_token_admin)
-          .end((err, res) => {
-            if (err) done(err)
+        expect(res.statusCode).toEqual(400)
+        expect(typeof res.body).toEqual('object')
+        expect(res.body).toHaveProperty('errors')
+        expect(Array.isArray(res.body.errors)).toEqual(true)
+        expect(res.body.errors).toEqual(
+          expect.arrayContaining(['Price must be greater than zero', 'Stock must be greater than zero'])
+        )
 
-            expect(res.statusCode).toEqual(400)
-            expect(typeof res.body).toEqual('object')
-            expect(res.body).toHaveProperty('errors')
-            expect(Array.isArray(res.body.errors)).toEqual(true)
-            expect(res.body.errors).toEqual(
-              expect.arrayContaining(['Price must be greater than zero', 'Stock must be greater than zero'])
-            )
-
-            done()
-          })
+        done()
       })
-      .catch(console.log)
   })
 
   it('should send response with 400 status code - invalid data types for price and stock', (done) => {
@@ -479,36 +460,26 @@ describe('PUT /products/:id', () => {
       image_url: 'https://media.wired.com/photos/5e7164aeb9399f00096a2ae6/1:1/w_1800,h_1800,c_limit/Gear-Mont-Blanc-Smart-Headphones-Gold-Front-SOURCE-Mont-Blanc.jpg'
     }
 
-    return Product.findOne({
-      where: {
-        name: 'nice headphones'
-      }
-    })
-      .then(product => {
-        const id = product.id
+    // Execute
+    request(app)
+      .put(`/products/${productId}`)
+      .send(body)
+      .set('access_token', access_token_admin)
+      .end((err, res) => {
+        //err from supertest
+        if (err) done(err)
 
-        // Execute
-        request(app)
-          .put(`/products/${id}`)
-          .send(body)
-          .set('access_token', access_token_admin)
-          .end((err, res) => {
-            //err from supertest
-            if (err) done(err)
+        // Assert
+        expect(res.statusCode).toEqual(400)
+        expect(typeof res.body).toEqual('object')
+        expect(res.body).toHaveProperty('errors')
+        expect(Array.isArray(res.body.errors)).toEqual(true)
+        expect(res.body.errors).toEqual(
+          expect.arrayContaining(['Price must be a valid number', 'Stock must be a valid number'])
+        )
 
-            // Assert
-            expect(res.statusCode).toEqual(400)
-            expect(typeof res.body).toEqual('object')
-            expect(res.body).toHaveProperty('errors')
-            expect(Array.isArray(res.body.errors)).toEqual(true)
-            expect(res.body.errors).toEqual(
-              expect.arrayContaining(['Price must be a valid number', 'Stock must be a valid number'])
-            )
-
-            done()
-          })
+        done()
       })
-      .catch(console.log)
   })
 
   it('should send response with 400 status code - invalid data types for name', (done) => {
@@ -519,34 +490,25 @@ describe('PUT /products/:id', () => {
       stock: 5
     }
 
-    return Product.findOne({
-      where: {
-        name: 'nice headphones'
-      }
-    })
-      .then(product => {
-        const id = product.id
-        request(app)
-          .put(`/products/${id}`)
-          .set('access_token', access_token_admin)
-          .send(body)
-          .end((err, res) => {
-            //err from supertest
-            if (err) done(err)
+    request(app)
+      .put(`/products/${productId}`)
+      .set('access_token', access_token_admin)
+      .send(body)
+      .end((err, res) => {
+        //err from supertest
+        if (err) done(err)
 
-            // Assert
-            expect(res.statusCode).toEqual(400)
-            expect(typeof res.body).toEqual('object')
-            expect(res.body).toHaveProperty('errors')
-            expect(Array.isArray(res.body.errors)).toEqual(true)
-            expect(res.body.errors).toEqual(
-              expect.arrayContaining(['Name must contain only alphanumeric characters'])
-            )
+        // Assert
+        expect(res.statusCode).toEqual(400)
+        expect(typeof res.body).toEqual('object')
+        expect(res.body).toHaveProperty('errors')
+        expect(Array.isArray(res.body.errors)).toEqual(true)
+        expect(res.body.errors).toEqual(
+          expect.arrayContaining(['Name must contain only alphanumeric characters'])
+        )
 
-            done()
-          })
+        done()
       })
-      .catch(console.log)
   })
 
   it('should send response with 400 status code - invalid data types for image_url', (done) => {
@@ -557,35 +519,26 @@ describe('PUT /products/:id', () => {
       stock: 5
     }
 
-    return Product.findOne({
-      where: {
-        name: 'nice headphones'
-      }
-    })
-      .then(product => {
-        const id = product.id
-        // Execute
-        request(app)
-          .put(`/products/${id}`)
-          .set('access_token', access_token_admin)
-          .send(body)
-          .end((err, res) => {
-            //err from supertest
-            if (err) done(err)
+    // Execute
+    request(app)
+      .put(`/products/${productId}`)
+      .set('access_token', access_token_admin)
+      .send(body)
+      .end((err, res) => {
+        //err from supertest
+        if (err) done(err)
 
-            // Assert
-            expect(res.statusCode).toEqual(400)
-            expect(typeof res.body).toEqual('object')
-            expect(res.body).toHaveProperty('errors')
-            expect(Array.isArray(res.body.errors)).toEqual(true)
-            expect(res.body.errors).toEqual(
-              expect.arrayContaining(['Image_url must contain a url'])
-            )
+        // Assert
+        expect(res.statusCode).toEqual(400)
+        expect(typeof res.body).toEqual('object')
+        expect(res.body).toHaveProperty('errors')
+        expect(Array.isArray(res.body.errors)).toEqual(true)
+        expect(res.body.errors).toEqual(
+          expect.arrayContaining(['Image_url must contain a url'])
+        )
 
-            done()
-          })
+        done()
       })
-      .catch(console.log)
   })
 })
 
