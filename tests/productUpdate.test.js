@@ -1,11 +1,12 @@
 const request = require('supertest')
 const app = require('../app')
-const { sequelize, user } = require('../models')
+const { sequelize, user, product } = require('../models')
 const { queryInterface } = sequelize
 const { generateToken } = require('../helpers/jwt')
 
 let access_token_admin 
 let access_token_cust
+let id_product
 
 beforeAll( (done) => {
     user.findOne({
@@ -33,6 +34,18 @@ beforeAll( (done) => {
             role: data.role
         }
         access_token_cust = generateToken(payload)
+        let inputProduct = {
+            name: "Jersey MU",
+            image_url: "MU.jpg",
+            price: 100000,
+            stock: 10,
+            createdAt: new Date(),
+            updatedAt: new Date()
+        }
+        return product.create(inputProduct)
+    })
+    .then( dataProduct => {
+        id_product = dataProduct.id
         done()
     })
     .catch(err => {
@@ -45,31 +58,27 @@ afterAll((done) => {
       .then(() => {
         done()
       })
-      .catch(done)  
+      .catch(done)
   })
 
-let productValid = { name: 'Jersey MU',image_url: 'MU.jpg', price: 100000, stock: 10}
-let productFieldEmpty = { name: '',image_url: '', price: '', stock: 10}
+let productValid = { name: 'Jersey MU',image_url: 'MU.jpg', price: 135000, stock: 5}
+let productFieldEmpty = { name: '',image_url: '', price: '', stock: ''}
 let productStockMinus = { name: 'Jersey MU',image_url: 'MU.jpg', price: 100000, stock: -10}
 let productPriceMinus = { name: 'Jersey MU',image_url: 'MU.jpg', price: -100000, stock: 10}
 let productWrongTypeData = { name: 'Jersey MU',image_url: 'MU.jpg', price: 100000, stock: 'sepuluh'}
 
 
-describe( 'POST /product success', ()=> {
-    test('create success', (done) => {
+describe( 'PUT /product/update/id success', ()=> {
+    test('update success', (done) => {
         request(app)
-        .post('/product/create')
+        .put(`/product/update/${+id_product}`)
         .set('Accept', 'application/json')
         .set('access_token', access_token_admin)
         .send(productValid)
         .then( response => {
             const {status, body} = response
-            expect(status).toBe(201)
-            expect(body).toHaveProperty('id', expect.any(Number))
-            expect(body).toHaveProperty('name', productValid.name)
-            expect(body).toHaveProperty('image_url', productValid.image_url)
-            expect(body).toHaveProperty('price', productValid.price)
-            expect(body).toHaveProperty('stock', productValid.stock)
+            expect(status).toBe(200)
+            expect(body).toHaveProperty('message', 'Product is updated')
             done()
         })
         .catch( err => {
@@ -78,10 +87,10 @@ describe( 'POST /product success', ()=> {
     })
 })
 
-describe( 'POST /product failed', ()=> {
-    test('create failed, access_token not exist', (done) => {
+describe( 'PUT /product/update/id failed', ()=> {
+    test('update failed, access_token not exist', (done) => {
         request(app)
-        .post('/product/create')
+        .put(`/product/update/${+id_product}`)
         .set('Accept', 'application/json')
         .send(productValid)
         .then( response => {
@@ -95,9 +104,9 @@ describe( 'POST /product failed', ()=> {
         })
     })
 
-    test('create failed, access_token isn\'t access token admin', (done) => {
+    test('update failed, access_token isn\'t access token admin', (done) => {
         request(app)
-        .post('/product/create')
+        .put(`/product/update/${+id_product}`)
         .set('Accept', 'application/json')
         .set('access_token', access_token_cust)
         .send(productValid)
@@ -112,9 +121,9 @@ describe( 'POST /product failed', ()=> {
         })
     })
 
-    test('create failed, field require is empty', (done) => {
+    test('update failed, field require is empty', (done) => {
         request(app)
-        .post('/product/create')
+        .put(`/product/update/${+id_product}`)
         .set('Accept', 'application/json')
         .set('access_token', access_token_admin)
         .send(productFieldEmpty)
@@ -129,9 +138,9 @@ describe( 'POST /product failed', ()=> {
         })
     })
 
-    test('create failed, field stock is minus', (done) => {
+    test('update failed, field stock is minus', (done) => {
         request(app)
-        .post('/product/create')
+        .put(`/product/update/${+id_product}`)
         .set('Accept', 'application/json')
         .set('access_token', access_token_admin)
         .send(productStockMinus)
@@ -146,9 +155,9 @@ describe( 'POST /product failed', ()=> {
         })
     })
 
-    test('create failed, field price is minus', (done) => {
+    test('update failed, field price is minus', (done) => {
         request(app)
-        .post('/product/create')
+        .put(`/product/update/${+id_product}`)
         .set('Accept', 'application/json')
         .set('access_token', access_token_admin)
         .send(productPriceMinus)
@@ -163,9 +172,9 @@ describe( 'POST /product failed', ()=> {
         })
     })
 
-    test('create failed, type data is wrong', (done) => {
+    test('update failed, type data is wrong', (done) => {
         request(app)
-        .post('/product/create')
+        .put(`/product/update/${+id_product}`)
         .set('Accept', 'application/json')
         .set('access_token', access_token_admin)
         .send(productWrongTypeData)
@@ -180,3 +189,4 @@ describe( 'POST /product failed', ()=> {
         })
     })
 })
+
