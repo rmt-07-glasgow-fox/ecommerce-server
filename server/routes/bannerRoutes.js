@@ -7,6 +7,6 @@ router.get('/', BannerController.getBanners)
 router.get('/:id', BannerController.getBannerId)
 router.post('/', authorized, BannerController.addBanners)
 router.patch('/:id', authorized, BannerController.editStatusBanners)
-router.delete('./:id', authorized, BannerController.deleteBanners)
+router.delete('/:id', authorized, BannerController.deleteBanners)
 
 module.exports = router
