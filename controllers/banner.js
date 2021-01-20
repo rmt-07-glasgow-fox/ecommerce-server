@@ -1,21 +1,41 @@
 const { Banner } = require('../models');
+const { uploadImage } = require('../helpers/uploadImage');
+const formidable = require('formidable');
 
 exports.create = async (req, res, next) => {
-  const { title, status, image_url } = req.body;
+  let form = new formidable.IncomingForm();
+  form.keepExtensions = true;
+  form.parse(req, (err, fields, files) => {
+    if (err) return next({ name: 'NotUpload' });
 
-  try {
-    const body = {
-      title: title,
-      status: status,
-      image_url: image_url,
-    };
+    const { title, status } = fields;
 
-    const banner = await Banner.create(body);
+    if (!title || !title.length) {
+      return next({ name: 'Required', attr: 'Title' });
+    }
 
-    return res.status(201).json(banner);
-  } catch (err) {
-    return next(err);
-  }
+    if (files.image) {
+      if (files.image.size > 50000000) {
+        return next({ name: 'ImageSize' });
+      }
+
+      uploadImage(files.image, req.user.id)
+        .then((url) => {
+          const body = {
+            title: title,
+            status: status,
+            image_url: url,
+          };
+
+          const banner = Banner.create(body);
+
+          return res.status(201).json(banner);
+        })
+        .catch((err) => {
+          return next({ name: 'FailedUpload' });
+        });
+    }
+  });
 };
 
 exports.list = async (req, res, next) => {

@@ -20,8 +20,14 @@ module.exports = (err, req, res, next) => {
       res.status(400).json([{ message: 'Invalid email or password' }]);
     } else if (err.name === 'NotFound') {
       res.status(404).json([{ message: `${err.attr} not found` }]);
+    } else if (err.name === 'NotUpload') {
+      res.status(400).json([{ message: 'Image could not upload' }]);
+    } else if (err.name === 'ImageSize') {
+      res.status(400).json([{ message: 'Image should be less then 5 Mb in size' }]);
+    } else if (err.name === 'FailedUpload') {
+      res.status(400).json([{ message: 'Failed upload to server' }]);
     } else if (err.name === 'Required') {
-      res.status(404).json([{ message: `${err.attr} is required` }]);
+      res.status(400).json([{ message: `${err.attr} is required` }]);
     } else if (err.name === 'Auth') {
       res.status(401).json([{ message: 'You must be logged in.' }]);
     } else if (err.name === 'Member') {
