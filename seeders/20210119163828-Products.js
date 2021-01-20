@@ -70,7 +70,7 @@ module.exports = {
       updatedAt: new Date()
     },{
       name: "Resident Evil 7: Biohazard",
-      imageUrl: "https://lh3.googleusercontent.com/proxy/pankYX94HiALlAsW-858yhL8TRiMns49howP9VeCFi-B7HmtUSvipLiwsS875_T9VMYD9a0UisI_Gk9WltGBhXl9SDqCFdCVn3B98GMP6EpcEjQ4lQPcTimKRyjDO43quJ2ehR0rTxUfRmM",
+      imageUrl: "https://cdn-products.eneba.com/resized-products/775e29241e8b57f2701c7e042ccbb53d_350x200_1x-0.jpg",
       price: 699999,
       stock: 100,
       genre: "adventure",
