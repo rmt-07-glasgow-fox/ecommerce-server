@@ -29,19 +29,26 @@ This server is built with test suites with TDD.
 
 * **Success Response:**
   
-    * **Code:** 201 OK <br />
-    **Content:** `{ 
-    id: 1,
-    name: "nice headset",
-    image_url: "https://media.wired.com/photos/5e7164aeb9399f00096a2ae6/1:1/w_1800,h_1800,c_limit/Gear-Mont-Blanc-Smart-Headphones-Gold-Front-SOURCE-Mont-Blanc.jpg",
-    price: 120000,
-    stock: 5,
-    updatedAt: "2021-01-18T10:38:05.747Z",
-    createdAt: "2021-01-18T10:38:05.747Z"
-    }
-    `
+  * **Code:** 201 OK <br />
+      **Content:** `{ 
+      id: 1,
+      name: "nice headset",
+      image_url: "https://media.wired.com/photos/5e7164aeb9399f00096a2ae6/1:1/w_1800,h_1800,c_limit/Gear-Mont-Blanc-Smart-Headphones-Gold-Front-SOURCE-Mont-Blanc.jpg",
+      price: 120000,
+      stock: 5,
+      updatedAt: "2021-01-18T10:38:05.747Z",
+      createdAt: "2021-01-18T10:38:05.747Z"
+      }
+      `
 
 * **Error Response:**
+
+  * **Code:** 401 Unauthorised <br />
+      **Content:** `[
+       'Not authorised'
+      ]
+      `
+    OR
 
   * **Code:** 400 Bad Request <br />
       **Content:** `{
@@ -146,6 +153,13 @@ This server is built with test suites with TDD.
 
 * **Error Response:**
 
+  * **Code:** 401 Unauthorised <br />
+      **Content:** `[
+       'Not authorised'
+      ]
+      `
+    OR
+
   * **Code:** 400 Bad Request <br />
       **Content:** `{
       "errors": [
@@ -172,3 +186,137 @@ This server is built with test suites with TDD.
       ]
       }
       `
+
+**Fetch All Products**
+----
+
+* **URL**
+  /products
+
+* **Method:** 
+  `GET`
+
+*  **URL Params**
+
+    None
+
+* **Data Params**
+
+    None
+
+* **Success Response:**
+  
+    * **Code:** 200 <br />
+    **Content:** `[
+    {
+          id: 1,
+        name: 'nice headphones',
+        image_url: 'https://media.wired.com/photos/5e7164aeb9399f00096a2ae6/1:1/w_1800,h_1800,c_limit/Gear-Mont-Blanc-Smart-Headphones-Gold-Front-SOURCE-Mont-Blanc.jpg',
+        price: 120000,
+        stock: 5,
+    updatedAt: "2021-01-18T10:38:05.747z",
+    createdAt: "2021-01-18T10:38:05.747Z"
+    },
+    {
+          id: 2,
+        name: 'macbook pro',
+        image_url: 'https://i.pcmag.com/imagery/reviews/038Dr5TVEpwIv8rCljx6UcF-13..1588802180.jpg',
+        price: 2000000,
+        stock: 1,
+    updatedAt: "2021-01-18T10:38:05.747Z",
+    createdAt: "2021-01-18T10:38:05.747Z"
+    }
+  ]`
+ 
+* **Error Response:**
+
+  * **Code:** 500 Internal Server Error <br />
+    **Content:** `{ message: "Internal server error." }`
+
+* **Sample Call:**
+
+    `localhost:3000/products`
+
+**Fetch A Product by Id**
+----
+
+* **URL**
+  /products/:id
+
+* **Method:** 
+  `GET`
+
+*  **URL Params**
+
+    `id=[integer]`
+
+* **Data Params**
+
+    None
+
+* **Success Response:**
+  
+    * **Code:** 200 <br />
+    **Content:** `
+    {
+          id: 1,
+        name: 'nice headphones',
+        image_url: 'https://media.wired.com/photos/5e7164aeb9399f00096a2ae6/1:1/w_1800,h_1800,c_limit/Gear-Mont-Blanc-Smart-Headphones-Gold-Front-SOURCE-Mont-Blanc.jpg',
+        price: 120000,
+        stock: 5,
+    updatedAt: "2021-01-18T10:38:05.747z",
+    createdAt: "2021-01-18T10:38:05.747Z"
+    }`
+ 
+* **Error Response:**
+
+  * **Code:** 500 Internal Server Error <br />
+    **Content:** `{ message: "Internal server error." }`
+
+* **Sample Call:**
+
+    `localhost:3000/products/1`
+
+**Delete A Product by Id**
+----
+
+* **URL**
+  /products/:id
+
+* **Method:** 
+  `DELETE`
+
+*  **URL Params**
+
+    `id=[integer]`
+
+* **Data Params**
+
+    None
+
+* **Success Response:**
+  
+    * **Code:** 200 <br />
+    **Content:** `
+    [
+      'Product deleted'
+    ]`
+ 
+* **Error Response:**
+
+  * **Code:** 401 <br />
+      **Content:** `
+      [
+        'Not authorised'
+      ]
+      `
+  OR
+  
+  * **Code:** 500 Internal Server Error <br />
+    **Content:** `{ message: "Internal server error." }`
+
+* **Sample Call:**
+
+    `localhost:3000/products/1`
+
+
