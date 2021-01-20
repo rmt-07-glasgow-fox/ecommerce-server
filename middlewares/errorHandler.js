@@ -31,6 +31,11 @@ const errorHandler = (err, req, res, next) => {
           message: "You're not authorized to use this service."
         })
         break;
+      case 'AlreadyExist':
+        res.status(409).json({
+          message: 'This data already exist please add a new one.'
+        })
+        break;
       default:
         if(err.name === 'SequelizeValidationError'){
           let errors = err.errors.map(el => {

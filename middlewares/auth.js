@@ -1,4 +1,4 @@
-const { User, Product, Banner } = require('../models')
+const { User, Product, Banner, Category } = require('../models')
 const { verifyToken } = require('../helpers/jwtHelper')
 
 const authentication = (req, res, next) => {
@@ -37,7 +37,7 @@ const authentication = (req, res, next) => {
   }
 }
 
-const authorization = (req, res, next) => {
+const productAuthorization = (req, res, next) => {
   const { id } = req.params
   try {
     Product.findOne({
@@ -99,8 +99,40 @@ const bannerAuthorization = (req, res, next) => {
   }
 }
 
+const categoryAuthorization = (req, res, next) => {
+  const { id } = req.params
+  try {
+    Category.findOne({
+      where:{
+        id
+      }
+    })
+      .then(data => {
+        if(!data){
+          next({
+            name: 'NoData'
+          })
+        } else if (req.userData.role !== 'admin'){
+          next({
+            name: 'Forbidden'
+          })
+        } else {
+          next()
+        }
+      })
+      .catch(err => {
+        next(err)
+      })
+  } catch (error) {
+    next({
+      name: 'InvalidToken'
+    })
+  }
+}
+
 module.exports = {
   authentication,
-  authorization,
-  bannerAuthorization
+  productAuthorization,
+  bannerAuthorization,
+  categoryAuthorization
 }
