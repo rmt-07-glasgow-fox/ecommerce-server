@@ -21,7 +21,11 @@ test
 */
 
 let id = ''
-let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJleGFtcGxlMkBtYWlsLmNvbSIsImlhdCI6MTYxMTAyMDg1MX0.ZhrVY9OIRjnRhwpLJMLJH25CVCemPec-pYjMSASVC8M"
+let token_admin = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJhZG1pbkBtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTYxMTEwNDMyMn0.OMluxrxICoMEP3PframUgh8aV2UqlECVjyEhBuYoOds"
+let token_user = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZW1haWwiOiJleGFtcGxlQG1haWwuY29tIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2MTExMDQ0NDR9.Cw561M_JylrFdUba5sX_HMiG2dA3AEUUnlzxv3lTJFo"
+
+
+//GET
 
 //for getting all the products
 describe('GET /products (SUCCESS)', function(){
@@ -29,7 +33,7 @@ describe('GET /products (SUCCESS)', function(){
         //setup
         request(app)
             .get('/products')
-            .set('access_token', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJleGFtcGxlMkBtYWlsLmNvbSIsImlhdCI6MTYxMTAyMDg1MX0.ZhrVY9OIRjnRhwpLJMLJH25CVCemPec-pYjMSASVC8M")
+            .set('access_token', token_admin)
             .end(function(err, res){
                 if(err) done(err)
                 expect(res.statusCode).toEqual(200)
@@ -39,10 +43,9 @@ describe('GET /products (SUCCESS)', function(){
             })
     })
 })
-
 //need authentication to be able to access product and do CRUD
 describe('GET /products (fail)', function(){
-    it('should send response 200 status code', function(done){
+    it('should send response 403 status code for not having an access token', function(done){
         //setup
         request(app)
             .get('/products')
@@ -55,7 +58,8 @@ describe('GET /products (fail)', function(){
     })
 })
 
-//for posting product 
+//POST 
+
 describe('POST /products (SUCCESS)', function(){
     it('should send response 201 status code', function(done){
         const body = {
@@ -66,7 +70,7 @@ describe('POST /products (SUCCESS)', function(){
         }
         request(app)
             .post('/products')
-            .set('access_token', token)
+            .set('access_token', token_admin)
             .send(body)
             .end(function(err, res){
                 if(err) done(err)
@@ -82,9 +86,49 @@ describe('POST /products (SUCCESS)', function(){
     }) 
 })
 
-//if name is empty, price less than 1 and stock is less than 0 should return error
 describe('POST /products (FAIL)', function(){
-    it('should send response 400 status code', function(done){
+    it('should send response 403 status code for not having an access token', function(done){
+        const body = {
+            name : "TV",
+            image_url : "https://images.unsplash.com/photo-1593078165899-c7d2ac0d6aea?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1650&q=80",
+            price : 1000000,
+            stock : 1
+        }
+        request(app)
+            .post('/products')
+            .send(body)
+            .end(function(err, res){
+                if(err) done(err)
+                expect(res.statusCode).toEqual(403)
+                expect(res.body.message).toEqual("Login Required")
+                done()
+            })
+    }) 
+})
+
+describe('POST /products (FAIL)', function(){
+    it('should send response 401 status code for having an access token but not an admin', function(done){
+        const body = {
+            name : "TV",
+            image_url : "https://images.unsplash.com/photo-1593078165899-c7d2ac0d6aea?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1650&q=80",
+            price : 1000000,
+            stock : 1
+        }
+        request(app)
+            .post('/products')
+            .set("access_token", token_user)
+            .send(body)
+            .end(function(err, res){
+                if(err) done(err)
+                expect(res.statusCode).toEqual(401)
+                expect(res.body.message).toEqual("Do not have access")
+                done()
+            })
+    }) 
+})
+
+describe('POST /products (FAIL)', function(){
+    it('should send response 400 status code for having an empty name, price less than 1 and stock less than 1', function(done){
         const body = {
             name : '',
             image_url : '',
@@ -93,7 +137,7 @@ describe('POST /products (FAIL)', function(){
         }
         request(app)
             .post('/products')
-            .set('access_token', token)
+            .set('access_token', token_admin)
             .send(body)
             .end(function(err, res){
                 if(err) done(err)
@@ -109,6 +153,7 @@ describe('POST /products (FAIL)', function(){
     }) 
 })
 
+//PATCH
 
 //for updating stock
 describe('PATCH /products/:id', function(){
@@ -118,7 +163,7 @@ describe('PATCH /products/:id', function(){
         }
         request(app)
             .patch(`/products/${id}`)
-            .set('access_token', token)
+            .set('access_token', token_admin)
             .send(body)
             .end(function(err, res){
                 if(err) done(err)
@@ -130,7 +175,42 @@ describe('PATCH /products/:id', function(){
     })  
 })
 
-//if stock is less than 0
+describe('PATCH /products/:id', function(){
+    it('should send response 403 status code for not having an access token', function(done){
+        const body = {
+            stock : 2
+        }
+        request(app)
+            .patch(`/products/${id}`)
+            .send(body)
+            .end(function(err, res){
+                if(err) done(err)
+                expect(res.statusCode).toEqual(403)
+                expect(res.body.message).toEqual("Login Required")
+                done()
+            })
+    })  
+})
+
+describe('PATCH /products/:id', function(){
+    it('should send response 401 status code for other than admins', function(done){
+        const body = {
+            stock : 2
+        }
+        request(app)
+            .patch(`/products/${id}`)
+            .set('access_token', token_user)
+            .send(body)
+            .end(function(err, res){
+                if(err) done(err)
+                expect(res.statusCode).toEqual(401)
+                expect(res.body.message).toEqual("Do not have access")
+                done()
+            })
+    })  
+})
+
+//if stock is less than 1
 describe('PATCH /products/:id', function(){
     it('should send response 400 status code', function(done){
         const body = {
@@ -138,7 +218,7 @@ describe('PATCH /products/:id', function(){
         }
         request(app)
             .patch(`/products/${id}`)
-            .set('access_token', token)
+            .set('access_token', token_admin)
             .send(body)
             .end(function(err, res){
                 if(err) done(err)
@@ -154,6 +234,8 @@ describe('PATCH /products/:id', function(){
     })  
 })
 
+//PUT
+
 //for updating the overall product
 describe('PUT /products/:id', function(){
     it('should send response 200 status code', function(done){
@@ -164,7 +246,7 @@ describe('PUT /products/:id', function(){
         }
         request(app)
             .put(`/products/${id}`)
-            .set('access_token', token)
+            .set('access_token', token_admin)
             .send(body)
             .end(function(err, res){
                 if(err) done(err)
@@ -173,6 +255,45 @@ describe('PUT /products/:id', function(){
                 expect(res.body.name).toEqual(body.name)
                 expect(res.body.image_url).toEqual(body.image_url)
                 expect(res.body.price).toEqual(body.price)
+                done()
+            })
+    })  
+})
+
+describe('PUT /products/:id', function(){
+    it('should send response 403 status code for not having an access token', function(done){
+        const body = {
+            name : "TV baru",
+            image_url : "",
+            price : 500000
+        }
+        request(app)
+            .put(`/products/${id}`)
+            .send(body)
+            .end(function(err, res){
+                if(err) done(err)
+                expect(res.statusCode).toEqual(403)
+                expect(res.body.message).toEqual("Login Required")
+                done()
+            })
+    })  
+})
+
+describe('PUT /products/:id', function(){
+    it('should send response 401 status code for other than admins', function(done){
+        const body = {
+            name : "TV baru",
+            image_url : "",
+            price : 500000
+        }
+        request(app)
+            .put(`/products/${id}`)
+            .set('access_token', token_user)
+            .send(body)
+            .end(function(err, res){
+                if(err) done(err)
+                expect(res.statusCode).toEqual(401)
+                expect(res.body.message).toEqual("Do not have access")
                 done()
             })
     })  
@@ -188,7 +309,7 @@ describe('PUT /products/:id', function(){
         }
         request(app)
             .put(`/products/${id}`)
-            .set('access_token', token)
+            .set('access_token', token_admin)
             .send(body)
             .end(function(err, res){
                 if(err) done(err)
@@ -204,16 +325,45 @@ describe('PUT /products/:id', function(){
     })  
 })
 
+//DELETE
+
 //for deleting a product
 describe('DELETE /products/:id', function(){
     it('should send response 200 status code', function(done){
         request(app)
             .delete(`/products/${id}`)
-            .set('access_token', token)
+            .set('access_token', token_admin)
             .end(function(err, res){
                 if(err) done(err)
                 expect(res.statusCode).toEqual(200)
                 expect(res.body.message).toEqual("Product Deleted")
+                done()
+            })
+    })  
+})
+
+describe('DELETE /products/:id', function(){
+    it('should send response 403 status code for not having an access token', function(done){
+        request(app)
+            .delete(`/products/${id}`)
+            .end(function(err, res){
+                if(err) done(err)
+                expect(res.statusCode).toEqual(403)
+                expect(res.body.message).toEqual("Login Required")
+                done()
+            })
+    })  
+})
+
+describe('DELETE /products/:id', function(){
+    it('should send response 401 status code for other than admins', function(done){
+        request(app)
+            .delete(`/products/${id}`)
+            .set('access_token', token_user)
+            .end(function(err, res){
+                if(err) done(err)
+                expect(res.statusCode).toEqual(401)
+                expect(res.body.message).toEqual("Do not have access")
                 done()
             })
     })  

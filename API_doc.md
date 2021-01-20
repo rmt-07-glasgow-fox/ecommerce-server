@@ -32,6 +32,7 @@ _Response (201 - Created)_
     "id": 1,
     "email": "example@mail.com",
     "password": "<hashed password>",
+    "role" : "user",
     "updatedAt": "2021-01-15T00:38:33.042Z",
     "createdAt": "2021-01-15T00:38:33.042Z"
 }
@@ -169,6 +170,12 @@ _Response (400 - Bad Request)_
     ]
 }
 ```
+_Reponse (401 - Unauthorized)_
+```
+{
+    "message" : "Do not have access"
+}
+```
 _Response (403 - Forbidden Access)_
 ```
 {
@@ -217,6 +224,12 @@ _Response (401 - Unauthorized)_
 ```
 {
     "message": "Do not have access"
+}
+```
+_Reponse (401 - Unauthorized)_
+```
+{
+    "message" : "Do not have access"
 }
 ```
 _Response (403 - Forbidden Access)_

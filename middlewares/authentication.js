@@ -15,7 +15,8 @@ function authenticate(req, res, next){
         if(user){
             req.user = {
                 id : user.id,
-                email : user.email
+                email : user.email,
+                role : user.role
             }
             next()
         } else {
@@ -28,25 +29,33 @@ function authenticate(req, res, next){
 }
 
 function authorization(req, res, next){
-    const id = req.params.id
-    const userId = req.user.id
-    Product.findOne({
-        where : {
-            id
-        }
-    })
-    .then(product => {
-        if(product === null){
-            next({name : "Not found"})
-        } else if(product.UserId === userId){
-            next()
+    if(req.user.role === "admin"){
+        if(req.params.id){
+            const id = req.params.id
+            const userId = req.user.id
+            Product.findOne({
+                where : {
+                    id
+                }
+            })
+            .then(product => {
+                if(product === null){
+                    next({name : "Not found"})
+                } else if(product.UserId === userId){
+                    next()
+                } else {
+                    next({name : 'Do not have access'})
+                }
+            })
+            .catch(err => {
+                next(err)
+            })
         } else {
-            next({name : 'Do not have access'})
+            next()
         }
-    })
-    .catch(err => {
-        next(err)
-    })
+    } else {
+        next({name : 'Do not have access'})
+    }
 }
 
 module.exports = {

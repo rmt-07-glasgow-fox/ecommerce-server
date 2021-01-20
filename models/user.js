@@ -42,6 +42,9 @@ module.exports = (sequelize, DataTypes) => {
           msg : 'Password minimal of 6 characters'
         }
       }
+    },
+    role : {
+      type : DataTypes.STRING
     }
   }, {
     sequelize,
