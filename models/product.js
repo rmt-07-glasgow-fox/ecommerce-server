@@ -63,6 +63,15 @@ module.exports = (sequelize, DataTypes) => {
           msg: "minimal stock is 0"
         }
       }
+    },
+    category: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg : 'category cannot be empty'
+        }
+      }
     }
   }, {
     sequelize,

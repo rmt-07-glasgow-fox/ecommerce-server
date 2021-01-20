@@ -19,10 +19,7 @@ describe("Login User POST /login", () => {
                     return done(err)
                 }
                 expect(status).toBe(200)
-                expect(body).toHaveProperty("id", expect.any(Number))
-                expect(body).toHaveProperty("name", "tommy")
-                expect(body).toHaveProperty("email", "tommysusanto77@gmail.com")
-                expect(body).toHaveProperty("role", "admin")
+                expect(body).toHaveProperty("access_token")
                 done()
             })
         })  

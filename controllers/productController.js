@@ -35,26 +35,36 @@ class ProductController {
         })
     }
 
+    static getProductById (req,res,next) {
+        Product.findOne({where: {id: req.params.id}})
+        .then(data => {
+            res.status(200).json(data)
+        })
+        .catch(error => {
+            next(error)
+        })
+    }
+
     static editProduct (req,res,next) {
         const obj = {
-            id: data.id,
-            name: data.name,
-            imageUrl: data.imageUrl,
-            price: data.price,
-            stock: data.stock,
-            category: data.category
+            id: req.body.id,
+            name: req.body.name,
+            imageUrl: req.body.imageUrl,
+            price: req.body.price,
+            stock: req.body.stock,
+            category: req.body.category
         }
         Product.update(obj,{where: {id: req.params.id}})
         .then(data => {
             return Product.findOne({where: {id: req.params.id}})
             .then(data2 => {
                 res.status(201).json({
-                    id: data.id,
-                    name: data.name,
-                    imageUrl: data.imageUrl,
-                    price: data.price,
-                    stock: data.stock,
-                    category: data.category
+                    id: data2.id,
+                    name: data2.name,
+                    imageUrl: data2.imageUrl,
+                    price: data2.price,
+                    stock: data2.stock,
+                    category: data2.category
                 })
             })
         })           

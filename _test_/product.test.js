@@ -5,6 +5,7 @@ const { queryInterface } = sequelize
 const { generateToken } = require("../helpers/jwt")
 let access_token;
 let access_token2;
+let idProduct;
 
 
 beforeAll(done => {
@@ -40,6 +41,7 @@ describe("Create Product POST /product", () => {
             })
             .end((err,res) => {
                 const { body,status } = res
+                idProduct = body.id
                 if(err){
                     return done(err)
                 }
@@ -197,14 +199,14 @@ describe("update Product PUT /product/:id", () => {
     describe("Success update Product", () => {
         test("update Product with accept body value", done => {
             request(app)
-            .put("/product/26")
+            .put("/product/"+ idProduct)
             .set('access_token', access_token)
             .send({
                 name: "baju" ,
                 imageUrl: "sendal" ,
                 price: 300000,
                 stock: 50,
-                category: 'fashion'
+                category: "fashion"
             })
             .end((err,res) => {
                 const { body,status } = res
@@ -229,7 +231,7 @@ describe("update error no token Product PUT /product/:id", () => {
     describe("update error", () => {
         test("update error no token", done => {
             request(app)
-            .put("/product/26")
+            .put("/product/" + idProduct)
             .send({
                 name: "baju" ,
                 imageUrl: "sendal" ,
@@ -256,7 +258,7 @@ describe("update error user not an admin PUT /product/:id", () => {
     describe("update error", () => {
         test("update error user not an admin", done => {
             request(app)
-            .put("/product/26")
+            .put("/product/" + idProduct)
             .set('access_token', access_token2)
             .send({
                 name: "baju" ,
@@ -284,7 +286,7 @@ describe("update error when required field not filled PUT /product/:id", () => {
     describe("update error", () => {
         test("update error when required field not filled", done => {
             request(app)
-            .put("/product/26")
+            .put("/product/" + idProduct)
             .set('access_token', access_token)
             .send({
                 name: "" ,
@@ -312,7 +314,7 @@ describe("update error when required field filled with another type of required 
     describe("update error", () => {
         test("update error when required field filled with another type of required data", done => {
             request(app)
-            .put("/product/26")
+            .put("/product/" + idProduct)
             .set('access_token', access_token)
             .send({
                 name: "baju" ,
@@ -340,7 +342,7 @@ describe("update error when stock and price filled less than 0 PUT /product/:id"
     describe("update error", () => {
         test("update error when stock and price filled less than 0", done => {
             request(app)
-            .put("/product/26")
+            .put("/product/" + idProduct)
             .set('access_token', access_token)
             .send({
                 name: "baju" ,
@@ -367,10 +369,9 @@ describe("delete Product DELETE /product/:id", () => {
     describe("Success delete Product", () => {
         test("delete Product with accept body value", done => {
             request(app)
-            .delete("/product/1")
+            .delete("/product/" + idProduct)
             .set('access_token', access_token)
             .end((err,res) => {
-                console.log(err)
                 const { body,status } = res
                 if(err){
                     return done(err)
@@ -388,9 +389,8 @@ describe("delete failed no access token DELETE /product/:id", () => {
     describe("delete failed", () => {
         test("delete failed no access token", done => {
             request(app)
-            .delete("/product/26")
+            .delete("/product/" + idProduct)
             .end((err,res) => {
-                console.log(err)
                 const { body,status } = res
                 if(err){
                     return done(err)
@@ -408,10 +408,9 @@ describe("delete failed user ar not an admin DELETE /product/:id", () => {
     describe("delete failed", () => {
         test("delete failed user ar not an admin", done => {
             request(app)
-            .delete("/product/50")
+            .delete("/product/" + + idProduct)
             .set('access_token', access_token2)
             .end((err,res) => {
-                console.log(err)
                 const { body,status } = res
                 if(err){
                     return done(err)
