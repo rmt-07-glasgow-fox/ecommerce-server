@@ -1,8 +1,10 @@
-const { Product } = require('../models')
+const { Product, Category, ProductCategory } = require('../models')
 
 class ProductController {
   static getAllProducts(req, res, next){
-    Product.findAll()
+    Product.findAll({
+      include: [ Category ]
+    })
       .then(data => {
         res.send(data)
       })
@@ -81,6 +83,43 @@ class ProductController {
         }
       })
       .catch(err => {
+        next(err)
+      })
+  }
+  static patchCategoryById(req, res, next){
+    const { CategoryId } = req.body
+    const ProductId  = req.params.id
+    Category.findByPk(CategoryId)
+      .then(data => {
+        if(!data){
+          next({
+            name: 'NoData'
+          })
+        }else{
+          return ProductCategory.findOne({
+            where:{
+              CategoryId
+            }
+          })
+        }
+      })
+      .then(data => {
+        if(!data){
+          return ProductCategory.create({
+            CategoryId,
+            ProductId
+          })
+        }else{
+          next({
+            name: 'AlreadyExist'
+          })
+        }
+      })
+      .then(data => {
+        res.status(200).json(data)
+      })
+      .catch(err => {
+        console.log(err)
         next(err)
       })
   }
