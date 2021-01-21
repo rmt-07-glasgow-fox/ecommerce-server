@@ -6,10 +6,12 @@
   "scripts": {
     "db:create:development": "SET NODE_ENV=development&npx sequelize db:create",
     "db:migrate:development": "SET NODE_ENV=development&npx sequelize db:migrate",
+    "db:migrate:undo:development": "SET NODE_ENV=development&npx sequelize db:migrate:undo:all",
     "db:seed:development": "SET NODE_ENV=development&npx sequelize db:seed:all",
     "db:create:test": "SET NODE_ENV=test&npx sequelize db:create",
     "db:migrate:test": "SET NODE_ENV=test&npx sequelize db:migrate",
-    "db:seed:test": "SET NODE_ENV=test&npx sequelize db:seed:all",
+    "db:migrate:undo:test": "SET NODE_ENV=test&npx sequelize db:migrate:undo:all",
+    "db:seed:test": "SET NODE_ENV=test&npx sequelize db:seed --seed 20210119000106-seed-data-user-admin",
 
     "test": "SET NODE_ENV=test&npx jest",
     "start": "node app.js",
