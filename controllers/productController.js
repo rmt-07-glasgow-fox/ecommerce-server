@@ -48,6 +48,23 @@ class ProductController {
         }
     }
 
+    static async showProductById(req, res, next) {
+        try {
+            let id = +req.params.idProduct
+            let product = await Product.findByPk(id, {
+                attributes: { exclude: ['createdAt', 'updatedAt'] },
+                include: [{
+                    model: Brand,
+                    attributes: { exclude: ['createdAt', 'updatedAt'] }
+                }]
+            })
+
+            return res.status(200).json(product)
+        } catch (err) {
+            return next(err)
+        }
+    }
+
     static async editProduct(req, res, next) {
         try {
             let idProduct = +req.params.idProduct
