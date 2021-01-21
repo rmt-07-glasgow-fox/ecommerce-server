@@ -21,6 +21,11 @@ class UserController {
                 return next({ name: 400, message: 'password is not matched' })
             }
 
+            // admin only
+            if (user.role !== 'admin') {
+                return next({ name: 401, message: 'admin only !' })
+            }
+
             let convertToken = {
                 id: user.id,
                 email: user.email,
