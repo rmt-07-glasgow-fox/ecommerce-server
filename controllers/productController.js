@@ -25,11 +25,11 @@ class ProductController {
   }
 
   static create(req, res, next) {
-    const { name, image_url, price, stock } = req.body
-    Product.create({ name, image_url, price, stock })
+    const { name, image_url, price, stock, CategoryId } = req.body
+    Product.create({ name, image_url, price, stock, CategoryId })
       .then(product => {
-        const { id, name, image_url, price, stock } = product
-        res.status(201).json({ id, name, image_url, price, stock })
+        const { id, name, image_url, price, stock, CategoryId } = product
+        res.status(201).json({ id, name, image_url, price, stock, CategoryId })
       })
       .catch(err => {
         const message = err.errors ? err.errors.map(e => e.message) : 'Internal Server Error'
@@ -40,17 +40,17 @@ class ProductController {
   }
 
   static update(req, res, next) {
-    const { name, image_url, price, stock } = req.body
+    const { name, image_url, price, stock, CategoryId } = req.body
     Product
-      .update({ name, image_url, price, stock }, {
+      .update({ name, image_url, price, stock, CategoryId }, {
         where: { id: +req.params.id },
         returning: true
       })
       .then(product => {
         if (!product[1][0]) res.status(404).json({ message: 'Product Not Found' })
         else {
-          const { id, name, image_url, price, stock } = product[1][0].dataValues
-          res.status(200).json({ id, name, image_url, price, stock })
+          const { id, name, image_url, price, stock, CategoryId } = product[1][0].dataValues
+          res.status(200).json({ id, name, image_url, price, stock, CategoryId })
         }
       })
       .catch(err => {
