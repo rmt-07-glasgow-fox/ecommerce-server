@@ -1,11 +1,12 @@
-const { Category } = require('../models')
+const { Category, User } = require('../models')
 
 class CategoryController {
   static getAllCategories(req, res, next){
     Category.findAll({
       order: [
         ['id', 'ASC']
-      ]
+      ],
+      include: [ User ]
     })
       .then(data => {
         res.status(200).json(data)
@@ -15,7 +16,9 @@ class CategoryController {
       })
   }
   static getCategoryById(req, res, next){
-    Category.findByPk(req.params.id)
+    Category.findByPk(req.params.id, {
+      include: [ User ]
+    })
       .then(data => {
         if(!data){
           next({
@@ -31,7 +34,8 @@ class CategoryController {
   }
   static addCategory(req, res, next){
     Category.create({
-      name: req.body.name
+      name: req.body.name,
+      UserId: req.userData.id
     })
       .then(data => {
         res.status(201).json(data)

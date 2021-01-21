@@ -1,4 +1,4 @@
-const { Product, Category, ProductCategory } = require('../models')
+const { Product, Category } = require('../models')
 
 class ProductController {
   static getAllProducts(req, res, next){
@@ -33,25 +33,16 @@ class ProductController {
       })
   }
   static addProduct(req, res, next){
-    let ProductId
     Product.create({
       name: req.body.name || '',
       image_url: req.body.image_url || '',
       price: +req.body.price,
       stock: req.body.stock || '',
       UserId: req.userData.id,
+      CategoryId: req.body.CategoryId
     })
       .then(data => {
-        ProductId = data.id
-        return ProductCategory.create({
-          CategoryId: req.body.CategoryId,
-          ProductId
-        })
-      })
-      .then(data => {
-        res.status(201).json({
-          data
-        })
+        res.status(201).json(data)
       })
       .catch(err => {
         next(err)
@@ -98,43 +89,6 @@ class ProductController {
       .catch(err => {
         next(err)
       })
-  }
-  static patchCategoryById(req, res, next){
-    const { CategoryId } = req.body
-    const ProductId  = +req.params.id
-    Category.findByPk(CategoryId)
-      .then(data => {
-        if(!data){
-          next({
-            name: 'NoData'
-          })
-        }else{
-          return ProductCategory.findOne({
-            where:{
-              CategoryId
-            }
-          })
-        }
-      })
-        .then(data => {
-          if(data){
-            next({
-              name: 'AlreadyExist'
-            })
-          }else{
-            return ProductCategory.create({
-              CategoryId,
-              ProductId
-            })
-          }
-        })
-        .then(data => {
-          res.status(200).json(data)
-        })
-        .catch(err => {
-          console.log(err)
-          next(err)
-        })
   }
 }
 
