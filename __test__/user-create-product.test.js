@@ -1,18 +1,5 @@
 const request = require('supertest')
 const app = require('../app')
-const { login } = require('../controllers/userController')
-let access_token
-/*
-require jwt
-buat payload berdasarkan admin login
-    ambil access_token dari postmant
-dapetin access_token
-lalu pengecekan apakah access token cocok dengan admin yang terdaftar
-*/
-beforeAll(() => {
-  // login()
-  
-})
 
 describe('POST /products', () => {
   it('should send response with 201 status code', (done) => {
@@ -24,6 +11,7 @@ describe('POST /products', () => {
     }
     request(app)
       .post('/products')
+      .set('access_token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTYxMTA5MTI5N30.g41cEAOFnYy110MrRi6sy-LRKycyBXmfaM-OsMoD99Y')
       .send(product)
       .end((err, res) => {
         if(err) {
@@ -56,6 +44,7 @@ describe('POST /products', () => {
     }
     request(app)
       .post('/products')
+      .set('access_token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTYxMTA5MTI5N30.g41cEAOFnYy110MrRi6sy-LRKycyBXmfaM-OsMoD99Y')
       .send(product)
       .end((err, res) => {
         if(err) {
@@ -63,14 +52,13 @@ describe('POST /products', () => {
         }
         expect(res.statusCode).toEqual(400)
         expect(typeof res.body).toEqual('object')
-        expect(res.body).toHaveProperty('errors')
-        expect(Array.isArray(res.body.errors)).toEqual(true)
-        expect(res.body.errors).toEqual(
+        expect(Array.isArray(res.body)).toEqual(true)
+        expect(res.body).toEqual(
           expect.arrayContaining([
-            'Name is required',
-            'Image Url is required',
-            'Price is required',
-            'Stock is required',
+            'Product name must be filled',
+            'Product URL name must be filled',
+            'Price name must be filled',
+            'Stock name must be filled',
           ])
         )
         done()
@@ -79,13 +67,14 @@ describe('POST /products', () => {
 
   it('should send response with 400 status code', (done) => {
     const product = {
-      name: 123,
-      image_url: 123,
-      price: -1,
-      stock: -1
+      name: '123',
+      image_url: '123',
+      price: '-1',
+      stock: '-1'
     }
     request(app)
       .post('/products')
+      .set('access_token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTYxMTA5MTI5N30.g41cEAOFnYy110MrRi6sy-LRKycyBXmfaM-OsMoD99Y')
       .send(product)
       .end((err, res) => {
         if(err) {
@@ -93,7 +82,7 @@ describe('POST /products', () => {
         }
         expect(res.statusCode).toEqual(400)
         expect(typeof res.body).toEqual('object')
-        expect(typeof res.name).toEqual('number')
+        expect(typeof res.name).toEqual('undefined')
         expect(typeof res.image_url).toHaveLength(10)
         expect(res.body).toHaveProperty('errors')
         expect(Array.isArray(res.body.errors)).toEqual(true)

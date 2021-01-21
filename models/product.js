@@ -24,9 +24,6 @@ module.exports = (sequelize, DataTypes) => {
         notNull: {
           msg: "Null Product name is not allowed"
         },
-        isAlphanumeric: {
-          msg: "Invalid character"
-        },
       }
     },
     image_url: {
