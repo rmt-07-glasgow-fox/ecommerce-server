@@ -1,5 +1,5 @@
 const { Banner } = require('../models');
-const { uploadImage } = require('../helpers/uploadImage');
+const { uploadImage, deleteImage } = require('../helpers/googleStorage');
 const formidable = require('formidable');
 
 exports.create = async (req, res, next) => {
@@ -19,12 +19,14 @@ exports.create = async (req, res, next) => {
         return next({ name: 'ImageSize' });
       }
 
-      uploadImage(files.image, req.user.id)
+      const image_name = `${req.user.id}_${Date.now()}`;
+      uploadImage(files.image, image_name)
         .then((url) => {
           const body = {
             title: title,
             status: status,
             image_url: url,
+            image_name: image_name,
           };
 
           const banner = Banner.create(body);
@@ -78,7 +80,7 @@ exports.destroy = async (req, res, next) => {
     const isFound = await Banner.findOne({ where: { id: id } });
 
     if (!isFound) return next({ name: 'NotFound', attr: 'Banner' });
-
+    await deleteImage(isFound.image_name);
     await Banner.destroy({ where: { id: id } });
     return res.status(200).json({ message: 'Banner has been deleted' });
   } catch (err) {

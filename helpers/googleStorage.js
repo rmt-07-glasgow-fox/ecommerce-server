@@ -1,4 +1,3 @@
-const fs = require('fs');
 const { Storage } = require('@google-cloud/storage');
 const path = require('path');
 const UUID = require('uuid-v4');
@@ -9,7 +8,7 @@ const storage = new Storage({
 });
 const bucket = storage.bucket(`${process.env.FIREBASE_ID}.appspot.com`);
 
-exports.uploadImage = (file, userId) => {
+exports.uploadImage = (file, image_name) => {
   return new Promise((resolve, reject) => {
     if (!file) {
       reject('No image file');
@@ -18,7 +17,7 @@ exports.uploadImage = (file, userId) => {
     let uuid = UUID();
     bucket
       .upload(file.path, {
-        destination: 'images/' + userId + '_' + Date.now(),
+        destination: 'images/' + image_name,
         metadata: {
           contentType: file.type,
           metadata: {
@@ -43,4 +42,12 @@ exports.uploadImage = (file, userId) => {
         reject(error);
       });
   });
+};
+
+exports.deleteImage = async (image_name) => {
+  try {
+    await bucket.file('images/' + image_name).delete();
+  } catch (err) {
+    console.log(err);
+  }
 };

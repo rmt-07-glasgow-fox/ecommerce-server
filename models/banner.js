@@ -34,14 +34,22 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           notNull: { args: true, msg: 'Image url is required' },
-          notEmpty: { args: true, msg: 'Umage url is required' },
+          notEmpty: { args: true, msg: 'Image url is required' },
+        },
+      },
+      image_name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: { args: true, msg: 'Image name is required' },
+          notEmpty: { args: true, msg: 'Image name is required' },
         },
       },
     },
     {
       sequelize,
       modelName: 'Banner',
-    }
+    },
   );
   return Banner;
 };
