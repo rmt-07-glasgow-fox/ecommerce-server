@@ -1,16 +1,11 @@
-const {Product} = require('../models')
-
 module.exports = async (req, res, next) => {
   try {
     const user = req.user
-    const product = await Product.findByPk(req.params.id)
-    if (user.id === product.UserId) {
+    console.log(user);
+    if (user.role === 'admin') {
       next()
     } else {
-      throw {
-        code: 403,
-        message: 'Unauthorized'
-      }
+      next({name: "Unauthorized"})
     }
   } catch (error) {
     next(error)

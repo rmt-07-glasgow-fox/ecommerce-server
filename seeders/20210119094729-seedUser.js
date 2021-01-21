@@ -1,5 +1,5 @@
-'use strict';
-const {generateHash} = require('../helpers/bcrypt');
+"use strict";
+const { generateHash } = require("../helpers/bcrypt");
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -11,16 +11,26 @@ module.exports = {
      *   name: 'John Doe',
      *   isBetaMember: false
      * }], {});
-    */
-    const user = {
-      id: 1,
-      email: 'admin@mail.com',
-      password: generateHash('1234'),
-      role: 'admin',
-      createdAt: new Date(),
-      updatedAt: new Date()
-    }
-    await queryInterface.bulkInsert('Users', [user], {});
+     */
+    const user = [
+      {
+        id: 1,
+        email: "admin@mail.com",
+        password: generateHash("123456"),
+        role: "admin",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: 2,
+        email: "customer@mail.com",
+        password: generateHash("123456"),
+        role: "customer",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    ];
+    await queryInterface.bulkInsert("Users", user, {});
   },
 
   down: async (queryInterface, Sequelize) => {
@@ -30,6 +40,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    await queryInterface.bulkDelete('Users', null, {});
-  }
+    await queryInterface.bulkDelete("Users", null, {});
+  },
 };

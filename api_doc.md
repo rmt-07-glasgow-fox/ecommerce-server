@@ -2,7 +2,7 @@
 
 ## Open Endpoints
 
-* [Login](login.md) : `POST /api/users/login/`
+* [Login](#login) : `POST /api/users/login/`
 
 ## Endpoints that require authentification and authorization
 
@@ -22,14 +22,14 @@ Closed endpoints require a Valid Token to be included in the header of the reque
 
 **Condition** : If not provide valid `access_token` on header while request
 
-**Code** : `400 BAD REQUEST`
+**Code** : `401 UNAUTHORIZED`
 
 **Content** :
 
 ```json
 {
   "errors": [
-    "message": "Login first"
+    "Login first"
   ]
 }
 ```
@@ -46,39 +46,39 @@ Closed endpoints require a Valid Token to be included in the header of the reque
 ```json
 {
   "errors": [
-    "message": "Unauthorized"
+    "Unauthorized"
   ]
 }
 ```
 
 ## Product Related
 
-* [Create Product](create_product.md) : `POST /api/products/`
-* [Show Products](show_products.md) : `GET /api/products/`
-* [Show a Product](show_product.md) : `GET /api/products/:id`
-* [Update a Product](update_product.md) : `PUT /api/products/:id`
-* [Delete a Product](delete_product.md) : `DELETE /api/products/:id/`
+* [Create Product](#create-a-product) : `POST /api/products/`
+* [Show Products](#show-products) : `GET /api/products/`
+* [Show a Product](#show-a-product) : `GET /api/products/:id`
+* [Update a Product](#update-a-product) : `PUT /api/products/:id`
+* [Delete a Product](#delete-a-product) : `DELETE /api/products/:id/`
 
 ## Banner Related
 
-* [Create Banner](create_banner.md) : `POST /api/banners/`
-* [Show Banners](show_banners.md) : `GET /api/banners/`
-* [Show a Banner](show_banner.md) : `GET /api/banners/:id`
-* [Update a Banner](update_banner.md) : `PUT /api/banners/:id`
-* [Delete a Banner](delete_banner.md) : `DELETE /api/banners/:id`
+* [Create Banner](#create-a-banner) : `POST /api/banners/`
+* [Show Banners](#show-banners) : `GET /api/banners/`
+* [Show a Banner](#show-a-banner) : `GET /api/banners/:id`
+* [Update a Banner](#update-a-banner) : `PUT /api/banners/:id`
+* [Delete a Banner](#delete-a-banner) : `DELETE /api/banners/:id`
 
 ## Error Response because Server Error
 
 **Condition** : Internal Server Error
 
-**Code** : `500 INTERNAL SERBER ERROR`
+**Code** : `500 INTERNAL SERVER ERROR`
 
 **Content** :
 
 ```json
 {
   "errors": [
-    "messages": "INTERNAL SERVER ERROR"
+    "INTERNAL SERVER ERROR"
   ]
 }
 ```
@@ -134,7 +134,7 @@ Used to collect a Token for registered User.
 ```json
 {
   "errors": [
-    "messages": "Email does not exist"
+    "Email does not exist"
   ]
 }
 ```
@@ -150,7 +150,7 @@ Used to collect a Token for registered User.
 ```json
 {
   "errors": [
-    "message": "Email is required"
+    "Email is required"
   ]
 }
 ```
@@ -166,7 +166,7 @@ Used to collect a Token for registered User.
 ```json
 {
   "errors": [
-    "message": "Email must be valid email address"
+    "Email must be valid email address"
   ]
 }
 ```
@@ -182,7 +182,7 @@ Used to collect a Token for registered User.
 ```json
 {
   "errors": [
-    "message": "Wrong password"
+    "Wrong password"
   ]
 }
 ```
@@ -198,7 +198,7 @@ Used to collect a Token for registered User.
 ```json
 {
   "errors": [
-    "message": "Password is required"
+    "Password is required"
   ]
 }
 ```
@@ -214,7 +214,7 @@ Used to collect a Token for registered User.
 ```json
 {
   "errors": [
-    "message": "Password at least 6 characters"
+    "Password at least 6 characters"
   ]
 }
 ```
@@ -281,7 +281,7 @@ Used to collect a Token for registered User.
 ```json
 {
   "errors": [
-    "message": "Name is required"
+    "Name is required"
   ]
 }
 ```
@@ -297,7 +297,7 @@ Used to collect a Token for registered User.
 ```json
 {
   "errors": [
-    "message": "Image url field is required"
+    "Image url field is required"
   ]
 }
 ```
@@ -313,7 +313,7 @@ Used to collect a Token for registered User.
 ```json
 {
   "errors": [
-    "message": "Price is required"
+    "Price is required"
   ]
 }
 ```
@@ -329,7 +329,7 @@ Used to collect a Token for registered User.
 ```json
 {
   "errors": [
-    "message": "Stock is required"
+    "Stock is required"
   ]
 }
 ```
@@ -345,7 +345,7 @@ Used to collect a Token for registered User.
 ```json
 {
   "errors": [
-    "message": "Category is required"
+    "Category is required"
   ]
 }
 ```
@@ -470,7 +470,7 @@ Used to collect a Token for registered User.
 ```json
 {
   "errors": [
-    "message": "Product does not exist"
+    "Product does not exist"
   ]
 }
 ```
@@ -493,7 +493,7 @@ Used to collect a Token for registered User.
 
 ```json
 {
-  "message": "Product named: 'Perahu Karet Rescue BlueLines 100% Original Produk' success to delete"
+  "Product named: 'Perahu Karet Rescue BlueLines 100% Original Produk' success to delete"
 }
 ```
 
@@ -508,7 +508,7 @@ Used to collect a Token for registered User.
 ```json
 {
   "errors": [
-    "message": "Product does not exist"
+    "Product does not exist"
   ]
 }
 ```
@@ -569,7 +569,7 @@ Used to collect a Token for registered User.
 ```json
 {
   "errors": [
-    "message": "Title is required"
+    "Title is required"
   ]
 }
 ```
@@ -585,7 +585,7 @@ Used to collect a Token for registered User.
 ```json
 {
   "errors": [
-    "message": "Status is required"
+    "Status is required"
   ]
 }
 ```
@@ -601,7 +601,7 @@ Used to collect a Token for registered User.
 ```json
 {
   "errors": [
-    "message": "Image url field is required"
+    "Image url field is required"
   ]
 }
 ```
@@ -716,7 +716,7 @@ Used to collect a Token for registered User.
 ```json
 {
   "errors": [
-    "message": "Banner does not exist"
+    "Banner does not exist"
   ]
 }
 ```
@@ -739,7 +739,7 @@ Used to collect a Token for registered User.
 
 ```json
 {
-  "message": "Banner titled: 'Diskon! Tenda BNPB' success to delete"
+  "Banner titled: 'Diskon! Tenda BNPB' success to delete"
 }
 ```
 
@@ -754,7 +754,7 @@ Used to collect a Token for registered User.
 ```json
 {
   "errors": [
-    "message": "Banner does not exist"
+    "Banner does not exist"
   ]
 }
 ```
