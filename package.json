@@ -14,7 +14,8 @@
     "db:seed:development": "cross-env NODE_ENV=development npm run db:seed",
     "db:seed:test": "cross-env NODE_ENV=test npm run db:seed",
     "test": "cross-env NODE_ENV=test npx jest",
-    "dev": "cross-env NODE_ENV=development npx supervisor bin/http.js"
+    "dev": "cross-env NODE_ENV=development npx supervisor bin/http.js",
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
