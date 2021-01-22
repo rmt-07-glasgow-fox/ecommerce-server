@@ -1,5 +1,3 @@
-const { request } = require('express')
-
 const router = require('express').Router()
 const productController = require('../controllers/productController')
 const { authenticate, authorization } = require('../middlewares/authentication')

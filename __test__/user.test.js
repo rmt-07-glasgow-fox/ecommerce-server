@@ -12,119 +12,122 @@ const clearUser = require('./helpers/clear-users')
 
 //For register
 
-describe('POST /register (SUCCESS)',  function(){
-    it('should send response with 201 status code and return an object with id and email', function(done){
-        //setup
-        const body = {
-            email: 'example@mail.com',
-            password : 'password'
-        }
-        //execute
-        request(app)
+describe('User register and login', function(){
+    describe('POST /register (SUCCESS)',  function(){
+        it('should send response with 201 status code and return an object with id and email', function(done){
+            //setup
+            const body = {
+                email: 'example@mail.com',
+                password : 'password'
+            }
+            //execute
+            request(app)
+                .post('/register')
+                .send(body)
+                .end(function(err, res){
+                    if (err) done(err)
+                    //Assert
+                    expect(res.statusCode).toEqual(201)
+                    expect(typeof res.body).toEqual('object')
+                    expect(res.body).toHaveProperty('id')
+                    expect(typeof res.body.id).toEqual('number')
+                    done()
+                })
+        })
+    })
+    
+    //cannot have the same existed email
+    describe('POST /register (FAIL) because of existing email', function(){
+        it('should send response with 400 status code', function(done){
+            //setup
+            const body = {
+                email : 'example@mail.com',
+                password : 'password'
+            }
+            //execute
+            request(app)
             .post('/register')
             .send(body)
             .end(function(err, res){
-                if (err) done(err)
+                if(err) done(err)
                 //Assert
-                expect(res.statusCode).toEqual(201)
+                expect(res.statusCode).toEqual(400)
                 expect(typeof res.body).toEqual('object')
-                expect(res.body).toHaveProperty('id')
-                expect(typeof res.body.id).toEqual('number')
+                expect(res.body).toHaveProperty('errors')
+                expect(Array.isArray(res.body.errors)).toEqual(true)
+                expect(res.body.errors).toEqual(
+                    expect.arrayContaining(['Email already registered'])
+                )
                 done()
             })
+        })
     })
-})
-
-//cannot have the same existed email
-describe('POST /register (FAIL) because of existing email', function(){
-    it('should send response with 400 status code', function(done){
-        //setup
-        const body = {
-            email : 'example@mail.com',
-            password : 'password'
-        }
-        //execute
-        request(app)
-        .post('/register')
-        .send(body)
-        .end(function(err, res){
-            if(err) done(err)
-            //Assert
-            expect(res.statusCode).toEqual(400)
-            expect(typeof res.body).toEqual('object')
-            expect(res.body).toHaveProperty('errors')
-            expect(Array.isArray(res.body.errors)).toEqual(true)
-            expect(res.body.errors).toEqual(
-                expect.arrayContaining(['Email already registered'])
-            )
-            done()
+    
+    //cannot have empty email and password
+    describe('POST /register (FAIL) because of empty email and password', function(){
+        it('should send response with 400 status code', function(done){
+            //setup
+            const body = {
+                email : '',
+                password : ''
+            }
+            //execute
+            request(app)
+            .post('/register')
+            .send(body)
+            .end(function(err, res){
+                if(err) done(err)
+                //Assert
+                expect(res.statusCode).toEqual(400)
+                expect(typeof res.body).toEqual('object')
+                expect(res.body).toHaveProperty('errors')
+                expect(Array.isArray(res.body.errors)).toEqual(true)
+                expect(res.body.errors).toEqual(
+                    expect.arrayContaining(['Title is required'],['Password minimal of 6 characters'])
+                )
+                done()
+            })
+        })
+    })
+    
+    //login
+    //correct login format matched with email and password from database
+    describe('POST /login (SUCCESS) ', function(){
+        it('should send response with 200 status code', function(done){
+            const body = {
+                email: 'example@mail.com',
+                password : 'password'
+            }
+            request(app)
+            .post('/login')
+            .send(body)
+            .end(function(err, res){
+                if(err) done(err)
+                expect(res.statusCode).toEqual(200)
+                expect(res.body).toHaveProperty('access_token')
+                done()
+            })
+        })
+    })
+    
+    //login but with incorrect email and/or password
+    describe('POST /login (FAIL) because of incorrect email and/or password', function(){
+        it('should send response with 200 status code', function(done){
+            const body = {
+                email: 'a@mail.com',
+                password : 'password'
+            }
+            request(app)
+            .post('/login')
+            .send(body)
+            .end(function(err, res){
+                if(err) done(err)
+                expect(res.statusCode).toEqual(401)
+                expect(res.body.message).toEqual("Incorrect Email / Password")
+                done()
+            })
         })
     })
 })
 
-//cannot have empty email and password
-describe('POST /register (FAIL) because of empty email and password', function(){
-    it('should send response with 400 status code', function(done){
-        //setup
-        const body = {
-            email : '',
-            password : ''
-        }
-        //execute
-        request(app)
-        .post('/register')
-        .send(body)
-        .end(function(err, res){
-            if(err) done(err)
-            //Assert
-            expect(res.statusCode).toEqual(400)
-            expect(typeof res.body).toEqual('object')
-            expect(res.body).toHaveProperty('errors')
-            expect(Array.isArray(res.body.errors)).toEqual(true)
-            expect(res.body.errors).toEqual(
-                expect.arrayContaining(['Title is required'],['Password minimal of 6 characters'])
-            )
-            done()
-        })
-    })
-})
-
-//login
-//correct login format matched with email and password from database
-describe('POST /login (SUCCESS) ', function(){
-    it('should send response with 200 status code', function(done){
-        const body = {
-            email: 'example@mail.com',
-            password : 'password'
-        }
-        request(app)
-        .post('/login')
-        .send(body)
-        .end(function(err, res){
-            if(err) done(err)
-            expect(res.statusCode).toEqual(200)
-            expect(res.body).toHaveProperty('access_token')
-            done()
-        })
-    })
-})
-
-//login but with incorrect email and/or password
-describe('POST /login (FAIL) because of incorrect email and/or password', function(){
-    it('should send response with 200 status code', function(done){
-        const body = {
-            email: 'a@mail.com',
-            password : 'password'
-        }
-        request(app)
-        .post('/login')
-        .send(body)
-        .end(function(err, res){
-            if(err) done(err)
-            expect(res.statusCode).toEqual(401)
-            expect(res.body.message).toEqual("Incorrect Email / Password")
-            done()
-        })
-    })
-})
 
