@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
 
       User.hasMany(models.Product, { foreignKey: "userId" });
+      User.hasMany(models.Banner, { foreignKey: "userId" });
     }
   };
   User.init({

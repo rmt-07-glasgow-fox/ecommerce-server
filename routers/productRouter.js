@@ -11,6 +11,7 @@ productRouter.get('/', ProductController.getProduct);
 
 productRouter.use('/:productId', productAuthorization);
 
+productRouter.get('/:productId', ProductController.getProductById);
 productRouter.put('/:productId', ProductController.putProduct);
 productRouter.delete('/:productId', ProductController.deleteProduct);
 

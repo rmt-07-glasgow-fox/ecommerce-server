@@ -6,7 +6,7 @@ class AuthController {
   static async login (req, res, next) {
     try {
       let data = await User.findOne({ where: { email: req.body.email } });
-
+      
       if (data) {
         if (checkPassword(req.body.password, data.password)) {
           let payload = {

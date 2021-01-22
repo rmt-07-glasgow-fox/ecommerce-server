@@ -1,4 +1,4 @@
-const { User, Product } = require('../models/index');
+const { User, Product, Category, Banner } = require('../models/index');
 const { getPayload } = require('../helpers/jwt');
 
 async function authentication (req, res, next) {
@@ -8,7 +8,7 @@ async function authentication (req, res, next) {
     }
   
     let payload = getPayload(req.headers.access_token);
-  
+    
     let data = await User.findOne({ where: { email: payload.email } });
 
     if (data) {
@@ -49,8 +49,42 @@ async function productAuthorization (req, res, next) {
   }
 }
 
+async function categoryAuthorization (req, res, next) {
+  try {
+    let data = await Category.findOne({ where: { id: req.params.categoryId } });
+
+    if (!data) {
+      return next({ code: 404, msg: `Category with id ${req.params.categoryId} not found` });
+    }
+
+    next();
+  } catch (err) {
+    return next({ code: 500 });
+  }
+}
+
+async function bannerAuthorization (req, res, next) {
+  try {
+    let data = await Banner.findOne({ where: { id: req.params.bannerId } });
+
+    if (!data) {
+      return next({ code: 404, msg: `Banner with id ${req.params.bannerId} not found` });
+    }
+
+    if (data.userId == req.headers.payload.id) {
+      return next();
+    } else {
+      return next({ code: 401, msg: "Access denied" });
+    }
+  } catch (err) {
+    return next({ code: 500 });
+  }
+}
+
 module.exports = {
   authentication,
   adminAuthorization,
-  productAuthorization
+  productAuthorization,
+  categoryAuthorization,
+  bannerAuthorization
 };

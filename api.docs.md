@@ -9,28 +9,28 @@
         > Bad request ( Validation or login )
         ```
         {
-            "msg": [<string>, ...]
+          "msg": [<string>, ...]
         }
         ```
       - Status 401 :
         > Auth error ( Not logged in or not an admin )
         ```
         {
-            "msg": <string>
+          "msg": <string>
         }
         ```
       - Status 404 :
         > Not found
         ```
         {
-            "msg": <string>
+          "msg": <string>
         }
         ```
       - Status 500 :
         > Server error
         ```
         {
-            "msg": <string>
+          "msg": <string>
         }
         ```
     - ### **Routes**
@@ -39,15 +39,15 @@
           - Body
             ```
             {
-                "email": <string>,
-                "password": <string>
+              "email": <string>,
+              "password": <string>
             }
             ```
         - Response
           - Success
             ```
             {
-                "access_token": <string>
+              "access_token": <string>
             }
             ```
           - Error
@@ -57,31 +57,31 @@
           - Headers
             ```
             {
-                "access_token": <string>
+              "access_token": <string>
             }
             ```
           - Body
             ```
             {
-                "name": <string>,
-                "image_url": <string>,
-                "price": <integer>,
-                "stock": <integer>,
-                "categoryId": <integer>
+              "name": <string>,
+              "image_url": <string>,
+              "price": <integer>,
+              "stock": <integer>,
+              "categoryId": <integer>
             }
             ```
         - Response
           - Success
             ```
             {
-                "id": <integer>,
-                "name": <string>,
-                "image_url": <string>,
-                "price": <integer>,
-                "stock": <integer>,
-                "Category": {
-                    "name": <string>
-                }
+              "id": <integer>,
+              "name": <string>,
+              "image_url": <string>,
+              "price": <integer>,
+              "stock": <integer>,
+              "Category": {
+                "name": <string>
+              }
             }
             ```
           - Error
@@ -91,103 +91,276 @@
           - Headers
             ```
             {
-                "access_token": <string>
+              "access_token": <string>
             }
             ```
         - Response
           - Success
             ```
             [
-                {
-                    "id": <integer>,
-                    "name": <string>,
-                    "image_url": <string>,
-                    "price": <integer>,
-                    "stock": <integer>,
-                    "Category": {
-                        "name": <string>
-                    }
-                },{
-                    ...
-                }, ...
-            ]
-            ```
-          - Error
-            > 401 and 500
-      - UPDATE ``` /products/:id ```
-        - Request
-          - Headers
-            ```
-            {
-                "access_token": <string>
-            }
-            ```
-          - Body
-            ```
-            {
-                "name": <string>,
-                "image_url": <string>,
-                "price": <integer>,
-                "stock": <integer>,
-                "categoryId": <integer>
-            }
-            ```
-        - Response
-          - Success
-            ```
-            {
+              {
                 "id": <integer>,
                 "name": <string>,
                 "image_url": <string>,
                 "price": <integer>,
                 "stock": <integer>,
                 "Category": {
-                    "name": <string>
+                  "name": <string>
                 }
-            }
+              },{
+                  ...
+              }, ...
+            ]
             ```
           - Error
-            > 400, 401, 404, and 500
-      - PATCH ```/products/:id```
+            > 401 and 500
+      - GET ```/products/:productId```
         - Request
           - Headers
             ```
             {
-                "access_token": <string>
+              "access_token": <string>
+            }
+            ```
+        - Response
+          - Success
+            ```
+            {
+              "id": <integer>,
+              "name": <string>,
+              "image_url": <string>,
+              "price": <integer>,
+              "stock": <integer>,
+              "Category": {
+                "name": <string>
+              }
+            }
+            ```
+          - Error
+            > 401, 404, and 500
+      - PUT ```/products/:productId```
+        - Request
+          - Headers
+            ```
+            {
+              "access_token": <string>
             }
             ```
           - Body
             ```
             {
-                "stock": <integer>
+              "name": <string>,
+              "image_url": <string>,
+              "price": <integer>,
+              "stock": <integer>,
+              "categoryId": <integer>
             }
             ```
         - Response
           - Success
+            ```
+            {
+              "id": <integer>,
+              "name": <string>,
+              "image_url": <string>,
+              "price": <integer>,
+              "stock": <integer>,
+              "Category": {
+                  "name": <string>
+              }
+            }
+            ```
           - Error
             > 400, 401, 404, and 500
-      - DELETE ``` /products/:id ```
+      - DELETE ```/products//:productId```
         - Request
           - Headers
             ```
             {
-                "access_token": <string>
+              "access_token": <string>
             }
             ```
         - Response
           - Success
             ```
             {
-                "msg": "Product has been deleted"
+              "msg": "Success delete product"
             }
             ```
           - Error
             > 401, 404, and 500
       - POST ```/categories```
+        - Request
+          - Headers
+            ```
+            {
+              "access_token": <string>
+            }
+            ```
+          - Body
+            ```
+            {
+              "name": <string>
+            }
+            ```
+        - Response
+          - Success
+            ```
+            {
+              "id": <integer>,
+              "name": <string>
+            }
+            ```
+          - Error
+            > 400, 401, and 500
       - GET ```/categories```
-      - UPDATE ```/categories```
-      - DELETE ```/categories```
+        - Request
+          - Headers
+            ```
+            {
+              "access_token": <string>
+            }
+            ```
+        - Response
+          - Success
+            ```
+            [
+              {
+                "id": <integer>,
+                "name": <string>
+              }, {
+                ...
+              }, ...
+            ]
+            ```
+          - Error
+            > 400, 401, and 500
+      - DELETE ```/categories/:categoryId```
+        - Request
+          - Headers
+            ```
+            {
+              "access_token": <string>
+            }
+            ```
+        - Response
+          - Success
+            ```
+            {
+              "msg": "Success delete category"
+            }
+            ```
+          - Error
+            > 401, 404, and 500
       - POST ```/banners```
+        - Request
+          - Headers
+            ```
+            {
+              "access_token": <string>
+            }
+            ```
+          - Body
+            ```
+            {
+              "title": <string>,
+              "image_url": <string>,
+              "status": <boolean>
+            }
+            ```
+        - Response
+          - Success
+            ```
+            {
+              "id": <integer>,
+              "title": <string>,
+              "image_url": <string>,
+              "status": <boolean>
+            }
+            ```
+          - Error
+            > 400, 401, and 500
       - GET ```/banners```
-      - UPDATE ```/banners```
-      - DELETE ```/banners```
+        - Headers
+            ```
+            {
+              "access_token": <string>
+            }
+            ```
+        - Response
+          - Success
+            ```
+            [
+              {
+                "id": <integer>,
+                "title": <string>,
+                "image_url": <string>,
+                "status": <boolean>
+              }, {
+                ...
+              }, ...
+            ]
+            ```
+          - Error
+            > 401 and 500
+      - GET ```/banners/:bannerId```
+        - Headers
+            ```
+            {
+              "access_token": <string>
+            }
+            ```
+        - Response
+          - Success
+            ```
+            {
+              "id": <integer>,
+              "title": <string>,
+              "image_url": <string>,
+              "status": <boolean>
+            }
+            ```
+          - Error
+      - PUT ```/banners/:bannerId```
+        - Headers
+            ```
+            {
+              "access_token": <string>
+            }
+            ```
+          - Body
+            ```
+            {
+              "title": <string>,
+              "image_url": <string>,
+              "status": <boolean>
+            }
+            ```
+        - Response
+          - Success
+            ```
+            {
+              "id": <integer>,
+              "title": <string>,
+              "image_url": <string>,
+              "status": <boolean>
+            }
+            ```
+          - Error
+            > 400, 401, 404, and 500
+      - DELETE ```/banners/:bannerId```
+        - Headers
+            ```
+            {
+              "access_token": <string>
+            }
+            ```
+        - Response
+          - Success
+            ```
+            {
+              "msg": "Success delete banner"
+            }
+            ```
+          - Error
+            > 401, 404, and 500

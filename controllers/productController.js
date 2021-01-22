@@ -52,7 +52,25 @@ class ProductController {
           model: Category,
           attributes: { exclude: ['updatedAt', 'createdAt'] }
         }, 
-        attributes: { exclude: ['updatedAt', 'createdAt'] } });
+        attributes: { exclude: ['updatedAt', 'createdAt'] } 
+      });
+
+      return res.status(200).json(data);
+    } catch (err) {
+      return next({ code: 500 });
+    }
+  }
+
+  static async getProductById (req, res, next) {
+    try {
+      let data = await Product.findOne({
+        where: { id: req.params.productId }, 
+        include: {
+          model: Category,
+          attributes: { exclude: ['updatedAt', 'createdAt'] }
+        }, 
+        attributes: { exclude: ['updatedAt', 'createdAt'] } 
+      });
 
       return res.status(200).json(data);
     } catch (err) {

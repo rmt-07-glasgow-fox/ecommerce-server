@@ -8,19 +8,17 @@ describe('POST /login', function() {
   });
 
   it('Should send reponse with 200 status code', function(done) {
-    // Setup
     let body = {
         email: "admin@mail.com",
         password: "123456"
     };
-    // Execute
+    
     request(app)
       .post("/login")
       .send(body)
       .end(function(err, res) {
         if (err) done(err)
 
-        // Assert
         expect(res.statusCode).toEqual(200);
 
         done();
@@ -28,19 +26,17 @@ describe('POST /login', function() {
   });
 
   it('Should send reponse with 400 status code', function(done) {
-    // Setup
     let body = {
       email: "admin@mail.com",
       password: "111111"
     };
-    // Execute
+    
     request(app)
       .post("/login")
       .send(body)
       .end(function(err, res) {
         if (err) done(err)
 
-        // Assert
         expect(res.statusCode).toEqual(400);
         expect(res.body).toHaveProperty('msg');
         expect(res.body.msg).toEqual(expect.arrayContaining(['Invalid email or password']));
@@ -50,19 +46,17 @@ describe('POST /login', function() {
   });
 
   it('Should send reponse with 400 status code', function(done) {
-    // Setup
     let body = {
       email: "admin11@mail.com",
       password: "111111"
     };
-    // Execute
+    
     request(app)
       .post("/login")
       .send(body)
       .end(function(err, res) {
         if (err) done(err)
 
-        // Assert
         expect(res.statusCode).toEqual(400);
         expect(res.body).toHaveProperty('msg');
         expect(res.body.msg).toEqual(expect.arrayContaining(['Invalid email or password']));
@@ -72,19 +66,17 @@ describe('POST /login', function() {
   });
 
   it('Should send reponse with 400 status code', function(done) {
-    // Setup
     let body = {
       email: "",
       password: ""
     };
-    // Execute
+    
     request(app)
       .post("/login")
       .send(body)
       .end(function(err, res) {
         if (err) done(err)
 
-        // Assert
         expect(res.statusCode).toEqual(400);
         expect(res.body).toHaveProperty('msg');
         expect(res.body.msg).toEqual(expect.arrayContaining(['Invalid email or password']));
