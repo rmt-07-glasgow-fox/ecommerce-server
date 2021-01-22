@@ -25,7 +25,11 @@ module.exports = {
     dialect,
   },
   "production": {
-    "use_env_variable": "DATABASE_URL",
+    "username": "bvebbxddldhhmy",
+    "password": "066e51a175c1f76a3a13bf66d1df94e34b1dda1efc500802d8bdafc143e86c74",
+    "database": "d4d8q4cp5asf2d",
+    "host": "ec2-54-225-18-166.compute-1.amazonaws.com",
+    "dialect": "postgres",
     "dialectOptions": {
       "ssl": {
           "require" : true,
