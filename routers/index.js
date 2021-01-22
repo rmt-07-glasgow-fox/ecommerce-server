@@ -1,12 +1,9 @@
 const router = require("express").Router()
 const user = require("./user")
-// const product = require("./product")
-
-// router.use("/", (req, res) => {
-//   res.send("Server Conneted")
-// })
+const product = require("./product")
+const {authenticate} = require("../middlewares/auth")
 
 router.use("/", user)
-// router.use(product)
+router.use("/", authenticate, product)
 
 module.exports = router

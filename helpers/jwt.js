@@ -1,5 +1,4 @@
 const jwt = require("jsonwebtoken")
-const { register } = require("../controllers/user")
 const SECRET_KEY = process.env.SECRET_KEY
 
 function generateToken(payload) {

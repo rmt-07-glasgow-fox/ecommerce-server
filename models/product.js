@@ -2,20 +2,18 @@
 const {
   Model
 } = require('sequelize');
-const {hasher} = require("../helpers/hash")
-
 module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
+  class Product extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      User.hasMany(models.Product)
+      Product.belongsTo(models.User)
     }
   };
-  User.init({
+  Product.init({
     name: {
       type: DataTypes.STRING,
       validate : {
@@ -25,49 +23,37 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    email: {
+    image_url: {
       type: DataTypes.STRING,
       validate : {
         notEmpty: {
           args: true,
-          msg: `Email is required`
+          msg: `Image Url is required`
         }
-      },
-      unique: {
-        args: true,
-        msg: `Email has been registered`
       }
     },
-    password: {
-      type: DataTypes.STRING,
+    price: {
+      type: DataTypes.INTEGER,
       validate : {
         notEmpty: {
           args: true,
-          msg: `Password is required`
-        },
-        len: {
-          args: [6],
-          msg: `Password at least 6 characters`
+          msg: `Price is required`
         }
       }
     },
-    role: {
-      type: DataTypes.STRING,
+    stock: {
+      type: DataTypes.INTEGER,
       validate : {
         notEmpty: {
           args: true,
-          msg: `Role is required`
+          msg: `Stock is required`
         }
       }
     },
+    UserId: DataTypes.INTEGER
   }, {
     sequelize,
-    modelName: 'User',
-    hooks: {
-      beforeCreate: (user, options) => {
-        user.password = hasher(user.password)
-      }
-    }
+    modelName: 'Product',
   });
-  return User;
+  return Product;
 };

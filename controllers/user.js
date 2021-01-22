@@ -7,7 +7,8 @@ class UserController {
     const newUser = {
       name: req.body.name,
       email: req.body.email,
-      password: req.body.password
+      password: req.body.password,
+      role: req.body.role
     }
 
     User.create(newUser)
@@ -22,32 +23,23 @@ class UserController {
       const {email, password} = req.body
       const user = await User.findOne({where: {email}})
 
-      if (!user) {
+      if (!user || password !== user.password || email !== user.email) {
         next({name: "errorLogin"})
-      } else {
+      }
+
+      const matchPass = compareHash(password, user.password)
+      if (matchPass) {
         const payload = {
           id: user.id,
           name: user.name,
           email: user.email
         }
+
         const access_token = generateToken(payload)
-        return res.status(200).json({email: user.email})
+        return res.status(200).json({access_token})
+      } else {
+        next({name: "errorLogin"})
       }
-
-
-      // const matchPass = compareHash(password, user.password)
-      // if (matchPass) {
-      //   const payload = {
-      //     id: user.id,
-      //     name: user.name,
-      //     email: user.email
-      //   }
-
-      //   const access_token = generateToken(payload)
-      //   return res.status(200).json({access_token})
-      // } else {
-      //   next({name: "errorLogin"})
-      // }
     } catch (err) {
       next(err)
     }
