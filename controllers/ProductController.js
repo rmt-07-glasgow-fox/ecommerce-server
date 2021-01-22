@@ -2,7 +2,7 @@ const { Product } = require('../models')
 
 class ProductController {
   static getProducts(req, res, next) {
-    Product.findAll()
+    Product.findAll({order: [['id', 'ASC']]})
       .then(products =>{
         return res.status(200).json(products)
       })
@@ -12,14 +12,16 @@ class ProductController {
   }
 
   static createProduct(req, res, next) {
-    const { name, image_url, price, stock } = req.body
-    const newProduct = { name, image_url, price, stock }
-
+    const { name, image_url, price, stock, category } = req.body
+    const newProduct = { name, image_url, price, stock, category }
+   
     Product.create(newProduct)
       .then(product => {
+        console.log('lah ini produk', product)
         return res.status(201).json(product)
       })
       .catch(err => {
+        console.log(err)
         next(err)
       })
   }
@@ -42,8 +44,8 @@ class ProductController {
 
   static updateProduct(req, res, next) {
     const id = +req.params.id
-    const { name, image_url, price, stock } = req.body
-    const updatedProduct = { name, image_url, price, stock }
+    const { name, image_url, price, stock, category } = req.body
+    const updatedProduct = { name, image_url, price, stock, category }
     
     Product.update(updatedProduct,{ 
       where: { id }, 

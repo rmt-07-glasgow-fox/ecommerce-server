@@ -15,7 +15,6 @@ async function authentication(req, res, next) {
   } catch (err) {
     next(err)
   }
-
 } 
 
 async function authorization(req, res, next) {

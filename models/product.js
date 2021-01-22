@@ -42,7 +42,8 @@ module.exports = (sequelize, DataTypes) => {
         }
       },
       allowNull: false
-    }
+    },
+    category: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Product',
