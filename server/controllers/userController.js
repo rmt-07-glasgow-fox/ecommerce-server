@@ -5,7 +5,6 @@ class UserController{
   static handleLogin(req, res, next){
     let email = req.body.email
     let password = req.body.password
-    console.log(email);
     User.build({ email, password })
     .validate()
     .then(() => {

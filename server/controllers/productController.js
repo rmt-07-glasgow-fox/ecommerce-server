@@ -31,7 +31,7 @@ class ProductController {
     }
     Product.create(value)
       .then(data => {
-        res.status(200).json(data)
+        res.status(201).json(data)
       })
       .catch(err => {
         if (err.name == "SequelizeValidationError") {
@@ -82,7 +82,8 @@ class ProductController {
         returning: true
       })
       .then(data => {
-        if (data) {
+        console.log(data);
+        if (data[0]) {
           res.status(200).json(data[1][0])
         } else {
           next({
@@ -109,6 +110,7 @@ class ProductController {
         }
       })
       .then(data => {
+        console.log(data);
         if (data) {
           res.status(200).json({
             message: "Success delete product"
