@@ -328,7 +328,7 @@ describe('POST /products', () => {
       name: 'ranjang mahal',
       image_url: 'https://www.ikea.com/jp/en/images/products/hemnes-day-bed-frame-with-3-drawers-white__0857890_PE632055_S5.JPG',
       price: 2147483648,
-      stock: 1
+      stock: 2147483648
     }
 
     // Execute
@@ -355,7 +355,7 @@ describe('POST /products', () => {
 })
 
 describe('GET /products', () => {
-  it.only('should send response with 200 status code', (done) => {
+  it('should send response with 200 status code', (done) => {
     // Execute
     request(app)
       .get('/products')
@@ -392,17 +392,9 @@ describe('GET /products', () => {
   })
 
   it('should send response with 401 status code - no access_token', (done) => {
-    // Setup
-    const body = {
-      name: 'nice headphones',
-      image_url: 'https://media.wired.com/photos/5e7164aeb9399f00096a2ae6/1:1/w_1800,h_1800,c_limit/Gear-Mont-Blanc-Smart-Headphones-Gold-Front-SOURCE-Mont-Blanc.jpg',
-      price: 200000,
-      stock: 5
-    }
     // Execute
     request(app)
-      .post('/products')
-      .send(body)
+      .get('/products')
       .end((err, res) => {
         //err from supertest
         if (err) done(err)
@@ -423,17 +415,9 @@ describe('GET /products', () => {
   })
 
   it('should send response with 401 status code - invalid access_token', (done) => {
-    // Setup
-    const body = {
-      name: 'nice headphones',
-      image_url: 'https://media.wired.com/photos/5e7164aeb9399f00096a2ae6/1:1/w_1800,h_1800,c_limit/Gear-Mont-Blanc-Smart-Headphones-Gold-Front-SOURCE-Mont-Blanc.jpg',
-      price: 200000,
-      stock: 5
-    }
     // Execute
     request(app)
-      .post('/products')
-      .send(body)
+      .get('/products')
       .set('access_token', access_token_customer)
       .end((err, res) => {
         //err from supertest
@@ -448,186 +432,6 @@ describe('GET /products', () => {
         expect(Array.isArray(res.body.errors)).toEqual(true)
         expect(res.body.errors).toEqual(
           expect.arrayContaining(['Not authorised'])
-        )
-
-        done()
-      })
-  })
-
-  it('should send response with 400 status code', (done) => {
-    // Setup
-    const body = {
-      name: '',
-      image_url: '',
-      price: '',
-      stock: ''
-    }
-    // Execute
-    request(app)
-      .post('/products')
-      .set('access_token', access_token_admin)
-      .send(body)
-      .end((err, res) => {
-        //err from supertest
-        if (err) done(err)
-
-        // check the data in the db
-        expect(res.statusCode).toEqual(400)
-        expect(typeof res.body).toEqual('object')
-        expect(res.body).toHaveProperty('errors')
-        expect(Array.isArray(res.body.errors)).toEqual(true)
-        expect(res.body.errors).toEqual(
-          expect.arrayContaining(['Name required', 'Image_url required', 'Price required', 'Stock required'])
-        )
-
-        done()
-      })
-  })
-
-  it('should send response with 400 status code - natural number for price and stock', (done) => {
-    const body = {
-      name: 'nice headphones',
-      image_url: 'https://media.wired.com/photos/5e7164aeb9399f00096a2ae6/1:1/w_1800,h_1800,c_limit/Gear-Mont-Blanc-Smart-Headphones-Gold-Front-SOURCE-Mont-Blanc.jpg',
-      price: -120000,
-      stock: -5
-    }
-
-    // Execute
-    request(app)
-      .post('/products')
-      .send(body)
-      .set('access_token', access_token_admin)
-      .end((err, res) => {
-        //err from supertest
-        if (err) done(err)
-
-        // Assert
-        expect(res.statusCode).toEqual(400)
-        expect(typeof res.body).toEqual('object')
-        expect(res.body).toHaveProperty('errors')
-        expect(Array.isArray(res.body.errors)).toEqual(true)
-        expect(res.body.errors).toEqual(
-          expect.arrayContaining(['Price must be greater than zero', 'Stock must be greater than zero'])
-        )
-
-        done()
-      })
-  })
-
-  it('should send response with 400 status code - invalid data types for price and stock', (done) => {
-    const body = {
-      name: 'nice headphones',
-      image_url: 'https://media.wired.com/photos/5e7164aeb9399f00096a2ae6/1:1/w_1800,h_1800,c_limit/Gear-Mont-Blanc-Smart-Headphones-Gold-Front-SOURCE-Mont-Blanc.jpg',
-      price: 'yeyeyeye',
-      stock: 'testing'
-    }
-
-    // Execute
-    request(app)
-      .post('/products')
-      .send(body)
-      .set('access_token', access_token_admin)
-      .end((err, res) => {
-        //err from supertest
-        if (err) done(err)
-
-        // Assert
-        expect(res.statusCode).toEqual(400)
-        expect(typeof res.body).toEqual('object')
-        expect(res.body).toHaveProperty('errors')
-        expect(Array.isArray(res.body.errors)).toEqual(true)
-        expect(res.body.errors).toEqual(
-          expect.arrayContaining(['Price must be a valid number', 'Stock must be a valid number'])
-        )
-
-        done()
-      })
-  })
-
-  it('should send response with 400 status code - invalid data types for name', (done) => {
-    const body = {
-      name: 10000,
-      image_url: 'https://media.wired.com/photos/5e7164aeb9399f00096a2ae6/1:1/w_1800,h_1800,c_limit/Gear-Mont-Blanc-Smart-Headphones-Gold-Front-SOURCE-Mont-Blanc.jpg',
-      price: 120000,
-      stock: 5
-    }
-
-    // Execute
-    request(app)
-      .post('/products')
-      .set('access_token', access_token_admin)
-      .send(body)
-      .end((err, res) => {
-        //err from supertest
-        if (err) done(err)
-
-        // Assert
-        expect(res.statusCode).toEqual(400)
-        expect(typeof res.body).toEqual('object')
-        expect(res.body).toHaveProperty('errors')
-        expect(Array.isArray(res.body.errors)).toEqual(true)
-        expect(res.body.errors).toEqual(
-          expect.arrayContaining(['Name must contain only alphanumeric characters'])
-        )
-
-        done()
-      })
-  })
-
-  it('should send response with 400 status code - invalid data types for image_url', (done) => {
-    const body = {
-      name: 'nice headphones',
-      image_url: 'wkwkwkwkwk',
-      price: 120000,
-      stock: 5
-    }
-
-    // Execute
-    request(app)
-      .post('/products')
-      .send(body)
-      .set('access_token', access_token_admin)
-      .end((err, res) => {
-        //err from supertest
-        if (err) done(err)
-
-        // Assert
-        expect(res.statusCode).toEqual(400)
-        expect(typeof res.body).toEqual('object')
-        expect(res.body).toHaveProperty('errors')
-        expect(Array.isArray(res.body.errors)).toEqual(true)
-        expect(res.body.errors).toEqual(
-          expect.arrayContaining(['Image_url must contain a url'])
-        )
-
-        done()
-      })
-  })
-
-  it('it should send response with 400 status code - integer out of range', (done) => {
-    const body = {
-      name: 'ranjang mahal',
-      image_url: 'https://www.ikea.com/jp/en/images/products/hemnes-day-bed-frame-with-3-drawers-white__0857890_PE632055_S5.JPG',
-      price: 2147483648,
-      stock: 1
-    }
-
-    // Execute
-    request(app)
-      .post('/products')
-      .send(body)
-      .set('access_token', access_token_admin)
-      .end((err, res) => {
-        //err from supertest
-        if (err) done(err)
-
-        // Assert
-        expect(res.statusCode).toEqual(400)
-        expect(typeof res.body).toEqual('object')
-        expect(res.body).toHaveProperty('errors')
-        expect(Array.isArray(res.body.errors)).toEqual(true)
-        expect(res.body.errors).toEqual(
-          expect.arrayContaining([`Number too big`])
         )
 
         done()
@@ -756,6 +560,36 @@ describe('PUT /products/:id', () => {
         expect(Array.isArray(res.body.errors)).toEqual(true)
         expect(res.body.errors).toEqual(
           expect.arrayContaining(['Price must be greater than zero', 'Stock must be greater than zero'])
+        )
+
+        done()
+      })
+  })
+
+  it('it should send response with 400 status code - integer out of range', (done) => {
+    const body = {
+      name: 'ranjang mahal',
+      image_url: 'https://www.ikea.com/jp/en/images/products/hemnes-day-bed-frame-with-3-drawers-white__0857890_PE632055_S5.JPG',
+      price: 2147483648,
+      stock: 2147483648
+    }
+
+    // Execute
+    request(app)
+      .put('/products/${productId}')
+      .send(body)
+      .set('access_token', access_token_admin)
+      .end((err, res) => {
+        //err from supertest
+        if (err) done(err)
+
+        // Assert
+        expect(res.statusCode).toEqual(400)
+        expect(typeof res.body).toEqual('object')
+        expect(res.body).toHaveProperty('errors')
+        expect(Array.isArray(res.body.errors)).toEqual(true)
+        expect(res.body.errors).toEqual(
+          expect.arrayContaining([`Number too big`])
         )
 
         done()
