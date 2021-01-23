@@ -13,12 +13,16 @@ function authenticate(req, res, next){
     })
     .then(user => {
         if(user){
-            req.user = {
-                id : user.id,
-                email : user.email,
-                role : user.role
+            if(user.role === 'user'){
+                next({name: 'Do not have access'})
+            } else {
+                req.user = {
+                    id : user.id,
+                    email : user.email,
+                    role : user.role
+                }
+                next()
             }
-            next()
         } else {
             next({name : 'Login Required'})
         }
