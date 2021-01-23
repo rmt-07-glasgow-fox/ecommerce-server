@@ -2,12 +2,13 @@ const request = require('supertest')
 const { sequelize } = require('../models')
 const app = require('../app')
 
-// afterAll(done => {
-//   sequelize.close()
-//   done()
-// })
-describe('POST /login ==> Success', () => {
-  it('Login success, return 200 status code', (done) => {
+describe('Login test', () => {
+  afterAll(done => {
+    sequelize.close()
+    done()
+  })
+
+  it('Success ==> return 200 status code', (done) => {
     const body = {
       email: 'admin@gmail.com',
       password: 'admin123'
@@ -24,10 +25,8 @@ describe('POST /login ==> Success', () => {
         done()
       })
   })
-})
 
-describe('POST /login ==> Failed', () => {
-  it('Insert empty email and password, return 400 status code', (done) => {
+  it('Failed ==> Insert empty email and password, return 400 status code', (done) => {
     const body = {
       email: '',
       password: ''
@@ -45,7 +44,7 @@ describe('POST /login ==> Failed', () => {
       })
   })
 
-  it('Insert invalid email, return 400 status code', (done) => {
+  it('Failed ==> Insert invalid email, return 400 status code', (done) => {
     const body = {
       email: 'ini bukan email',
       password: ''
@@ -63,7 +62,7 @@ describe('POST /login ==> Failed', () => {
       })
   })
 
-  it('Email not registered, return 401 status code', (done) => {
+  it('Failed ==> Email not registered, return 401 status code', (done) => {
     const body = {
       email: 'ada_amin@gmail.com',
       password: 'admin123'
@@ -81,7 +80,7 @@ describe('POST /login ==> Failed', () => {
       })
   })
 
-  it('Insert wrong password, return 401 status code', (done) => {
+  it('Failed ==> Insert wrong password, return 401 status code', (done) => {
     const body = {
       email: 'admin@gmail.com',
       password: 'ada_amin'

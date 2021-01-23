@@ -10,44 +10,44 @@ const fake_account = {
   id:2,
   email: 'bukanadmin@gmail.com'
 }
-let access_token
-let access_token2
-let categoryId
-let productId
 
-afterAll(done => {
-  clearCategory()
-  .then(() => {
-    sequelize.close()
-    done()
-  })
-})
+describe('Products test', () => {
+  let access_token
+  let access_token2
+  let categoryId
+  let productId
 
-beforeAll(done => {
-  access_token = generateToken(admin_account)
-  access_token2 = generateToken(fake_account)
-  Category.create({
-    "name": "otomotif",
-    "UserId": 1
-  }).then(data => {
-    categoryId = data.id
-    return Product.create({
-      "name": "Nike",
-      "image_url": "https://assets.adidas.com/images.jpg",
-      "price": 100000,
-      "stock": 10,
-      "description": "Sepatu terbaik pokoknya",
-      "CategoryId": data.id,
-      "UserId": 1
+  afterAll(done => {
+    clearCategory()
+    .then(() => {
+      sequelize.close()
+      done()
     })
-  }).then((data) => {
-    productId = data.id
-    done()
   })
-})
-
-describe('GET /products ==> Success', () => {
-  it('Success fetch all products, return 200 status code', (done) => {
+  
+  beforeAll(done => {
+    access_token = generateToken(admin_account)
+    access_token2 = generateToken(fake_account)
+    Category.create({
+      "name": "otomotif",
+      "UserId": 1
+    }).then(data => {
+      categoryId = data.id
+      return Product.create({
+        "name": "Nike",
+        "image_url": "https://assets.adidas.com/images.jpg",
+        "price": 100000,
+        "stock": 10,
+        "description": "Sepatu terbaik pokoknya",
+        "CategoryId": data.id,
+        "UserId": 1
+      })
+    }).then((data) => {
+      productId = data.id
+      done()
+    })
+  })
+  it('Success ==> Success fetch all products, return 200 status code', (done) => {
     request(app)
       .get('/products')
       .set('access_token', access_token)
@@ -68,10 +68,8 @@ describe('GET /products ==> Success', () => {
         done()
       })
   })
-})
 
-describe('GET /products ==> Failed', () => {
-  it('Without passing access token, return 400 status code', (done) => {
+  it('Fail ==> Without passing access token, return 400 status code', (done) => {
     request(app)
       .get('/products')
       .end((err, res) => {
@@ -82,9 +80,7 @@ describe('GET /products ==> Failed', () => {
         done()
       })
   })
-})
 
-describe('POST /products ==> Success', () => {
   it('Success add product, return 201 status code', (done) => {
     const body = {
       "name": "Nike",
@@ -118,9 +114,7 @@ describe('POST /products ==> Success', () => {
         done()
       })
   })
-})
 
-describe('POST /products ==> Failed', () => {
   it('Without passing access token, return 400 status code', (done) => {
     const body = {
       "name": "Nike",
@@ -255,9 +249,7 @@ describe('POST /products ==> Failed', () => {
         done()
       })
   })
-})
 
-describe('PUT /products ==> Success', () => {
   it('Success update product, return 200 status code', (done) => {
     const body = {
       "name": "Nike",
@@ -291,10 +283,7 @@ describe('PUT /products ==> Success', () => {
         done()
       })
   })
-})
 
-
-describe('PUT /products ==> Failed', () => {
   it('Without passing access token, return 400 status code', (done) => {
     const body = {
       "name": "Nike",
@@ -454,9 +443,7 @@ describe('PUT /products ==> Failed', () => {
         done()
       })
   })
-})
 
-describe('DELETE /products ==> Failed', () => {
   it('Without passing access token, return 400 status code', (done) => {
     request(app)
       .delete(`/products/${productId}`)
@@ -497,9 +484,7 @@ describe('DELETE /products ==> Failed', () => {
         done()
       })
   })
-})
 
-describe('DELETE /products ==> Success', () => {
   it('Success delete product, return 200 status code', (done) => {
     request(app)
       .delete(`/products/${productId}`)
@@ -514,4 +499,29 @@ describe('DELETE /products ==> Success', () => {
       })
   })
 })
+
+// describe('POST /products ==> Success', () => {
+  
+// })
+
+// describe('POST /products ==> Failed', () => {
+  
+// })
+
+// describe('PUT /products ==> Success', () => {
+  
+// })
+
+
+// describe('PUT /products ==> Failed', () => {
+  
+// })
+
+// describe('DELETE /products ==> Failed', () => {
+  
+// })
+
+// describe('DELETE /products ==> Success', () => {
+  
+// })
 

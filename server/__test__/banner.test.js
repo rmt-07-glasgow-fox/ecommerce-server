@@ -10,32 +10,33 @@ const fake_account = {
   id:2,
   email: 'bukanadmin@gmail.com'
 }
-let access_token
-let access_token2
-let bannerId
 
-afterAll(done => {
-  clearBanner()
-  .then(() => {
-    sequelize.close()
-    done()
+describe('Banners test', () => {
+  let access_token
+  let access_token2
+  let bannerId
+
+  afterAll(done => {
+    clearBanner()
+    .then(() => {
+      sequelize.close()
+      done()
+    })
   })
-})
-
-beforeAll(done => {
-  access_token = generateToken(admin_account)
-  access_token2 = generateToken(fake_account)
-  Banner.create({
-    "title": "Promo Akhir Tahun",
-    "status": false,
-    "image_url": "https://assets.adidas.com/images.jpg"
-  }).then((data) => {
-    bannerId = data.id
-    done()
+  
+  beforeAll(done => {
+    access_token = generateToken(admin_account)
+    access_token2 = generateToken(fake_account)
+    Banner.create({
+      "title": "Promo Akhir Tahun",
+      "status": false,
+      "image_url": "https://assets.adidas.com/images.jpg"
+    }).then((data) => {
+      bannerId = data.id
+      done()
+    })
   })
-})
 
-describe('GET /banners ==> Success', () => {
   it('Success fetch all banners, return 200 status code', (done) => {
     request(app)
       .get('/banners')
@@ -52,9 +53,7 @@ describe('GET /banners ==> Success', () => {
         done()
       })
   })
-})
 
-describe('GET /banners ==> Failed', () => {
   it('Without passing access token, return 400 status code', (done) => {
     request(app)
       .get('/products')
@@ -66,10 +65,7 @@ describe('GET /banners ==> Failed', () => {
         done()
       })
   })
-})
 
-// Post
-describe('POST /banners ==> Success', () => {
   it('Success add banners, return 201 status code', (done) => {
     const body = {
       "title": "Promo Akhir Tahun",
@@ -94,9 +90,7 @@ describe('POST /banners ==> Success', () => {
         done()
       })
   })
-})
 
-describe('POST /banners ==> Failed', () => {
   it('Without passing access token, return 400 status code', (done) => {
     const body = {
       "title": "Promo Akhir Tahun",
@@ -173,9 +167,7 @@ describe('POST /banners ==> Failed', () => {
         done()
       })
   })
-})
 
-describe('PATCH /banners ==> Success', () => {
   it('Success update status banners, return 200 status code', (done) => {
     const body = {
       "status": true
@@ -196,10 +188,7 @@ describe('PATCH /banners ==> Success', () => {
         done()
       })
   })
-})
 
-// Patch
-describe('PATCH /banners ==> Failed', () => {
   it('Without passing access token, return 400 status code', (done) => {
     const body = {
       "status": true
@@ -270,10 +259,7 @@ describe('PATCH /banners ==> Failed', () => {
         done()
       })
   })
-})
 
-//Delete
-describe('DELETE /banners ==> Success', () => {
   it('Success delete product, return 200 status code', (done) => {
     request(app)
       .delete(`/banners/${bannerId}`)
@@ -287,9 +273,7 @@ describe('DELETE /banners ==> Success', () => {
         done()
       })
   })
-})
 
-describe('DELETE /banners ==> Failed', () => {
   it('Without passing access token, return 400 status code', (done) => {
     request(app)
       .delete(`/banners/${bannerId}`)
