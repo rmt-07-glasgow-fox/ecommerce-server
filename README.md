@@ -1,9 +1,9 @@
 # ecommerce-server
-Server for "AnTz Shop" e-commerce CMS app, created using node.js, express, sequelize, postgres.
+Server for ["AnTz Shop" e-commerce CMS app](https://github.com/AnthonyGunardi/kanban-client), created using node.js, express, sequelize, postgres.
 
 
 ## URL:
-https://______________________________
+https://ecommerce-glasgow-server.herokuapp.com
 
 
 
