@@ -2,6 +2,7 @@ const { encrypt, decrypt } = require('./bcrypt')
 const { generateToken, verifyToken } = require('./jwt')
 const clearProducts = require('./clearProducts')
 const clearCategory = require('./clearCategories')
+const clearBanner = require('./clearBanners')
 
 module.exports = {
   encrypt,
@@ -9,5 +10,6 @@ module.exports = {
   generateToken,
   verifyToken,
   clearProducts,
-  clearCategory
+  clearCategory,
+  clearBanner
 }

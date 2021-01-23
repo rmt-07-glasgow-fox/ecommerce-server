@@ -44,7 +44,7 @@ class BannerController {
       returning: true
     })
     .then(data => {
-      if(data){
+      if(data[0]){
         res.status(200).json(data[1][0])
       } else {
           next({status: 404})
