@@ -1,31 +1,61 @@
 const { Product, Category } = require('../models');
+const { uploadImage, deleteImage } = require('../helpers/googleStorage');
+const formidable = require('formidable');
 
 exports.create = async (req, res, next) => {
-  const { name, image_url, price, stock, CategoryId } = req.body;
+  let form = new formidable.IncomingForm();
+  form.keepExtensions = true;
+  form.parse(req, (err, fields, files) => {
+    if (err) return next({ name: 'NotUpload' });
 
-  try {
-    const category = await Category.findOne({ where: { id: CategoryId } });
-    if (!category) return next({ name: 'NotFound', attr: 'Category' });
+    const { name, price, stock, CategoryId } = fields;
 
-    const body = {
-      name: name,
-      image_url: image_url,
-      price: price,
-      stock: stock,
-      CategoryId: CategoryId,
-    };
+    if (!name || !name.length) {
+      return next({ name: 'Required', attr: 'Name' });
+    }
+    if (!price) {
+      return next({ name: 'Required', attr: 'Price' });
+    }
+    if (!stock) {
+      return next({ name: 'Required', attr: 'Stock' });
+    }
+    if (!CategoryId || Number(CategoryId) === 0) {
+      return next({ name: 'Required', attr: 'Category' });
+    }
 
-    const product = await Product.create(body);
+    if (files.image) {
+      if (files.image.size > 50000000) {
+        return next({ name: 'ImageSize' });
+      }
 
-    return res.status(201).json(product);
-  } catch (err) {
-    return next(err);
-  }
+      const image_name = `p${req.user.id}_${Date.now()}`;
+      uploadImage(files.image, image_name)
+        .then((url) => {
+          const body = {
+            name: name,
+            price: Number(price),
+            stock: Number(stock),
+            CategoryId: CategoryId,
+            image_url: url,
+            image_name: image_name,
+          };
+
+          const product = Product.create(body);
+
+          return res.status(201).json(product);
+        })
+        .catch((err) => {
+          return next({ name: 'FailedUpload' });
+        });
+    } else {
+      return next({ name: 'Required', attr: 'Image' });
+    }
+  });
 };
 
 exports.list = async (req, res, next) => {
   try {
-    const products = await Product.findAll({ order: [['createdAt', 'ASC']] });
+    const products = await Product.findAll({ order: [['createdAt', 'ASC']], include: [Category] });
 
     return res.status(200).json(products);
   } catch (err) {
@@ -36,7 +66,7 @@ exports.list = async (req, res, next) => {
 exports.update = async (req, res, next) => {
   const id = req.params.id;
 
-  const { name, image_url, price, stock, CategoryId } = req.body;
+  const { name, image_url, image_name, price, stock, CategoryId } = req.body;
 
   try {
     const category = await Category.findOne({ where: { id: CategoryId } });
@@ -50,6 +80,7 @@ exports.update = async (req, res, next) => {
     const body = {
       name: name,
       image_url: image_url,
+      image_name: image_name,
       price: price,
       stock: stock,
       CategoryId: CategoryId,
@@ -71,6 +102,7 @@ exports.destroy = async (req, res, next) => {
     if (!isFound) return next({ name: 'NotFound', attr: 'Product' });
 
     await Product.destroy({ where: { id: id } });
+    await deleteImage(isFound.image_name);
     return res.status(200).json({ message: 'Product has been deleted' });
   } catch (err) {
     next(err);

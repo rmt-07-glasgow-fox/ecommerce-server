@@ -19,7 +19,7 @@ exports.create = async (req, res, next) => {
         return next({ name: 'ImageSize' });
       }
 
-      const image_name = `${req.user.id}_${Date.now()}`;
+      const image_name = `b${req.user.id}_${Date.now()}`;
       uploadImage(files.image, image_name)
         .then((url) => {
           const body = {

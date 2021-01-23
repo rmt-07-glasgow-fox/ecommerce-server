@@ -30,6 +30,14 @@ module.exports = (sequelize, DataTypes) => {
           notEmpty: { args: true, msg: 'Image url is required' },
         },
       },
+      image_name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: { args: true, msg: 'Image name is required' },
+          notEmpty: { args: true, msg: 'Image name is required' },
+        },
+      },
       price: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -60,7 +68,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: 'Product',
-    }
+    },
   );
   return Product;
 };
