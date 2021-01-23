@@ -5,8 +5,8 @@ const checkId = require('../middlewares/check-productid')
 
 routes.get('/products', ProductController.getProduct)
 routes.get('/products/:id', checkId, ProductController.getProductById)
-
-routes.use(roleAuthorization) // ! roleauthorization
+//roleauthorization
+routes.use(roleAuthorization) 
 routes.use('/products/:id', checkId)
 routes.post('/products', ProductController.postProduct)
 routes.put('/products/:id', ProductController.putProduct)
