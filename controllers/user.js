@@ -27,7 +27,7 @@ class UserController{
                 const user = await User.findOne({where: {email: req.body.email}})
                 if (!user) {
                     throw{
-                        name: "UserNotFound",
+                        name: "InvalidLogin",
                         status: 400
                     }
                 }
@@ -36,23 +36,17 @@ class UserController{
                     const access_token = generateToken({id: user.id, email: user.email})
                     res.status(200).json({access_token, email})
                 }
-                // else {
-                //     if(req.headers.role !== "admin"){
-                //         throw {
-                //             name: "InvalidLoginAdmin",
-                //             status: 401
-                //         }
-                //     }
-                //     throw {
-                //         name: "InvalidLogin",
-                //         status: 400
-                //     }
-                // }
+                else {
+                    throw {
+                        name: "InvalidLogin",
+                        status: 400
+                    }
+                }
             }
             else {
                 console.log('<<<<<<<<<MASUK>>>>>>>>>>>>>')
                 throw {
-                    name: "fieldEmailEmpty", 
+                    name: "InvalidLogin",
                     status: 400
                 }
             }
@@ -70,8 +64,8 @@ class UserController{
                 if (!user) {
                     console.log('masuk email kosong')
                     throw{
-                        name: "UserNotFound",
-                        status: 404
+                        name: "InvalidLogin",
+                        status: 400
                     }
                 }
                 else if (comparePassword(req.body.password, user.password)) {
@@ -87,7 +81,7 @@ class UserController{
             }
             else {
                 throw {
-                    name: "fieldEmailEmpty", 
+                    name: "InvalidLogin", 
                     status: 400
                 }
             }
