@@ -22,7 +22,7 @@ function authenticate(req, res, next){
   } catch (error) {
     next({
       status: 400,
-      message: error.message
+      errors: [error]
     })
   }
 }
@@ -47,7 +47,7 @@ function authorized(req, res, next){
   } catch (error) {
     next({
       status: 400,
-      message: error.message
+      errors: [error]
     })
   }
 }

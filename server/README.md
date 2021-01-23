@@ -82,7 +82,14 @@ _Response (200 - OK)_
   }
 ]
 ```
-
+_Response (400 - Bad Request)_
+```
+{
+  "message": [
+    "jwt must be provided"
+  ]
+}
+```
 _Response (500 - Bad Request)_
 ```
 {
@@ -133,6 +140,7 @@ _Response (400 - Bad Request)_
 ```
 {
   "message": [
+    "jwt must be provided",
     "Name must be filled",
     "Image url must be filled",
     "Price must be filled",
@@ -194,6 +202,14 @@ _Response (200 - OK)_
     "createdAt": "2021-01-23T05:33:43.662Z",
     "updatedAt": "2021-01-23T05:33:43.662Z"
   }
+}
+```
+_Response (400 - Bad Request)_
+```
+{
+  "message": [
+    "jwt must be provided"
+  ]
 }
 ```
 _Response (401 - Unauthorized)_
@@ -268,6 +284,7 @@ _Response (400 - Bad Request)_
 ```
 {
   "message": [
+    "jwt must be provided",
     "Name must be filled",
     "Image url must be filled",
     "Price must be filled",
@@ -317,6 +334,14 @@ _Response (200 - OK)_
 ```
 {
   message: "Success delete product"
+}
+```
+_Response (400 - Bad Request)_
+```
+{
+  "message": [
+    "jwt must be provided"
+  ]
 }
 ```
 _Response (401 - Unauthorized)_
@@ -392,6 +417,14 @@ _Response (200 - OK)_
   }
 ]
 ```
+_Response (400 - Bad Request)_
+```
+{
+  "message": [
+    "jwt must be provided"
+  ]
+}
+```
 
 _Response (500 - Bad Request)_
 ```
@@ -433,8 +466,9 @@ _Response (400 - Bad Request)_
 ```
 {
   "message": [
-      "Category Name must be filled",
-      "Category name must be unique"
+    "jwt must be provided",
+    "Category Name must be filled",
+    "Category name must be unique"
   ]
 }
 ```
@@ -469,6 +503,14 @@ _Response (200 - OK)_
 ```
 {
   "message": "Success delete category"
+}
+```
+_Response (400 - Bad Request)_
+```
+{
+  "message": [
+    "jwt must be provided"
+  ]
 }
 ```
 _Response (401 - Unauthorized)_
@@ -529,6 +571,14 @@ _Response (200 - OK)_
   }
 ]
 ```
+_Response (400 - Bad Request)_
+```
+{
+  "message": [
+    "jwt must be provided"
+  ]
+}
+```
 
 _Response (500 - Bad Request)_
 ```
@@ -574,6 +624,7 @@ _Response (400 - Bad Request)_
 ```
 {
   "message": [
+    "jwt must be provided",
     "Status must be filled by true/false",
     "Title must be filled",
     "Status must be filled",
@@ -633,6 +684,7 @@ _Response (400 - Bad Request)_
 ```
 {
   "message": [
+    "jwt must be provided",
     "Status must be filled by true/false",
     "Status must be filled"
   ]
@@ -675,6 +727,14 @@ _Response (200 - OK)_
 ```
 {
   message: "Success delete banner"
+}
+```
+_Response (400 - Bad Request)_
+```
+{
+  "message": [
+    "jwt must be provided"
+  ]
 }
 ```
 _Response (401 - Unauthorized)_
