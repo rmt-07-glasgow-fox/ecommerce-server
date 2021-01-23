@@ -140,6 +140,35 @@ Response:
     }
 ]
 ```
+### GET /products/:id
+
+Description: Get one selected products
+
+Request:
+
+- headers:
+  - access_token: string
+
+Response:
+
+- status: 200
+- body:
+  ​
+
+```json
+  {
+      "name": "Jam tangan",
+      "description": "BNIB",
+      "image_url": "string",
+      "conditon": "New",
+      "Price": 100000,
+      "stock": 1,
+      "UserId": "integer",
+      "updatedAt": "2021-01-14T07:06:36.663Z",
+      "createdAt": "2021-01-14T07:06:36.663Z"
+  }
+```
+
 
 ### DELETE /products/:id
 

@@ -4,7 +4,6 @@ const { User,Product } = require('../models')
 function authenticate(req, res, next) {
     try {
         let decoded = cekToken(req.headers.access_token)
-        console.log(decoded);
         User.findOne({
             where:{
                 email:decoded.email

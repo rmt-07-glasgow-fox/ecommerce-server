@@ -11,6 +11,15 @@ class ProductController{
             next(err)
         })
     }
+    static getOneProduct(req,res,next){
+        Product.findByPk(req.params.id)
+        .then(data => {
+            res.status(200).json(data)
+        })
+        .catch(err => {
+            next(err)
+        })
+    }
     static addProduct(req, res, next){
         let temp = cekToken(req.headers.access_token)
         const newProduct = {
