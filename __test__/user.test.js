@@ -437,8 +437,8 @@ describe('User Test Suite', () => {
     });
   });
 
-  describe('POST /login', () => {
-    it('should send response with 200 status code if success login', (done) => {
+  describe('POST /loginadmin', () => {
+    it('should send response with 200 status code if admin success logging in', (done) => {
       // SETUP
       const body = {
         email: 'admin@mail.com',
@@ -446,7 +446,7 @@ describe('User Test Suite', () => {
       };
       // EXECUTE
       request(app)
-        .post('/login')
+        .post('/loginadmin')
         .send(body)
         .end((err, res) => {
           if (err) done(err);
@@ -460,6 +460,28 @@ describe('User Test Suite', () => {
           done();
         });
     });
+    it('should send response with 401 status code if logging in user is not an admin', (done) => {
+      // SETUP
+      const body = {
+        email: 'johndoe@mail.com',
+        password: '123456'
+      };
+      // EXECUTE
+      request(app)
+        .post('/loginadmin')
+        .send(body)
+        .end((err, res) => {
+          if (err) done(err);
+
+          // ASSERT
+          expect(res.statusCode).toEqual(401);
+          expect(typeof res.body).toEqual('object');
+          expect(res.body).toHaveProperty('errors');
+          expect(res.body.errors).toEqual('Staff only, keep out!');
+
+          done();
+        });
+    });
     it('should send response with 401 status code if email and password fields are empty', (done) => {
       // SETUP
       const body = {
@@ -468,7 +490,7 @@ describe('User Test Suite', () => {
       };
       // EXECUTE
       request(app)
-        .post('/login')
+        .post('/loginadmin')
         .send(body)
         .end((err, res) => {
           if (err) done(err);
@@ -490,7 +512,7 @@ describe('User Test Suite', () => {
       };
       // EXECUTE
       request(app)
-        .post('/login')
+        .post('/loginadmin')
         .send(body)
         .end((err, res) => {
           if (err) done(err);
@@ -512,7 +534,7 @@ describe('User Test Suite', () => {
       };
       // EXECUTE
       request(app)
-        .post('/login')
+        .post('/loginadmin')
         .send(body)
         .end((err, res) => {
           if (err) done(err);
@@ -534,7 +556,7 @@ describe('User Test Suite', () => {
       };
       // EXECUTE
       request(app)
-        .post('/login')
+        .post('/loginadmin')
         .send(body)
         .end((err, res) => {
           if (err) done(err);
@@ -556,7 +578,7 @@ describe('User Test Suite', () => {
       };
       // EXECUTE
       request(app)
-        .post('/login')
+        .post('/loginadmin')
         .send(body)
         .end((err, res) => {
           if (err) done(err);
@@ -578,7 +600,7 @@ describe('User Test Suite', () => {
       };
       // EXECUTE
       request(app)
-        .post('/login')
+        .post('/loginadmin')
         .send(body)
         .end((err, res) => {
           if (err) done(err);

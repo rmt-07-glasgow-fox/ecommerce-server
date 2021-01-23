@@ -4,7 +4,7 @@ For make you easier to develop this app, I make a documentation about API endpoi
 | Route              | Method      | Description                   | Authorization   |
 | ------------------ | ----------- | ----------------------------- | --------------- |
 | `/register`        | POST        | For register user             | Everyone        |
-| `/login`           | POST        | For login user                | Everyone        |
+| `/loginadmin`      | POST        | For login admin user          | Everyone        |
 | `/getuser`         | GET         | For get user information      | Everyone        |
 |                                                                                    |
 | `/product`         | POST        | For add product to list       | Admin           |
@@ -77,7 +77,7 @@ _Response (500)_
 }
 ```
 
-### POST /login
+### POST /loginadmin
 _Request Header_
 ```
 Unneeded
@@ -102,6 +102,13 @@ _Response (401)_
 ```json
 {
   "name": "invalidLogin"
+}
+```
+
+_Response (401)_
+```json
+{
+  "name": "unauthorizeAdmin"
 }
 ```
 

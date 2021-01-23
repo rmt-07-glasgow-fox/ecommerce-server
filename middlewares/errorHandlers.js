@@ -18,6 +18,9 @@ let errorHandlers = (err, req, res, next) => {
       case "unauthorize":
         res.status(401).json({ errors: 'You don\'t have authorization to do this task.' });
         break;
+      case "unauthorizeAdmin":
+        res.status(401).json({ errors: 'Staff only, keep out!' });
+        break;
       case "notFound":
         res.status(404).json({ errors: 'Your request is not found.' });
         break;
