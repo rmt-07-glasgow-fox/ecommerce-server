@@ -9,12 +9,20 @@ E-commerce CMS is an application to manage your products as admin. This app has 
 - `POST /products`
 - `GET /products`
 - `GET /products/:id`
-- `PATCH /products/:id`
+- `PUT /products/:id`
 - `DELETE /products/:id`
 
 ## Auth
 - `POST /register`
 - `POST /login`
+
+## Banner
+- `POST /banners`
+- `GET /banners`
+- `GET /banners/:id`
+- `PUT /banners/:id`
+- `PATCH /banners/:id`
+- `DELETE /banners/:id`
 
 ## RESTful endpoints
 ### POST /products
@@ -323,6 +331,294 @@ _Response (200)_
 }
 ```
 #### Error
+
+_Response (500 - Internal Server Error)_
+```json
+{
+  "errors": ["internal server error"]
+}
+```
+---
+### POST /banners
+
+> Create new banner
+
+_Request Header_
+```json
+{
+  "access_token": "<your access token>"
+}
+```
+
+_Request Body_
+```json
+{
+  "id": 3,
+  "title": "Fashion",
+  "image_url": "https://img.freepik.com/free-vector/promotion-fashion-banner_1188-223.jpg?size=626&ext=jpg",
+  "status": false,
+}
+```
+#### Success
+
+_Response (201 - Created)_
+```json
+{
+  "id": 3,
+  "title": "Fashion",
+  "image_url": "https://img.freepik.com/free-vector/promotion-fashion-banner_1188-223.jpg?size=626&ext=jpg",
+  "status": false,
+  "updatedAt": "2021-01-23T12:06:03.256Z",
+  "createdAt": "2021-01-23T12:06:03.256Z"
+}
+```
+#### Error
+
+_Response (400 - Bad Request)_
+```json
+{
+  "errors": ["title is required", ".."]
+}
+```
+_Response (500 - Internal Server Error)_
+```json
+{
+  "errors": ["internal server error"]
+}
+```
+---
+### GET /banners
+
+> Get all banners
+
+_Request Header_
+```json
+{
+  "access_token": "<your access token>"
+}
+```
+
+_Request Body_
+```
+not needed
+```
+#### Success
+
+_Response (200)_
+```json
+[
+  {
+    "id": 3,
+    "title": "Fashion",
+    "image_url": "https://img.freepik.com/free-vector/promotion-fashion-banner_1188-223.jpg?size=626&ext=jpg",
+    "status": false,
+    "updatedAt": "2021-01-23T12:06:03.256Z",
+    "createdAt": "2021-01-23T12:06:03.256Z"
+  }
+]
+```
+#### Error
+
+_Response (500 - Internal Server Error)_
+```json
+{
+  "errors": ["internal server error"]
+}
+```
+---
+### GET /banners/:id
+
+> Get banner by id
+
+_Request Header_
+```json
+{
+  "access_token": "<your access token>"
+}
+```
+
+_Request Params_
+```json
+{ "id": 1}
+```
+#### Success
+
+_Response (200)_
+```json
+{
+  "id": 3,
+  "title": "Fashion",
+  "image_url": "https://img.freepik.com/free-vector/promotion-fashion-banner_1188-223.jpg?size=626&ext=jpg",
+  "status": false,
+  "updatedAt": "2021-01-23T12:06:03.256Z",
+  "createdAt": "2021-01-23T12:07:03.256Z"
+}
+```
+#### Error
+
+_Response (404 - Error Not Found)_
+```json
+{
+  "errors": ["error not found"]
+}
+```
+
+_Response (500 - Internal Server Error)_
+```json
+{
+  "errors": ["internal server error"]
+}
+```
+---
+### PUT /banners/:id
+
+> replace banner by id
+
+_Request Header_
+```json
+{
+  "access_token": "<your access token>"
+}
+```
+
+_Request Body_
+```json
+{
+  "title": "Electronic",
+  "image_url": "https://img.freepik.com/free-vector/promotion-fashion-banner_1188-223.jpg?size=626&ext=jpg",
+  "status": false,
+}
+```
+
+_Request Params_
+```json
+{ "id": 1}
+```
+#### Success
+
+_Response (200)_
+```json
+{
+  "id": 3,
+  "title": "Electronic",
+  "image_url": "https://img.freepik.com/free-vector/promotion-fashion-banner_1188-223.jpg?size=626&ext=jpg",
+  "status": false,
+  "updatedAt": "2021-01-23T12:06:03.256Z",
+  "createdAt": "2021-01-23T12:06:07.256Z"
+}
+```
+#### Error
+
+_Response (404 - Error Not Found)_
+```json
+{
+  "errors": ["error not found"]
+}
+```
+
+_Response (400 - Bad Request)_
+```json
+{
+  "errors": ["title is required", ".."]
+}
+```
+
+_Response (500 - Internal Server Error)_
+```json
+{
+  "errors": ["internal server error"]
+}
+```
+---
+### PATCH /banners/:id
+
+> modify status banner by id
+
+_Request Header_
+```json
+{
+  "access_token": "<your access token>"
+}
+```
+
+_Request Body_
+```json
+{
+  "status": true,
+}
+```
+
+_Request Params_
+```json
+{ "id": 1}
+```
+#### Success
+
+_Response (200)_
+```json
+{
+  "id": 3,
+  "title": "Electronic",
+  "image_url": "https://img.freepik.com/free-vector/promotion-fashion-banner_1188-223.jpg?size=626&ext=jpg",
+  "status": true,
+  "updatedAt": "2021-01-23T12:06:03.256Z",
+  "createdAt": "2021-01-23T12:06:07.256Z"
+}
+```
+#### Error
+
+_Response (404 - Error Not Found)_
+```json
+{
+  "errors": ["error not found"]
+}
+```
+
+_Response (400 - Bad Request)_
+```json
+{
+  "errors": ["status is required"]
+}
+```
+
+_Response (500 - Internal Server Error)_
+```json
+{
+  "errors": ["internal server error"]
+}
+```
+---
+### DELETE /banners/:id
+
+> remove data banner by id
+
+_Request Header_
+```json
+{
+  "access_token": "<your access token>"
+}
+```
+
+_Request Params_
+```json
+{ "id": 1}
+```
+#### Success
+
+_Response (200)_
+```json
+{
+  "message": "banner success to delete"
+}
+```
+#### Error
+
+_Response (404 - Error Not Found)_
+```json
+{
+  "erros": ["error not found"]
+}
+```
 
 _Response (500 - Internal Server Error)_
 ```json

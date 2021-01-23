@@ -16,7 +16,12 @@ module.exports = (sequelize, DataTypes) => {
   Product.init({
     name: {
       type: DataTypes.STRING,
+      allowNull: false,
       validate: {
+        notNull: {
+          args: true,
+          msg: "name is required"
+        },
         notEmpty: {
           args: true,
           msg: 'name is required'
@@ -25,7 +30,12 @@ module.exports = (sequelize, DataTypes) => {
     },
     image_url: {
       type: DataTypes.STRING,
+      allowNull: false,
       validate: {
+        notNull: {
+          args: true,
+          msg: 'image_url is required'
+        },
         notEmpty: {
           args: true,
           msg: 'image_url is required'
@@ -34,7 +44,12 @@ module.exports = (sequelize, DataTypes) => {
     },
     price: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       validate: {
+        notNull: {
+          args: true,
+          msg: 'price is required'
+        },
         notEmpty: {
           args: true,
           msg: 'price is required'
@@ -52,7 +67,12 @@ module.exports = (sequelize, DataTypes) => {
     },
     stock: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       validate: {
+        notNull: {
+          args: true,
+          msg: 'stock is required'
+        },
         notEmpty: {
           args: true,
           msg: 'stock is required'
