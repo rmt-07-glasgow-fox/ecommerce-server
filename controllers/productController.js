@@ -21,9 +21,22 @@ class Controller {
     }
 
     static read(req, res, next) {
-        Product.findAll()
+        Product.findAll({
+            order: [['id', 'ASC']]
+        })
         .then(users => {
             res.status(200).json(users);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+    };
+
+    static readOne(req, res, next) {
+        const { id } = req.params;
+        Product.findOne({ where: { id } })
+        .then(user => {
+            res.status(200).json(user);
         })
         .catch(err => {
             res.status(400).json(err);
