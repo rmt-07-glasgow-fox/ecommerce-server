@@ -159,7 +159,7 @@ describe('Fetch Product GET /products', () => {
 						return done(err);
 					}
 					expect(status).toBe(401);
-					expect(body).toHaveProperty('message', 'Invalid Account Or Password');
+					expect(body).toHaveProperty('message', 'Invalid email or password');
 					done();
 				});
 		});
@@ -208,7 +208,7 @@ describe('Get Product by Id GET /products/:id', () => {
 						return done(err);
 					}
 					expect(status).toBe(401);
-					expect(body).toHaveProperty('message', 'Invalid Account Or Password');
+					expect(body).toHaveProperty('message', 'Invalid email or password');
 					done();
 				});
 		});
@@ -311,7 +311,7 @@ describe('Create Product POST /products', () => {
 						return done(err);
 					}
 					expect(status).toBe(401);
-					expect(body).toHaveProperty('message', 'Invalid Account Or Password');
+					expect(body).toHaveProperty('message', 'Invalid email or password');
 					done();
 				});
 		});
@@ -573,7 +573,7 @@ describe('Edit Product PUT /products/:id', () => {
 						return done(err);
 					}
 					expect(status).toBe(401);
-					expect(body).toHaveProperty('message', 'Invalid Account Or Password');
+					expect(body).toHaveProperty('message', 'Invalid email or password');
 					done();
 				});
 		});
@@ -820,7 +820,7 @@ describe('Update Product PATCH /products/:id', () => {
 						return done(err);
 					}
 					expect(status).toBe(401);
-					expect(body).toHaveProperty('message', 'Invalid Account Or Password');
+					expect(body).toHaveProperty('message', 'Invalid email or password');
 					done();
 				});
 		});
@@ -935,7 +935,7 @@ describe('Delete Product DELETE /products/:id', () => {
 						return done(err);
 					}
 					expect(status).toBe(401);
-					expect(body).toHaveProperty('message', 'Invalid Account Or Password');
+					expect(body).toHaveProperty('message', 'Invalid email or password');
 					done();
 				});
 		});
