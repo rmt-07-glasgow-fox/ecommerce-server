@@ -1,0 +1,34 @@
+[
+  {
+    "id": 1,
+    "name": "Xiaomi Redmi Note 9 Pro",
+    "image_url": "-",
+    "price": 2000000,
+    "stock": 10,
+    "category": "Electronic"
+  },
+  {
+    "id": 2,
+    "name": "Baju Muslim Pria",
+    "image_url": "-",
+    "price": "100000",
+    "stock": 100,
+    "category": "Fashion"
+  },
+  {
+    "id": 3,
+    "name": "Harry Potter and the Chamber of Secret",
+    "image_url": "-",
+    "price": 130000,
+    "stock": 100,
+    "category": "Book"
+  },
+  {
+    "id": 4,
+    "name": "Laptop Huaweii Matebook D14",
+    "image_url": "-",
+    "price": 10000000,
+    "stock": 0,
+    "category": "Electronic"
+  }
+]
