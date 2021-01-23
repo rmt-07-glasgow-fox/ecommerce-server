@@ -2,7 +2,9 @@ const { Category } = require('../models/index')
 
 class categoryController {
     static findAll(req, res, next) {
-        Category.findAll()
+        Category.findAll({
+            order: [['createdAt','asc']]
+        })
         .then(data => {
             res.status(200).json(data)
         })

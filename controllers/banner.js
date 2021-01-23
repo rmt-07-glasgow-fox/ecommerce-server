@@ -2,7 +2,9 @@ const { Banner } = require('../models/index')
 
 class bannerController {
     static findAll(req, res, next) {
-        Banner.findAll()
+        Banner.findAll({
+            order: [['createdAt','asc']]
+        })
         .then(data => {
             res.status(200).json(data)
         })
