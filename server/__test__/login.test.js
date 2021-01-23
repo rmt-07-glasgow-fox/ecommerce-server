@@ -1,11 +1,11 @@
 const request = require('supertest')
-const { sequelize } = require('../../models')
-const app = require('../../app')
+const { sequelize } = require('../models')
+const app = require('../app')
 
-afterAll(done => {
-  sequelize.close()
-  done()
-})
+// afterAll(done => {
+//   sequelize.close()
+//   done()
+// })
 describe('POST /login ==> Success', () => {
   it('Login success, return 200 status code', (done) => {
     const body = {
