@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Product.belongsTo(models.Category)
     }
   };
   Product.init({
@@ -63,7 +64,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: 'Stock cannot be empty!'
         }
       }
-    }
+    },
+    CategoryId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Product',

@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Banner.belongsTo(models.Category)
     }
   };
   Banner.init({
@@ -36,7 +37,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: 'Image cannot be empty!'
         }
       }
-    }
+    },
+    CategoryId: DataTypes.INTEGER
   }, {
     hooks: {
       beforeCreate(data, opt) {

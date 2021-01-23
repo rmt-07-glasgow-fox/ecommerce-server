@@ -61,6 +61,29 @@ class ProductController {
       })
   }
 
+  static updateStock(req, res, next) {
+    const { stock } = req.body
+    Product
+      .update({ stock }, {
+        where: { id: +req.params.id },
+        returning: true
+      })
+      .then(product => {
+        if (!product[1][0]) res.status(404).json({ message: 'Product Not Found' })
+        else {
+          const { id, stock } = product[1][0].dataValues
+          res.status(200).json({ id, stock })
+        }
+      })
+      .catch(err => {
+        console.log(err, '??')
+        const message = err.errors ? err.errors.map(e => e.message) : 'Internal Server Error'
+
+        err.errors ? res.status(400).json({ message }) :
+        res.status(500).json({ message })
+      })
+  }
+
   static delete(req, res, next) {
     Product
       .destroy({ where: { id: +req.params.id }, returning: true })

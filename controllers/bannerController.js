@@ -61,6 +61,28 @@ class BannerController {
       })
   }
 
+  static updateStatus(req, res, next) {
+    const { status } = req.body
+    Banner
+      .update({ status }, {
+        where: { id: +req.params.id },
+        returning: true
+      })
+      .then(banner => {
+        if (!banner[1][0]) res.status(404).json({ message: 'Banner Not Found' })
+        else {
+          const { id, status } = banner[1][0].dataValues
+          res.status(200).json({ id, status })
+        }
+      })
+      .catch(err => {
+        const message = err.errors ? err.errors.map(e => e.message) : 'Internal Server Error'
+
+        err.errors ? res.status(400).json({ message }) :
+        res.status(500).json({ message })
+      })
+  }
+
   static delete(req, res, next) {
     Banner
       .destroy({ where: { id: +req.params.id }, returning: true })

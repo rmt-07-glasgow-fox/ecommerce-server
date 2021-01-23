@@ -8,6 +8,7 @@ router.get('/:id', ProductController.findByPk)
 router.use(Auth.authorizationAdmin)
 router.post('/', ProductController.create)
 router.put('/:id', ProductController.update)
+router.patch('/:id', ProductController.updateStock)
 router.delete('/:id', ProductController.delete)
 
 module.exports = router
