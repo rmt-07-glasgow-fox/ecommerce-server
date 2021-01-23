@@ -11,6 +11,17 @@ class ProductController {
         })
     }
 
+    static getById (req, res, next) {
+        let id = +req.params.id
+        Product.findByPk(id)
+        .then(result => {
+            return res.status(200).json(result);
+        })
+        .catch(err => {
+            next(err)
+        })
+    }
+
     static create (req, res, next) {
         let payload = {
             name: req.body.name,
