@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start":"node app.js",
+    "start":"node bin/http.js",
     "db:c": "npx sequelize db:create",
     "db:m": "npx sequelize db:migrate",
     "db:u": "npx sequelize db:migrate:undo:all",
