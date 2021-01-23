@@ -6,11 +6,14 @@ class UserController{
     let email = req.body.email
     let password = req.body.password
     console.log(email);
-    User.findOne({
-      where: {
-        email
-      }
-    }).then(data => {
+    User.build({ email, password })
+    .validate()
+    .then(() => {
+      return User.findOne({
+        where: { email }
+      })
+    })
+    .then(data => {
       if(data){
         if(decrypt(password, data.password)){
           let access_token = generateToken({
@@ -31,7 +34,14 @@ class UserController{
         })
       }
     }).catch(err => {
-      next(err)
+      if (err.name == "SequelizeValidationError") {
+        next({
+          status: 400,
+          errors: err.errors
+        })
+      } else {
+        next(err)
+      }
     })
   }
 }
