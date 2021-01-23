@@ -5,7 +5,7 @@
     "image_url": "-",
     "price": 2000000,
     "stock": 10,
-    "category": "Electronic"
+    "categoryId": 1
   },
   {
     "id": 2,
@@ -13,7 +13,7 @@
     "image_url": "-",
     "price": "100000",
     "stock": 100,
-    "category": "Fashion"
+    "categoryId": 2
   },
   {
     "id": 3,
@@ -21,7 +21,7 @@
     "image_url": "-",
     "price": 130000,
     "stock": 100,
-    "category": "Book"
+    "categoryId": 3
   },
   {
     "id": 4,
@@ -29,6 +29,6 @@
     "image_url": "-",
     "price": 10000000,
     "stock": 0,
-    "category": "Electronic"
+    "categoryId": 1
   }
 ]
