@@ -31,6 +31,7 @@ describe('GET /products API should be working', function() {
             expect(product).toHaveProperty('image_url')
             expect(product).toHaveProperty('price')
             expect(product).toHaveProperty('stock')
+            expect(product).toHaveProperty('category')
           })
         }
 

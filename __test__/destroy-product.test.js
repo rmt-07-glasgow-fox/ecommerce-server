@@ -18,6 +18,7 @@ describe('PUT /products API should be working', function() {
           image_url: 'google.com',
           price: 10000,
           stock: 10,
+          category: 'Boneka'
         }
         user = result
         return Product.create(newProd)

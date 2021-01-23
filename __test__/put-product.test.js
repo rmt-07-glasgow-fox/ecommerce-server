@@ -18,6 +18,7 @@ describe('PUT /products API should be working', function() {
           image_url: 'google.com',
           price: 10000,
           stock: 10,
+          category: 'Boneka'
         }
         user = result
         return Product.create(newProd)
@@ -29,7 +30,6 @@ describe('PUT /products API should be working', function() {
           done()
       })
   })
-// create dulu, ambil id dari create product
 
   afterAll(done => {
     clearProducts()
@@ -46,6 +46,7 @@ describe('PUT /products API should be working', function() {
       image_url: 'https://ecs7.tokopedia.net/img/cache/900/product-1/2020/9/29/910865/910865_a716d488-44e5-41b8-a9bb-d7cdf8e9c2c4_2048_2048',
       price: 100000,
       stock: 25,
+      category: 'Headset'
     }
 
     request(app)
@@ -60,12 +61,10 @@ describe('PUT /products API should be working', function() {
         expect(res.body).toHaveProperty('id')
         expect(typeof res.body.id).toEqual('number')
         expect(res.body).toHaveProperty('name')
-        expect(res.body.name).toEqual(body.name)
         expect(res.body).toHaveProperty('image_url')
-        expect(res.body.image_url).toEqual(body.image_url)
         expect(res.body).toHaveProperty('price')
         expect(res.body).toHaveProperty('stock')
-        expect(res.body.stock).toEqual(body.stock)
+        expect(res.body).toHaveProperty('category')
 
         done()
       })
@@ -77,6 +76,7 @@ describe('PUT /products API should be working', function() {
       image_url: 'https://ecs7.tokopedia.net/img/cache/900/product-1/2020/9/29/910865/910865_a716d488-44e5-41b8-a9bb-d7cdf8e9c2c4_2048_2048',
       price: 150000,
       stock: 50,
+      category: 'headset'
     }
 
     request(app)
@@ -129,6 +129,7 @@ describe('PUT /products API should be working', function() {
       image_url: 'https://ecs7.tokopedia.net/img/cache/900/product-1/2020/9/29/910865/910865_a716d488-44e5-41b8-a9bb-d7cdf8e9c2c4_2048_2048',
       price: -30,
       stock: 50,
+      category: 'Headset'
     }
 
     request(app)
@@ -155,6 +156,7 @@ describe('PUT /products API should be working', function() {
       image_url: 'https://ecs7.tokopedia.net/img/cache/900/product-1/2020/9/29/910865/910865_a716d488-44e5-41b8-a9bb-d7cdf8e9c2c4_2048_2048',
       price: 10000,
       stock: 50,
+      category: 'Headset'
     }
 
     request(app)
@@ -179,6 +181,7 @@ describe('PUT /products API should be working', function() {
       image_url: 'https://ecs7.tokopedia.net/img/cache/900/product-1/2020/9/29/910865/910865_a716d488-44e5-41b8-a9bb-d7cdf8e9c2c4_2048_2048',
       price: 150000,
       stock: 50,
+      category: 'Headset'
     }
 
     request(app)

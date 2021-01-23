@@ -21,7 +21,7 @@ describe('POST /products API should be working', function() {
       image_url: 'https://ecs7.tokopedia.net/img/cache/900/product-1/2020/9/29/910865/910865_a716d488-44e5-41b8-a9bb-d7cdf8e9c2c4_2048_2048',
       price: 150000,
       stock: 50,
-      category: 'headset'
+      category: 'produk'
     }
 
     request(app)
@@ -57,7 +57,7 @@ describe('POST /products API should be working', function() {
       image_url: 'https://ecs7.tokopedia.net/img/cache/900/product-1/2020/9/29/910865/910865_a716d488-44e5-41b8-a9bb-d7cdf8e9c2c4_2048_2048',
       price: 150000,
       stock: 50,
-      category: 'headset'
+      category: 'produk'
     }
 
     request(app)
@@ -84,7 +84,7 @@ describe('POST /products API should be working', function() {
       image_url: 'https://ecs7.tokopedia.net/img/cache/900/product-1/2020/9/29/910865/910865_a716d488-44e5-41b8-a9bb-d7cdf8e9c2c4_2048_2048',
       price: 150000,
       stock: -50,
-      category: 'headset'
+      category: 'produk'
     }
 
     request(app)
@@ -111,7 +111,7 @@ describe('POST /products API should be working', function() {
       image_url: 'https://ecs7.tokopedia.net/img/cache/900/product-1/2020/9/29/910865/910865_a716d488-44e5-41b8-a9bb-d7cdf8e9c2c4_2048_2048',
       price: -30,
       stock: 50,
-      category: 'headset'
+      category: 'produk'
     }
 
     request(app)
@@ -138,7 +138,7 @@ describe('POST /products API should be working', function() {
       image_url: 'https://ecs7.tokopedia.net/img/cache/900/product-1/2020/9/29/910865/910865_a716d488-44e5-41b8-a9bb-d7cdf8e9c2c4_2048_2048',
       price: 150000,
       stock: 50,
-      category: 'headset'
+      category: 'produk'
     }
 
     request(app)
