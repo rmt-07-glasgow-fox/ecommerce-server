@@ -1,8 +1,9 @@
-const { Product } = require('../models')
+const { Product, Category } = require('../models')
 
 class ProductController{
   static getProducts(req, res, next){
     Product.findAll({
+      include: [Category],
       order: [['updatedAt', 'ASC']]
     })
     .then(data => {
@@ -21,15 +22,24 @@ class ProductController{
     let value = {
       name: req.body.name,
       image_url: req.body.image_url,
-      price: +req.body.price,
-      stock: +req.body.stock,
+      price: req.body.price,
+      stock: req.body.stock,
       description: req.body.description,
-      UserId: +req.userData.id
+      UserId: req.userData.id,
+      CategoryId: req.body.CategoryId
     }
-    console.log(value);
-    Product.create(value)
+    Category.findByPk(req.body.CategoryId)
     .then(data => {
-      res.status(201).json(data)
+      if(data) {
+        return Product.create(value)
+      } else {
+        next({
+          status: 400,
+          message: "Category Not found"
+        })
+      }
+    }).then(data => {
+      res.status(200).json(data)
     })
     .catch(err => {
       if(err.name == "SequelizeValidationError"){
@@ -45,7 +55,9 @@ class ProductController{
 
   static getProductsId(req, res, next){
     let id = req.params.id
-    Product.findByPk(id)
+    Product.findByPk(id, {
+      include: [Category]
+    })
     .then(data => {
       if(data) {
         res.status(200).json(data)
@@ -66,11 +78,22 @@ class ProductController{
       price: +req.body.price,
       stock: +req.body.stock,
       description: req.body.description,
-      UserId: +req.userData.id
+      UserId: +req.userData.id,
+      CategoryId: req.body.CategoryId
     }
-    Product.update(value,{
-      where: {id},
-      returning: true
+    Category.findByPk(req.body.CategoryId)
+    .then(data => {
+      if(data) {
+        return Product.update(value,{
+          where: {id},
+          returning: true
+        })
+      } else {
+        next({
+          status: 400,
+          message: "Category Not found"
+        })
+      }
     }).then(data => {
       if(data){
         console.log(data[1][0].id);
