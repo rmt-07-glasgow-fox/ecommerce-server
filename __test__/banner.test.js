@@ -1,3 +1,4 @@
+const path = require('path');
 const request = require('supertest');
 const app = require('../app');
 const models = require('../models');
@@ -5,6 +6,8 @@ const models = require('../models');
 describe('Banner', () => {
   let token = '';
   let idBanner = 0;
+  let image_url = '';
+  let image_name = '';
 
   beforeAll((done) => {
     request(app)
@@ -25,41 +28,29 @@ describe('Banner', () => {
   });
 
   it('Create Banner without access token', (done) => {
-    const body = {
-      title: 'Cake',
-      status: true,
-      image_url:
-        'https://www.kamspalace.co.uk/wp-content/gallery/our-cake-selection/IMG-20150114-WA0000-1024x576.jpg',
-    };
-
     request(app)
       .post('/banners')
-      .send(body)
+      .field('title', 'Cake')
+      .field('status', true)
+      .attach('image', path.resolve(__dirname, 'images/hacktiv8logo.png'))
       .end((err, res) => {
         if (err) done(err);
 
         expect(res.statusCode).toEqual(401);
         expect(typeof res.body).toEqual('object');
         expect(Array.isArray(res.body)).toEqual(true);
-        expect(res.body).toEqual(
-          expect.arrayContaining([{ message: 'You must be logged in.' }])
-        );
+        expect(res.body).toEqual(expect.arrayContaining([{ message: 'You must be logged in.' }]));
 
         done();
       });
   });
 
   it('Create banner with empty title', (done) => {
-    const body = {
-      title: '',
-      status: true,
-      image_url:
-        'https://www.kamspalace.co.uk/wp-content/gallery/our-cake-selection/IMG-20150114-WA0000-1024x576.jpg',
-    };
-
     request(app)
       .post('/banners')
-      .send(body)
+      .field('title', '')
+      .field('status', true)
+      .attach('image', path.resolve(__dirname, 'images/hacktiv8logo.png'))
       .set({ authorization: token })
       .end((err, res) => {
         if (err) done(err);
@@ -67,25 +58,18 @@ describe('Banner', () => {
         expect(res.statusCode).toEqual(400);
         expect(typeof res.body).toEqual('object');
         expect(Array.isArray(res.body)).toEqual(true);
-        expect(res.body).toEqual(
-          expect.arrayContaining([{ message: 'Title is required' }])
-        );
+        expect(res.body).toEqual(expect.arrayContaining([{ message: 'Title is required' }]));
 
         done();
       });
   });
 
   it('Create banner with valid title', (done) => {
-    const body = {
-      title: 'Cake',
-      status: true,
-      image_url:
-        'https://www.kamspalace.co.uk/wp-content/gallery/our-cake-selection/IMG-20150114-WA0000-1024x576.jpg',
-    };
-
     request(app)
       .post('/banners')
-      .send(body)
+      .field('title', 'Cake')
+      .field('status', true)
+      .attach('image', path.resolve(__dirname, 'images/hacktiv8logo.png'))
       .set({ authorization: token })
       .end((err, res) => {
         if (err) done(err);
@@ -94,13 +78,17 @@ describe('Banner', () => {
         expect(typeof res.body).toEqual('object');
         expect(res.body).toHaveProperty('id');
         expect(typeof res.body.id).toEqual('number');
-        expect(res.body).toHaveProperty('title', body.title);
+        expect(res.body).toHaveProperty('title', 'Cake');
         expect(typeof res.body.status).toEqual('boolean');
-        expect(res.body).toHaveProperty('status', body.status);
+        expect(res.body).toHaveProperty('status', true);
         expect(typeof res.body.image_url).toEqual('string');
-        expect(res.body).toHaveProperty('image_url', body.image_url);
+        expect(res.body).toHaveProperty('image_url');
+        expect(typeof res.body.image_name).toEqual('string');
+        expect(res.body).toHaveProperty('image_name');
 
         idBanner = res.body.id;
+        image_url = res.body.image_url;
+        image_name = res.body.image_name;
 
         done();
       });
@@ -123,9 +111,11 @@ describe('Banner', () => {
 
   it('Update banner without access token', (done) => {
     const body = {
-      name: 'Cake',
+      title: 'Cake',
+      status: true,
+      image_url: image_url,
+      image_name: image_name,
     };
-
     request(app)
       .put(`/banners/${idBanner}`)
       .send(body)
@@ -135,9 +125,7 @@ describe('Banner', () => {
         expect(res.statusCode).toEqual(401);
         expect(typeof res.body).toEqual('object');
         expect(Array.isArray(res.body)).toEqual(true);
-        expect(res.body).toEqual(
-          expect.arrayContaining([{ message: 'You must be logged in.' }])
-        );
+        expect(res.body).toEqual(expect.arrayContaining([{ message: 'You must be logged in.' }]));
 
         done();
       });
@@ -147,10 +135,9 @@ describe('Banner', () => {
     const body = {
       title: 'Cake',
       status: true,
-      image_url:
-        'https://www.kamspalace.co.uk/wp-content/gallery/our-cake-selection/IMG-20150114-WA0000-1024x576.jpg',
+      image_url: image_url,
+      image_name: image_name,
     };
-
     request(app)
       .put(`/banners/0`)
       .send(body)
@@ -161,9 +148,7 @@ describe('Banner', () => {
         expect(res.statusCode).toEqual(404);
         expect(typeof res.body).toEqual('object');
         expect(Array.isArray(res.body)).toEqual(true);
-        expect(res.body).toEqual(
-          expect.arrayContaining([{ message: 'Banner not found' }])
-        );
+        expect(res.body).toEqual(expect.arrayContaining([{ message: 'Banner not found' }]));
 
         done();
       });
@@ -173,10 +158,9 @@ describe('Banner', () => {
     const body = {
       title: '',
       status: true,
-      image_url:
-        'https://www.kamspalace.co.uk/wp-content/gallery/our-cake-selection/IMG-20150114-WA0000-1024x576.jpg',
+      image_url: image_url,
+      image_name: image_name,
     };
-
     request(app)
       .put(`/banners/${idBanner}`)
       .send(body)
@@ -187,22 +171,19 @@ describe('Banner', () => {
         expect(res.statusCode).toEqual(400);
         expect(typeof res.body).toEqual('object');
         expect(Array.isArray(res.body)).toEqual(true);
-        expect(res.body).toEqual(
-          expect.arrayContaining([{ message: 'Title is required' }])
-        );
+        expect(res.body).toEqual(expect.arrayContaining([{ message: 'Title is required' }]));
 
         done();
       });
   });
 
-  it('Update banner with valid name', (done) => {
+  it('Update banner with valid title', (done) => {
     const body = {
       title: 'Cake',
       status: true,
-      image_url:
-        'https://www.kamspalace.co.uk/wp-content/gallery/our-cake-selection/IMG-20150114-WA0000-1024x576.jpg',
+      image_url: image_url,
+      image_name: image_name,
     };
-
     request(app)
       .put(`/banners/${idBanner}`)
       .send(body)
@@ -228,9 +209,7 @@ describe('Banner', () => {
         expect(res.statusCode).toEqual(401);
         expect(typeof res.body).toEqual('object');
         expect(Array.isArray(res.body)).toEqual(true);
-        expect(res.body).toEqual(
-          expect.arrayContaining([{ message: 'You must be logged in.' }])
-        );
+        expect(res.body).toEqual(expect.arrayContaining([{ message: 'You must be logged in.' }]));
 
         done();
       });
@@ -246,9 +225,7 @@ describe('Banner', () => {
         expect(res.statusCode).toEqual(404);
         expect(typeof res.body).toEqual('object');
         expect(Array.isArray(res.body)).toEqual(true);
-        expect(res.body).toEqual(
-          expect.arrayContaining([{ message: 'Banner not found' }])
-        );
+        expect(res.body).toEqual(expect.arrayContaining([{ message: 'Banner not found' }]));
 
         done();
       });

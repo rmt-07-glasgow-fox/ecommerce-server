@@ -3,54 +3,60 @@ const { uploadImage, deleteImage } = require('../helpers/googleStorage');
 const formidable = require('formidable');
 
 exports.create = async (req, res, next) => {
-  let form = new formidable.IncomingForm();
-  form.keepExtensions = true;
-  form.parse(req, (err, fields, files) => {
-    if (err) return next({ name: 'NotUpload' });
+  try {
+    let form = new formidable.IncomingForm();
+    form.keepExtensions = true;
 
-    const { name, price, stock, CategoryId } = fields;
+    form.parse(req, async (err, fields, files) => {
+      if (err) return next({ name: 'NotUpload' });
 
-    if (!name || !name.length) {
-      return next({ name: 'Required', attr: 'Name' });
-    }
-    if (!price) {
-      return next({ name: 'Required', attr: 'Price' });
-    }
-    if (!stock) {
-      return next({ name: 'Required', attr: 'Stock' });
-    }
-    if (!CategoryId || Number(CategoryId) === 0) {
-      return next({ name: 'Required', attr: 'Category' });
-    }
+      const { name, price, stock, CategoryId } = fields;
 
-    if (files.image) {
-      if (files.image.size > 50000000) {
-        return next({ name: 'ImageSize' });
+      if (!name || !name.length) {
+        return next({ name: 'Required', attr: 'Name' });
+      }
+      if (!price) {
+        return next({ name: 'Required', attr: 'Price' });
+      }
+      if (price < 0) {
+        return next({ name: 'Greater', attr: 'Price', value: 0 });
+      }
+      if (!stock) {
+        return next({ name: 'Required', attr: 'Stock' });
+      }
+      if (stock < 0) {
+        return next({ name: 'Greater', attr: 'Stock', value: 0 });
+      }
+      if (!CategoryId || Number(CategoryId) === 0) {
+        return next({ name: 'Required', attr: 'Category' });
       }
 
-      const image_name = `p${req.user.id}_${Date.now()}`;
-      uploadImage(files.image, image_name)
-        .then((url) => {
-          const body = {
-            name: name,
-            price: Number(price),
-            stock: Number(stock),
-            CategoryId: CategoryId,
-            image_url: url,
-            image_name: image_name,
-          };
+      if (files.image) {
+        if (files.image.size > 50000000) {
+          return next({ name: 'ImageSize' });
+        }
 
-          const product = Product.create(body);
+        const image_name = `p${req.user.id}_${Date.now()}`;
+        const url = await uploadImage(files.image, image_name);
+        const body = {
+          name: name,
+          price: Number(price),
+          stock: Number(stock),
+          CategoryId: Number(CategoryId),
+          image_url: url,
+          image_name: image_name,
+        };
 
-          return res.status(201).json(product);
-        })
-        .catch((err) => {
-          return next({ name: 'FailedUpload' });
-        });
-    } else {
-      return next({ name: 'Required', attr: 'Image' });
-    }
-  });
+        const product = await Product.create(body);
+
+        return res.status(201).json(product);
+      } else {
+        return next({ name: 'Required', attr: 'Image' });
+      }
+    });
+  } catch (err) {
+    return next({ name: 'FailedUpload' });
+  }
 };
 
 exports.list = async (req, res, next) => {

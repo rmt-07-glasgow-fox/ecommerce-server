@@ -1,3 +1,4 @@
+const path = require('path');
 const request = require('supertest');
 const app = require('../app');
 const models = require('../models');
@@ -5,6 +6,9 @@ const models = require('../models');
 describe('Product', () => {
   let token = '';
   let idProduct = 0;
+  let idCategory = 0;
+  let image_url = '';
+  let image_name = '';
 
   beforeAll((done) => {
     request(app)
@@ -15,52 +19,61 @@ describe('Product', () => {
 
         token = 'Bearer ' + res.body.access_token;
 
-        done();
+        request(app)
+          .post('/categories')
+          .send({
+            name: 'Cake',
+          })
+          .set({ authorization: token })
+          .end((err1, res1) => {
+            if (err1) done(err1);
+
+            idCategory = res1.body.id;
+            done();
+          });
       });
   });
 
   afterAll((done) => {
-    models.sequelize.close();
-    done();
+    request(app)
+      .delete(`/categories/${idCategory}`)
+      .set({ authorization: token })
+      .end((err, res) => {
+        if (err) done(err);
+
+        models.sequelize.close();
+        done();
+      });
   });
 
   it('Create Product without access token', (done) => {
-    const body = {
-      name: 'Cake',
-      image_url:
-        'https://www.kamspalace.co.uk/wp-content/gallery/our-cake-selection/IMG-20150114-WA0000-1024x576.jpg',
-    };
-
     request(app)
       .post('/products')
-      .send(body)
+      .field('name', 'Cake')
+      .field('price', 10000)
+      .field('stock', 10)
+      .field('CategoryId', idCategory)
+      .attach('image', path.resolve(__dirname, 'images/hacktiv8logo.png'))
       .end((err, res) => {
         if (err) done(err);
 
         expect(res.statusCode).toEqual(401);
         expect(typeof res.body).toEqual('object');
         expect(Array.isArray(res.body)).toEqual(true);
-        expect(res.body).toEqual(
-          expect.arrayContaining([{ message: 'You must be logged in.' }])
-        );
+        expect(res.body).toEqual(expect.arrayContaining([{ message: 'You must be logged in.' }]));
 
         done();
       });
   });
 
   it('Create product with empty name', (done) => {
-    const body = {
-      name: '',
-      image_url:
-        'https://www.kamspalace.co.uk/wp-content/gallery/our-cake-selection/IMG-20150114-WA0000-1024x576.jpg',
-      price: 100000,
-      stock: 10,
-      CategoryId: 1,
-    };
-
     request(app)
       .post('/products')
-      .send(body)
+      .field('name', '')
+      .field('price', 10000)
+      .field('stock', 10)
+      .field('CategoryId', idCategory)
+      .attach('image', path.resolve(__dirname, 'images/hacktiv8logo.png'))
       .set({ authorization: token })
       .end((err, res) => {
         if (err) done(err);
@@ -68,27 +81,20 @@ describe('Product', () => {
         expect(res.statusCode).toEqual(400);
         expect(typeof res.body).toEqual('object');
         expect(Array.isArray(res.body)).toEqual(true);
-        expect(res.body).toEqual(
-          expect.arrayContaining([{ message: 'Name is required' }])
-        );
+        expect(res.body).toEqual(expect.arrayContaining([{ message: 'Name is required' }]));
 
         done();
       });
   });
 
   it('Create product with price value less than 0', (done) => {
-    const body = {
-      name: 'Cake',
-      image_url:
-        'https://www.kamspalace.co.uk/wp-content/gallery/our-cake-selection/IMG-20150114-WA0000-1024x576.jpg',
-      price: -1,
-      stock: 10,
-      CategoryId: 1,
-    };
-
     request(app)
       .post('/products')
-      .send(body)
+      .field('name', 'Cake')
+      .field('price', -1)
+      .field('stock', 10)
+      .field('CategoryId', idCategory)
+      .attach('image', path.resolve(__dirname, 'images/hacktiv8logo.png'))
       .set({ authorization: token })
       .end((err, res) => {
         if (err) done(err);
@@ -97,7 +103,7 @@ describe('Product', () => {
         expect(typeof res.body).toEqual('object');
         expect(Array.isArray(res.body)).toEqual(true);
         expect(res.body).toEqual(
-          expect.arrayContaining([{ message: 'Price must greater than 0' }])
+          expect.arrayContaining([{ message: 'Price must greater than 0' }]),
         );
 
         done();
@@ -105,18 +111,13 @@ describe('Product', () => {
   });
 
   it('Create product with stock value less than 0', (done) => {
-    const body = {
-      name: 'Cake',
-      image_url:
-        'https://www.kamspalace.co.uk/wp-content/gallery/our-cake-selection/IMG-20150114-WA0000-1024x576.jpg',
-      price: 100000,
-      stock: -1,
-      CategoryId: 1,
-    };
-
     request(app)
       .post('/products')
-      .send(body)
+      .field('name', 'Cake')
+      .field('price', 10000)
+      .field('stock', -1)
+      .field('CategoryId', idCategory)
+      .attach('image', path.resolve(__dirname, 'images/hacktiv8logo.png'))
       .set({ authorization: token })
       .end((err, res) => {
         if (err) done(err);
@@ -125,7 +126,7 @@ describe('Product', () => {
         expect(typeof res.body).toEqual('object');
         expect(Array.isArray(res.body)).toEqual(true);
         expect(res.body).toEqual(
-          expect.arrayContaining([{ message: 'Stock must greater than 0' }])
+          expect.arrayContaining([{ message: 'Stock must greater than 0' }]),
         );
 
         done();
@@ -133,18 +134,13 @@ describe('Product', () => {
   });
 
   it('Create product with valid inputs', (done) => {
-    const body = {
-      name: 'Cake',
-      image_url:
-        'https://www.kamspalace.co.uk/wp-content/gallery/our-cake-selection/IMG-20150114-WA0000-1024x576.jpg',
-      price: 100000,
-      stock: 10,
-      CategoryId: 1,
-    };
-
     request(app)
       .post('/products')
-      .send(body)
+      .field('name', 'Cake')
+      .field('price', 10000)
+      .field('stock', 10)
+      .field('CategoryId', idCategory)
+      .attach('image', path.resolve(__dirname, 'images/hacktiv8logo.png'))
       .set({ authorization: token })
       .end((err, res) => {
         if (err) done(err);
@@ -153,17 +149,21 @@ describe('Product', () => {
         expect(typeof res.body).toEqual('object');
         expect(res.body).toHaveProperty('id');
         expect(typeof res.body.id).toEqual('number');
-        expect(res.body).toHaveProperty('name', body.name);
+        expect(res.body).toHaveProperty('name', 'Cake');
         expect(typeof res.body.image_url).toEqual('string');
-        expect(res.body).toHaveProperty('image_url', body.image_url);
+        expect(res.body).toHaveProperty('image_url');
+        expect(typeof res.body.image_name).toEqual('string');
+        expect(res.body).toHaveProperty('image_name');
         expect(typeof res.body.price).toEqual('number');
-        expect(res.body).toHaveProperty('price', body.price);
+        expect(res.body).toHaveProperty('price', 10000);
         expect(typeof res.body.stock).toEqual('number');
-        expect(res.body).toHaveProperty('stock', body.stock);
+        expect(res.body).toHaveProperty('stock', 10);
         expect(typeof res.body.CategoryId).toEqual('number');
-        expect(res.body).toHaveProperty('CategoryId', body.CategoryId);
+        expect(res.body).toHaveProperty('CategoryId', idCategory);
 
         idProduct = res.body.id;
+        image_name = res.body.image_name;
+        image_url = res.body.image_url;
 
         done();
       });
@@ -187,11 +187,11 @@ describe('Product', () => {
   it('Update product without access token', (done) => {
     const body = {
       name: 'Cake',
-      image_url:
-        'https://www.kamspalace.co.uk/wp-content/gallery/our-cake-selection/IMG-20150114-WA0000-1024x576.jpg',
+      image_url: image_url,
+      image_name: image_name,
       price: 100000,
       stock: 10,
-      CategoryId: 1,
+      CategoryId: idCategory,
     };
 
     request(app)
@@ -203,9 +203,7 @@ describe('Product', () => {
         expect(res.statusCode).toEqual(401);
         expect(typeof res.body).toEqual('object');
         expect(Array.isArray(res.body)).toEqual(true);
-        expect(res.body).toEqual(
-          expect.arrayContaining([{ message: 'You must be logged in.' }])
-        );
+        expect(res.body).toEqual(expect.arrayContaining([{ message: 'You must be logged in.' }]));
 
         done();
       });
@@ -214,11 +212,11 @@ describe('Product', () => {
   it('Update product with invalid id product', (done) => {
     const body = {
       name: 'Cake',
-      image_url:
-        'https://www.kamspalace.co.uk/wp-content/gallery/our-cake-selection/IMG-20150114-WA0000-1024x576.jpg',
+      image_url: image_url,
+      image_name: image_name,
       price: 100000,
       stock: 10,
-      CategoryId: 1,
+      CategoryId: idCategory,
     };
 
     request(app)
@@ -231,9 +229,7 @@ describe('Product', () => {
         expect(res.statusCode).toEqual(404);
         expect(typeof res.body).toEqual('object');
         expect(Array.isArray(res.body)).toEqual(true);
-        expect(res.body).toEqual(
-          expect.arrayContaining([{ message: 'Product not found' }])
-        );
+        expect(res.body).toEqual(expect.arrayContaining([{ message: 'Product not found' }]));
 
         done();
       });
@@ -242,11 +238,11 @@ describe('Product', () => {
   it('Update product with empty name', (done) => {
     const body = {
       name: '',
-      image_url:
-        'https://www.kamspalace.co.uk/wp-content/gallery/our-cake-selection/IMG-20150114-WA0000-1024x576.jpg',
+      image_url: image_url,
+      image_name: image_name,
       price: 100000,
       stock: 10,
-      CategoryId: 1,
+      CategoryId: idCategory,
     };
 
     request(app)
@@ -259,9 +255,7 @@ describe('Product', () => {
         expect(res.statusCode).toEqual(400);
         expect(typeof res.body).toEqual('object');
         expect(Array.isArray(res.body)).toEqual(true);
-        expect(res.body).toEqual(
-          expect.arrayContaining([{ message: 'Name is required' }])
-        );
+        expect(res.body).toEqual(expect.arrayContaining([{ message: 'Name is required' }]));
 
         done();
       });
@@ -269,12 +263,12 @@ describe('Product', () => {
 
   it('Update product with price less than 0', (done) => {
     const body = {
-      name: '',
-      image_url:
-        'https://www.kamspalace.co.uk/wp-content/gallery/our-cake-selection/IMG-20150114-WA0000-1024x576.jpg',
+      name: 'Cake',
+      image_url: image_url,
+      image_name: image_name,
       price: -1,
       stock: 10,
-      CategoryId: 1,
+      CategoryId: idCategory,
     };
 
     request(app)
@@ -288,7 +282,7 @@ describe('Product', () => {
         expect(typeof res.body).toEqual('object');
         expect(Array.isArray(res.body)).toEqual(true);
         expect(res.body).toEqual(
-          expect.arrayContaining([{ message: 'Price must greater than 0' }])
+          expect.arrayContaining([{ message: 'Price must greater than 0' }]),
         );
 
         done();
@@ -297,12 +291,12 @@ describe('Product', () => {
 
   it('Update product with stock less than 0', (done) => {
     const body = {
-      name: '',
-      image_url:
-        'https://www.kamspalace.co.uk/wp-content/gallery/our-cake-selection/IMG-20150114-WA0000-1024x576.jpg',
+      name: 'Cake',
+      image_url: image_url,
+      image_name: image_name,
       price: 100000,
       stock: -1,
-      CategoryId: 1,
+      CategoryId: idCategory,
     };
 
     request(app)
@@ -316,7 +310,7 @@ describe('Product', () => {
         expect(typeof res.body).toEqual('object');
         expect(Array.isArray(res.body)).toEqual(true);
         expect(res.body).toEqual(
-          expect.arrayContaining([{ message: 'Stock must greater than 0' }])
+          expect.arrayContaining([{ message: 'Stock must greater than 0' }]),
         );
 
         done();
@@ -326,11 +320,11 @@ describe('Product', () => {
   it('Update product with valid name', (done) => {
     const body = {
       name: 'Cake',
-      image_url:
-        'https://www.kamspalace.co.uk/wp-content/gallery/our-cake-selection/IMG-20150114-WA0000-1024x576.jpg',
+      image_url: image_url,
+      image_name: image_name,
       price: 100000,
       stock: 10,
-      CategoryId: 1,
+      CategoryId: idCategory,
     };
 
     request(app)
@@ -358,9 +352,7 @@ describe('Product', () => {
         expect(res.statusCode).toEqual(401);
         expect(typeof res.body).toEqual('object');
         expect(Array.isArray(res.body)).toEqual(true);
-        expect(res.body).toEqual(
-          expect.arrayContaining([{ message: 'You must be logged in.' }])
-        );
+        expect(res.body).toEqual(expect.arrayContaining([{ message: 'You must be logged in.' }]));
 
         done();
       });
@@ -376,9 +368,7 @@ describe('Product', () => {
         expect(res.statusCode).toEqual(404);
         expect(typeof res.body).toEqual('object');
         expect(Array.isArray(res.body)).toEqual(true);
-        expect(res.body).toEqual(
-          expect.arrayContaining([{ message: 'Product not found' }])
-        );
+        expect(res.body).toEqual(expect.arrayContaining([{ message: 'Product not found' }]));
 
         done();
       });

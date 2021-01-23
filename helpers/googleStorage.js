@@ -8,46 +8,39 @@ const storage = new Storage({
 });
 const bucket = storage.bucket(`${process.env.FIREBASE_ID}.appspot.com`);
 
-exports.uploadImage = (file, image_name) => {
-  return new Promise((resolve, reject) => {
-    if (!file) {
-      reject('No image file');
-    }
-
+exports.uploadImage = async (file, image_name) => {
+  if (!file) {
+    throw new Error('No image file');
+  }
+  try {
     let uuid = UUID();
-    bucket
-      .upload(file.path, {
-        destination: 'images/' + image_name,
+    const data = await bucket.upload(file.path, {
+      destination: 'images/' + image_name,
+      metadata: {
+        contentType: file.type,
         metadata: {
-          contentType: file.type,
-          metadata: {
-            firebaseStorageDownloadTokens: uuid,
-          },
+          firebaseStorageDownloadTokens: uuid,
         },
-      })
-      .then((data) => {
-        let file = data[0];
+      },
+    });
 
-        resolve(
-          'https://firebasestorage.googleapis.com/v0/b/' +
-            bucket.name +
-            '/o/' +
-            encodeURIComponent(file.name) +
-            '?alt=media&token=' +
-            uuid,
-        );
-      })
-      .catch((error) => {
-        console.log(error);
-        reject(error);
-      });
-  });
+    const url =
+      'https://firebasestorage.googleapis.com/v0/b/' +
+      bucket.name +
+      '/o/' +
+      encodeURIComponent(data[0].name) +
+      '?alt=media&token=' +
+      uuid;
+    return url;
+  } catch (err) {
+    return err.message;
+  }
 };
 
 exports.deleteImage = async (image_name) => {
   try {
     await bucket.file('images/' + image_name).delete();
   } catch (err) {
-    console.log(err);
+    return err.message;
   }
 };
