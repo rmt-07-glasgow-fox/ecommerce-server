@@ -42,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         min: {
           args: '0',
-          msg: "Stock must greater than equal 0"
+          msg: "Price must greater than equal 0"
         },
         isDecimal: {
           args: true,
@@ -69,7 +69,14 @@ module.exports = (sequelize, DataTypes) => {
     },
     description: DataTypes.TEXT,
     UserId: DataTypes.INTEGER,
-    CategoryId: DataTypes.INTEGER
+    CategoryId: {
+      type: DataTypes.INTEGER,
+      validate: {
+        notEmpty: {
+          msg: 'Category must be filled'
+        }
+      }
+    }
   }, {
     sequelize,
     modelName: 'Product',

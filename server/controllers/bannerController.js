@@ -5,11 +5,7 @@ class BannerController {
     Banner.findAll({
       order: [['status', 'DESC']]
     }).then(data => {
-      if(data) {
-        res.status(200).json(data)
-      } else {
-        next({status: 404})
-      }
+      res.status(200).json(data)
     }).catch(err => {
       next(err)
     })
@@ -36,10 +32,6 @@ class BannerController {
         next(err)
       }
     })
-  }
-
-  static getBannerId(req, res, next) {
-
   }
 
   static editStatusBanners(req, res, next) {

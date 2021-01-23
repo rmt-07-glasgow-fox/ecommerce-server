@@ -23,11 +23,7 @@ class CategoryController {
     Category.findAll({
       include: ['Products']
     }).then(data => {
-      if(data) {
-        res.status(200).json(data)
-      } else {
-        next({status: 404})
-      }
+      res.status(200).json(data)
     }).catch(err => {
       next(err)
     })
@@ -41,7 +37,7 @@ class CategoryController {
     }).then(data => {
       if(data) {
         res.status(200).json({
-          message: "Success delete product"
+          message: "Success delete category"
         })
       } else {
         next({status: 404})

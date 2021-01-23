@@ -29,6 +29,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     UserId: DataTypes.INTEGER
   }, {
+    hooks: {
+      beforeCreate: (instance) => {
+        instance.name = instance.name.toLowerCase()
+      }
+    },
     sequelize,
     modelName: 'Category',
   });
