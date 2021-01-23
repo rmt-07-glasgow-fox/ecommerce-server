@@ -20,7 +20,8 @@
     "db:seed:test": "SET NODE_ENV=test& npm run db:seed",
 
     "test": "SET NODE_ENV=test& npx jest",
-    "dev": "SET NODE_ENV=development& nodemon bin/http.js"
+    "dev": "SET NODE_ENV=development& nodemon bin/http.js",
+    "start": "node bin/http.js"
   },
   "repository": {
     "type": "git",
