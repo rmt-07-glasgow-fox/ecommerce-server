@@ -51,6 +51,7 @@ describe("/products", function () {
           "https://i8.amplience.net/i/indochino/15011528_0_0/navy-solid-design-tipton-suit.jpg?$suit-pdp-desk$",
         price: 2000000,
         stock: 5,
+        CategoryId: 1
       };
 
       // Execute
@@ -89,6 +90,7 @@ describe("/products", function () {
         image_url: "",
         price: 2000000,
         stock: 5,
+        CategoryId: 1
       };
 
       // Execute
@@ -125,6 +127,7 @@ describe("/products", function () {
         image_url: "",
         price: 2000000,
         stock: 5,
+        CategoryId: 1
       };
 
       // Execute
@@ -154,6 +157,7 @@ describe("/products", function () {
         image_url: "",
         price: 2000000,
         stock: 5,
+        CategoryId: 1
       };
 
       // Execute
@@ -184,6 +188,7 @@ describe("/products", function () {
         image_url: "",
         price: 2000000,
         stock: 5,
+        CategoryId: 1
       };
 
       // Execute
@@ -214,6 +219,7 @@ describe("/products", function () {
         image_url: "",
         price: 2000000,
         stock: 5,
+        CategoryId: 1
       };
 
       // Execute
@@ -244,6 +250,7 @@ describe("/products", function () {
         image_url: "",
         price: -100000,
         stock: 5,
+        CategoryId: 1
       };
 
       // Execute
@@ -274,6 +281,7 @@ describe("/products", function () {
         image_url: "",
         price: 100000,
         stock: -1,
+        CategoryId: 1
       };
 
       // Execute
@@ -304,6 +312,7 @@ describe("/products", function () {
         image_url: "",
         price: "test",
         stock: "test",
+        CategoryId: 1
       };
 
       // Execute
@@ -500,6 +509,7 @@ describe("/products", function () {
           "https://i8.amplience.net/i/indochino/15011528_0_0/navy-solid-design-tipton-suit.jpg?$suit-pdp-desk$",
         price: 2000000,
         stock: 5,
+        CategoryId: 1
       };
 
       // Execute
@@ -536,6 +546,7 @@ describe("/products", function () {
         image_url: "",
         price: 2000000,
         stock: 5,
+        CategoryId: 1
       };
 
       // Execute
@@ -571,6 +582,7 @@ describe("/products", function () {
         image_url: "",
         price: 2000000,
         stock: 5,
+        CategoryId: 1
       };
 
       request(app)
@@ -598,6 +610,7 @@ describe("/products", function () {
         image_url: "",
         price: 2000000,
         stock: 5,
+        CategoryId: 1
       };
 
       // Execute
@@ -627,6 +640,7 @@ describe("/products", function () {
         image_url: "",
         price: 2000000,
         stock: 5,
+        CategoryId: 1
       };
 
       // Execute
@@ -657,6 +671,7 @@ describe("/products", function () {
         image_url: "",
         price: 2000000,
         stock: 5,
+        CategoryId: 1
       };
 
       // Execute
@@ -687,6 +702,7 @@ describe("/products", function () {
         image_url: "",
         price: 2000000,
         stock: 5,
+        CategoryId: 1
       };
 
       // Execute
@@ -717,6 +733,7 @@ describe("/products", function () {
         image_url: "",
         price: -100000,
         stock: 5,
+        CategoryId: 1
       };
 
       // Execute
@@ -747,6 +764,7 @@ describe("/products", function () {
         image_url: "",
         price: 100000,
         stock: -1,
+        CategoryId: 1
       };
 
       // Execute
@@ -777,6 +795,7 @@ describe("/products", function () {
         image_url: "",
         price: "test",
         stock: "test",
+        CategoryId: 1
       };
 
       // Execute

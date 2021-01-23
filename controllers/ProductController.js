@@ -1,14 +1,15 @@
-const { Product } = require("../models");
+const { Product, Category } = require("../models");
 
 class ProductController {
   static addProduct(req, res, next) {
-    const { name, image_url, price, stock } = req.body;
+    const { name, image_url, price, stock, CategoryId } = req.body;
 
     Product.create({
       name,
       image_url,
       price,
       stock,
+      CategoryId,
     })
       .then((response) => {
         res.status(201).json(response);
@@ -20,7 +21,18 @@ class ProductController {
 
   static listProduct(req, res, next) {
     Product.findAll({
-      order: [['name', 'ASC']]
+      order: [
+        ["name", "ASC"],
+        ["CategoryId", "ASC"],
+      ],
+      include: [
+        {
+          model: Category,
+          attributes: {
+            exclude: ["updatedAt", "createdAt"],
+          },
+        },
+      ],
     })
       .then((response) => {
         res.status(200).json(response);
@@ -33,7 +45,17 @@ class ProductController {
   static getSpecific(req, res, next) {
     const id = +req.params.id;
 
-    Product.findOne({ where: { id } }).then((product) => {
+    Product.findOne({
+      where: { id },
+      include: [
+        {
+          model: Category,
+          attributes: {
+            exclude: ["updatedAt", "createdAt"],
+          },
+        },
+      ],
+    }).then((product) => {
       if (!product) {
         next({ name: "ProductNotFound" });
       } else {
@@ -44,7 +66,7 @@ class ProductController {
 
   static updateProduct(req, res, next) {
     const id = +req.params.id;
-    const { name, image_url, price, stock } = req.body;
+    const { name, image_url, price, stock, CategoryId } = req.body;
 
     Product.update(
       {
@@ -52,6 +74,7 @@ class ProductController {
         image_url,
         price,
         stock,
+        CategoryId,
       },
       {
         where: { id },
@@ -78,7 +101,7 @@ class ProductController {
         if (response === 0) {
           next({ name: "NoChange" });
         } else {
-          res.status(200).json({message: "Product has been deleted"});
+          res.status(200).json({ message: "Product has been deleted" });
         }
       })
       .catch((err) => {
