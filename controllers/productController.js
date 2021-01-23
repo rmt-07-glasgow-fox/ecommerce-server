@@ -1,7 +1,7 @@
 const { Product, User, Category } = require('../models/index.js');
 
 class ProductController {
-  static async createProduct(req, res, next) {
+  static async createProduct (req, res, next) {
     try {
       const input = {
         name: req.body.name,
@@ -20,7 +20,7 @@ class ProductController {
     };
   };
 
-  static async readProduct(req, res, next) {
+  static async readProduct (req, res, next) {
     try {
       const product = await Product.findAll({
         include: [{
@@ -29,7 +29,8 @@ class ProductController {
         }, {
           model: Category,
           attributes: { exclude: ['createdAt', 'updatedAt'] }
-        }]
+        }],
+        order: [['name', 'ASC']]
       });
 
       return res.status(200).json(product)
@@ -38,7 +39,7 @@ class ProductController {
     };
   };
 
-  static async readOneProduct(req, res, next) {
+  static async readOneProduct (req, res, next) {
     try {
       const inputId = Number(req.params.id);
       const product = await Product.findByPk(inputId, {
@@ -59,7 +60,7 @@ class ProductController {
     };
   };
 
-  static async updateProduct(req, res, next) {
+  static async updateProduct (req, res, next) {
     try {
       const inputId = Number(req.params.id);
       const input = {
@@ -70,7 +71,7 @@ class ProductController {
         CategoryId: Number(req.body.CategoryId),
         UserId: req.user.id
       };
-      
+
       const find = await Product.findByPk(inputId);
 
       if (!find) throw { name: 'productNotFound' };
@@ -86,7 +87,7 @@ class ProductController {
     };
   };
 
-  static async deleteProduct(req, res, next) {
+  static async deleteProduct (req, res, next) {
     try {
       const inputId = Number(req.params.id);
       const find = await Product.findByPk(inputId);

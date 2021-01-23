@@ -1,7 +1,7 @@
 const { Banner } = require('../models/index.js');
 
 class BannerController {
-  static async createBanner(req, res, next) {
+  static async createBanner (req, res, next) {
     try {
       const input = {
         name: req.body.name,
@@ -16,9 +16,9 @@ class BannerController {
     };
   };
 
-  static async readBanner(req, res, next) {
+  static async readBanner (req, res, next) {
     try {
-      const banner = await Banner.findAll();
+      const banner = await Banner.findAll({ order: [['id', 'ASC']] });
 
       return res.status(200).json(banner)
     } catch (err) {
@@ -26,7 +26,7 @@ class BannerController {
     };
   };
 
-  static async readOneBanner(req, res, next) {
+  static async readOneBanner (req, res, next) {
     try {
       const inputId = Number(req.params.id);
       const banner = await Banner.findByPk(inputId);
@@ -39,7 +39,7 @@ class BannerController {
     };
   };
 
-  static async updateBanner(req, res, next) {
+  static async updateBanner (req, res, next) {
     try {
       const inputId = Number(req.params.id);
       const input = {
@@ -62,7 +62,7 @@ class BannerController {
     };
   };
 
-  static async deleteBanner(req, res, next) {
+  static async deleteBanner (req, res, next) {
     try {
       const inputId = Number(req.params.id);
       const find = await Banner.findByPk(inputId);

@@ -1,7 +1,7 @@
 const { Category, Product } = require('../models/index.js');
 
 class CategoryController {
-  static async createCategory(req, res, next) {
+  static async createCategory (req, res, next) {
     try {
       const input = {
         name: req.body.name
@@ -15,7 +15,7 @@ class CategoryController {
     };
   };
 
-  static async readCategory(req, res, next) {
+  static async readCategory (req, res, next) {
     try {
       const category = await Category.findAll({
         include: [{
@@ -23,7 +23,7 @@ class CategoryController {
           attributes: { exclude: ['UserId', 'createdAt', 'updatedAt'] }
         }], attributes: {
           exclude: ['createdAt', 'updatedAt']
-        }
+        }, order: [['name', 'ASC']]
       });
 
       return res.status(200).json(category)
@@ -32,7 +32,7 @@ class CategoryController {
     };
   };
 
-  static async readOneCategory(req, res, next) {
+  static async readOneCategory (req, res, next) {
     try {
       const inputId = Number(req.params.id);
       const category = await Category.findByPk(inputId, {
@@ -52,7 +52,7 @@ class CategoryController {
     };
   };
 
-  static async updateCategory(req, res, next) {
+  static async updateCategory (req, res, next) {
     try {
       const inputId = Number(req.params.id);
       const input = {
@@ -74,7 +74,7 @@ class CategoryController {
     };
   };
 
-  static async deleteCategory(req, res, next) {
+  static async deleteCategory (req, res, next) {
     try {
       const inputId = Number(req.params.id);
       const find = await Category.findByPk(inputId);
