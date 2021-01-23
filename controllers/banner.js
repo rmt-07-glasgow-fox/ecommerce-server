@@ -1,6 +1,15 @@
 const { Banner } = require('../models/index')
 
 class bannerController {
+    static findAll(req, res, next) {
+        Banner.findAll()
+        .then(data => {
+            res.status(200).json(data)
+        })
+        .catch(err => {
+            next(err)
+        })
+    }
     static insert(req, res, next) {
         let obj = {
             title:req.body.title,

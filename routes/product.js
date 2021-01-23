@@ -5,7 +5,7 @@ const { authorize } = require('../middlewares/auth')
 
 
 router.post('/',authorize, productController.insert)
-router.get('/',authorize, productController.findAll)
+router.get('/', productController.findAll)
 router.put('/:id',authorize, productController.update)
 router.patch('/:id',authorize, productController.patch)
 router.delete('/:id',authorize, productController.delete)
