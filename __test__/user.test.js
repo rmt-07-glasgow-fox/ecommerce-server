@@ -83,7 +83,7 @@ describe('User register and login', function(){
                 expect(res.body).toHaveProperty('errors')
                 expect(Array.isArray(res.body.errors)).toEqual(true)
                 expect(res.body.errors).toEqual(
-                    expect.arrayContaining(['Title is required'],['Password minimal of 6 characters'])
+                    expect.arrayContaining(['Email is required'],['Password minimal of 6 characters'])
                 )
                 done()
             })
