@@ -1,7 +1,5 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
 
 // const { Op } = require("sequelize");
 
@@ -14,64 +12,73 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Product.belongsTo(models.Category)
+      Product.belongsTo(models.Category);
     }
-  };
-  Product.init({
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: {
-          args: true,
-          msg: "Product name is required"
+  }
+  Product.init(
+    {
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: {
+            args: true,
+            msg: "Product name is required",
+          },
         },
-      }
-    },
-    image_url: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    price: {
-      type: DataTypes.INTEGER,
-      notEmpty: {
-        args: true,
-        msg: "Price is required"
       },
-      validate: {
-        min: {
-          args: [0],
-          msg: "Price must be a positive value"
-        },
-        isInt: {
-          args: true,
-          msg: "Price must be an integer"
-        }
-      }
-    },
-    stock: {
-      type: DataTypes.INTEGER,
-      notEmpty: {
-        args: true,
-        msg: "Stock is required"
+      image_url: {
+        type: DataTypes.STRING,
+        allowNull: true,
       },
-      validate: {
-        min: {
-          args: [0],
-          msg: "Stock must be a positive value"
+      price: {
+        type: DataTypes.INTEGER,
+        validate: {
+          notEmpty: {
+            args: true,
+            msg: "Price is required",
+          },
+          isInt: {
+            args: true,
+            msg: "Price must be an integer",
+          },
+          min: {
+            args: [0],
+            msg: "Price must be a positive value",
+          },
         },
-        isInt: {
-          args: true,
-          msg: "Stock must be an integer"
-        }
-      }
+      },
+      stock: {
+        type: DataTypes.INTEGER,
+        validate: {
+          notEmpty: {
+            args: true,
+            msg: "Stock is required",
+          },
+          isInt: {
+            args: true,
+            msg: "Stock must be an integer",
+          },
+          min: {
+            args: [0],
+            msg: "Stock must be a positive value",
+          },
+          
+        },
+      },
+      CategoryId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          notEmpty: { msg: "Category is required" },
+          notNull: { msg: "Category is required" },
+        },
+      },
     },
-    CategoryId: {
-      type: DataTypes.INTEGER
+    {
+      sequelize,
+      modelName: "Product",
     }
-  }, {
-    sequelize,
-    modelName: 'Product',
-  });
+  );
   return Product;
 };

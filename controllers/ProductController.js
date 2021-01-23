@@ -22,8 +22,8 @@ class ProductController {
   static listProduct(req, res, next) {
     Product.findAll({
       order: [
-        ["name", "ASC"],
         ["CategoryId", "ASC"],
+        ["name", "ASC"],
       ],
       include: [
         {
