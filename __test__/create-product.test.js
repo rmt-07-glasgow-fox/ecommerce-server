@@ -31,7 +31,6 @@ describe('POST /products API should be working', function() {
       .end(function(err, res) {
         if(err) done(err)
 
-        // Assert
         expect(res.statusCode).toEqual(201)
         expect(typeof res.body).toEqual('object')
         expect(res.body).toHaveProperty('id')
