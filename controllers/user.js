@@ -19,7 +19,7 @@ class UserController {
 
             if (!user) {
                 throw {
-                    status: 400,
+                    status: 401,
                     message: `Wrong Email or Password`
                 }
             } else {
@@ -39,7 +39,7 @@ class UserController {
                         res.status(200).json({access_token})
                     } else {
                         throw {
-                            status: 400,
+                            status: 401,
                             message: `Wrong Email or Password`
                         }
                     }

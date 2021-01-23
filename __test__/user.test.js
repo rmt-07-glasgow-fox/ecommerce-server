@@ -60,7 +60,7 @@ describe(`POST /login/admin`, () => {
             })
             .end((err, res) => {
                 if (err) return done(err)
-                expect(res.status).toBe(400)
+                expect(res.status).toBe(401)
                 expect(res.body).toHaveProperty('message', `Wrong Email or Password`)
                 done()
             })
@@ -75,7 +75,7 @@ describe(`POST /login/admin`, () => {
             })
             .end((err, res) => {
                 if (err) return done(err)
-                expect(res.status).toBe(400)
+                expect(res.status).toBe(401)
                 expect(res.body).toHaveProperty('message', `Wrong Email or Password`)
                 done()
             })
@@ -105,7 +105,7 @@ describe(`POST /login/admin`, () => {
             })
             .end((err, res) => {
                 if (err) return done(err)
-                expect(res.status).toBe(400)
+                expect(res.status).toBe(401)
                 expect(res.body).toHaveProperty('message', `Wrong Email or Password`)
                 done()
             })
@@ -116,7 +116,7 @@ describe(`POST /login/admin`, () => {
             .post('/login/admin')
             .end((err, res) => {
                 if (err) return done(err)
-                expect(res.status).toBe(400)
+                expect(res.status).toBe(401)
                 expect(res.body).toHaveProperty('message', `Wrong Email or Password`)
                 done()
             })
