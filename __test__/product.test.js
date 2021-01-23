@@ -322,6 +322,36 @@ describe('POST /products', () => {
         done()
       })
   })
+
+  it('it should send response with 400 status code - integer out of range', (done) => {
+    const body = {
+      name: 'ranjang mahal',
+      image_url: 'https://www.ikea.com/jp/en/images/products/hemnes-day-bed-frame-with-3-drawers-white__0857890_PE632055_S5.JPG',
+      price: 2147483648,
+      stock: 1
+    }
+
+    // Execute
+    request(app)
+      .post('/products')
+      .send(body)
+      .set('access_token', access_token_admin)
+      .end((err, res) => {
+        //err from supertest
+        if (err) done(err)
+
+        // Assert
+        expect(res.statusCode).toEqual(400)
+        expect(typeof res.body).toEqual('object')
+        expect(res.body).toHaveProperty('errors')
+        expect(Array.isArray(res.body.errors)).toEqual(true)
+        expect(res.body.errors).toEqual(
+          expect.arrayContaining([`Number too big`])
+        )
+
+        done()
+      })
+  })
 })
 
 

@@ -19,6 +19,10 @@ const errorHandler = (err, req, res, next) => {
         errors.push('Not authorised')
         res.status(401).json({ errors })
         break
+      case 'SequelizeDatabaseError':
+        errors.push('Number too big')
+        res.status(400).json({ errors })
+        break
       default:
         errors = err.errors.map(error => error.message)
         res.status(400).json({
