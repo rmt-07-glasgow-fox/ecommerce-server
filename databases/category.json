@@ -1,44 +1,47 @@
 [
   {
-    "name": "action"
+    "name": "Action"
   },
   {
-    "name": "adventure"
+    "name": "Adventure"
   },
   {
-    "name": "battleroyal"
+    "name": "Battleroyal"
   },
   {
-    "name": "fighting"
+    "name": "Fighting"
   },
   {
-    "name": "fps"
+    "name": "FPS"
   },
   {
-    "name": "horror"
+    "name": "Horror"
   },
   {
-    "name": "moba"
+    "name": "MOBA"
   },
   {
-    "name": "puzzle"
+    "name": "Puzzle"
   },
   {
-    "name": "rhythm"
+    "name": "Rhythm"
   },
   {
-    "name": "rpg"
+    "name": "RPG"
   },
   {
-    "name": "racing"
+    "name": "Racing"
   },
   {
-    "name": "simulation"
+    "name": "Simulation"
   },
   {
-    "name": "shooter"
+    "name": "Shooter"
   },
   {
-    "name": "tps"
+    "name": "TPS"
+  },
+  {
+    "name": "Visual Novel"
   }
 ]
