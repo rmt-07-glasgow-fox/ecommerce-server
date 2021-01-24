@@ -15,7 +15,7 @@ class ProductController {
 
   static async getAll(req, res, next) {
     try {
-      const products = await Product.findAll();      
+      const products = await Product.findAll({ order: ['id'] });      
       return res.status(200).json(products);
     }
     catch (err) {     
@@ -52,10 +52,11 @@ class ProductController {
     try {
       const id = req.params.id;
       const deletedProduct = await Product.destroy({ where: {id} });
-      if(deletedProduct === 1) return res.status(200).json({ message: 'Success delete task'});      
+      if(deletedProduct === 1) return res.status(200).json({ message: 'Success delete product'});      
       return next();
     }
     catch (err) {
+      console.log(err);
       return next(err);
     }
   }
