@@ -4,20 +4,21 @@ const models = require("../models")
 const clearUser = require("./helpers/clearUser")
 
 // describe("POST /register", () => {
-//   afterAll((done) => {
-//     clearUser()
-//     .then(() => {
-//       models.sequelize.close()
-//       done()
-//     })
-//     .catch(console.log)
-//   })
+//   // afterAll((done) => {
+//   //   clearUser()
+//   //   .then(() => {
+//   //     models.sequelize.close()
+//   //     done()
+//   //   })
+//   //   .catch(console.log)
+//   // })
 
 //   it("should send response with 201 status code", (done) => {
 //     const body = {
 //       name: "Test User",
-//       email: "test@mail.com",
-//       password: "123123"
+//       email: "client@mail.com",
+//       password: "123123",
+//       role: "Client"
 //     }
 
 //     request(app)
@@ -34,8 +35,8 @@ const clearUser = require("./helpers/clearUser")
 //         expect(res.body.name).toEqual(body.name)
 //         expect(res.body).toHaveProperty("email")
 //         expect(res.body.email).toEqual(body.email)
-//         expect(res.body).toHaveProperty("password")
-//         expect(res.body.password).toEqual(body.password)
+//         expect(res.body).toHaveProperty("role")
+//         expect(res.body.role).toEqual(body.role)
 
 //         done()
 //       })
@@ -91,13 +92,12 @@ describe("POST /login", () => {
         expect(res.statusCode).toEqual(200)
         expect(typeof res.body).toEqual("object")
         expect(res.body).toHaveProperty("access_token")
-        // expect(res.body.email).toEqual(body.email)
 
         done()
       })
   })
 
-  it("should send response with 400 status code", (done) => {
+  it("should send response with 401 status code", (done) => {
     const body = {
       email: "test@mail.com",
       password: "321321"
@@ -109,7 +109,7 @@ describe("POST /login", () => {
       .end((err, res) => {
         if (err) done(err)
 
-        expect(res.statusCode).toEqual(400)
+        expect(res.statusCode).toEqual(401)
         expect(typeof res.body).toEqual("object")
         expect(res.body).toHaveProperty("errors")
         expect(Array.isArray(res.body.errors)).toEqual(true)
@@ -121,7 +121,7 @@ describe("POST /login", () => {
       })
   })
 
-  it("should send response with 400 status code", (done) => {
+  it("should send response with 401 status code", (done) => {
     const body = {
       email: "test1@mail.com",
       password: "123123"
@@ -133,7 +133,7 @@ describe("POST /login", () => {
       .end((err, res) => {
         if (err) done(err)
 
-        expect(res.statusCode).toEqual(400)
+        expect(res.statusCode).toEqual(401)
         expect(typeof res.body).toEqual("object")
         expect(res.body).toHaveProperty("errors")
         expect(Array.isArray(res.body.errors)).toEqual(true)
@@ -145,7 +145,7 @@ describe("POST /login", () => {
       })
   })
 
-  it("should send response with 400 status code", (done) => {
+  it("should send response with 401 status code", (done) => {
     const body = {
       email: "",
       password: ""
@@ -157,7 +157,7 @@ describe("POST /login", () => {
       .end((err, res) => {
         if (err) done(err)
 
-        expect(res.statusCode).toEqual(400)
+        expect(res.statusCode).toEqual(401)
         expect(typeof res.body).toEqual("object")
         expect(res.body).toHaveProperty("errors")
         expect(Array.isArray(res.body.errors)).toEqual(true)

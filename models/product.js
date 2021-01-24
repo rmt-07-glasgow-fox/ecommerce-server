@@ -38,6 +38,16 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: {
           args: true,
           msg: `Price is required`
+        },
+        minVal(value) {
+          if (value < 0) {
+            throw new Error(`Minimum value is 0 in Number`)
+          }
+        },
+        munFormat(value) {
+          if (typeof value !== 'number') {
+            throw new Error(`Minimum value is 0 in Number`)
+          }
         }
       }
     },
@@ -47,6 +57,16 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: {
           args: true,
           msg: `Stock is required`
+        },
+        minVal(value) {
+          if (value < 0) {
+            throw new Error(`Minimum value is 0 in Number`)
+          }
+        },
+        munFormat(value) {
+          if (typeof value !== 'number') {
+            throw new Error(`Minimum value is 0 in Number`)
+          }
         }
       }
     },

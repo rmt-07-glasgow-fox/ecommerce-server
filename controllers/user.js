@@ -18,12 +18,17 @@ class UserController {
     .catch(next)
   }
 
-  static async login(req, res, next) {
-    try {
-      const {email, password} = req.body
-      const user = await User.findOne({where: {email}})
+  static login(req, res, next) {
 
-      if (!user || password !== user.password || email !== user.email) {
+    const {email, password} = req.body
+
+    User.build({email, password})
+    .validate()
+    .then(() => {
+      return User.findOne({where: {email}})
+    })
+    .then(user => {
+      if (!user) {
         next({name: "errorLogin"})
       }
 
@@ -40,9 +45,8 @@ class UserController {
       } else {
         next({name: "errorLogin"})
       }
-    } catch (err) {
-      next(err)
-    }
+    })
+    .catch(next)
   }
 }
 

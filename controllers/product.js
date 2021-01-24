@@ -31,7 +31,7 @@ class ProductController {
 
     Product.findByPk(id)
     .then(data => {
-      return res.status(201).json(data)
+      return res.status(200).json(data)
     })
     .catch(next)
   }
@@ -48,7 +48,7 @@ class ProductController {
 
     Product.update(updatedData, {where: {id}})
     .then(data => {
-      return res.status(201).json(data)
+      return res.status(200).json({message: `Updated Successfully`})
     })
     .catch(next)
   }
@@ -58,7 +58,7 @@ class ProductController {
 
     Product.destroy({where: {id}})
     .then(data => {
-      return res.status(201).json({message: `Deleted Successfully`})
+      return res.status(200).json({message: `Deleted Successfully`})
     })
     .catch(next)
   }

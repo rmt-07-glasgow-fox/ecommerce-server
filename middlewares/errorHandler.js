@@ -5,7 +5,7 @@ const errorHandler = (err, req, res, next) => {
       res.status(400).json({errors})
       break
     case "errorLogin":
-      res.status(401).json({errors: "Invalid email / password"})
+      res.status(401).json({errors: ["Wrong email / password"]})
       break
     case "Not Authorized":
       res.status(401).json({errors: ["You don't have access"]})
