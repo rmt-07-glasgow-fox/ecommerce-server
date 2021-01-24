@@ -20,9 +20,13 @@ async function authenticate (req, res, next) {
 async function authorize (req, res, next) {
   try {
     let payload = await verifyToken(req.headers.access_token)
-    let product = await Product.findOne({where: {UserId: payload.id}})
-    if (product) {
-      next()
+    let user = await User.findOne({where: {id: payload.id}})
+    if (user) {
+      if (user.role == 'admin') {
+        next()
+      } else {
+        throw ({name: 401, message: 'unauthorized'})
+      }
     } else {
       throw ({name: 404, message: 'product not found'})
     }

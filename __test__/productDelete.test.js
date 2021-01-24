@@ -50,5 +50,31 @@ describe('DELETE/ deleteProduct', function () {
       done()
     })
   })
+
+  it('should response with 401 status code when access_token is not found', function (done) {
+    //setup
+    const body = {
+      name: 'test',
+      img_url: 'test',
+      price: 'test',
+      stock: 'test',
+    }
+
+    //execute
+    request(app)
+    .post('/products')
+    .send(body)
+    .end(function (err, res) {
+      // error supertest
+      if(err) done(err)
+
+      //assert
+      expect(res.statusCode).toEqual(401)
+      expect(typeof res.body).toEqual('object')
+      expect(res.body).toHaveProperty('errors')
+
+      done()
+    })
+  })
   
 })
