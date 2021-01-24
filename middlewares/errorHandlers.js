@@ -6,6 +6,9 @@ let errorHandlers = (err, req, res, next) => {
         errors = err.errors.map(error => error.message);
         res.status(400).json({ errors });
         break;
+      case "SequelizeForeignKeyConstraintError":
+        res.status(400).json({ errors: ['Please insert you category!'] });
+        break;
       case "invalidLogin":
         res.status(401).json({ errors: 'Your Email or Password is invalid' });
         break;
