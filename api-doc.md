@@ -78,14 +78,27 @@ __Response (200)__
     name: "<product name>",
     image_url: "<product image_url>",
     price: "<product price>",
-    stock: "<product stock>"
+    stock: "<product stock>",
+    status: "<product status>", // Boolean
+    categoryId: "<category id>", // Integer
+    Category: {
+      id: "<category id>", // Integer
+      categoryName: "<categoryName>"
+    }
   },
   {
     id: 2,
     name: "<product name>",
     image_url: "<product image_url>",
     price: "<product price>",
-    stock: "<product stock>"
+    stock: "<product stock>",
+    status: "<product status>", // Boolean
+    description: "<product description>",
+    categoryId: "<category id>", // Integer
+    Category: {
+      id: "<category id>", // Integer
+      categoryName: "<categoryName>" 
+    }
   }
 ]
 
@@ -122,7 +135,9 @@ __Response (500 - Internal Server Error)__
     name: "<product name>",
     image_url: "<product image_url>",
     price: "<product price>",
-    stock: "<product stock>"
+    stock: "<product stock>",
+    categoryId: "<category id>",
+    description: "<product description>"
 }
 ```
 
@@ -134,7 +149,14 @@ __Response (201 - Product Created)__
     name: "<product name>",
     image_url: "<product image_url>",
     price: "<product price>",
-    stock: "<product stock>"
+    stock: "<product stock>",
+    status: true,
+    description: "<product description>",
+    categoryId: "<category id>",
+    Category: {
+      id: "<category id>",
+      categoryName: "<categoryName>"
+    }
 }
 ```
 
@@ -180,7 +202,14 @@ __Response (200)__
     name: "<product name>",
     image_url: "<product image_url>",
     price: "<product price>",
-    stock: "<product stock>"
+    stock: "<product stock>",
+    status: "<product status>",
+    description: "<product description>",
+    categoryId: "<category id>",
+    Category: {
+      id: "<category id>",
+      categoryName: "<categoryName>"
+    }
 }
 ```
 
@@ -222,7 +251,9 @@ __Response (500 - Internal Server Error)__
     name: "<product name>",
     image_url: "<product image_url>",
     price: "<product price>",
-    stock: "<product stock>"
+    stock: "<product stock>",
+    categoryId: "<category id>",
+    description: "<product description>"
 }
 ```
 
@@ -234,7 +265,14 @@ __Response (200)__
     name: "<updated product name>",
     image_url: "<updated product image_url>",
     price: "<updated product price>",
-    stock: "<updated product stock>"
+    stock: "<updated product stock>",
+    status: "<product status>",
+    description: "<product description>",
+    categoryId: "<category id>",
+    Category: {
+      id: "<category id>",
+      categoryName: "<categoryName>"
+    }
 }
 ```
 
@@ -290,7 +328,14 @@ __Response (200)__
     name: "<product name>",
     image_url: "<product image_url>",
     price: "<product price>",
-    stock: "<updated product stock>"
+    stock: "<updated product stock>",
+    status: "<product status>",
+    description: "<product description>",
+    categoryId: "<category id>",
+    Category: {
+      id: "<category id>",
+      categoryName: "<categoryName>"
+    }
 }
 ```
 
@@ -346,7 +391,75 @@ __Response (200)__
     name: "<product name>",
     image_url: "<product image_url>",
     price: "<updated product price>",
-    stock: "<product stock>"
+    stock: "<product stock>",
+    status: "<product status>",
+    description: "<product description>",
+    categoryId: "<category id>",
+    Category: {
+      id: "<category id>",
+      categoryName: "<categoryName>"
+}
+```
+
+### *Error Responses*
+__Response (401 - Invalid User)__
+```javascript
+{
+    message: 'Forbidden access'
+}
+```
+__Response (403 - Not Authorize)__
+```javascript
+{
+    message: 'Not authorize'
+}
+```
+
+__Response (404 - Not Found)__
+```javascript
+{
+  message: "Product not found"
+}
+```
+
+__Response (500 - Internal Server Error)__
+```javascript
+{
+  message: "Internal server error"
+}
+```
+---
+### PATCH /products/status/:id
+> Update product status
+### *Request Header*
+```javascript
+{
+  access_token: "<user access token>"
+}
+```
+
+### *Request Body*
+```javascript
+{
+    status: "<product status>" // Boolean
+}
+```
+
+### *Success Response*
+__Response (200)__
+```javascript
+{
+    id: '<product id>',
+    name: "<product name>",
+    image_url: "<product image_url>",
+    price: "<updated product price>",
+    stock: "<product stock>",
+    status: "<product status>",
+    description: "<product description>",
+    categoryId: "<category id>",
+    Category: {
+      id: "<category id>",
+      categoryName: "<categoryName>"
 }
 ```
 
