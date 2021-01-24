@@ -1,15 +1,16 @@
 const { Product } = require('../models')
 
 class productController {
-    static async readProduct (req, res) {
+    static async readProduct (req, res, next) {
         try {
-            const read = await Product.readAll()
+            const read = await Product.findAll()
             res.status(200).json(read)
+            // console.log(read)
         } catch (err) {
             next(err)
         }
     }
-    static async createProduct (req, res) {
+    static async createProduct (req, res, next) {
         const { name, image_url, price, stock } = req.body
 
         try {
@@ -21,7 +22,7 @@ class productController {
             next(err)
         }
     }
-    static async update (req, res) {
+    static async update (req, res, next) {
         const id = req.params.id
         const { name, image_url, price, stock } = req.body
         try {
@@ -33,7 +34,14 @@ class productController {
                     price,
                     stock
                 }, {where: { id }})
-                res.status(200).json(update)
+                const updateData = {
+                    id,
+                    name,
+                    image_url,
+                    price,
+                    stock
+                }
+                res.status(200).json(updateData)
             } else {
                 next({
                     name: 'undefined' 
@@ -43,7 +51,7 @@ class productController {
             next(err)
         }
     }
-    static async delete (req, res) {
+    static async delete (req, res, next) {
         const id = req.params.id
         try {
             const data = await Product.destroy({where: { id }})
@@ -52,6 +60,7 @@ class productController {
             })
         } catch (err) {
             next(err)
+            console.log(err)
         }
     }
 }

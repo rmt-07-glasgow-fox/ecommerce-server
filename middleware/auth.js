@@ -3,17 +3,19 @@ const { verifyJWT } = require('../helper/jwt')
 
 async function authenticate (req, res, next) {
     try {
+        const cek = req.headers.access_token
+        // console.log(cek)
         const decode = verifyJWT(req.headers.access_token)
         const data = await User.findOne({
             where: { email: decode.email}
         })
-        if (!data) {
+        if (!cek) {
             return next({
-                name: 'undefined'
+                name: 'access_token'
             })
         } else if (!decode) { 
             return next({
-                name: 'access_token'
+                name: 'undefined'
             })
         } else { 
             req.user = data
@@ -24,7 +26,7 @@ async function authenticate (req, res, next) {
     }
 }
 async function authorization (req, res, next) {
-    console.log(req.user.role);
+    // console.log(req.user.role);
     try {
         if (req.user.role.toLowerCase() === 'admin') next()
         else {

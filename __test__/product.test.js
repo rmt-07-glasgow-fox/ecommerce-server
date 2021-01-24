@@ -10,18 +10,18 @@ const admin = {
 }
 const customers = {
     email: 'test@mail.com',
-    password: 'test',
+    password: '1234',
     role: 'customer'
 }
 var admin_token
 var customer_token
 
+beforeAll((done) => {
+    admin_token = generateToken(admin)
+    customer_token = generateToken(customers)
+    done()    
+}),
 describe('POST /product', ()=> {
-    beforeAll((done) => {
-        admin_token = generateToken(admin)
-        customer_token = generateToken(customers)
-        done()    
-    }),
     it('should send response (201) status code', (done) => {
         //setup
         const body = {
@@ -58,7 +58,7 @@ describe('POST /product', ()=> {
         .post('/product')
         .send(body)
         .end((err, res) => {
-            if (err) done (err)
+            if (err) done(err)
             
             //asert
             expect(res.statusCode).toEqual(500)
@@ -80,10 +80,10 @@ describe('POST /product', ()=> {
         .set('access_token', customer_token)
         .send(body)
         .end((err, res) => {
-            if (err) done (err)
+            if (err) done(err)
             
             //asert
-            expect(res.statusCode).toEqual(400)
+            expect(res.statusCode).toEqual(403)
             expect(typeof res.body).toEqual('object')
             expect(verifyJWT(customer_token).role).toEqual('customer')
             done()
@@ -103,7 +103,7 @@ describe('POST /product', ()=> {
         .set('access_token', admin_token)
         .send(body)
         .end((err, res) => {
-            if (err) done (err)
+            if (err) done(err)
             
             //asert
             expect(res.statusCode).toEqual(400)
@@ -276,13 +276,16 @@ describe('POST /product', ()=> {
     //     })
     // })
 })
-// describe('POST /product', ()=> {
-//     it('should send response (200) update', () => {
-//         //setup
-//         const body = {
-
-//         }
-//         //excute
-//         //asert
-//     })
-// })
+describe('DELETE /products', function () {
+    afterAll(function(done) {
+      clearProducts()
+        .then(function() {
+          return clearAuth()
+        })
+        .then(function() {
+          models.sequelize.close()
+          done()
+        })
+        .catch(console.log)
+    })
+})

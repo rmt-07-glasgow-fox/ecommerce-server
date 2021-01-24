@@ -15,7 +15,8 @@ class UserController {
                     const data = {
                         id: find.id,
                         email: find.email,
-                        password: find.password
+                        password: find.password,
+                        role: find.role
                     }
                     const access_token = generateToken(data)
                     res.status(200).json({access_token})
