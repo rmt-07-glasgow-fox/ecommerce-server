@@ -38,7 +38,7 @@ class BannerController {
       })
       .then(category => {
         bannerCreated.Category = category
-        res.status(200).json(bannerCreated)
+        res.status(201).json(bannerCreated)
       })
       .catch(next)
   }
