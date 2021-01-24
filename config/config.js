@@ -27,10 +27,11 @@ module.exports = {
     dialect
   },
   production: {
-    username,
-    password,
-    database,
-    host,
-    dialect
+    use_env_variable: "DATABASE_URL",
+    dialectOptions:{
+      ssl: {
+        rejectUnauthorized: false
+      }
+    }
   }
 }
