@@ -109,8 +109,37 @@ describe('POST /products', () => {
     })
   })
 
-  // !Test jika name kosong
+  // !Test jika access token kosong
   it('If name empty should response with 400 status code', (done) => {
+    // setup
+    const body = {
+      name: '',
+      imageUrl: 'https://images.unsplash.com/photo-1534196511436-921a4e99f297?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80',
+      price: 12500.9,
+      stock: 5
+    }
+
+    // Execute
+    request(app)
+    .post('/products')
+    .send(body)
+    .set('access_token', '')
+    .end((err, res) => {
+      if(err) done(err);
+
+      // Assert
+      expect(res.statusCode).toEqual(500);
+      expect(typeof res.body).toEqual('object');
+      expect(res.body).toHaveProperty('name');
+      expect(res.body.name).toEqual('Internal server error');
+      expect(res.body).toHaveProperty('message');
+      expect(res.body.message.message).toEqual('jwt must be provided');
+      done();
+    })
+  })
+
+  // !Test jika name kosong
+  it('If access_token empty should response with 500 status code', (done) => {
     // setup
     const body = {
       name: '',
@@ -456,6 +485,35 @@ describe('PUT /products', () => {
     })
   })
 
+  // !Test jika access_token kosong
+  it('If access_token empty should response with 500 status code', (done) => {
+    // setup
+    const body = {
+      name: '',
+      imageUrl: 'https://images.unsplash.com/photo-1534196511436-921a4e99f297',
+      price: 125000,
+      stock: 10
+    }
+
+    // Execute
+    request(app)
+    .put('/products/1')
+    .send(body)
+    .set('access_token', '')
+    .end((err, res) => {
+      if(err) done(err);
+
+      // Assert
+      expect(res.statusCode).toEqual(500);
+      expect(typeof res.body).toEqual('object');
+      expect(res.body).toHaveProperty('name');
+      expect(res.body.name).toEqual('Internal server error');
+      expect(res.body).toHaveProperty('message');
+      expect(res.body.message.message).toEqual('jwt must be provided');
+      done();
+    })
+  })
+
   // !Test jika name kosong
   it('If name empty should response with 400 status code', (done) => {
     // setup
@@ -785,6 +843,29 @@ describe('DELETE /products', () => {
     })
   })
 
+  // Jika access_token kosong
+  it('If access_token empty should response with 500 status code', (done) => {
+
+    // Execute
+    request(app)
+    .delete('/products/1')
+    .set('access_token', '')
+    .end((err, res) => {
+      if(err) done(err);
+
+      // Assert
+      
+      expect(res.statusCode).toEqual(500);
+      expect(typeof res.body).toEqual('object');
+      expect(res.body).toHaveProperty('name');
+      expect(res.body.name).toEqual('Internal server error');
+      expect(res.body).toHaveProperty('message');
+      expect(res.body.message.message).toEqual('jwt must be provided');
+
+      done();
+    })
+  })
+
   // Jika berhasil
   it('If success should response with 200 status code', (done) => {
 
@@ -800,7 +881,7 @@ describe('DELETE /products', () => {
       expect(res.statusCode).toEqual(200);
       expect(typeof res.body).toEqual('object');
       expect(res.body).toHaveProperty('message');
-      expect(res.body.message).toEqual('Success delete task');
+      expect(res.body.message).toEqual('Success delete product');
 
       done();
     })

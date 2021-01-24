@@ -220,9 +220,7 @@ describe('POST /register', () => {
 describe('POST /login', () => {
 
   afterAll( async () => {
-    // if(process.env.NODE_ENV === 'test') {
-    //   await models.User.destroy({ where: {} });
-    // }    
+
     models.sequelize.close();
   })
 
