@@ -16,8 +16,7 @@ class ProductController {
     static async getProductId (req, res, next) {
         const {id} = req.params
         try {
-            const product = await Product.findOne({where : id})
-
+            const product = await Product.findOne({where : {id}})
             if (!product) {
                 next ({name : 'ProductNotFound'})
             } else {
