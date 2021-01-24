@@ -14,7 +14,7 @@
     "db:seed:test": "SET NODE_ENV=test&npx sequelize db:seed --seed 20210119000106-seed-data-user-admin",
 
     "test": "SET NODE_ENV=test&npx jest",
-    "start": "node app.js",
+    "start": "node bin/http.js",
     "dev": "SET NODE_ENV=development&nodemon bin/http.js"
   },
   "repository": {
