@@ -2,12 +2,13 @@ const { Product } = require('../models/')
 
 class ProductController {
   static create (req, res, next) {
-    const { name, image_url, price, stock } = req.body
+    const { name, image_url, price, stock, category } = req.body
     Product.create({
       name,
       image_url,
       price,
-      stock
+      stock,
+      category
     })
       .then((product) => {
         res.status(201).json(product)
