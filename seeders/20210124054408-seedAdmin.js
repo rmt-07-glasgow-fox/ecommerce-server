@@ -1,7 +1,6 @@
 'use strict';
 
 const bcrypt = require('bcryptjs');
-const { now } = require('sequelize/types/lib/utils');
 const salt = bcrypt.genSaltSync(5)
 const adminPass = bcrypt.hashSync('1234', salt)
 module.exports = {
@@ -16,7 +15,7 @@ module.exports = {
      * }], {});
     */
       await queryInterface.bulkInsert('Users', [{
-        email:'admin@mail.com',
+        email:'admin2@mail.com',
         password: adminPass,
         role: 'admin',
         createdAt: new Date(),
