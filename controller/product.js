@@ -10,6 +10,16 @@ class productController {
             next(err)
         }
     }
+    static async getId (req, res, next) {
+        try {
+            const read = await Product.findOne({
+                where: { id:req.params.id}
+            })
+            res.status(200).json(read)
+        } catch (err) {
+            next(err)
+        }
+    } 
     static async createProduct (req, res, next) {
         const { name, image_url, price, stock } = req.body
 
