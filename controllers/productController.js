@@ -4,7 +4,7 @@ class ProductController {
   static async getAll(req,res,next) {
     try {
       const data = await Product.findAll({
-        order: [['updatedAt','asc']]
+        order: [['updatedAt','DESC']]
       })
       res.status(200).json(data)
     } catch(err) {
@@ -20,22 +20,7 @@ class ProductController {
       next(err)
     }
   }
-  static async add(req,res,next) {
-    const payload = {
-      name: req.body.name,
-      image_url: req.body.image_url,
-      price: req.body.price,
-      stock: req.body.stock,
-      category:req.body.category
-    }
-    try {
-      const data = await Product.create(payload)
-      res.status(201).json(data)
-    } catch (err) {
-      next(err)
-    }
-  }
-  // static add(req,res,next) {
+  // static async add(req,res,next) {
   //   const payload = {
   //     name: req.body.name,
   //     image_url: req.body.image_url,
@@ -43,14 +28,29 @@ class ProductController {
   //     stock: req.body.stock,
   //     category:req.body.category
   //   }
-  //   Product.create(payload)
-  //   .then(data => {
-  //     res.status(201).json({data:data})
-  //   })
-  //   .catch(err => {
+  //   try {
+  //     const data = await Product.create(payload)
+  //     res.status(201).json(data)
+  //   } catch (err) {
   //     next(err)
-  //   })
+  //   }
   // }
+  static add(req,res,next) {
+    const payload = {
+      name: req.body.name,
+      image_url: req.body.image_url,
+      price: req.body.price,
+      stock: req.body.stock,
+      category:req.body.category
+    }
+    Product.create(payload)
+    .then(data => {
+      res.status(201).json(data)
+    })
+    .catch(err => {
+      next(err)
+    })
+  }
   static update(req,res,next) {
     const id = Number(req.params.id);
     const payload = {

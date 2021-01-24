@@ -6,7 +6,7 @@ module.exports = (req,res,next) => {
   } else {
     const err = {
       status: 401,
-      msg: 'Unauthorized access'
+      message: 'unauthorized access'
     }
     next(err)
   }

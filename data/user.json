@@ -1,14 +1,14 @@
 [
   {
-    "first_name": "Donald",
-    "last_name": "Trump",
+    "first_name": "Admin",
+    "last_name": "CMS",
     "email": "admin@mail.com",
     "password": "1234",
     "role": "admin"
   },
   {
-    "first_name": "Michael",
-    "last_name": "Scott",
+    "first_name": "Customer",
+    "last_name": "CMS",
     "email": "customer@mail.com",
     "password": "1234",
     "role": "customer"

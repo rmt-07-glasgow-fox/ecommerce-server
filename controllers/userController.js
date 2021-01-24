@@ -13,7 +13,7 @@ class UserController {
       if(!user) {
         throw {
           status: 401,
-          msg: "invalid email or password"
+          message: "invalid email or password"
         }
       } else if (comparePassword(req.body.password, user.password)) {
         const payload = {
@@ -21,11 +21,11 @@ class UserController {
           email: user.email
         }
         const access_token = generateToken(payload)
-        return res.status(200).json({access_token})
+        return res.status(200).json({access_token,user})
       } else {
         throw {
           status: 401,
-          msg: "invalid email or password"
+          message: "invalid email or password"
         }
       }
     })
