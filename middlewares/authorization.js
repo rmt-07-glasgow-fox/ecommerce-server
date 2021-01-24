@@ -9,14 +9,14 @@ function authorization(req, res, next) {
             if (user.role === 'admin') {
                 next();
             } else {
-                throw { msg: "This user is not admin" };
+                throw { name: "This user is not admin" };
             }
         } else {
-            throw { msg: "Please login / register first"};
+            throw { name: "Please login / register first"};
         }
     })
     .catch(err => {
-        res.status(403).json(err);
+        next(err);
     });
 };
 

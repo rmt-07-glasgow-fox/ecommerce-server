@@ -1,7 +1,7 @@
 const request = require('supertest');
 const app = require('../app');
 const { clearUsers, createUser } = require('../helpers/clearUsers');
-const { hashPassword } = require('../helpers/hashPassword');
+const { compare } = require('../helpers/hashPassword');
 
 beforeAll((done) => {
 	const user3 = {
@@ -36,7 +36,7 @@ describe('POST /users/register', () => {
             // Setup
             const body = {
                 email: 'admin@mail.com',
-                password: hashPassword('1234'),
+                password: '1234',
                 role: 'admin'
             }
             // Execute
@@ -57,7 +57,7 @@ describe('POST /users/register', () => {
 					expect(res.body.email).not.toBeFalsy();
 					expect(res.body).toHaveProperty('password');
 					expect(typeof res.body.password).toEqual('string');
-                    expect(res.body.password).toEqual(body.password);
+                    expect(compare(body.password, res.body.password)).toEqual(true);
                     expect(res.body.password).not.toBeFalsy();
 					expect(res.body).toHaveProperty('role');
 					expect(typeof res.body.role).toEqual('string');
@@ -72,7 +72,7 @@ describe('POST /users/register', () => {
             // Setup
             const body = {
                 email: 'admin1@mail.com',
-                password: hashPassword('1234'),
+                password: '1234',
                 role: 'customer'
             }
             // Execute
@@ -93,7 +93,7 @@ describe('POST /users/register', () => {
 					expect(res.body.email).not.toBeFalsy();
 					expect(res.body).toHaveProperty('password');
 					expect(typeof res.body.password).toEqual('string');
-                    expect(res.body.password).toEqual(body.password);
+                    expect(compare(body.password, res.body.password)).toEqual(true);
                     expect(res.body.password).not.toBeFalsy();
 					expect(res.body).toHaveProperty('role');
 					expect(typeof res.body.role).toEqual('string');
@@ -109,7 +109,7 @@ describe('POST /users/register', () => {
                 // Setup
                 const body = {
                     email: null,
-                    password: hashPassword(''),
+                    password: '',
                     role: ''
                 };
                 // Execute
@@ -140,7 +140,7 @@ describe('POST /users/register', () => {
                 // Setup
                 const body = {
                     email: 'admin',
-                    password: hashPassword('1234'),
+                    password: '1234',
                     role: 'admin'
                 };
                 // Execute
@@ -210,7 +210,7 @@ describe('POST /users/login', () => {
                         // Assert
                         expect(res.statusCode).toEqual(404);
                         expect(typeof res).toEqual('object');
-                        expect(JSON.parse(res.text)).toEqual({ msg : 'Email / Password not found'});
+                        expect(JSON.parse(res.text)).toEqual({ message : 'Email / Password not found'});
     
                         done();
                     });
@@ -234,7 +234,7 @@ describe('POST /users/login', () => {
                         // Assert
                         expect(res.statusCode).toEqual(404);
                         expect(typeof res).toEqual('object');
-                        expect(JSON.parse(res.text)).toEqual({ msg : 'Email / Password not found'});
+                        expect(JSON.parse(res.text)).toEqual({ message : 'Email / Password not found'});
     
                         done();
                     });

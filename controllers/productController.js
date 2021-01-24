@@ -14,9 +14,7 @@ class Controller {
             res.status(201).json(user);
         })
         .catch(err => {
-            let errors = err.errors.map(error => error.message);
-            err.errors = errors
-            res.status(400).json(err);
+            next(err);
         });
     }
 
@@ -28,7 +26,7 @@ class Controller {
             res.status(200).json(users);
         })
         .catch(err => {
-            res.status(400).json(err);
+            next(err);
         });
     };
 
@@ -36,10 +34,14 @@ class Controller {
         const { id } = req.params;
         Product.findOne({ where: { id } })
         .then(user => {
-            res.status(200).json(user);
+            if (user) {
+                res.status(200).json(user);
+            } else {
+                throw { name: "resourceNotFound"}
+            }
         })
         .catch(err => {
-            res.status(400).json(err);
+            next(err);
         });
     };
 
@@ -57,17 +59,11 @@ class Controller {
             if (product[0]) {
                 res.status(200).json(product[1]);
             } else {
-                throw { msg: "Product not found"};
+                throw { name: "Product not found"};
             }
         })
         .catch(err => {
-            if (err.msg === 'Product not found') {
-                res.status(404).json(err);
-            } else {
-                let errors = err.errors.map(error => error.message);
-                err.errors = errors;
-                res.status(400).json(err);
-            }
+            next(err);
         });
     };
 
@@ -79,17 +75,11 @@ class Controller {
             if (product[0]) {
                 res.status(200).json(product[1]);
             } else {
-                throw { msg: 'Product not found'};
+                throw { name: 'Product not found'};
             }
         })
         .catch(err => {
-            if (err.msg === 'Product not found') {
-                res.status(404).json(err);
-            } else {
-                let errors = err.errors.map(error => error.message);
-                err.errors = errors;
-                res.status(400).json(err);
-            }
+            next(err);
         });
     };
 
@@ -98,13 +88,13 @@ class Controller {
         Product.destroy({ where: { id } })
         .then(product => {
             if (product) {
-                res.status(200).json({ msg: "Product has been deleted"});
+                res.status(200).json({ message: "Product has been deleted"});
             } else {
-                throw { msg: "Product not found"};
+                throw { name : "Product not found"};
             }
         })
         .catch(err => {
-            res.status(404).json(err);
+            next(err);
         });
     };
 }

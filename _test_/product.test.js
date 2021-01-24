@@ -154,7 +154,7 @@ describe('POST /products', () => {
 					
 					expect(res.statusCode).toEqual(403);
 					expect(typeof res.body).toEqual('object');
-					expect(res.body).toHaveProperty('msg', 'This user is not admin');
+					expect(res.body).toHaveProperty('message', 'This user is not admin');
 						
 					done();
 				});
@@ -188,10 +188,9 @@ describe('GET /products', () => {
 				.end((err, res) => {
 					if (err) done(err);
 
-					console.log(res.body);
 					expect(res.statusCode).toEqual(403);
 					expect(typeof res.body).toEqual('object');
-					expect(res.body).toHaveProperty('msg', 'This user is not admin');
+					expect(res.body).toHaveProperty('message', 'This user is not admin');
 					done();
 				});
 		});
@@ -302,10 +301,9 @@ describe('PUT /products/:id', () => {
 				.end((err, res) => {
 					if (err) done(err);
 
-					console.log(res.body);
 					expect(res.statusCode).toEqual(403);
 					expect(typeof res.body).toEqual('object');
-					expect(res.body).toHaveProperty('msg', 'This user is not admin');
+					expect(res.body).toHaveProperty('message', 'This user is not admin');
 					done();
 				});
 		});
@@ -328,10 +326,9 @@ describe('PUT /products/:id', () => {
 				.end((err, res) => {
 					if (err) done(err);
 
-					console.log(res.body);
 					expect(res.statusCode).toEqual(404);
 					expect(typeof res.body).toEqual('object');
-					expect(res.body).toHaveProperty('msg', 'Product not found');
+					expect(res.body).toHaveProperty('message', 'Product not found');
 					done();
 				});
 		});
@@ -430,10 +427,9 @@ describe('PATCH /products/:id', () => {
 				.end((err, res) => {
 					if (err) done(err);
 
-					console.log(res.body);
 					expect(res.statusCode).toEqual(403);
 					expect(typeof res.body).toEqual('object');
-					expect(res.body).toHaveProperty('msg', 'This user is not admin');
+					expect(res.body).toHaveProperty('message', 'This user is not admin');
 					done();
 				});
 		});
@@ -453,10 +449,9 @@ describe('PATCH /products/:id', () => {
 				.end((err, res) => {
 					if (err) done(err);
 
-					console.log(res.body);
 					expect(res.statusCode).toEqual(404);
 					expect(typeof res.body).toEqual('object');
-					expect(res.body).toHaveProperty('msg', 'Product not found');
+					expect(res.body).toHaveProperty('message', 'Product not found');
 					done();
 				});
 		});
@@ -484,9 +479,10 @@ describe('DELETE /products/:id', () => {
 				.end((err, res) => {
 					if (err) done(err);
 					
+					console.log(res.body);
 					expect(res.statusCode).toEqual(200);
 					expect(typeof res.body).toEqual('object');
-					expect(res.body).toHaveProperty('msg', 'Product has been deleted');
+					expect(res.body).toHaveProperty('message', 'Product has been deleted');
 					done();
 				});
 		});
@@ -513,7 +509,7 @@ describe('DELETE /products/:id', () => {
 
 					expect(res.statusCode).toEqual(403);
 					expect(typeof res.body).toEqual('object');
-					expect(res.body).toHaveProperty('msg', 'This user is not admin');
+					expect(res.body).toHaveProperty('message', 'This user is not admin');
 					done();
 				});
 		});
@@ -532,7 +528,7 @@ describe('DELETE /products/:id', () => {
 					console.log(res.body);
 					expect(res.statusCode).toEqual(404);
 					expect(typeof res.body).toEqual('object');
-					expect(res.body).toHaveProperty('msg', 'Product not found');
+					expect(res.body).toHaveProperty('message', 'Product not found');
 					done();
 				});
 		});

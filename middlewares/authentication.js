@@ -6,6 +6,7 @@ function authentication(req, res, next) {
     const email = decoded.email;
     User.findOne({ where: { email } })
     .then(user => {
+        console.log(user, `>>>>> ini dari auth`);
         if (user) {
             req.headers.user = {
                 id: user.id,
@@ -13,11 +14,11 @@ function authentication(req, res, next) {
             };
             next();
         } else {
-            throw { msg: "Please login / register first"};
+            throw { name: "Please login / register first"};
         }
     })
     .catch(err => {
-        res.status(403).json(err);
+        next(err);
     });
 }
 
