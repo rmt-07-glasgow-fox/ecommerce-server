@@ -23,7 +23,8 @@ This server is built with test suites with TDD.
     name: 'nice headset',
     image_url: 'https://media.wired.com/photos/5e7164aeb9399f00096a2ae6/1:1/w_1800,h_1800,c_limit/Gear-Mont-Blanc-Smart-Headphones-Gold-Front-SOURCE-Mont-Blanc.jpg',
     price: 120000,
-    stock: 5
+    stock: 5,
+    category: 'electronics'
     }
     `
 
@@ -36,6 +37,7 @@ This server is built with test suites with TDD.
       image_url: 'https://media.wired.com/photos/5e7164aeb9399f00096a2ae6/1:1/w_1800,h_1800,c_limit/Gear-Mont-Blanc-Smart-Headphones-Gold-Front-SOURCE-Mont-Blanc.jpg',
       price: 120000,
       stock: 5,
+      category: 'electronics',
       updatedAt: '2021-01-18T10:38:05.747Z',
       createdAt: '2021-01-18T10:38:05.747Z'
       }
@@ -248,6 +250,7 @@ This server is built with test suites with TDD.
         image_url: 'https://media.wired.com/photos/5e7164aeb9399f00096a2ae6/1:1/w_1800,h_1800,c_limit/Gear-Mont-Blanc-Smart-Headphones-Gold-Front-SOURCE-Mont-Blanc.jpg',
         price: 120000,
         stock: 5,
+        category: 'electronics',
     updatedAt: '2021-01-18T10:38:05.747z',
     createdAt: '2021-01-18T10:38:05.747Z'
     },
@@ -257,6 +260,7 @@ This server is built with test suites with TDD.
         image_url: 'https://i.pcmag.com/imagery/reviews/038Dr5TVEpwIv8rCljx6UcF-13..1588802180.jpg',
         price: 2000000,
         stock: 1,
+        category: 'electronics',
     updatedAt: '2021-01-18T10:38:05.747Z',
     createdAt: '2021-01-18T10:38:05.747Z'
     }
@@ -297,6 +301,7 @@ This server is built with test suites with TDD.
         image_url: 'https://media.wired.com/photos/5e7164aeb9399f00096a2ae6/1:1/w_1800,h_1800,c_limit/Gear-Mont-Blanc-Smart-Headphones-Gold-Front-SOURCE-Mont-Blanc.jpg',
         price: 120000,
         stock: 5,
+        category: 'electronics',
     updatedAt: '2021-01-18T10:38:05.747z',
     createdAt: '2021-01-18T10:38:05.747Z'
     }`
