@@ -10,7 +10,7 @@ const errHandlers = (err, req, res, next) => {
                      column: err.path
                  })
              case "unauthorized":
-                 return res.status(401).json({
+                 return res.status(403).json({
                     message: "You not Unauthorized"
                  });
              case "notLogin":
