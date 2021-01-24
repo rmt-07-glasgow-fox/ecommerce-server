@@ -15,7 +15,7 @@ class ProductController {
   static findByPk(req, res, next) {
     Product
       .findByPk(+req.params.id, {
-        include: []
+        include: ['Category']
       })
       .then(product => {
         product ? res.status(200).json(product) :

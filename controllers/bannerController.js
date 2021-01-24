@@ -1,4 +1,4 @@
-const { Banner } = require('../models')
+const { Banner, Category } = require('../models')
 
 class BannerController {
   static findAll(req, res, next) {
@@ -14,7 +14,9 @@ class BannerController {
 
   static findByPk(req, res, next) {
     Banner
-      .findByPk(+req.params.id)
+      .findByPk(+req.params.id, {
+        include: ['Category']
+      })
       .then(banner => {
         banner ? res.status(200).json(banner) :
         res.status(404).json({ message: 'Banner Not Found' })
@@ -26,16 +28,24 @@ class BannerController {
 
   static create(req, res, next) {
     const { title, status, image_url, CategoryId } = req.body
+    let bannerCreated = ''
+
     Banner.create({ title, status, image_url, CategoryId })
       .then(banner => {
         const { id, title, status, image_url, CategoryId } = banner
-        res.status(201).json({ id, title, status, image_url, CategoryId })
+        bannerCreated = { id, title, status, image_url, CategoryId }
+        return Category.findByPk(CategoryId)
+      })
+      .then(category => {
+        bannerCreated.Category = category
+        res.status(200).json(bannerCreated)
       })
       .catch(next)
   }
 
   static update(req, res, next) {
     const { title, status, image_url, CategoryId } = req.body
+    let bannerUpdated = ''
     Banner
       .update({ title, status, image_url, CategoryId }, {
         where: { id: +req.params.id },
@@ -45,8 +55,13 @@ class BannerController {
         if (!banner[1][0]) next({ name: 'CustomError', statusCode: 404, message: 'Banner Not Found' })
         else {
           const { id, title, status, image_url, CategoryId } = banner[1][0].dataValues
-          res.status(200).json({ id, title, status, image_url, CategoryId })
+          bannerUpdated = { id, title, status, image_url, CategoryId }
+          return Category.findByPk(CategoryId)
         }
+      })
+      .then(category => {
+        bannerUpdated.Category = category
+        res.status(200).json(bannerUpdated)
       })
       .catch(next)
   }

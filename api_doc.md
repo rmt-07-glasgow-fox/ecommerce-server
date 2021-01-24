@@ -89,7 +89,13 @@ _Request Body_
     "image_url": "helmet.jpg",
     "price": 300000,
     "stock": 10,
-    "CategoryId": 1
+    "CategoryId": 1,
+    "Category": {
+        "id": 1,
+        "name": "Fashion",
+        "createdAt": "2021-01-24T07:58:14.776Z",
+        "updatedAt": "2021-01-24T07:58:14.776Z"
+    }
 }
 ```
 
@@ -270,7 +276,13 @@ _Request Body_
     "image_url": "helmet.jpg",
     "price": 350000,
     "stock": 5,
-    "CategoryId": 1
+    "CategoryId": 1,
+    "Category": {
+        "id": 1,
+        "name": "Fashion",
+        "createdAt": "2021-01-24T07:58:14.776Z",
+        "updatedAt": "2021-01-24T07:58:14.776Z"
+    }
 }
 ```
 
