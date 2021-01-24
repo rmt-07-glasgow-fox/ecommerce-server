@@ -10,10 +10,11 @@
     "db:migrate:development": "NODE_ENV=development npm run db:migrate",
     "db:create:test": "NODE_ENV=test npm run db:create",
     "db:migrate:test": "NODE_ENV=test npm run db:migrate",
-    "dev": "NODE_ENV=test npx nodemon bin/http.js",
+    "dev": "NODE_ENV=development npx nodemon bin/http.js",
     "test": "NODE_ENV=test npx jest",
     "p" : "npm test products.test.js",
-    "u": "npm test user.test.js"
+    "u": "npm test user.test.js",
+    "start" : "node app.js"
   },
   "repository": {
     "type": "git",

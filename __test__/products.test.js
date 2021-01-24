@@ -204,7 +204,7 @@ describe('/products', () => {
         //TEST CASE 3
     
         it('should send response with 400 status code', (done) => {
-            
+
             const body = {
                 name: 'Helm',
                 image_url: '',
@@ -931,7 +931,7 @@ describe('/products', () => {
     
                     expect(res.statusCode).toEqual(200)
                     expect(typeof res.body).toEqual("object")
-                    expect(res.body.message).toEqual("Delete Category success")
+                    expect(res.body.message).toEqual("Delete Product success")
 
                     done()
                 })

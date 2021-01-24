@@ -74,7 +74,7 @@ class ProductController {
                 if(data === 0) {
                     next({name: "notFound"})
                 } else {
-                    res.status(200).json({message: 'Delete Category success'})
+                    res.status(200).json({message: 'Delete Product success'})
                 }
             })
             .catch(next)
