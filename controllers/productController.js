@@ -24,6 +24,15 @@ class ProductController {
             .catch(next)
     }
 
+    static getOneProduct(req, res, next) {
+        let id = +req.params.id
+        Product.findByPk(id)
+            .then(data => {
+                res.status(200).json(data)
+            })
+            .catch(next)
+    }
+
     static updateProduct(req, res, next) {
         let id = +req.params.id
         let input = {

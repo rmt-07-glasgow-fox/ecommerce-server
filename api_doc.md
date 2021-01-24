@@ -4,6 +4,7 @@
 - `POST /loginAdmin`
 - `POST /products`
 - `GET /products`
+- `GET /products/:id`
 - `PUT /products/:id`
 - `DELETE /products/:id`
 
@@ -138,6 +139,41 @@ _Response (200 - OK)_
     "updatedAt": "2020-03-20T07:15:12.149Z",
   }
 ]
+```
+_Response (500 - Internal Server Error)_
+```
+{
+  "message": "Internal Server Error"
+}
+```
+---
+### GET /products/:id
+
+> Get product by id
+
+_Request Header_
+```
+{
+  "access_token": "<your access token>"
+}
+```
+
+_Request Body_
+```
+not needed
+```
+
+_Response (200 - OK)_
+```
+{
+    "id": 1,
+    "name": "<name>",
+    "image_url": "<image_url>",
+    "stock": "<stock>",
+    "price": "<price>",
+    "createdAt": "2020-03-20T07:15:12.149Z",
+    "updatedAt": "2020-03-20T07:15:12.149Z",
+  }
 ```
 _Response (500 - Internal Server Error)_
 ```
