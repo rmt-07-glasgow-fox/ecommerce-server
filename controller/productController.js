@@ -4,7 +4,7 @@ class ProductController {
     static getall (req, res, next) {
         product.findAll()
         .then( dataProduct => {
-            res.status(200).json({products: dataProduct})
+            res.status(200).json(dataProduct)
         })
         .catch( err => {
             res.status(500).json({message: 'Internal server error'})
@@ -24,6 +24,7 @@ class ProductController {
             res.status(201).json(data)
         })
         .catch( err => { 
+            console.log(err);
             if( err.name === 'SequelizeValidationError'){
                 let errors = err.errors.map(err => err.message)
                 res.status(401).json(errors)
