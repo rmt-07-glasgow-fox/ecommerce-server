@@ -28,7 +28,6 @@ function authorize(req, res, next) {
         }
     })
         .then(user => {
-            console.log(user)
             if (!user || user.role !== "admin") {
                 next({ name: "AccessError" })
             } else {
@@ -36,7 +35,6 @@ function authorize(req, res, next) {
             }
         })
         .catch(err => {
-            console.log(err, "ini rerero")
             next(err)
         })
 }

@@ -4,18 +4,9 @@ const clearContent = require("./helpers/clearContents")
 const models = require('../models')
 let access_token = ""
 let params = 0
+let paramsBanner = 0
 
 describe('CRUD /contents', function () {
-
-    afterAll(function (done) {
-        clearContent()
-            .then(() => {
-                models.sequelize.close()
-                done()
-            })
-            .catch(console.log)
-    })
-
     beforeAll(function (done) {
         request(app)
             .post('/login')
@@ -30,7 +21,7 @@ describe('CRUD /contents', function () {
             })
     })
 
-    it('POST response with 201 status code', function (done) {
+    it('POST CONTENT response with 201 status code', function (done) {
         //setup
         const body = {
             name: "Sepatu Nike",
@@ -64,7 +55,7 @@ describe('CRUD /contents', function () {
             })
     })
 
-    it('POST response with 400 status code', function (done) {
+    it('POST CONTENT response with 400 status code', function (done) {
         //setup
         const body = {
             name: "",
@@ -103,7 +94,7 @@ describe('CRUD /contents', function () {
             })
     })
 
-    it('GET All response with 200 status code', function (done) {
+    it('GET All CONTENT response with 200 status code', function (done) {
         //setup
         const body = {}
         //execute
@@ -129,7 +120,7 @@ describe('CRUD /contents', function () {
             })
     })
 
-    it('GET All response with 500 status code', function (done) {
+    it('GET All CONTENT response with 500 status code', function (done) {
         //setup
         const body = {
 
@@ -148,7 +139,7 @@ describe('CRUD /contents', function () {
             })
     })
 
-    it('GET One response with 200 status code', function (done) {
+    it('GET ONE CONTENT response with 200 status code', function (done) {
         //setup
         const body = {}
         //execute
@@ -173,7 +164,7 @@ describe('CRUD /contents', function () {
             })
     })
 
-    it('PUT response with 200 status code', function (done) {
+    it('PUT CONTENT response with 200 status code', function (done) {
         //setup
         const body = {
             name: "Sepatu Nike",
@@ -195,7 +186,7 @@ describe('CRUD /contents', function () {
             })
     })
 
-    it('PUT response with 400 status code', function (done) {
+    it('PUT CONTENT response with 400 status code', function (done) {
         //setup
         const body = {
             name: "",
@@ -234,7 +225,7 @@ describe('CRUD /contents', function () {
             })
     })
 
-    it('DELETE response with 200 status code', function (done) {
+    it('DELETE CONTENT response with 200 status code', function (done) {
         //setup
         const body = {
         }
@@ -283,9 +274,209 @@ describe('CRUD /contents', function () {
                 if (err) done(err)
                 expect(res.statusCode).toEqual(401)
                 expect(typeof res.body).toEqual('object')
+                done()
+            })
+    })
+
+    it('POST BANNER response with 201 status code', function (done) {
+        //setup
+        const body = {
+            title: "Sepatu Nike",
+            status: true,
+            imageUrl: "https://unsplash.com"
+        }
+        //execute
+        request(app)
+            .post('/banners')
+            .set('access_token', access_token)
+            .send(body)
+            .end(function (err, res) {
+                if (err) done(err)
+                expect(res.statusCode).toEqual(201)
+                expect(typeof res.body).toEqual('object')
+                expect(res.body).toHaveProperty('id')
+                expect(typeof res.body.id).toEqual('number')
+                expect(res.body).toHaveProperty('title')
+                expect(res.body.title).toEqual(body.title)
+                expect(res.body).toHaveProperty('status')
+                expect(res.body.status).toEqual(body.status)
+                expect(res.body).toHaveProperty('imageUrl')
+                expect(res.body.imageUrl).toEqual(body.imageUrl)
+                done()
+            })
+    })
+
+    it('POST BANNER response with 400 status code', function (done) {
+        //setup
+        const body = {
+            title: "",
+            status: "",
+            imageUrl: ""
+        }
+        //execute
+        request(app)
+            .post('/banners')
+            .set('access_token', access_token)
+            .send(body)
+            .end(function (err, res) {
+                if (err) done(err)
+                expect(res.statusCode).toEqual(400)
+                expect(typeof res.body).toEqual('object')
+                expect(res.body).toHaveProperty('errorMessage')
+                expect(Array.isArray(res.body.errorMessage)).toEqual(true)
+                expect(res.body.errorMessage).toEqual(
+                    expect.arrayContaining([{ "message": "Title is required" }])
+                )
+                expect(res.body.errorMessage).toEqual(
+                    expect.arrayContaining([{ "message": "Status is required" }])
+                )
+                expect(res.body.errorMessage).toEqual(
+                    expect.arrayContaining([{ "message": "ImageUrl is required" }])
+                )
+                done()
+            })
+    })
+
+    it('GET All BANNER response with 200 status code', function (done) {
+        //setup
+        const body = {}
+        //execute
+        request(app)
+            .get('/banners')
+            .set('access_token', access_token)
+            .send(body)
+            .end(function (err, res) {
+                if (err) done(err)
+                expect(res.statusCode).toEqual(200)
+                expect(typeof res.body).toEqual('object')
+                expect(res.body[0]).toHaveProperty('id')
+                expect(typeof res.body[0].id).toEqual('number')
+                paramsBanner = res.body[0].id
+                expect(res.body[0]).toHaveProperty('id')
+                expect(res.body[0]).toHaveProperty('title')
+                expect(res.body[0]).toHaveProperty('status')
+                expect(res.body[0]).toHaveProperty('imageUrl')
+
+                done()
+            })
+    })
+
+    it('GET All CONTENT response with 500 status code', function (done) {
+        //setup
+        const body = {
+        }
+        //execute
+        request(app)
+            .post('/banners')
+            .send(body)
+            .end(function (err, res) {
+                if (err) done(err)
+                expect(res.statusCode).toEqual(500)
+                expect(typeof res.body).toEqual('object')
+                expect(res.body).toHaveProperty('message')
+
+                done()
+            })
+    })
+
+    it('GET ONE CONTENT response with 200 status code', function (done) {
+        //setup
+        const body = {}
+        //execute
+        request(app)
+            .get(`/banners/${+paramsBanner}`)
+            .set('access_token', access_token)
+            .send(body)
+            .end(function (err, res) {
+                if (err) done(err)
+                expect(res.statusCode).toEqual(200)
+                expect(typeof res.body).toEqual('object')
+                expect(res.body).toHaveProperty('id')
+                expect(typeof res.body.id).toEqual('number')
+                expect(res.body).toHaveProperty('id')
+                expect(res.body).toHaveProperty('title')
+                expect(res.body).toHaveProperty('status')
+                expect(res.body).toHaveProperty('imageUrl')
+
+                done()
+            })
+    })
+
+    it('PUT BANNER response with 200 status code', function (done) {
+        //setup
+        const body = {
+            title: "Sepatu Nike",
+            status: false,
+            imageUrl: "https://unsplash.com"
+        }
+        //execute
+        request(app)
+            .put(`/banners/${+paramsBanner}`)
+            .set('access_token', access_token)
+            .send(body)
+            .end(function (err, res) {
+                if (err) done(err)
+                expect(res.statusCode).toEqual(201)
+                expect(typeof res.body).toEqual('object')
+                done()
+            })
+    })
+
+    it('PUT BANNER response with 400 status code', function (done) {
+        //setup
+        const body = {
+            title: "",
+            status: "",
+            imageUrl: ""
+        }
+        //execute
+        request(app)
+            .put(`/banners/${+paramsBanner}`)
+            .set('access_token', access_token)
+            .send(body)
+            .end(function (err, res) {
+                if (err) done(err)
+                expect(res.statusCode).toEqual(400)
+                expect(typeof res.body).toEqual('object')
+                expect(res.body).toHaveProperty('errorMessage')
+                expect(Array.isArray(res.body.errorMessage)).toEqual(true)
+                expect(res.body.errorMessage).toEqual(
+                    expect.arrayContaining([{ "message": "Title is required" }])
+                )
+                expect(res.body.errorMessage).toEqual(
+                    expect.arrayContaining([{ "message": "Status is required" }])
+                )
+                expect(res.body.errorMessage).toEqual(
+                    expect.arrayContaining([{ "message": "ImageUrl is required" }])
+                )
+                done()
+            })
+    })
+
+    it('DELETE BANNER response with 200 status code', function (done) {
+        //setup
+        const body = {
+        }
+        //execute
+        request(app)
+            .delete(`/banners/${+paramsBanner}`)
+            .set('access_token', access_token)
+            .send(body)
+            .end(function (err, res) {
+                if (err) done(err)
+                expect(res.statusCode).toEqual(200)
+                expect(typeof res.body).toEqual('object')
+                done()
+            })
+    })
+
+    afterAll(function (done) {
+        clearContent()
+            .then(() => {
                 models.sequelize.close()
                 done()
             })
+            .catch(console.log)
     })
 })
 

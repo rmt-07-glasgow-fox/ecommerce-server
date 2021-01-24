@@ -1,7 +1,5 @@
 const Multer = require('multer')
 
-console.log('masuk multer')
-
 const multer = Multer({
   storage: Multer.memoryStorage(),
   limits: {

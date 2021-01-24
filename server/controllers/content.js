@@ -33,7 +33,6 @@ class Controller {
 
     static postContent(req, res, next) {
         const { name, category, price, stock, imageUrl} = req.body
-        console.log(req.user.id, "ini id")
         Content.create({
             name, category, price, stock, imageUrl, UserId : +req.user.id
         })
@@ -41,14 +40,11 @@ class Controller {
                 res.status(201).json(contents)
             })
             .catch(err => {
-                console.log(err, "ehy")
                 next(err)
             })
     }
 
     static postContentImage(req, res, next) {
-        console.log('masuk postContent')
-        console.log(req.file,"kkkk")
         const storage = new Storage();
         if (!req.file) {
             res.status(400).send('No file uploaded.');
@@ -64,7 +60,6 @@ class Controller {
           });
         
           blobStream.on('finish', () => {
-              console.log('masuk public url')
             const publicUrl = format(
               `https://storage.googleapis.com/${bucket.name}/${blob.name}`
             );
