@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: {
             args: true,
-            msg: " Product name required",
+            msg: "Product name required",
           },
         },
       },
@@ -49,7 +49,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           min: {
             args: [0],
-            msg: "stock must be 0 or more ",
+            msg: "stock must be 0 or more",
           },
           isInt: {
             args: true,

@@ -24,29 +24,6 @@
 // }
 
 // async function authorization(req, res, next) {}
-// //   try {
-// //     const idApp = req.params.id
-// //     const userId = req.user.id
-// //     const appAuth = await Product.findOne {
-// //       where: {
-// //         id: idApp,
-// //       },
-// //     }
-// //     if (!appAuth) {
-// //       next({
-// //         name: "NotFound",
-// //       })
-// //     } else if (appAuth.UserId === userId) {
-// //       next()
-// //     } else {
-// //       next({
-// //         name: "Unauthorized",
-// //       })
-// //     }
-// //   } catch {
-// //     next(err)
-// //   }
-// // }
 
 // module.exports = {
 //   authentication,

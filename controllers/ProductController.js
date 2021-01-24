@@ -42,16 +42,17 @@ class ProductController {
   }
 
   static async delete(req, res, next) {
+    
     try {
-      const id = +req.params.id
-      const deletedProduct = await Product.destroy({ where: { id } })
-      if (deletedproduct === 0) {
-        next({ name: "NotFound" })
-      } else {
-        res.status(200).json({ message: "Product has been deleted" })
-      }
-    } catch (err) {
-      next(err)
+      const id = +req.params.id;
+      const product = await Product.destroy({ where: { id } })
+        if (product === 0) {
+          next({ name: "NotFound" });
+        } else {
+          res.status(200).json({name: "Successfully delete product"});
+        }
+    } catch {
+      next(err);
     }
   }
 }
