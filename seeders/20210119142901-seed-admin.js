@@ -27,6 +27,13 @@ module.exports = {
       role: 'customer',
       createdAt: new Date(),
       updatedAt: new Date()
+     },
+     {
+      email: 'admin@mail.com',
+      password: hash('1234'),
+      role: 'admin',
+      createdAt: new Date(),
+      updatedAt: new Date()
      }
   ] 
 

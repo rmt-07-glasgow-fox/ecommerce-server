@@ -6,7 +6,10 @@ const routerProduct = require('./product')
 
 router.use(routerAuth)
 
-router.use(authAdmin)
+router.get('/',(req,res)=>{
+    res.status(200).json({message: 'this is e-commerce server'})
+})
+// router.use(authAdmin)
 router.use('/products',routerProduct)
 router.use(errHandler)
 
