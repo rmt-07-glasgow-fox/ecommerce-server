@@ -25,11 +25,11 @@ module.exports = {
     dialect,
   },
   production: {
-    username: "cicsturatdnyuy",
+    username: "lifzzuhnuzzydj",
     password:
-      "f475f6c5cf149e0efb0e8c6725c2bad8003cc6897f252a5ab3f63ad8707c008e",
-    database: "d28em7e9bggge0",
-    host: "ec2-54-205-248-255.compute-1.amazonaws.com",
+      "db4e4cdd98c749e60d2b77cee7885b39ab9f08165244156825c64b660148d861",
+    database: "df2mnao6ggm6j1",
+    host: "ec2-54-172-219-218.compute-1.amazonaws.com",
     dialect: "postgres",
     dialectOptions: {
       ssl: {
