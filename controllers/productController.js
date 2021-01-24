@@ -9,9 +9,7 @@ class ProductController {
       .then(products => {
         res.status(200).json(products)
       })
-      .catch(err => {
-        res.status(500).json({ message: 'Internal Server Error' })
-      })
+      .catch(next)
   }
 
   static findByPk(req, res, next) {
@@ -21,11 +19,9 @@ class ProductController {
       })
       .then(product => {
         product ? res.status(200).json(product) :
-        res.status(404).json({ message: 'Product Not Found' })
+        next({ name: 'NotFoundError' })
       })
-      .catch(err => {
-        res.status(500).json({ message: 'Internal Server Error' })
-      })
+      .catch(next)
   }
 
   static create(req, res, next) {
@@ -35,12 +31,7 @@ class ProductController {
         const { id, name, image_url, price, stock, CategoryId } = product
         res.status(201).json({ id, name, image_url, price, stock, CategoryId })
       })
-      .catch(err => {
-        const message = err.errors ? err.errors.map(e => e.message) : 'Internal Server Error'
-
-        err.errors ? res.status(400).json({ message }) :
-        res.status(500).json({ message })
-      })
+      .catch(next)
   }
 
   static update(req, res, next) {
@@ -51,18 +42,13 @@ class ProductController {
         returning: true
       })
       .then(product => {
-        if (!product[1][0]) res.status(404).json({ message: 'Product Not Found' })
+        if (!product[1][0]) next({ name: 'NotFoundError' })
         else {
           const { id, name, image_url, price, stock, CategoryId } = product[1][0].dataValues
           res.status(200).json({ id, name, image_url, price, stock, CategoryId })
         }
       })
-      .catch(err => {
-        const message = err.errors ? err.errors.map(e => e.message) : 'Internal Server Error'
-
-        err.errors ? res.status(400).json({ message }) :
-        res.status(500).json({ message })
-      })
+      .catch(next)
   }
 
   static updateStock(req, res, next) {
@@ -73,19 +59,13 @@ class ProductController {
         returning: true
       })
       .then(product => {
-        if (!product[1][0]) res.status(404).json({ message: 'Product Not Found' })
+        if (!product[1][0]) next({ name: 'NotFoundError' })
         else {
           const { id, stock } = product[1][0].dataValues
           res.status(200).json({ id, stock })
         }
       })
-      .catch(err => {
-        console.log(err, '??')
-        const message = err.errors ? err.errors.map(e => e.message) : 'Internal Server Error'
-
-        err.errors ? res.status(400).json({ message }) :
-        res.status(500).json({ message })
-      })
+      .catch(next)
   }
 
   static delete(req, res, next) {
@@ -94,11 +74,9 @@ class ProductController {
       .then(product => {
         product ?
           res.status(200).json({ message: 'Product success deleted!' }) :
-          res.status(404).json({ message: 'Product Not Found' })
+          next({ name: 'NotFoundError' })
       })
-      .catch(err => {
-        res.status(500).json({ message: 'Internal Server Error' })
-      })
+      .catch(next)
   }
 }
 

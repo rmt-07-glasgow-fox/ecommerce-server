@@ -4,11 +4,14 @@ const auth = require('./auth')
 const product = require('./product')
 const banner = require('./banner')
 const category = require('./category')
+const { errorHandlers } = require('../middlewares/errorHandlers')
 
 router.use(auth)
 router.use(Auth.authentication)
 router.use('/products', product)
 router.use('/banners', banner)
 router.use('/categories', category)
+
+router.use(errorHandlers)
 
 module.exports = router

@@ -39,15 +39,23 @@ beforeAll(done => {
     })
     .catch(done)
 })
+afterAll(done => {
+  queryInterface.bulkDelete('Products')
+    .then(() => {
+      done()
+    })
+    .catch(done)
+})
 // end
 
 
 describe('PUT /products', () => {
-  const dataProductUpdate = { name: 'Cloths', image_url: 'url_update.jpg', price: 10000, stock: 20 }
+  const dataProductUpdate = { name: 'Cloths', image_url: 'url_update.jpg', price: 10000, stock: 20, CategoryId: 1 }
+  const dataProductNoCategory = { name: 'Cloths Adidas', image_url: 'url.jpg', price: 12000, stock: 10, CategoryId: 0 }
   const emptyDataProduct = { name: '', image_url: '', price: '', stock: '' }
-  const dataMinusStock = { name: 'Cloths Adidas', image_url: 'url.jpg', price: 12000, stock: -10 }
-  const dataMinusPrice = { name: 'Cloths Adidas', image_url: 'url.jpg', price: -12000, stock: 10 }
-  const dataNotValidType = { name: 1000, image_url: 1000, price: 'String', stock: 'String' }
+  const dataMinusStock = { name: 'Cloths Adidas', image_url: 'url.jpg', price: 12000, stock: -10, CategoryId: 1  }
+  const dataMinusPrice = { name: 'Cloths Adidas', image_url: 'url.jpg', price: -12000, stock: 10, CategoryId: 1  }
+  const dataNotValidType = { name: 1000, image_url: 1000, price: 'String', stock: 'String', CategoryId: 1  }
 
   describe('Success', () => {
     test('Update product success', (done) => {
@@ -72,6 +80,22 @@ describe('PUT /products', () => {
   })
 
   describe('Failed', () => {
+    test('Foreign key not exist!', (done) => {
+      request(app)
+        .put('/products/'+id_product)
+        .set('Accept', 'application/json')
+        .set('access_token', access_token_admin)
+        .send(dataProductNoCategory)
+        .then(response => {
+          const { body, status } = response
+          expect(status).toBe(400)
+          expect(body).toHaveProperty('message', 'Failed! Foreign key not exist')
+          done()
+        })
+        .catch(err => {
+          done(err)
+        })
+    })
     test('Access token not exist, must login first!', (done) => {
       request(app)
         .put('/products/'+id_product)

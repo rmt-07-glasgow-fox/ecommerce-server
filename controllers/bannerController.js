@@ -9,9 +9,7 @@ class BannerController {
       .then(banners => {
         res.status(200).json(banners)
       })
-      .catch(err => {
-        res.status(500).json({ message: 'Internal Server Error' })
-      })
+      .catch(next)
   }
 
   static findByPk(req, res, next) {
@@ -33,12 +31,7 @@ class BannerController {
         const { id, title, status, image_url, CategoryId } = banner
         res.status(201).json({ id, title, status, image_url, CategoryId })
       })
-      .catch(err => {
-        const message = err.errors ? err.errors.map(e => e.message) : 'Internal Server Error'
-
-        err.errors ? res.status(400).json({ message }) :
-        res.status(500).json({ message })
-      })
+      .catch(next)
   }
 
   static update(req, res, next) {
@@ -49,18 +42,13 @@ class BannerController {
         returning: true
       })
       .then(banner => {
-        if (!banner[1][0]) res.status(404).json({ message: 'Banner Not Found' })
+        if (!banner[1][0]) next({ name: 'CustomError', statusCode: 404, message: 'Banner Not Found' })
         else {
           const { id, title, status, image_url, CategoryId } = banner[1][0].dataValues
           res.status(200).json({ id, title, status, image_url, CategoryId })
         }
       })
-      .catch(err => {
-        const message = err.errors ? err.errors.map(e => e.message) : 'Internal Server Error'
-
-        err.errors ? res.status(400).json({ message }) :
-        res.status(500).json({ message })
-      })
+      .catch(next)
   }
 
   static updateStatus(req, res, next) {
@@ -71,18 +59,13 @@ class BannerController {
         returning: true
       })
       .then(banner => {
-        if (!banner[1][0]) res.status(404).json({ message: 'Banner Not Found' })
+        if (!banner[1][0]) next({ name: 'CustomError', statusCode: 404, message: 'Banner Not Found' })
         else {
           const { id, status } = banner[1][0].dataValues
           res.status(200).json({ id, status })
         }
       })
-      .catch(err => {
-        const message = err.errors ? err.errors.map(e => e.message) : 'Internal Server Error'
-
-        err.errors ? res.status(400).json({ message }) :
-        res.status(500).json({ message })
-      })
+      .catch(next)
   }
 
   static delete(req, res, next) {
@@ -91,11 +74,9 @@ class BannerController {
       .then(banner => {
         banner ?
           res.status(200).json({ message: 'Banner success deleted!' }) :
-          res.status(404).json({ message: 'Banner Not Found' })
+          next({ name: 'CustomError', statusCode: 404, message: 'Banner Not Found' })
       })
-      .catch(err => {
-        res.status(500).json({ message: 'Internal Server Error' })
-      })
+      .catch(next)
   }
 }
 

@@ -7,7 +7,7 @@ describe('POST /login', () => {
       request(app)
         .post('/login')
         .set('Accept', 'application/json')
-        .send({ email: 'admin@mail.com', password: '123456'})
+        .send({ email: 'admin@mail.com', password: '1234'})
         .then(response => {
           const { body, status } = response
           expect(status).toBe(200)
@@ -25,7 +25,7 @@ describe('POST /login', () => {
       request(app)
         .post('/login')
         .set('Accept', 'application/json')
-        .send({ email: 'user@mail.com', password: '123456'})
+        .send({ email: 'user@mail.com', password: '1234'})
         .then(response => {
           const { body, status } = response
           expect(status).toBe(400) //forbidden login but show as wrong email or password
@@ -41,7 +41,7 @@ describe('POST /login', () => {
       request(app)
         .post('/login')
         .set('Accept', 'application/json')
-        .send({ email: 'admin@mail.com', password: 'wrong123456'})
+        .send({ email: 'admin@mail.com', password: 'wrong1234'})
         .then(response => {
           const { body, status } = response
           expect(status).toBe(400)
@@ -57,7 +57,7 @@ describe('POST /login', () => {
       request(app)
         .post('/login')
         .set('Accept', 'application/json')
-        .send({ email: 'wrongadmin@mail.com', password: '123456'})
+        .send({ email: 'wrongadmin@mail.com', password: '1234'})
         .then(response => {
           const { body, status } = response
           expect(status).toBe(400)
