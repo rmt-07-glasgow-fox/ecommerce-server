@@ -17,12 +17,6 @@ module.exports = {
       role: 'admin',
       createdAt: new Date(),
       updatedAt: new Date()
-    }, {
-      email: 'user@mail.com',
-      password: hashPassword('okokoks'),
-      role: 'customer',
-      createdAt: new Date(),
-      updatedAt: new Date()
     }], {});
   },
 
