@@ -21,4 +21,8 @@ app.use(routes)
 
 app.use(errorHandlers)
 
+app.listen(PORT, () => {
+    console.log(`Connected on Port ${PORT}`)
+})
+
 module.exports = app
