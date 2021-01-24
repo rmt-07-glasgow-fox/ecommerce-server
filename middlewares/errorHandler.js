@@ -1,5 +1,4 @@
 const errorHandler = (err, req, res, next) => {
-    console.log(err.name)
     switch(err.name) {
         case 'SequelizeValidationError':
             res.status(400).json(

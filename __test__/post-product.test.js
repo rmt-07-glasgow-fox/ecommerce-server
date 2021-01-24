@@ -11,7 +11,7 @@ describe("POST /products", () => {
       "https://d29c1z66frfv6c.cloudfront.net/pub/media/catalog/product/large/91b84bcc11df9d4386464f66f195f19870db12ca_xxl-1.jpg",
     price: 180000,
     stock: 10,
-    CategoryId: 71,
+    CategoryId: 1,
   };
   beforeAll((done) => {
     request(app)
@@ -152,7 +152,7 @@ describe("POST /products", () => {
       url: "",
       price: data.price,
       stock: data.stock,
-      CategoryId: 71,
+      CategoryId: 1,
     };
 
     request(app)

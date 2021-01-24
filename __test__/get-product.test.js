@@ -27,7 +27,7 @@ describe("GET /product", () => {
         "https://d29c1z66frfv6c.cloudfront.net/pub/media/catalog/product/large/91b84bcc11df9d4386464f66f195f19870db12ca_xxl-1.jpg",
       price: 180000,
       stock: 20,
-      CategoryId: 71,
+      CategoryId: 1,
     };
     request(app)
       .post("/products")

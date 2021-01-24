@@ -1,4 +1,4 @@
-const { Category, Product } = require('../models');
+const { Category } = require('../models');
 
 class CategoryController {
     
@@ -21,23 +21,6 @@ class CategoryController {
         try {
             const category = await Category.create({ name });
             res.status(201).json(category);
-        }
-        catch(err) {
-            next(err);
-        }
-    }
-
-    static getCategory = async (req, res, next) => {
-        try {
-            const category = await Category.findByPk(req.params.id, {
-                attributes: {
-                    exclude: ['createdAt', 'updatedAt']
-                },
-                include: {
-                    model: Product
-                }
-            });
-            res.status(200).json(category);
         }
         catch(err) {
             next(err);

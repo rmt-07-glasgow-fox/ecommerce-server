@@ -19,12 +19,7 @@ describe("POST /categories", () => {
   });
 
   afterAll((done) => {
-    // clearCategory()
-    // .then( _=> {
-    //     models.sequelize.close();
-    //     done();
-    // })
-    // .catch(err, console.log(err))
+    //tidak dihapus supaya ada id category id untuk test lainnya
     models.sequelize.close();
     done();
   });

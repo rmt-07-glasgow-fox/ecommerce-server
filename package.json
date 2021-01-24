@@ -14,7 +14,8 @@
     "db:migrate:test": "NODE_ENV=test npm run db:migrate",
     "db:seed:development": "NODE_ENV=development npm run db:seed:all",
     "db:seed:test": "NODE_ENV=test npm run db:seed:all",
-    "dev": "NODE_ENV=development nodemon bin/http.js"
+    "dev": "NODE_ENV=development nodemon bin/http.js",
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
