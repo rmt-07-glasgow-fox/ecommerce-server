@@ -4,7 +4,7 @@ const productsRoutes = require('./productsRoutes')
 const userRoutes = require('./userRoutes')
 
 router.get('/', (req, res) => {
-  console.log('Welcome')
+  res.send('Welcome')
 })
 
 router.use(userRoutes)
