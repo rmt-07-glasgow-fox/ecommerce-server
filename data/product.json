@@ -1,0 +1,32 @@
+[
+    {
+        "name": "sepatu",
+        "image_url": "https://cf.shopee.co.id/file/a782a5b475f99b995245eb4b1a6a11f4",
+        "price": 300000,
+        "stock": 40
+    },
+    {
+        "name": "jam tangan",
+        "image_url": "https://cf.shopee.co.id/file/e519f047fdc33924a9be8b645cdfef0f",
+        "price": 1000000,
+        "stock": 3
+    },
+    {
+        "name": "laptop",
+        "image_url": "https://d2pa5gi5n2e1an.cloudfront.net/global/images/product/laptops/ASUS_Laptop_E410MA/ASUS_Laptop_E410MA_L_1.jpg",
+        "price": 9000000,
+        "stock": 2
+    },
+    {
+        "name": "gelas",
+        "image_url": "https://www.static-src.com/wcsstore/Indraprastha/images/catalog/full//83/MTA-4622410/jing-s_vardera_-_mug_-_gelas_kopi_-_gelas_-_putih_full01_fxacdnho.jpg",
+        "price": 20000,
+        "stock": 50
+    },
+    {
+        "name": "sepeda",
+        "image_url": "https://www.static-src.com/wcsstore/Indraprastha/images/catalog/full//102/MTA-4797560/exotic_exotic_et-2026_mt_sepeda_lipat_-20_inch-_full05_kxmmvq4j.jpg",
+        "price": 3000000,
+        "stock": 2
+    }
+]
