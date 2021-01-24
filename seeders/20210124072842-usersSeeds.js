@@ -10,18 +10,15 @@ module.exports = {
      *   name: 'John Doe',
      *   isBetaMember: false
      * }], {});
-     */
-    let data = require('../products.json')
-
-    let payload = []
-    data.forEach(element => {
-      element.createdAt = new Date()
-      element.updatedAt = new Date()
-      payload.push(element)
-    });
-
-    await queryInterface.bulkInsert('Products', payload, {});
-   
+    */
+    let payload = {
+      email: 'admin@mail.com',
+      password: 'qweqwe',
+      role: 'admin',
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }
+    await queryInterface.bulkInsert('Users', [payload], {})
   },
 
   down: async (queryInterface, Sequelize) => {
@@ -31,6 +28,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    await queryInterface.bulkDelete('Products', null, {});
+    await queryInterface.bulkDelete('Users', null, {});
   }
 };
