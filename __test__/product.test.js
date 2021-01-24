@@ -503,7 +503,7 @@ describe('GET /products/:id', () => {
       })
   })
 
-  it.only('should send response with 400 status code - :id not found', (done) => {
+  it('should send response with 400 status code - :id not found', (done) => {
     // Execute
     request(app)
       .get(`/products/100000`)
