@@ -10,12 +10,12 @@ const { authentificate } = require("../middleware/authentificate");
 const authorize = require("../middleware/authorize");
 
 router.use(authentificate);
-router.use(authorize);
 
-router.post("/", create);
-// router.get('/products', products)
-// router.get('/products/:id', product)
-router.put("/:id", update);
-router.delete("/:id", destroy);
+router.get('/', products)
+router.get('/:id', product)
+
+router.post("/", authorize, create);
+router.put("/:id", authorize, update);
+router.delete("/:id", authorize, destroy);
 
 module.exports = router;

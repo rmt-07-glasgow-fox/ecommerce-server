@@ -16,6 +16,29 @@ exports.create = async (req, res, next) => {
   }
 };
 
+exports.products = async (req, res, next) => {
+  try {
+    const products = await Product.findAll();
+    res.status(200).json(products);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.product = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const product = await Product.findByPk(id);
+    if (product) {
+      res.status(200).json(product);
+    } else {
+      next({ name: "ProductNotFound" });
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
 exports.update = async (req, res, next) => {
   try {
     const id = req.params.id;
@@ -30,7 +53,6 @@ exports.update = async (req, res, next) => {
       where: { id },
       returning: true,
     });
-    console.log(product);
     if (product) {
       res.status(200).json(product[1][0].dataValues);
     } else {
@@ -47,7 +69,11 @@ exports.destroy = async (req, res, next) => {
     const product = await Product.findByPk(id);
     if (product) {
       const deletedProduct = await Product.destroy({ where: { id } });
-      res.status(200).json({success: [`Product with id: '${product.id}' success to delete`]});
+      res
+        .status(200)
+        .json({
+          success: [`Product with id: '${product.id}' success to delete`],
+        });
     } else {
       next({ name: "ProductNotFound" });
     }

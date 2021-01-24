@@ -114,7 +114,7 @@ describe("POST /api/products/", () => {
 
   // condition: all field filled with valid data and provide access_token but not an Admin
   // result: created failed
-  it("Not an Admin", (done) => {
+  it("Unauthorized", (done) => {
     const body = {
       name: "Perahu Karet Rescue BlueLines 100% Original Produk",
       image_url:
@@ -138,7 +138,7 @@ describe("POST /api/products/", () => {
         expect(res.body).toHaveProperty("errors");
         expect(Array.isArray(res.body.errors)).toEqual(true);
         expect(res.body.errors).toEqual(
-          expect.arrayContaining(["User Invalid"])
+          expect.arrayContaining(["Unauthorized"])
         );
 
         done();
@@ -712,7 +712,7 @@ describe("DELETE /api/products/", () => {
         expect(res.body).toHaveProperty("errors");
         expect(Array.isArray(res.body.errors)).toEqual(true);
         expect(res.body.errors).toEqual(
-          expect.arrayContaining(["User Invalid"])
+          expect.arrayContaining(["Unauthorized"])
         );
 
         done();

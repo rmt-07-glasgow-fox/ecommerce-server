@@ -2,7 +2,6 @@ module.exports = (err, req, res, next) => {
   if (err) {
     switch (err.name) {
       case `SequelizeValidationError`:
-        console.log(err.errors.map((err) => err.message));
         res.status(400).json({errors: err.errors.map((err) => err.message)});
         break;
 
@@ -31,7 +30,7 @@ module.exports = (err, req, res, next) => {
         break;
 
       case `Unauthorized`:
-        res.status(403).json({ errors: ["User Invalid"] });
+        res.status(403).json({ errors: ["Unauthorized"] });
         break;
 
       case `Authentificate`:
