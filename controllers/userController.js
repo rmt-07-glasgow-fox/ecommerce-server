@@ -29,6 +29,7 @@ class UserController {
         throw {name: 'invalidUserPassword'}
       }
     } catch (err) {
+      console.log(err)
       next(err)
     }
   }

@@ -1,8 +1,33 @@
 const request = require('supertest')
 const app = require('../app')
+const { Product, sequelize } = require('../models')
+const { queryInterface } = sequelize
+let id
 
-describe('POST /products', () => {
-  it('should send response with 201 status code', (done) => {
+beforeAll((done)=> {
+  return queryInterface.bulkInsert('Products', [{
+    name: 'Kopi Dangdut',
+    image_url: 'https://disk.mediaindonesia.com/thumbs/1800x1200/news/2019/11/91f7001e5fedfa2b09288801657d38fc.jpg',
+    price: 250000,
+    stock: 10,
+    createdAt: new Date(), 
+    updatedAt: new Date()
+  }], {})
+    .then(data => {
+      return Product.findAll({ limit: 1})
+    })
+    .then(data => {
+        id = data[0].dataValues.id
+        done()
+    })
+    .catch(err => {
+        done(err)
+    })
+
+})
+
+describe('PUT /products/:id', () => {
+  it('should send response with 200 status code', (done) => {
     const product = {
       name: 'yu-gi-oh card',
       image_url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0N_XQ416WK0Loq2lcHpJVm2Sjitr2n09-5g&usqp=CAU',
@@ -10,14 +35,14 @@ describe('POST /products', () => {
       stock: 50
     }
     request(app)
-      .post('/products')
+      .put('/products/' + id)
       .set('access_token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTYxMTA5MTI5N30.g41cEAOFnYy110MrRi6sy-LRKycyBXmfaM-OsMoD99Y')
       .send(product)
       .end((err, res) => {
         if(err) {
           done(err)
         }
-        expect(res.statusCode).toEqual(201)
+        expect(res.statusCode).toEqual(200)
         expect(typeof res.body).toEqual('object')
         expect(res.body).toHaveProperty('id')
         expect(typeof res.body.id).toEqual('number')
@@ -43,7 +68,7 @@ describe('POST /products', () => {
       stock: -2
     }
     request(app)
-      .post('/products')
+      .put('/products/' +id)
       .set('access_token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTYxMTA5MTI5N30.g41cEAOFnYy110MrRi6sy-LRKycyBXmfaM-OsMoD99Y')
       .send(product)
       .end((err, res) => {
@@ -76,7 +101,7 @@ describe('POST /products', () => {
       stock: 'string'
     }
     request(app)
-      .post('/products')
+      .put('/products/' +id)
       .set('access_token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTYxMTA5MTI5N30.g41cEAOFnYy110MrRi6sy-LRKycyBXmfaM-OsMoD99Y')
       .send(product)
       .end((err, res) => {
@@ -94,13 +119,13 @@ describe('POST /products', () => {
             {
               "column": "stock", 
               "message": "Stock just allow number"
-            }, 
+            },
           ])
         )
         done()
       })
   })
-
+  
   it('should send response with 400 status code', (done) => {
     const product = {
       name: 'yu-gi-oh card',
@@ -109,7 +134,7 @@ describe('POST /products', () => {
       stock: 'string'
     }
     request(app)
-      .post('/products')
+      .put('/products/' +id)
       .send(product)
       .end((err, res) => {
         if(err) {

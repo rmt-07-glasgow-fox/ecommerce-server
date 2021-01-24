@@ -27,7 +27,7 @@ describe('POST /login', () => {
   it('should send response with 401 status code', (done) => {
     const loginUser = {
       email: 'admin@mail.com',
-      password: ''
+      password: 'fgh'
     }
     request(app)
       .post('/login')
