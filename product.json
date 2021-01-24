@@ -1,0 +1,29 @@
+[
+    {
+        "id": 1,
+        "name": "Adidas",
+        "image_url": "https://www.accenture.com/t20190307T103005Z__w__/gr-en/_acnmedia/Accenture/Conversion-Assets/DotCom/Images/Global-3/99/Accenture-Adidas-Header-Image.jpg",
+        "price": 200000,
+        "stock": 20,
+        "createdAt": "2021-01-23T09:01:06.028Z",
+        "updatedAt": "2021-01-23T09:01:06.028Z"
+    },
+    {
+        "id": 10,
+        "name": "New Era",
+        "image_url": "https://s0.bukalapak.com/img/5584031293/large/Sandal_Jepit_Karet_Pria_Model_Sandal_Carvil_Merk_New_Era.png",
+        "price": 20000,
+        "stock": 50,
+        "createdAt": "2021-01-23T16:26:44.990Z",
+        "updatedAt": "2021-01-23T16:26:44.990Z"
+    },
+    {
+        "id": 12,
+        "name": "lipeboy",
+        "image_url": "https://cf.shopee.co.id/file/0fc5bb2103b496424ed8b005a03ffbac",
+        "price": 9000,
+        "stock": 20,
+        "createdAt": "2021-01-24T05:05:30.451Z",
+        "updatedAt": "2021-01-24T05:05:30.451Z"
+    }
+]

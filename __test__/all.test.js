@@ -149,7 +149,6 @@ describe("test product apis",function(){
             })
         })
         .then(resProduct=>{
-            // console.log(resProduct,'ayoooooooooooo--------------');
             product = {
                 id: resProduct.id,
                 name: resProduct.name,
@@ -162,11 +161,6 @@ describe("test product apis",function(){
         .catch(err=>{
             console.log(err);
         })
-        // .finally(final=>{
-        //     console.log(access_token_admin,'_______token admin');
-        //     console.log(access_token_user,'_______token user');
-        //     done()
-        // })
     })
 
     afterAll((done)=>{

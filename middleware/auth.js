@@ -2,7 +2,7 @@ const { decode } = require('../helpers/jwt')
 const { User } = require('../models')
 
 module.exports = {
-    async authAdmin(req,res,next){
+    async authentication(req,res,next){
         try {
             let token = req.headers.access_token
             if (token) {
@@ -13,12 +13,8 @@ module.exports = {
                     }
                 })
                 if(result){
-                    if(result.role !== 'admin'){
-                        next({name:'Forbidden', message:'You don\'t have access only admin'})
-                    }else{
-                        res.user = payload
-                        next()
-                    }
+                    res.user = payload
+                    next()
                 }else{
                     next({name:'NotFound',message:'User not found'})
                 }
@@ -28,6 +24,16 @@ module.exports = {
         } catch (error) {
             next(error)
         }
-
+    },
+    async authorization(req,res,next){
+        try {
+            if(res.user.role !== 'admin'){
+                next({name:'Forbidden', message:'You don\'t have access only admin'})
+            }else{
+                next()
+            }
+        } catch (error) {
+            next(error)
+        }
     }
 }
