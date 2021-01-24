@@ -466,6 +466,116 @@ describe('GET /products', () => {
   })
 })
 
+describe('GET /products/:id', () => {
+  it('should send response with 200 status code', (done) => {
+    // Execute
+    request(app)
+      .get(`/products/${productId}`)
+      .set('access_token', access_token_admin)
+      .end((err, res) => {
+        //err from supertest
+        if (err) done(err)
+
+        // Assert
+
+        // check the data in the db
+        expect(res.statusCode).toEqual(200)
+        expect(Array.isArray(res.body)).toEqual(true)
+
+        res.body.forEach(el => {
+          expect(el).toHaveProperty('id')
+          expect(typeof el.id).toEqual('number')
+
+          expect(el).toHaveProperty('name')
+          expect(typeof el.name).toEqual('string')
+
+          expect(el).toHaveProperty('image_url')
+          expect(typeof el.image_url).toEqual('string')
+
+          expect(el).toHaveProperty('price')
+          expect(typeof el.price).toEqual('number')
+
+          expect(el).toHaveProperty('stock')
+          expect(typeof el.stock).toEqual('number')
+        })
+
+        done()
+      })
+  })
+
+  it.only('should send response with 400 status code - :id not found', (done) => {
+    // Execute
+    request(app)
+      .get(`/products/100000`)
+      .set('access_token', access_token_admin)
+      .end((err, res) => {
+        //err from supertest
+        if (err) done(err)
+
+        // Assert
+
+        // check the data in the db
+        expect(res.statusCode).toEqual(404)
+
+        expect(typeof res.body).toEqual('object')
+
+        expect(res.body).toHaveProperty('errors')
+        expect(Array.isArray(res.body.errors)).toEqual(true)
+        expect(res.body.errors).toEqual(
+          expect.arrayContaining(['Not found'])
+        )
+        done()
+      })
+  })
+
+  it('should send response with 401 status code - no access_token', (done) => {
+    // Execute
+    request(app)
+      .get(`/products/${productId}`)
+      .end((err, res) => {
+        //err from supertest
+        if (err) done(err)
+
+        // Assert
+        // check the data in the db
+        expect(res.statusCode).toEqual(401)
+        expect(typeof res.body).toEqual('object')
+
+        expect(res.body).toHaveProperty('errors')
+        expect(Array.isArray(res.body.errors)).toEqual(true)
+        expect(res.body.errors).toEqual(
+          expect.arrayContaining(['Not authorised'])
+        )
+
+        done()
+      })
+  })
+
+  it('should send response with 401 status code - invalid access_token', (done) => {
+    // Execute
+    request(app)
+      .get(`/products/${productId}`)
+      .set('access_token', access_token_customer)
+      .end((err, res) => {
+        //err from supertest
+        if (err) done(err)
+
+        // Assert
+        // check the data in the db
+        expect(res.statusCode).toEqual(401)
+        expect(typeof res.body).toEqual('object')
+
+        expect(res.body).toHaveProperty('errors')
+        expect(Array.isArray(res.body.errors)).toEqual(true)
+        expect(res.body.errors).toEqual(
+          expect.arrayContaining(['Not authorised'])
+        )
+
+        done()
+      })
+  })
+})
+
 describe('PUT /products/:id', () => {
   it('should send response with 200 status code', (done) => {
     // Setup

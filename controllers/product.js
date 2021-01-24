@@ -69,7 +69,13 @@ class ProductController {
     const id = +req.params.id
     Product.findByPk(id)
       .then(product => {
-        res.status(200).json(product)
+        if (product) {
+          const resp = []
+          resp.push(product)
+          res.status(200).json(resp)
+        } else {
+          next({ name: 'ResourceNotFound' })
+        }
       })
       .catch(next)
   }
