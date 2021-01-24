@@ -14,10 +14,11 @@
 | PUT    | /products/:idProduct | Update product    |
 
 **Banner**
-| Method | Route    | Description      |
-| ------ | -------- | ---------------- |
-| POST   | /banners | Add new banners  |
-| GET    | /banners | Show all banners |
+| Method | Route              | Description      |
+| ------ | ------------------ | ---------------- |
+| POST   | /banners           | Add new banners  |
+| GET    | /banners           | Show all banners |
+| DELETE | /banners/:idBanner | Delete Banners   |
 
 **Brand**
 | Method | Route   | Description                   |
@@ -552,6 +553,74 @@ _Response ( 500 - Internal Server Error )_
 
 ---
 ### GET /banners
+---
+> show all banners
+
+_Request Headers_
+```
+{
+    access_token : "MOutCvMHysWtpWDi00"
+}
+```
+
+_Request Body_
+```
+not needed
+```
+
+_Response( 200 )_
+```
+[
+    {
+        "id": 1,
+        "title": "Compass",
+        "status": true,
+        "image_url": "/banners/compass.jpg",
+        "createdAt": "2021-01-19T17:06:56.132Z",
+        "updatedAt": "2021-01-19T17:06:56.132Z"
+    },
+    {
+        "id": 2,
+        "title": "Ventela Public Gum Series",
+        "status": true,
+        "image_url": "/banners/ventela-public-gum-series.jpg",
+        "createdAt": "2021-01-19T17:08:19.092Z",
+        "updatedAt": "2021-01-19T17:08:19.092Z"
+    },
+    {
+        "id": 3,
+        "title": "Ventela Sansekerta Lohita",
+        "status": true,
+        "image_url": "/banners/ventela-sansekerta-lohita.jpg",
+        "createdAt": "2021-01-19T17:09:15.291Z",
+        "updatedAt": "2021-01-19T17:09:15.291Z"
+    }
+]
+```
+
+_Response( 401 - Unauthorized )_
+```
+{
+    "message": "access_token is required" / "jwt malformed"
+}
+```
+
+_Response( 404 - Not Found )_
+```
+{
+    "message": 'User not found'
+}
+```
+
+_Response ( 500 - Internal Server Error )_
+```
+{
+    "message": "Internal server error"
+}
+```
+
+---
+### DELETE /banners:id
 ---
 > show all banners
 

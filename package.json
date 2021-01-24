@@ -20,7 +20,7 @@
 
     "dev": "cross-env NODE_ENV=development npx nodemon bin/listen.js",
     "test": "cross-env NODE_ENV=test npx jest --runInBand --detectOpenHandles --forceExit",
-    "start": "node /bin/listen.js"
+    "start": "node bin/listen.js"
   },
   "repository": {
     "type": "git",
