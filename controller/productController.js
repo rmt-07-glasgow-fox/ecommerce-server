@@ -36,7 +36,7 @@ class ProductController {
     static update (req, res, next) {
         let id = +req.params.id
         let updateProduct = {
-            nname: req.body.name,
+            name: req.body.name,
             image_url: req.body.image_url,
             price: +req.body.price,
             stock: +req.body.stock
