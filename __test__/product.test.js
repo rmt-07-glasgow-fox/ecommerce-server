@@ -693,7 +693,7 @@ describe("DELETE /api/products/", () => {
 
   // condition: provide valid access_token but not an Admin
   // result: delete failed
-  it("Not an admin", (done) => {
+  it("Unauthorized", (done) => {
     request(app)
       .delete(`/api/products/${ProductId}`)
       .set({

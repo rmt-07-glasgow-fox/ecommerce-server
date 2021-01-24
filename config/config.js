@@ -16,6 +16,7 @@ module.exports = {
     database,
     host,
     dialect,
+    logging: false,
   },
   test: {
     username,
@@ -23,6 +24,7 @@ module.exports = {
     database,
     host,
     dialect,
+    logging: false,
   },
   production: {
     username: "jzdxtwsvjvwbyt",
