@@ -8,8 +8,8 @@ let tokenAdmin, tokenCustomer, productId;
 
 beforeAll(async(done) => {
   const admin = {
-    email: 'm.trinandanoviardy@gmail.com',
-    password: 'qwerty'
+    email: 'admin@mail.com',
+    password: '1234'
   }
 
   const customer = {

@@ -1,67 +1,67 @@
 'use strict';
 const {
-    Model
+  Model
 } = require('sequelize');
 const { hashPassword } = require('../helpers/hash');
 module.exports = (sequelize, DataTypes) => {
-    class User extends Model {
-        /**
-         * Helper method for defining associations.
-         * This method is not a part of Sequelize lifecycle.
-         * The `models/index` file will call this method automatically.
-         */
-        static associate(models) {
-            // define association here
-            User.hasMany(models.Product, { as: 'product', foreignKey: 'userId' });
-        }
-    };
-    User.init({
-        email: {
-            type: DataTypes.STRING,
-            validate: {
-                notEmpty: {
-                    msg: 'field email is required'
-                },
-                isEmail: {
-                    msg: 'invalid email'
-                }
-            },
-            unique: true
+  class User extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      // define association here
+      User.hasMany(models.Product, { as: 'product', foreignKey: 'userId' });
+    }
+  };
+  User.init({
+    email: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          msg: 'field email is required'
         },
-        password: {
-            type: DataTypes.STRING,
-            validate: {
-                notEmpty: {
-                    msg: 'field password is required'
-                },
-                len: {
-                    args: 6,
-                    msg: 'password at least have 6 character'
-                }
-            }
+        isEmail: {
+          msg: 'invalid email'
+        }
+      },
+      unique: true
+    },
+    password: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          msg: 'field password is required'
         },
-        role: {
-            type: DataTypes.ENUM,
-            values: ['admin', 'customer'],
-            allowNull: false,
-            defaultValue: 'customer',
-            validate: {
-                isIn: {
-                    args: [
-                        ['admin', 'customer']
-                    ],
-                    msg: "role should be one of admin or customer"
-                }
-            }
+        len: {
+          args: 4,
+          msg: 'password at least have 4 character'
         }
-    }, {
-        sequelize,
-        modelName: 'User',
-        hooks: {
-            beforeCreate(instance) {
-                instance.password = hashPassword(instance.password);
-            }
+      }
+    },
+    role: {
+      type: DataTypes.ENUM,
+      values: ['admin', 'customer'],
+      allowNull: false,
+      defaultValue: 'customer',
+      validate: {
+        isIn: {
+          args: [
+            ['admin', 'customer']
+          ],
+          msg: "role should be one of admin or customer"
         }
-    });
-    return User;
+      }
+    }
+  }, {
+    sequelize,
+    modelName: 'User',
+    hooks: {
+      beforeCreate(instance) {
+        instance.password = hashPassword(instance.password);
+      }
+    }
+  });
+  return User;
 };
