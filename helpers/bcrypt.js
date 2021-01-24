@@ -1,6 +1,6 @@
 require("dotenv").config();
 const bcrypt = require("bcryptjs");
-const saltSecret = +process.env.SALT_SECRET;
+const saltSecret = +process.env.SALT_SECRET || 5;
 
 exports.generateHash = (password) => {
   const salt = bcrypt.genSaltSync(saltSecret);

@@ -26,7 +26,8 @@ module.exports = {
   },
   production: {
     username: "jzdxtwsvjvwbyt",
-    password: "04c63f3b50943f3d65962042b6d48dd5e3a59cff5a7edb6bc5667e75ab942f85",
+    password:
+      "04c63f3b50943f3d65962042b6d48dd5e3a59cff5a7edb6bc5667e75ab942f85",
     database: "d5jk9aahmv33b0",
     host: "ec2-52-206-44-27.compute-1.amazonaws.com",
     dialect: "postgres",
