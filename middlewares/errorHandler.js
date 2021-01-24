@@ -20,8 +20,15 @@ const errorHandler = (err, req, res, next) => {
         res.status(401).json({ errors })
         break
       case 'SequelizeDatabaseError':
-        errors.push('Number too big')
-        res.status(400).json({ errors })
+        if (err.message === 'value too long for type character varying(255)') {
+          errors.push('Max characters for string exceeded')
+          res.status(400).json({ errors })
+        }
+
+        if (err.message.split(' ').slice(2).join(' ') === 'is out of range for type integer') {
+          errors.push('Number too big')
+          res.status(400).json({ errors })
+        }
         break
       default:
         errors = err.errors.map(error => error.message)

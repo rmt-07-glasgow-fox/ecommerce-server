@@ -323,7 +323,7 @@ describe('POST /products', () => {
       })
   })
 
-  it('it should send response with 400 status code - integer out of range', (done) => {
+  it('should send response with 400 status code - integer out of range', (done) => {
     const body = {
       name: 'ranjang mahal',
       image_url: 'https://www.ikea.com/jp/en/images/products/hemnes-day-bed-frame-with-3-drawers-white__0857890_PE632055_S5.JPG',
@@ -347,6 +347,33 @@ describe('POST /products', () => {
         expect(Array.isArray(res.body.errors)).toEqual(true)
         expect(res.body.errors).toEqual(
           expect.arrayContaining([`Number too big`])
+        )
+
+        done()
+      })
+  })
+
+  it('should send response with 400 status code - max characters exceeded', (done) => {
+    const body = {
+      name: 'PZ3sQJbAv87HqMygbwVyZAuJ5uvfgZdPrrufzYMt63xUDZERXcdMxFKBs2qfHv4POkqgLdYf69GExaGnJaKyxljKEhokmQRoxftCP4cRH36yVk6Y679TAV4o0zXxULTPCIJoLl9utjjRlVcj0p8BMBimwXvGQkJBzQPTEeByRDwKocy9F8MGDgNR8ThkIfAj5siyuyZmZZNtzdxzJOuOwvvgNtk4POVxP3kugdKdw4bJp5UPCb03mDg5x4unIvNg',
+      image_url: 'https://www.ikea.com/jp/en/images/products/hemnes-day-bed-frame-with-3-drawers-white__0857890_PE632055_S5.JPG',
+      price: 1000,
+      stock: 10
+    }
+
+    request(app)
+      .post('/products')
+      .send(body)
+      .set('access_token', access_token_admin)
+      .end((err, res) => {
+        if (err) done(err)
+
+        expect(res.statusCode).toEqual(400)
+        expect(res.body).toHaveProperty('errors')
+        expect(typeof res.body).toEqual('object')
+        expect(Array.isArray(res.body.errors)).toEqual(true)
+        expect(res.body.errors).toEqual(
+          expect.arrayContaining(['Max characters for string exceeded'])
         )
 
         done()
@@ -576,7 +603,7 @@ describe('PUT /products/:id', () => {
 
     // Execute
     request(app)
-      .put('/products/${productId}')
+      .put(`/products/${productId}`)
       .send(body)
       .set('access_token', access_token_admin)
       .end((err, res) => {
@@ -679,6 +706,33 @@ describe('PUT /products/:id', () => {
         expect(Array.isArray(res.body.errors)).toEqual(true)
         expect(res.body.errors).toEqual(
           expect.arrayContaining(['Image_url must contain a url'])
+        )
+
+        done()
+      })
+  })
+
+  it('should send response with 400 status code - max characters exceeded', (done) => {
+    const body = {
+      name: 'PZ3sQJbAv87HqMygbwVyZAuJ5uvfgZdPrrufzYMt63xUDZERXcdMxFKBs2qfHv4POkqgLdYf69GExaGnJaKyxljKEhokmQRoxftCP4cRH36yVk6Y679TAV4o0zXxULTPCIJoLl9utjjRlVcj0p8BMBimwXvGQkJBzQPTEeByRDwKocy9F8MGDgNR8ThkIfAj5siyuyZmZZNtzdxzJOuOwvvgNtk4POVxP3kugdKdw4bJp5UPCb03mDg5x4unIvNg',
+      image_url: 'https://www.ikea.com/jp/en/images/products/hemnes-day-bed-frame-with-3-drawers-white__0857890_PE632055_S5.JPG',
+      price: 1000,
+      stock: 10
+    }
+
+    request(app)
+      .put(`/products/${productId}`)
+      .send(body)
+      .set('access_token', access_token_admin)
+      .end((err, res) => {
+        if (err) done(err)
+
+        expect(res.statusCode).toEqual(400)
+        expect(res.body).toHaveProperty('errors')
+        expect(typeof res.body).toEqual('object')
+        expect(Array.isArray(res.body.errors)).toEqual(true)
+        expect(res.body.errors).toEqual(
+          expect.arrayContaining(['Max characters for string exceeded'])
         )
 
         done()
