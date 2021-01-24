@@ -19,7 +19,7 @@
     "supertest": "^6.1.1"
   },
   "scripts": {
-    "start": "node bin/http.js"
+    "start": "node bin/http.js",
     "db:create": "npx sequelize-cli db:create",
     "db:migrate": "npx sequelize-cli db:migrate",
     "db:migrate:undo:all": "npx sequelize-cli db:migrate:undo:all",
