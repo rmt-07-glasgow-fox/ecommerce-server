@@ -16,12 +16,13 @@ class ProductController {
 
   static async create(req, res, next) {
     try {
-      const { name, image_url, price, stock } = req.body
+      const { name, image_url, price, stock, category } = req.body
       const obj = {
         name,
         image_url,
         price,
-        stock
+        stock,
+        category
       }
 
       const product = await Product.create(obj)
@@ -67,12 +68,13 @@ class ProductController {
   static async update(req, res, next) {
     try {
       let id = req.params.id
-      let { name, image_url, price, stock } = req.body
+      let { name, image_url, price, stock, category } = req.body
       let product = await Product.findByPk(id)
       product.name = name
       product.image_url = image_url
       product.price = price
       product.stock = stock
+      product.category = category
       await product.save()
 
       res.status(200).json(product)

@@ -75,6 +75,15 @@ module.exports = (sequelize, DataTypes) => {
           msg: 'Stock must be number'
         }
       }
+    },
+    category: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: 'Category required'
+        }
+      }
     }
   }, {
     sequelize,
