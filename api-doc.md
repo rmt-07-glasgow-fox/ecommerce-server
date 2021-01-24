@@ -508,6 +508,19 @@ __Response (500 - Internal Server Error)__
 __Response (200)__
  ```javascript
 {
+    deletedProduct: {
+      id: '<product id>',
+      name: "<product name>",
+      image_url: "<product image_url>",
+      price: "<updated product price>",
+      stock: "<product stock>",
+      status: "<product status>",
+      description: "<product description>",
+      categoryId: "<category id>",
+      Category: {
+        id: "<category id>",
+        categoryName: "<categoryName>"
+      }
     message: 'Product has been deleted'
 }
 ```
