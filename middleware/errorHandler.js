@@ -2,11 +2,12 @@ module.exports = (err, req, res, next) => {
   if (err) {
     switch (err.name) {
       case `SequelizeValidationError`:
-        res.status(400).json(err.errors.map((err) => err.message));
+        console.log(err.errors.map((err) => err.message));
+        res.status(400).json({errors: err.errors.map((err) => err.message)});
         break;
 
       case `SequelizeUniqueConstraintError`:
-        res.status(400).json(err.errors.map((err) => err.message));
+        res.status(400).json({errors: err.errors.map((err) => err.message)});
         break;
 
       case `EmailDoesNotExist`:
@@ -35,6 +36,10 @@ module.exports = (err, req, res, next) => {
 
       case `Authentificate`:
         res.status(401).json({ errors: ["Login first"] });
+        break;
+
+      case `ProductNotFound`:
+        res.status(401).json({ errors: ["Product Not Found"] });
         break;
 
       default:

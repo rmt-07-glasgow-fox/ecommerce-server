@@ -1,19 +1,19 @@
-const {verifyToken} = require('../helpers/jwt')
+const { verifyToken } = require("../helpers/jwt");
 
 exports.authentificate = (req, res, next) => {
   try {
     if (req.headers.access_token) {
-      const user = verifyToken(req.headers.access_token)
+      const user = verifyToken(req.headers.access_token);
       if (user) {
-        req.user = user
-        next()
+        req.user = user;
+        next();
       } else {
-        next({name: "Unauthorized"})
+        next({ name: "Unauthorized" });
       }
     } else {
-      next({name: "Authentificate"})
+      next({ name: "Authentificate" });
     }
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
+};

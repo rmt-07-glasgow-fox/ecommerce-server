@@ -1,8 +1,8 @@
-const { User } = require("../../models");
+const { Product } = require("../../models/")
+require("dotenv").config()
 
-exports.clearUsers = async () => {
-  console.log("helpers");
+exports.clearProducts = () => {
   if (process.env.NODE_ENV === "test") {
-    return await User.destroy({ where: {} });
+    return Product.destroy({ truncate: true });
   }
 };

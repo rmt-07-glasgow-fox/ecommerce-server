@@ -8,7 +8,6 @@ const password = process.env['DB_PASSWORD_'+uppercasedEnv]
 const database = process.env['DB_NAME_'+uppercasedEnv]
 const host = process.env['DB_HOST_'+uppercasedEnv]
 const dialect = process.env['DB_DIALECT_'+uppercasedEnv]
-console.log(username);
 
 module.exports = {
   development: {
