@@ -25,10 +25,10 @@ module.exports = {
     dialect,
   },
   production: {
-    username: "root",
-    password: null,
-    database: "database_production",
-    host: "127.0.0.1",
-    dialect: "mysql",
+    username: "weyinliqynortm",
+    password: "c5d970496929b306e0fb803f1eab53f21c360a10c1d05489fbd611a4fc4ddd62",
+    database: "d4bktiepng7jcr",
+    host: "ec2-52-2-6-71.compute-1.amazonaws.com",
+    dialect: "postgres",
   },
 };
