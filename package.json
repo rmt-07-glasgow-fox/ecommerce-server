@@ -19,7 +19,8 @@
     "db:seed:undo:all:test": "cross-env NODE_ENV=test npx sequelize-cli db:seed:undo:all",
 
     "dev": "cross-env NODE_ENV=development npx nodemon bin/listen.js",
-    "test": "cross-env NODE_ENV=test npx jest --runInBand --detectOpenHandles --forceExit"
+    "test": "cross-env NODE_ENV=test npx jest --runInBand --detectOpenHandles --forceExit",
+    "start": "node /bin/listen.js"
   },
   "repository": {
     "type": "git",
