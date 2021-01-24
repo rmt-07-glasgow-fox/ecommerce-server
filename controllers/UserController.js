@@ -13,6 +13,7 @@ class UserController {
       where: { email },
     })
       .then((response) => {
+        console.log(response);
         if (!response) next({ name: "InvalidCredentials" });
         else {
           if (!checkPassword(password, response.password)) {
@@ -36,6 +37,7 @@ class UserController {
         }
       })
       .catch((err) => {
+        console.log(err);
         next(err);
       });
   }
