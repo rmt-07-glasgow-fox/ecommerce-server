@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "gardara",
+  "private_key_id": "c6e6a76002d3879b4a9db38be46c0a40e29302d2",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDPPPhA/8L8CqHu\nGEdv4CAw+PlSqetEsgll0Vm43R/MlJZzPtQma2nKaZIIWtGnAvJ8c9Weuv1OH5jE\nkZClbrr529U/BzHa2LGPXAwNLuKal2Jy0pW2y0LHCuwj6eU1uNsoddAKBaBtdGez\nM5TSHOeEq1nI2J+6iLviHSG1jA3up6iSrZWultajZ7+zOdMICBECuQojpbKvn4s7\n1QFvqQk1z4B2X1ZGaZAn0EBj9iKYdDWf5Q2XZp1yTIaLws6PFuq/m6XPs7FBOVye\njOu/nDgDjPfoz77BMbIeTeYqKBz0639N8wnTRDCxqgqW3uu1KBg+2AX4Mn5sEgw/\n3hejuy4xAgMBAAECggEALlP0MH2snnEXDZW+ZI9vStthyz3Co0cErE8OdnHyYabm\n8kj9nsAc9HvAwl7hJuuU/0ba3sLxDRWprmnXMvBr2p7vD0nBtqmCGikK5aiRTltg\nzgfvIZ/TZBE4RHgNfkK+tY8OzKrA2C8xXoF9t7Hv/LvclLZ+kLHwBIacKkxusebA\nhxhkiJpENKJ9KjEL51qr7tIgHh03aICexEOJRSzgMogSTdNP2yxnkkvquoJhhxgu\nsrJiWzDT6h6gDI3lvSDEECB3NzqiuXlHs58K4u7Jdom8l54Qd1us2EDrCIlp9SN9\nW1iwTamaLTZ1kZuXXxw72FVNNr/jKl8Jfy1vxOGaNQKBgQDwnVFRrk03yeu5LyVQ\nNs1osBmP+S80qTZ4oXhvfHBS11HS6yZfmnsyEnvmcKHMSgJagbedeQHmF5UWZKZX\ng/T3DxXata4cXwLzBpkJDDV97T/Dh0GQ4fLnJogbCLEv0au3cZZ/rrnkK3wH/FXZ\nPeythK+FmxPAoW8t9XaI93eddQKBgQDcfU5CI+kriykSz0zFCO7wlaZ7FVp4AGhl\nLjDghBm/RyDmnBh0ji2MJPN12AiuOY0vCndHs4E30g0ad+InuNhtxSQP+pOSdi64\nl9AgObZ12O5ehn3coV1gbcMkJ5gkwCYpBmx9hU5I26Gs7gwaGj63PzLti8tfVGF1\nY5keE6lKTQKBgGGReVsk0d0QfQyfqILJZivQVN1DzzeMcjEiUOLsU+PTujNL9UiJ\nLPGV+zXrcECVtjSbKyio2/NAlsz4zVbphFj2fgcs6shIYrrHbyDzGXHR1axk2Vp1\ntPi0cDZ+JNNeM0J0xfFKmciDNY1LbkhkSuflyQLlanIPRDUftww9RPzNAoGBAMXr\nBPCB46/efsQPqM3FMxZqfsJFbKwDUbJhQCaI7cOxSWs3+wvFBEWkdZX2kfQyXPU4\n49FM5FUDDBgSPMODPWNrbu+Y8haqV04DmCMVKx+l1nKrLxd5EaSZYm11zTBP+vEg\nfwo9OwRTglEEbYCQxnMfG8v3jFrKF6GUAcHpzDCRAoGAf+HzxGGr5H2HKExJFGxB\ni5D+5cCm1xmcd4lRzlswIhh1nYplK/epj66n9XkfRPTfo41iOPHoS60imc5otMA6\nCMf+dunVuxm7D4rFkduNH/bRoGPLZchRtKOGZ15YH+KhCDz7ZmtHxh+OWDLJKWbm\nIOUTOV5c2uP0RS/yMF0/0qA=\n-----END PRIVATE KEY-----\n",
+  "client_email": "gardara@gardara.iam.gserviceaccount.com",
+  "client_id": "108658959839531154595",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/gardara%40gardara.iam.gserviceaccount.com"
+}
