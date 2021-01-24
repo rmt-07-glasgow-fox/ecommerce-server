@@ -3,6 +3,7 @@ const productController = require('../controllers/productController');
 const isAdmin = require('../middlewares/isAdmin');
 
 router.get('/', productController.getAll);
+router.get('/:id', productController.get);
 router.post('/', isAdmin, productController.store);
 router.put('/:id', isAdmin, productController.update);
 router.delete('/:id', isAdmin, productController.destroy);

@@ -6,13 +6,11 @@ const bannerRouter = require('./banner');
 
 const isLogin = require('../middlewares/isLogin');
 
-
-
 router.get('/', (req, res) => {
-    res.status(200).json({
-        status: 'success',
-        message: 'Hello CMS'
-    })
+  res.status(200).json({
+    status: 'success',
+    message: 'Hello CMS'
+  })
 })
 
 router.use(authRouter);
