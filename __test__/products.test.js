@@ -24,13 +24,13 @@ describe("POST /products", () => {
       })
   })
 
-  // afterAll((done) => {
-  //   clearProducts()
-  //     .then(() => {
-  //       done()
-  //     })
-  //     .catch(console.log)
-  // })
+  afterAll((done) => {
+    clearProducts()
+      .then(() => {
+        done()
+      })
+      .catch(console.log)
+  })
 
   it('should send response with 201 status code', (done) => {
     const body = {
@@ -41,7 +41,7 @@ describe("POST /products", () => {
       UserId: 2
     }
 
-    request(app) 
+    request(app)
       .post('/products')
       .send(body)
       .set('access_token', token)
@@ -86,7 +86,7 @@ describe("POST /products", () => {
       UserId: 2
     }
 
-    request(app) 
+    request(app)
       .post('/products')
       .send(body)
       .end((err, res) => {
@@ -128,7 +128,7 @@ describe("POST /products", () => {
       stock: 122
     }
 
-    request(app) 
+    request(app)
       .post('/products')
       .send(body)
       .set('access_token', 'bukanpunyaadmin')
@@ -173,7 +173,7 @@ describe("POST /products", () => {
       stock: 122
     }
 
-    request(app) 
+    request(app)
       .post('/products')
       .send(body)
       .set('access_token', token)
@@ -216,7 +216,7 @@ describe("POST /products", () => {
       stock: -5
     }
 
-    request(app) 
+    request(app)
       .post('/products')
       .send(body)
       .set('access_token', token)
@@ -259,7 +259,7 @@ describe("POST /products", () => {
       stock: 6
     }
 
-    request(app) 
+    request(app)
       .post('/products')
       .send(body)
       .set('access_token', token)
@@ -303,7 +303,7 @@ describe("PUT /products", () => {
       price: 90000,
       stock: 45
     }
-    request(app) 
+    request(app)
       .put('/products/112')
       .send(body)
       .set('access_token', token)
@@ -347,7 +347,7 @@ describe("PUT /products", () => {
       price: 90000,
       stock: 45
     }
-    request(app) 
+    request(app)
       .put('/products/112')
       .send(body)
       // .set('access_token', token)
@@ -389,7 +389,7 @@ describe("PUT /products", () => {
       price: 90000,
       stock: 45
     }
-    request(app) 
+    request(app)
       .put('/products/112')
       .send(body)
       .set('access_token', 'bukanpunyadmin')
@@ -431,7 +431,7 @@ describe("PUT /products", () => {
       price: 90000,
       stock: -45
     }
-    request(app) 
+    request(app)
       .put('/products/112')
       .send(body)
       .set('access_token', token)
@@ -473,7 +473,7 @@ describe("PUT /products", () => {
       price: -999,
       stock: 45
     }
-    request(app) 
+    request(app)
       .put('/products/112')
       .send(body)
       .set('access_token', token)
@@ -492,7 +492,7 @@ describe("PUT /products", () => {
 
 // DELETE PRODUCT
 
-// Success test cases 
+// Success test cases
 
 describe("DELETE /products", () => {
   beforeAll((done) => {
@@ -517,7 +517,7 @@ describe("DELETE /products", () => {
       price: -999,
       stock: 45
     }
-    request(app) 
+    request(app)
       .delete('/products/112')
       .send(body)
       .set('access_token', token)
@@ -559,7 +559,7 @@ describe("DELETE /products", () => {
       price: -999,
       stock: 45
     }
-    request(app) 
+    request(app)
       .delete('/products/112')
       .send(body)
       .set('access_token', 'bukanpunyadmin')

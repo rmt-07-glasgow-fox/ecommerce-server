@@ -1,6 +1,6 @@
 'use strict';
 const {
-  Model
+  Model, Sequelize
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Product extends Model {
@@ -42,7 +42,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: 'cannot be less than zero or a negative number'
         }
       }
-    }
+    },
+    UserId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Product',
