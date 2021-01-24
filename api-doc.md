@@ -9,11 +9,13 @@ List of available endpoints:
 And routes below need authentication
 - `POST /products`
 - `GET /products`
+- `GET /products/:id`
 - `DELETE /products/:id`
 - `PATCH /products/:id`
 - `PUT /products/:id`
 
 And routes below need authorization
+- `GET /products/:id`
 - `DELETE /products/:id`
 - `PATCH /products/:id`
 - `PUT /products/:id`
@@ -156,17 +158,17 @@ Response:
   ​
 
 ```json
-  {
-      "name": "Jam tangan",
-      "description": "BNIB",
-      "image_url": "string",
-      "conditon": "New",
-      "Price": 100000,
-      "stock": 1,
-      "UserId": "integer",
-      "updatedAt": "2021-01-14T07:06:36.663Z",
-      "createdAt": "2021-01-14T07:06:36.663Z"
-  }
+{
+    "name": "Jam tangan",
+    "description": "BNIB",
+    "image_url": "string",
+    "conditon": "New",
+    "Price": 100000,
+    "stock": 1,
+    "UserId": "integer",
+    "updatedAt": "2021-01-14T07:06:36.663Z",
+    "createdAt": "2021-01-14T07:06:36.663Z"
+}
 ```
 
 

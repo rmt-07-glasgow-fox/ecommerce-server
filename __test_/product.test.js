@@ -28,7 +28,7 @@ describe('GET /products', function () {
             .get('/products')
             .set('access_token', access_token)
             .end(function (err ,res) { 
-                if (err) done(err)   ;
+                if (err) done(err)
                 expect(res.statusCode).toEqual(200);
                 expect(typeof res.body).toEqual('object');
                 done()
@@ -39,7 +39,7 @@ describe('GET /products', function () {
             .get('/products')
             .set('access_token', access_token)
             .end(function (err ,res) { 
-                if (err) done(err)   ;
+                if (err) done(err)
                 expect(res.statusCode).toEqual(200);
                 expect(typeof res.body).toEqual('object');
                 done()
@@ -89,6 +89,12 @@ describe('POST /products', function () {
                 params = res.body.id
                 expect(res.statusCode).toEqual(201);
                 expect(typeof res.body).toEqual('object');
+                expect(res.body.name).toEqual('Jam G-Shock DW-6900')
+                expect(res.body.description).toEqual('Brand New In Box Garansi resmi Indonesia')
+                expect(res.body.image_url).toEqual('https://assets.jamtangan.com/images/product/casio/GM-6900-1DR/1l.jpg')
+                expect(res.body.condition).toEqual('New')
+                expect(res.body.price).toEqual(1099000)
+                expect(res.body.stock).toEqual(4)
                 done()
             })
     });
@@ -112,6 +118,10 @@ describe('POST /products', function () {
                 expect(res.statusCode).toEqual(400)
                 expect(typeof res.body).toEqual('object')
                 expect(res.body).toHaveProperty('errors')
+                expect(res.body.errors).toEqual([ 'Product name should have 3 - 30 Characters',
+                'Product description should have minimum 4 Characters',
+                'Url Image must be filled',
+                'Condition must be filled' ])
                 expect(Array.isArray(res.body.errors)).toEqual(true)
                 done()
             })
@@ -137,6 +147,11 @@ describe('POST /products', function () {
                 expect(typeof res.body).toEqual('object')
                 expect(res.body).toHaveProperty('errors')
                 expect(Array.isArray(res.body.errors)).toEqual(true)
+                expect(res.body.errors).toEqual([ 'Product name should have 3 - 30 Characters',
+                'Product description should have minimum 4 Characters',
+                'Url Image must be filled',
+                'Condition must be filled',
+                'Product should have price' ])
                 done()
             })
     });
@@ -161,6 +176,11 @@ describe('POST /products', function () {
                 expect(typeof res.body).toEqual('object')
                 expect(res.body).toHaveProperty('errors')
                 expect(Array.isArray(res.body.errors)).toEqual(true)
+                expect(res.body.errors).toEqual([ 'Product name should have 3 - 30 Characters',
+                'Product description should have minimum 4 Characters',
+                'Url Image must be filled',
+                'Condition must be filled',
+                'Product should have stock' ])
                 done()
             })
     });
@@ -185,9 +205,58 @@ describe('POST /products', function () {
                 expect(typeof res.body).toEqual('object')
                 expect(res.body).toHaveProperty('errors')
                 expect(Array.isArray(res.body.errors)).toEqual(true)
+                expect(res.body.errors).toEqual([ 'Product name should have 3 - 30 Characters',
+                'Product description should have minimum 4 Characters',
+                'Url Image must be filled',
+                'Condition must be filled',
+                'Product should have price',
+                'Product should have stock' ])
                 done()
             })
     });
+})
+
+describe('GET /products/id', function () {
+    it('should send respond with 200 status code', function (done) {
+        request(app)
+            .get(`/products/${params}`)
+            .set('access_token', access_token)
+            .end(function (err, res) {
+                if (err) done(err)
+                expect(res.statusCode).toEqual(200)
+                expect(typeof res.body).toEqual('object')
+                expect(res.body.name).toEqual('Jam G-Shock DW-6900')
+                expect(res.body.description).toEqual('Brand New In Box Garansi resmi Indonesia')
+                expect(res.body.image_url).toEqual('https://assets.jamtangan.com/images/product/casio/GM-6900-1DR/1l.jpg')
+                expect(res.body.condition).toEqual('New')
+                expect(res.body.price).toEqual(1099000)
+                expect(res.body.stock).toEqual(4)
+                done()
+            })
+    })
+    it('should send respond with 400 status code', function (done) {
+        request(app)
+            .get(`/products/${params}`)
+            .end(function (err, res) {
+                if (err) done(err)
+                expect(res.statusCode).toEqual(400)
+                expect(typeof res.body).toEqual('object')
+                expect(res.body).toHaveProperty('message', 'jwt must be provided')
+                done()
+            })
+    })
+    it('should send respond with 400 status code', function (done) {
+        request(app)
+            .get(`/products/${params}`)
+            .set('access_token', 'asal bikin')
+            .end(function (err, res) {
+                if (err) done(err)
+                expect(res.statusCode).toEqual(400)
+                expect(typeof res.body).toEqual('object')
+                expect(res.body).toHaveProperty('message', 'jwt malformed')
+                done()
+            })
+    })
 })
 
 describe('PUT /products/id', function () {
@@ -209,7 +278,8 @@ describe('PUT /products/id', function () {
             .end(function (err ,res) {
                 if (err) done(err)   ;
                 expect(res.statusCode).toEqual(200);
-                expect(typeof res.body).toEqual('object');
+                expect(typeof res.body).toEqual('object')
+                expect(res.body).toHaveProperty('message', 'Product has been updated')
                 done()
             })
     });
@@ -232,7 +302,7 @@ describe('PUT /products/id', function () {
                 if (err) done(err)   ;
                 expect(res.statusCode).toEqual(400);
                 expect(typeof res.body).toEqual('object');
-                expect(res.body).toHaveProperty('errors')
+                expect(res.body).toHaveProperty('errors', [ 'Product should have price' ])
                 done()
             })
     });
@@ -255,7 +325,7 @@ describe('PUT /products/id', function () {
                 if (err) done(err)   ;
                 expect(res.statusCode).toEqual(400);
                 expect(typeof res.body).toEqual('object');
-                expect(res.body).toHaveProperty('errors')
+                expect(res.body).toHaveProperty('errors', [ 'Product should have stock' ])
                 done()
             })
     });
@@ -278,7 +348,7 @@ describe('PUT /products/id', function () {
                 if (err) done(err)   ;
                 expect(res.statusCode).toEqual(400);
                 expect(typeof res.body).toEqual('object');
-                expect(res.body).toHaveProperty('errors')
+                expect(res.body).toHaveProperty('errors', [ 'Product should have price' ])
                 done()
             })
     });it('should send respond with 400 status code', function (done) {
@@ -300,7 +370,7 @@ describe('PUT /products/id', function () {
                 if (err) done(err)   ;
                 expect(res.statusCode).toEqual(400);
                 expect(typeof res.body).toEqual('object');
-                expect(res.body).toHaveProperty('errors')
+                expect(res.body).toHaveProperty('errors', [ 'Product should have price', 'Product should have stock' ])
                 done()
             })
     });
@@ -368,7 +438,7 @@ describe('DELETE /products/id', function () {
                 if (err) done(err)   ;
                 expect(res.statusCode).toEqual(400);
                 expect(typeof res.body).toEqual('object');
-                expect(res.body).toHaveProperty('message')
+                expect(res.body).toHaveProperty('message', 'jwt malformed')
                 done()
             })
     });
@@ -380,7 +450,7 @@ describe('DELETE /products/id', function () {
             .end(function (err ,res) {
                 if (err) done(err)   ;
                 expect(res.statusCode).toEqual(200);
-                expect(typeof res.body).toEqual('object');
+                expect(typeof res.body).toEqual('object', 'Product has been deleted');
                 done()
             })
     });
