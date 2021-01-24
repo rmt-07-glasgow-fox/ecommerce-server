@@ -25,6 +25,10 @@ const errHandlers = (err, req, res, next) => {
                  return res.status(404).json({
                      message: "Data Not Found"
                  });
+             case "You Not a Admin":
+                 return res.status(403).json({
+                    message: "You Not a Admin"
+                 });
              default:
                  return res.status(500).json({message: 'Your Internal Server Is not Connect / Error'})
         }

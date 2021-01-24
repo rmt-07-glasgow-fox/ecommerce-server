@@ -35,8 +35,12 @@ class UserController {
                     email: user.email,
                     role: user.role
                 }
-                const access_token = generateToken(payload)
-                return res.status(200).json({access_token});
+                if (payload.role !== 'admin'){
+                    next({name: "You Not a Admin"})
+                } else {
+                    const access_token = generateToken(payload)
+                    return res.status(200).json({access_token});
+                }
             }else {
                 next({name: "wrongInput"})
             }
