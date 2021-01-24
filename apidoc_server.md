@@ -364,3 +364,296 @@ _Response (404)_
 }
 ```
 ---
+
+
+
+### POST /banners
+> Create new banner, but only user that has role as admin can do this!
+
+_Request_
+```
+url: http://localhost:3000/banners
+```
+
+_Request Params_
+```
+Not needed
+```
+
+_Request Header_
+```
+{
+  "Content-type": "application/json",
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTYxMTEyMzcxN30.ZpC6kOy3iDO--tfUuch4zqXMXNCIbEK0RdYtL39yyE8"
+}
+```
+
+_Request Body_
+```
+{
+  "title": "<title>",
+  "category": "<category>",
+  "status": "<status>"
+}
+```
+
+_Response (201)_
+```
+{
+  "id": <given id by system>,
+  "title": "<title>",
+  "category": "<category>",
+  "status": "<status>",
+  "createdAt": "2020-01-20T07:15:12.149Z",
+  "updatedAt": "2020-01-20T07:15:12.149Z"
+}
+```
+
+_Response (400)_
+```
+{
+  "message": <given messages by system>
+}
+```
+
+_Response (500)_
+```
+{
+  "message": "Internal server error!"
+}
+```
+
+### GET /banners
+
+> Get all banners. But you need to log in first, and only user that has role as admin can see the list
+
+_Request_
+```
+url: http://localhost:3000/banners
+```
+
+_Request Header_
+```
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTYxMTEyMzcxN30.ZpC6kOy3iDO--tfUuch4zqXMXNCIbEK0RdYtL39yyE8"
+}
+```
+
+_Request Body_
+```
+not needed
+```
+
+_Response (200)_
+```
+
+[
+  {
+    "id": <given id by system>,
+    "title": "<title>",
+    "category": <category>,
+    "status": "<status>",
+    "createdAt": "<2020-01-20T07:15:12.149Z>",
+    "updatedAt": "<2020-01-20T07:15:12.149Z>"
+  },
+  {
+    "id": <"...">,
+    "title": <"...">,
+    "category": <"...">,
+    "status": <"...">,
+    "createdAt": <"...">,
+    "updatedAt": <"...">
+  }
+]
+
+```
+
+_Response (500 - Cannot retrieve data, please try again later)_
+```
+{
+  "message": "Cannot retrieve data, please try again later"
+}
+```
+
+_Response (500 - Internal Server Error)_
+```
+{
+  "message": "Internal Server Error"
+}
+```
+---
+
+### GET /banners/:id
+
+> Find specify banner by id. But you need to log in first and only user that has role as admin.
+
+_Request_
+```
+url: http://localhost:3000/banners/1
+```
+
+_Request Params_
+```
+{
+  "id": "1"
+}
+```
+
+_Request Header_
+```
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTYxMTEyMzcxN30.ZpC6kOy3iDO--tfUuch4zqXMXNCIbEK0RdYtL39yyE8"
+}
+```
+
+_Request Body_
+```
+not needed
+```
+
+_Response (200)_
+```
+{
+  "id": 1,
+  "title": "image_url_link_for_banner",
+  "category": "Fashion",
+  "status": InActive,
+  "createdAt": "2021-01-19T14:42:19.158Z",
+  "updatedAt": "2021-01-19T14:42:19.158Z"
+}
+```
+
+_Response (404)_
+```
+{
+  "message": "Not found"
+}
+```
+
+_Response (400)_
+```
+{
+  "message": <given messages by system>
+}
+```
+---
+
+### PUT /banners/:id
+
+> Replace all attributes banners. But you need to log in first and only user that has role as admin.
+
+_Request_
+```
+url: http://localhost:3000/banners/1
+```
+
+_Request Params_
+```
+{
+  "id": "1"
+}
+```
+
+_Request Header_
+```
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTYxMTEyMzcxN30.ZpC6kOy3iDO--tfUuch4zqXMXNCIbEK0RdYtL39yyE8"
+}
+```
+
+_Request Body_
+```
+{
+  "title": "<title>",
+  "category": "<category>",
+  "status": "<status>"
+}
+```
+
+_Response (200)_
+```
+{
+{
+  "id": 1,
+  "title": "URL FOR BANNER",
+  "category": "Fashion",
+  "status": "Active",
+  "createdAt": "2021-01-19T14:42:19.158Z",
+  "updatedAt": "2021-01-19T14:49:27.593Z"
+}
+}
+```
+
+_Response (400)_
+```
+{
+  "message": <given id by system>
+}
+```
+
+_Response (500)_
+```
+{
+  "message": "Internal server error!"
+}
+```
+
+_Response (404)_
+```
+{
+  "message": "Data not found!"
+}
+```
+---
+
+
+
+### DELETE /banners/:id
+
+> Delete object/record. But you need to log in first and only user that has role as admin.
+
+_Request_
+```
+url: http://localhost:3000/banners/1
+```
+
+_Request Params_
+```
+{
+  "id": "1"
+}
+```
+
+_Request Header_
+```
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTYxMTEyMzcxN30.ZpC6kOy3iDO--tfUuch4zqXMXNCIbEK0RdYtL39yyE8"
+}
+```
+
+_Request Body_
+```
+Not needed
+```
+
+_Response (200)_
+```
+{
+  msg: 'Product has been deleted',
+}
+```
+
+_Response (500)_
+```
+{
+  "message": "Internal server error!"
+}
+```
+
+_Response (404)_
+```
+{
+  "message": "Data not found!"
+}
+```
+---
