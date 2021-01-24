@@ -20,8 +20,8 @@ This server is built with test suites with TDD.
 * **Data Params**
     
     **Content:** `{ 
-    name: "nice headset",
-    image_url: "https://media.wired.com/photos/5e7164aeb9399f00096a2ae6/1:1/w_1800,h_1800,c_limit/Gear-Mont-Blanc-Smart-Headphones-Gold-Front-SOURCE-Mont-Blanc.jpg",
+    name: 'nice headset',
+    image_url: 'https://media.wired.com/photos/5e7164aeb9399f00096a2ae6/1:1/w_1800,h_1800,c_limit/Gear-Mont-Blanc-Smart-Headphones-Gold-Front-SOURCE-Mont-Blanc.jpg',
     price: 120000,
     stock: 5
     }
@@ -32,12 +32,12 @@ This server is built with test suites with TDD.
   * **Code:** 201 OK <br />
       **Content:** `{ 
       id: 1,
-      name: "nice headset",
-      image_url: "https://media.wired.com/photos/5e7164aeb9399f00096a2ae6/1:1/w_1800,h_1800,c_limit/Gear-Mont-Blanc-Smart-Headphones-Gold-Front-SOURCE-Mont-Blanc.jpg",
+      name: 'nice headset',
+      image_url: 'https://media.wired.com/photos/5e7164aeb9399f00096a2ae6/1:1/w_1800,h_1800,c_limit/Gear-Mont-Blanc-Smart-Headphones-Gold-Front-SOURCE-Mont-Blanc.jpg',
       price: 120000,
       stock: 5,
-      updatedAt: "2021-01-18T10:38:05.747Z",
-      createdAt: "2021-01-18T10:38:05.747Z"
+      updatedAt: '2021-01-18T10:38:05.747Z',
+      createdAt: '2021-01-18T10:38:05.747Z'
       }
       `
 
@@ -54,11 +54,11 @@ This server is built with test suites with TDD.
 
   * **Code:** 400 Bad Request <br />
       **Content:** `{
-      "errors": [
-        "Name required",
-        "Image_url required",
-        "Price required",
-        "Stock required"
+      'errors': [
+        'Name required',
+        'Image_url required',
+        'Price required',
+        'Stock required'
       ]
       }
       `
@@ -67,9 +67,9 @@ This server is built with test suites with TDD.
 
   * **Code:** 400 Bad Request <br />
       **Content:** `{
-      "errors": [
-        "Price must be greater than zero",
-        "Stock must be greater than zero"
+      'errors': [
+        'Price must be greater than zero',
+        'Stock must be greater than zero'
       ]
       }
       `
@@ -77,9 +77,9 @@ This server is built with test suites with TDD.
 
   * **Code:** 400 Bad Request <br />
       **Content:** `{
-      "errors": [
-        "Price must be a valid number",
-        "Stock must be a valid number"
+      'errors': [
+        'Price must be a valid number',
+        'Stock must be a valid number'
       ]
       }
       `
@@ -87,8 +87,8 @@ This server is built with test suites with TDD.
 
   * **Code:** 400 Bad Request <br />
       **Content:** `{
-      "errors": [
-        "Name must contain only alphanumeric characters"
+      'errors': [
+        'Name must contain only alphanumeric characters'
       ]
       }
       `
@@ -96,11 +96,30 @@ This server is built with test suites with TDD.
 
   * **Code:** 400 Bad Request <br />
       **Content:** `{
-      "errors": [
-        "Image_url must contain a url"
+      'errors': [
+        'Image_url must contain a url'
       ]
       }
       `
+    OR
+
+  * **Code:** 400 Bad Request <br />
+  **Content:** `{
+  'errors': [
+    'Number too big'
+  ]
+  }
+  `
+
+    OR
+
+  * **Code:** 400 Bad Request <br />
+  **Content:** `{
+  'errors': [
+    'Max characters for string exceeded'
+  ]
+  }
+  `
 
 * **Sample Call:**
 
@@ -123,8 +142,8 @@ This server is built with test suites with TDD.
 * **Data Params**
     
     **Content:** `{ 
-    name: "nice headset",
-    image_url: "https://media.wired.com/photos/5e7164aeb9399f00096a2ae6/1:1/w_1800,h_1800,c_limit/Gear-Mont-Blanc-Smart-Headphones-Gold-Front-SOURCE-Mont-Blanc.jpg",
+    name: 'nice headset',
+    image_url: 'https://media.wired.com/photos/5e7164aeb9399f00096a2ae6/1:1/w_1800,h_1800,c_limit/Gear-Mont-Blanc-Smart-Headphones-Gold-Front-SOURCE-Mont-Blanc.jpg',
     stock: 3,
     price: 200000
     }
@@ -135,12 +154,12 @@ This server is built with test suites with TDD.
   * **Code:** 201 OK <br />
       **Content:** `{ 
       id: 1,
-      name: "nice headset",
-      image_url: "https://media.wired.com/photos/5e7164aeb9399f00096a2ae6/1:1/w_1800,h_1800,c_limit/Gear-Mont-Blanc-Smart-Headphones-Gold-Front-SOURCE-Mont-Blanc.jpg",
+      name: 'nice headset',
+      image_url: 'https://media.wired.com/photos/5e7164aeb9399f00096a2ae6/1:1/w_1800,h_1800,c_limit/Gear-Mont-Blanc-Smart-Headphones-Gold-Front-SOURCE-Mont-Blanc.jpg',
       price: 200000,
       stock: 3,
-      updatedAt: "2021-01-18T10:38:05.747Z",
-      createdAt: "2021-01-18T10:38:05.747Z"
+      updatedAt: '2021-01-18T10:38:05.747Z',
+      createdAt: '2021-01-18T10:38:05.747Z'
       }
       `
 
@@ -148,7 +167,7 @@ This server is built with test suites with TDD.
 
   * **Code:** 401 Unauthorised <br />
       **Content:** `{
-      "errors": [
+      'errors': [
         'Not authorised'
       ]
       }
@@ -157,9 +176,9 @@ This server is built with test suites with TDD.
 
   * **Code:** 400 Bad Request <br />
       **Content:** `{
-      "errors": [
-        "Price must be greater than zero",
-        "Stock must be greater than zero"
+      'errors': [
+        'Price must be greater than zero',
+        'Stock must be greater than zero'
       ]
       }
       `
@@ -167,7 +186,7 @@ This server is built with test suites with TDD.
 
   * **Code:** 400 Bad Request <br />
       **Content:** `{
-      "errors": [
+      'errors': [
         'Name must contain only alphanumeric characters'
       ]
       }
@@ -176,11 +195,31 @@ This server is built with test suites with TDD.
 
   * **Code:** 400 Bad Request <br />
       **Content:** `{
-      "errors": [
+      'errors': [
         'Image_url must contain a url'
       ]
       }
       `
+
+    OR
+
+  * **Code:** 400 Bad Request <br />
+  **Content:** `{
+  'errors': [
+    'Number too big'
+  ]
+  }
+  `
+
+    OR
+
+  * **Code:** 400 Bad Request <br />
+  **Content:** `{
+  'errors': [
+    'Max characters for string exceeded'
+  ]
+  }
+  `
 
 **Fetch All Products**
 ----
@@ -209,8 +248,8 @@ This server is built with test suites with TDD.
         image_url: 'https://media.wired.com/photos/5e7164aeb9399f00096a2ae6/1:1/w_1800,h_1800,c_limit/Gear-Mont-Blanc-Smart-Headphones-Gold-Front-SOURCE-Mont-Blanc.jpg',
         price: 120000,
         stock: 5,
-    updatedAt: "2021-01-18T10:38:05.747z",
-    createdAt: "2021-01-18T10:38:05.747Z"
+    updatedAt: '2021-01-18T10:38:05.747z',
+    createdAt: '2021-01-18T10:38:05.747Z'
     },
     {
           id: 2,
@@ -218,8 +257,8 @@ This server is built with test suites with TDD.
         image_url: 'https://i.pcmag.com/imagery/reviews/038Dr5TVEpwIv8rCljx6UcF-13..1588802180.jpg',
         price: 2000000,
         stock: 1,
-    updatedAt: "2021-01-18T10:38:05.747Z",
-    createdAt: "2021-01-18T10:38:05.747Z"
+    updatedAt: '2021-01-18T10:38:05.747Z',
+    createdAt: '2021-01-18T10:38:05.747Z'
     }
   ]`
  
@@ -258,8 +297,8 @@ This server is built with test suites with TDD.
         image_url: 'https://media.wired.com/photos/5e7164aeb9399f00096a2ae6/1:1/w_1800,h_1800,c_limit/Gear-Mont-Blanc-Smart-Headphones-Gold-Front-SOURCE-Mont-Blanc.jpg',
         price: 120000,
         stock: 5,
-    updatedAt: "2021-01-18T10:38:05.747z",
-    createdAt: "2021-01-18T10:38:05.747Z"
+    updatedAt: '2021-01-18T10:38:05.747z',
+    createdAt: '2021-01-18T10:38:05.747Z'
     }`
  
 * **Error Response:**
@@ -360,7 +399,7 @@ This server is built with test suites with TDD.
 
   * **Code:** 400 Bad Request <br />
       **Content:** `{
-      "errors": [
+      'errors': [
         'Email / password must be filled'
       ]
       }
@@ -370,7 +409,7 @@ This server is built with test suites with TDD.
 
   * **Code:** 404 Bad Request <br />
       **Content:** `{
-      "errors": [
+      'errors': [
       'Not found'
       ]
       }
