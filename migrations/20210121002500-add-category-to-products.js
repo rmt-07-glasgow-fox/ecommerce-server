@@ -9,7 +9,6 @@ module.exports = {
         key: 'id'
       },
       onUpdate: 'CASCADE',
-      onDelete: 'CASCADE'
     })
     await queryInterface.addColumn('Banners', 'CategoryId', {
       type: Sequelize.INTEGER,
@@ -18,7 +17,6 @@ module.exports = {
         key: 'id'
       },
       onUpdate: 'CASCADE',
-      onDelete: 'CASCADE'
     })
   },
 

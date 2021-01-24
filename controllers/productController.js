@@ -3,7 +3,9 @@ const { Product } = require('../models')
 class ProductController {
   static findAll(req, res, next) {
     Product
-      .findAll()
+      .findAll({
+        include: ['Category']
+      })
       .then(products => {
         res.status(200).json(products)
       })
@@ -14,7 +16,9 @@ class ProductController {
 
   static findByPk(req, res, next) {
     Product
-      .findByPk(+req.params.id)
+      .findByPk(+req.params.id, {
+        include: []
+      })
       .then(product => {
         product ? res.status(200).json(product) :
         res.status(404).json({ message: 'Product Not Found' })

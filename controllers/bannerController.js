@@ -3,7 +3,9 @@ const { Banner } = require('../models')
 class BannerController {
   static findAll(req, res, next) {
     Banner
-      .findAll()
+      .findAll({
+        include: ['Category']
+      })
       .then(banners => {
         res.status(200).json(banners)
       })
@@ -25,11 +27,11 @@ class BannerController {
   }
 
   static create(req, res, next) {
-    const { title, status, image_url } = req.body
-    Banner.create({ title, status, image_url })
+    const { title, status, image_url, CategoryId } = req.body
+    Banner.create({ title, status, image_url, CategoryId })
       .then(banner => {
-        const { id, title, status, image_url } = banner
-        res.status(201).json({ id, title, status, image_url })
+        const { id, title, status, image_url, CategoryId } = banner
+        res.status(201).json({ id, title, status, image_url, CategoryId })
       })
       .catch(err => {
         const message = err.errors ? err.errors.map(e => e.message) : 'Internal Server Error'
@@ -40,17 +42,17 @@ class BannerController {
   }
 
   static update(req, res, next) {
-    const { title, status, image_url } = req.body
+    const { title, status, image_url, CategoryId } = req.body
     Banner
-      .update({ title, status, image_url }, {
+      .update({ title, status, image_url, CategoryId }, {
         where: { id: +req.params.id },
         returning: true
       })
       .then(banner => {
         if (!banner[1][0]) res.status(404).json({ message: 'Banner Not Found' })
         else {
-          const { id, title, status, image_url } = banner[1][0].dataValues
-          res.status(200).json({ id, title, status, image_url })
+          const { id, title, status, image_url, CategoryId } = banner[1][0].dataValues
+          res.status(200).json({ id, title, status, image_url, CategoryId })
         }
       })
       .catch(err => {
