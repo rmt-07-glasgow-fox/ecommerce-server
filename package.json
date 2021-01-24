@@ -14,6 +14,7 @@
     "db:seed:all:development": "NODE_ENV=development npm run db:seed:all",
     "db:seed:all:test": "NODE_ENV=test npm run db:seed:all",
     "test": "NODE_ENV=test npx jest",
+    "start": "node bin/http.js",
     "dev": "NODE_ENV=development nodemon bin/http.js"
   },
   "repository": {
