@@ -1,5 +1,11 @@
 # ecommerce-server
 
+**Link Deploy**
+
+```
+https://e-commerce-server-by-rozakus.herokuapp.com
+```
+
 **User**
 | Method | Route       | Description |
 | ------ | ----------- | ----------- |
@@ -638,32 +644,9 @@ not needed
 
 _Response( 200 )_
 ```
-[
-    {
-        "id": 1,
-        "title": "Compass",
-        "status": true,
-        "image_url": "/banners/compass.jpg",
-        "createdAt": "2021-01-19T17:06:56.132Z",
-        "updatedAt": "2021-01-19T17:06:56.132Z"
-    },
-    {
-        "id": 2,
-        "title": "Ventela Public Gum Series",
-        "status": true,
-        "image_url": "/banners/ventela-public-gum-series.jpg",
-        "createdAt": "2021-01-19T17:08:19.092Z",
-        "updatedAt": "2021-01-19T17:08:19.092Z"
-    },
-    {
-        "id": 3,
-        "title": "Ventela Sansekerta Lohita",
-        "status": true,
-        "image_url": "/banners/ventela-sansekerta-lohita.jpg",
-        "createdAt": "2021-01-19T17:09:15.291Z",
-        "updatedAt": "2021-01-19T17:09:15.291Z"
-    }
-]
+{
+    "message": 'Deleted'
+}
 ```
 
 _Response( 401 - Unauthorized )_
