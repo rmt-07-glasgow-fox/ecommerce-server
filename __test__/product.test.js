@@ -149,6 +149,101 @@ describe('POST /products', () => {
       });
   });
 
+  it('name empty validation errors should send response 400 status code', (done) => {
+    // SETUP
+    const body = {
+      name: '',
+      image_url: 'image.jpg',
+      price: 1000,
+      stock: 1,
+      categoryId: 1
+    }
+
+    // EXECUTE
+    request(app)
+      .post('/products')
+      .set('access_token', tokenAdmin)
+      .send(body)
+      .end((err, res) => {
+        if (err) done(err);
+
+        // ASSERT
+        expect(res.statusCode).toEqual(400);
+        expect(typeof res.body).toEqual('object');
+        expect(res.body).toHaveProperty('errors');
+        expect(Array.isArray(res.body.errors)).toEqual(true);
+        expect(res.body.errors).toEqual(
+          expect.arrayContaining(['field name is required'])
+        );
+
+        done();
+      });
+  });
+
+  it('price empty and type not number validation errors should send response 400 status code', (done) => {
+    // SETUP
+    const body = {
+      name: 'Air Jordan',
+      image_url: 'image.jpg',
+      price: '',
+      stock: 1,
+      categoryId: 1
+    }
+
+    // EXECUTE
+    request(app)
+      .post('/products')
+      .set('access_token', tokenAdmin)
+      .send(body)
+      .end((err, res) => {
+        if (err) done(err);
+
+        // ASSERT
+        expect(res.statusCode).toEqual(400);
+        expect(typeof res.body).toEqual('object');
+        expect(res.body).toHaveProperty('errors');
+        expect(Array.isArray(res.body.errors)).toEqual(true);
+        expect(res.body.errors).toEqual(
+          expect.arrayContaining(['field price must be number']),
+          expect.arrayContaining(['field price is required']),
+        );
+
+        done();
+      });
+  });
+
+  it('stock empty and type not number validation errors should send response 400 status code', (done) => {
+    // SETUP
+    const body = {
+      name: 'Air Jordan',
+      image_url: 'image.jpg',
+      price: 1,
+      stock: '',
+      categoryId: 1
+    }
+
+    // EXECUTE
+    request(app)
+      .post('/products')
+      .set('access_token', tokenAdmin)
+      .send(body)
+      .end((err, res) => {
+        if (err) done(err);
+
+        // ASSERT
+        expect(res.statusCode).toEqual(400);
+        expect(typeof res.body).toEqual('object');
+        expect(res.body).toHaveProperty('errors');
+        expect(Array.isArray(res.body.errors)).toEqual(true);
+        expect(res.body.errors).toEqual(
+          expect.arrayContaining(['field stock must be number']),
+          expect.arrayContaining(['field stock is required']),
+        );
+
+        done();
+      });
+  });
+
   it('price or stock negative should send response 400 status code', (done) => {
     // SETUP
     const body = {
@@ -277,30 +372,96 @@ describe('PUT /products', () => {
       });
   });
 
-  it('unauthorize action role not admin should send response with 401 status code', (done) => {
-    //Setup
+  it('name empty validation errors should send response 400 status code', (done) => {
+    // SETUP
     const body = {
-      name: 'Air Jordan 4',
+      name: '',
       image_url: 'image.jpg',
-      price: 2000000,
-      stock: 10,
+      price: 1000,
+      stock: 1,
       categoryId: 1
     }
 
     // EXECUTE
     request(app)
       .put(`/products/${productId}`)
-      .set('access_token', tokenCustomer)
+      .set('access_token', tokenAdmin)
       .send(body)
       .end((err, res) => {
         if (err) done(err);
 
         // ASSERT
-        expect(res.statusCode).toEqual(401);
+        expect(res.statusCode).toEqual(400);
         expect(typeof res.body).toEqual('object');
         expect(res.body).toHaveProperty('errors');
-        expect(typeof res.body.errors).toEqual('string');
-        expect(res.body.errors).toEqual('unauthorize action!');
+        expect(Array.isArray(res.body.errors)).toEqual(true);
+        expect(res.body.errors).toEqual(
+          expect.arrayContaining(['field name is required'])
+        );
+
+        done();
+      });
+  });
+
+  it('price empty and type not number validation errors should send response 400 status code', (done) => {
+    // SETUP
+    const body = {
+      name: 'Air Jordan',
+      image_url: 'image.jpg',
+      price: '',
+      stock: 1,
+      categoryId: 1
+    }
+
+    // EXECUTE
+    request(app)
+      .put(`/products/${productId}`)
+      .set('access_token', tokenAdmin)
+      .send(body)
+      .end((err, res) => {
+        if (err) done(err);
+
+        // ASSERT
+        expect(res.statusCode).toEqual(400);
+        expect(typeof res.body).toEqual('object');
+        expect(res.body).toHaveProperty('errors');
+        expect(Array.isArray(res.body.errors)).toEqual(true);
+        expect(res.body.errors).toEqual(
+          expect.arrayContaining(['field price must be number']),
+          expect.arrayContaining(['field price is required']),
+        );
+
+        done();
+      });
+  });
+
+  it('stock empty and type not number validation errors should send response 400 status code', (done) => {
+    // SETUP
+    const body = {
+      name: 'Air Jordan',
+      image_url: 'image.jpg',
+      price: 1,
+      stock: '',
+      categoryId: 1
+    }
+
+    // EXECUTE
+    request(app)
+      .put(`/products/${productId}`)
+      .set('access_token', tokenAdmin)
+      .send(body)
+      .end((err, res) => {
+        if (err) done(err);
+
+        // ASSERT
+        expect(res.statusCode).toEqual(400);
+        expect(typeof res.body).toEqual('object');
+        expect(res.body).toHaveProperty('errors');
+        expect(Array.isArray(res.body.errors)).toEqual(true);
+        expect(res.body.errors).toEqual(
+          expect.arrayContaining(['field stock must be number']),
+          expect.arrayContaining(['field stock is required']),
+        );
 
         done();
       });
@@ -368,6 +529,35 @@ describe('PUT /products', () => {
           expect.arrayContaining(['price cannot be negative']),
           expect.arrayContaining(['stock cannot be negative'])
         );
+
+        done();
+      });
+  });
+
+  it('unauthorize action role not admin should send response with 401 status code', (done) => {
+    //Setup
+    const body = {
+      name: 'Air Jordan 4',
+      image_url: 'image.jpg',
+      price: 2000000,
+      stock: 10,
+      categoryId: 1
+    }
+
+    // EXECUTE
+    request(app)
+      .put(`/products/${productId}`)
+      .set('access_token', tokenCustomer)
+      .send(body)
+      .end((err, res) => {
+        if (err) done(err);
+
+        // ASSERT
+        expect(res.statusCode).toEqual(401);
+        expect(typeof res.body).toEqual('object');
+        expect(res.body).toHaveProperty('errors');
+        expect(typeof res.body.errors).toEqual('string');
+        expect(res.body.errors).toEqual('unauthorize action!');
 
         done();
       });
