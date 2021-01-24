@@ -16,14 +16,9 @@ function authenticate(req, res, next){
 }
 
 function authorize(req, res, next){
-      
-      User.findOne({where: {role: 'admin'}})
-          .then(user => {
-                if(user.role !== req.user.role) res.status(401).json({message: "you have no permission"}) 
-                next()
-          }).catch(err => {
-                res.status(500).json(err)
-          })
+  if (req.user.role !== 'admin') res.status(401).json({message: 'you are not admin'})
+  next()
+
 }
 
 module.exports = { authenticate, authorize }

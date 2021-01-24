@@ -22,6 +22,21 @@ class UserController {
                 }).catch(next)
       }
 
+      static register(req, res, next){
+            let newUser = {
+                  email: req.body.email,
+                  password: req.body.password,
+            }
+
+            User.create(newUser)
+               .then(data => {
+                     res.status(201).json(data)
+               }).catch(err => {
+                  //    res.status(400).json(err)
+                  console.log(err);
+               })
+      }
+
 }
 
 module.exports = UserController
