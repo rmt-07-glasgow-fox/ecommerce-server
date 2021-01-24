@@ -4,7 +4,7 @@ const productRoute = require('./productRoute')
 const { authentication } = require('../middlewares/auth')
 
 router.get('/', (req, res) => {
-  res.send('Welcome to my ecommerce web app')
+  res.send('Welcome to mah ecommerce web app')
 })
 
 router.use(userRoute)
