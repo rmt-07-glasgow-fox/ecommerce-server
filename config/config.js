@@ -26,7 +26,7 @@ module.exports = {
     host,
     dialect,
   },
-  production: {
-    DATABASE_URL: 'postgres://zzmfdrrskqclxu:0bb71a8d793fe60e0a1b14cb516a1e402edf1d837805a8bf59939dc1015da93b@ec2-54-236-122-55.compute-1.amazonaws.com:5432/da6ae8eiclbm01'
+  "production": {
+    "use_env_variable": "DATABASE_URL"
   }
 }
