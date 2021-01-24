@@ -1,17 +1,16 @@
-const { Product } = require("../models")
+const { User } = require("../models")
 
 async function authorize(req, res, next) {
     try {
-        let product = await Product.findOne({
+        let user = await User.findOne({
             where: {
-                id: req.params.id
+                email: req.user.email
             }
         })
-        if (!product || product.UserId !== req.user.id) {
+        if (!user || user.role !== 'admin') {
             next({
                 message: "you are not admin",
                 code: 401,
-                from: 'function authorize'
             })
         } else {
             next()
@@ -20,13 +19,10 @@ async function authorize(req, res, next) {
         next({
             message: err.message,
             code: 500,
-            from: 'function authorize'
         })
     }
 }
 
 
 
-module.exports = {
-    authorize
-}
+module.exports = authorize

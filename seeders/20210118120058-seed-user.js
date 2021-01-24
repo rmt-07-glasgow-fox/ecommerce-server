@@ -3,7 +3,7 @@ const { hashPassword } = require("../helpers/hashPassword.js")
 
 
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
+  up: (queryInterface, Sequelize) => {
     /**
      * Add seed commands here.
      *
@@ -22,7 +22,7 @@ module.exports = {
     return queryInterface.bulkInsert('Users', user, {})
   },
 
-  down: async (queryInterface, Sequelize) => {
+  down: (queryInterface, Sequelize) => {
     /**
      * Add commands to revert seed here.
      *
