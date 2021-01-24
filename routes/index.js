@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const userRoute = require('./userRoute')
 const productRoute = require('./productRoute')
+const bannerRouter = require('./bannerRoute')
 const { authentication } = require('../middlewares/auth')
 
 router.get('/', (req, res) => {
@@ -9,5 +10,6 @@ router.get('/', (req, res) => {
 
 router.use(userRoute)
 router.use('/products', authentication, productRoute)
+router.use('/banners', authentication, bannerRouter)
 
 module.exports = router
