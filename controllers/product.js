@@ -29,7 +29,7 @@ exports.product = async (req, res, next) => {
   try {
     const id = req.params.id;
     const product = await Product.findByPk(id);
-    product ? res.status(200).json(product) : next({ name: "ProductNotFound" });
+    product ? res.status(200).json(product) : next({ name: "NotFound", item:  "Product"});
   } catch (error) {
     next(error);
   }
@@ -51,7 +51,7 @@ exports.update = async (req, res, next) => {
     });
     product
       ? res.status(200).json(product[1][0].dataValues)
-      : next({ name: "ProductNotFound" });
+      : next({ name: "NotFound", item:  "Product"});
   } catch (error) {
     next(error);
   }
@@ -67,7 +67,7 @@ exports.destroy = async (req, res, next) => {
         success: [`Product with id: '${product.id}' success to delete`],
       });
     } else {
-      next({ name: "ProductNotFound" });
+      next({ name: "NotFound", item:  "Product"});
     }
   } catch (error) {
     next(error);

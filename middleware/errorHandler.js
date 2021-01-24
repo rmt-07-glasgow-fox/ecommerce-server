@@ -37,8 +37,8 @@ module.exports = (err, req, res, next) => {
         res.status(401).json({ errors: ["Login first"] });
         break;
 
-      case `ProductNotFound`:
-        res.status(401).json({ errors: ["Product Not Found"] });
+      case `NotFound`:
+        res.status(404).json({ errors: [`${err.item} Not Found`] });
         break;
 
       default:
