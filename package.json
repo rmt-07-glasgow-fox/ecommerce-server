@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon bin/http.js",
     "test": "jest --detectOpenHandles --forceExit",
-    "start": "node app.js"
+    "start": "node bin/http.js"
   },
   "repository": {
     "type": "git",
