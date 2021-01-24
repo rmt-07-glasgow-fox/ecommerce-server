@@ -26,6 +26,7 @@ beforeAll(done => {
                 image_url: "www.baju.com",
                 price: 1000000,
                 stock: 2,
+                Category: 'Keperluan Pribadi',
                 createdAt: new Date(),
                 updatedAt: new Date()
             }], {returning: true })
@@ -71,7 +72,8 @@ describe("Product Test", () => {
                     name: "baju",
                     image_url: "www.baju.com",
                     price: 1000000,
-                    stock: 2
+                    stock: 2,
+                    Category: 'Keperluan Pribadi'
                 })
                 .end((err, res) => {
                     const { body, status } = res
@@ -81,6 +83,7 @@ describe("Product Test", () => {
                     expect(body).toHaveProperty('image_url', 'www.baju.com')
                     expect(body).toHaveProperty('price', 1000000)
                     expect(body).toHaveProperty('stock', 2)
+                    expect(body).toHaveProperty('Category', 'Keperluan Pribadi')
                     done()
                 })
         })
@@ -94,7 +97,8 @@ describe("Product Test", () => {
                     name: "",
                     image_url: "www.baju.com",
                     price: 1000000,
-                    stock: 2
+                    stock: 2,
+                    Category: "Keperluan Pribadi"
                 })
                 .end((err, res) => {
                     const { body, status } = res
@@ -113,7 +117,8 @@ describe("Product Test", () => {
                     name: "",
                     image_url: "www.baju.com",
                     price: 1000000,
-                    stock: 2
+                    stock: 2,
+                    Category: 'Keperluan Pribadi'
                 })
                 .end((err, res) => {
                     const { body, status } = res
@@ -132,7 +137,8 @@ describe("Product Test", () => {
                     name: "",
                     image_url: "www.baju.com",
                     price: 1000000,
-                    stock: 2
+                    stock: 2,
+                    Category: 'Keperluan Pribadi'
                 })
                 .end((err, res) => {
                     const { body, status } = res
@@ -151,7 +157,8 @@ describe("Product Test", () => {
                     name: "baju",
                     image_url: "",
                     price: 1000000,
-                    stock: 2
+                    stock: 2,
+                    Category: 'Keperluan Pribadi'
                 })
                 .end((err, res) => {
                     const { body, status } = res
@@ -171,7 +178,8 @@ describe("Product Test", () => {
                     name: "baju",
                     image_url: "www.baju.com",
                     price: '',
-                    stock: 2
+                    stock: 2,
+                    Category: 'Keperluan Pribadi'
                 })
                 .end((err, res) => {
                     const { body, status } = res
@@ -189,7 +197,8 @@ describe("Product Test", () => {
                     name: "baju",
                     image_url: "www.baju.com",
                     price: 'sasa',
-                    stock: 2
+                    stock: 2,
+                    Category: 'Keperluan Pribadi'
                 })
                 .end((err, res) => {
                     const { body, status } = res
@@ -207,7 +216,8 @@ describe("Product Test", () => {
                     name: "baju",
                     image_url: "www.baju.com",
                     price: -1,
-                    stock: 2
+                    stock: 2,
+                    Category: 'Keperluan Pribadi'
                 })
                 .end((err, res) => {
                     const { body, status } = res
@@ -226,6 +236,7 @@ describe("Product Test", () => {
                     image_url: "www.baju.com",
                     price: 1,
                     stock: -1,
+                    Category: 'Keperluan Pribadi'
                 })
                 .end((err, res) => {
                     const { body, status } = res
@@ -244,6 +255,7 @@ describe("Product Test", () => {
                     image_url: "www.baju.com",
                     price: 1,
                     stock: '',
+                    Category: 'Keperluan Pribadi'
                 })
                 .end((err, res) => {
                     const { body, status } = res
@@ -261,7 +273,8 @@ describe("Product Test", () => {
                     name: "baju",
                     image_url: "www.baju.com",
                     price: 1,
-                    stock: 'sada'
+                    stock: 'sada',
+                    Category: 'Keperluan Pribadi'
                 })
                 .end((err, res) => {
                     const { body, status } = res
@@ -271,8 +284,43 @@ describe("Product Test", () => {
                     done()
                 })
         })
-
-        
+        test('Fail create product because Category empty string', done => {
+            request(app)
+                .post('/products')
+                .set('access_token', access_token)
+                .send( {
+                    name: "baju",
+                    image_url: "www.baju.com",
+                    price: 1,
+                    stock: 2,
+                    Category: ''
+                })
+                .end((err, res) => {
+                    const { body, status } = res
+                    if(err)return done(err);
+                    expect(status).toBe(400)
+                    expect(body).toHaveProperty('msg', 'Please fill your product category')
+                    done()
+                })
+        })
+        test('Fail create product because category null', done => {
+            request(app)
+                .post('/products')
+                .set('access_token', access_token)
+                .send( {
+                    name: "baju",
+                    image_url: "www.baju.com",
+                    price: 1,
+                    stock: 2,
+                })
+                .end((err, res) => {
+                    const { body, status } = res
+                    if(err)return done(err);
+                    expect(status).toBe(400)
+                    expect(body).toHaveProperty('msg', 'Please enter your product category')
+                    done()
+                })
+        })
     })
     describe("Read Product Succes", () => {
         test("succes read", done => {

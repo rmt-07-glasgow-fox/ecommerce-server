@@ -93,6 +93,21 @@ module.exports = (sequelize, DataTypes) => {
           msg: "You cannot fill in your product stock with string"
         }
       }
+    },
+    Category: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: 'Please fill your product category'
+        },
+        notNull: {
+          args: true,
+          msg: 'Please enter your product category'
+        }
+      }
+      
     }
   }, {
     sequelize,

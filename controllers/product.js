@@ -16,7 +16,8 @@ class ProductController {
             name: req.body.name,
             image_url: req.body.image_url,
             price: req.body.price,
-            stock: req.body.stock
+            stock: req.body.stock,
+            Category: req.body.Category
         }
         try {
             const newProduct = await Product.create(payload)
@@ -50,7 +51,8 @@ class ProductController {
             name: req.body.name,
             image_url: req.body.image_url,
             price: req.body.price,
-            stock: req.body.stock
+            stock: req.body.stock,
+            Category: req.body.Category
         }
         try{
             const product = await Product.update(payload, {where: {id: req.params.id}, returning: true})
