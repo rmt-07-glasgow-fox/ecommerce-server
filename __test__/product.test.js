@@ -413,49 +413,248 @@ describe('POST /products', () => {
 
 })
 
-// describe('GET /products', () => {
-//     it('Status Code 401 | message : access_token is required', (done) => {
-//         // execute
-//         request(app)
-//             .get('/products')
-//             .set('access_token', '')
-//             .end((err, res) => {
-//                 if (err) done(err)
-//                 // assert
-//                 console.log('>>> res : ', res.body)
-//                 // expect(res.statusCode).toEqual(401)
-//                 // expect(res.body.message).toEqual("access_token is required")
-//                 done()
-//             })
-//     })
+describe('PUT /products/:idProducts', () => {
 
-//     it('Status Code 401 | message : jwt malformed', (done) => {
-//         // execute
-//         request(app)
-//             .get('/products')
-//             .set('access_token', 'wrongtoken')
-//             .end((err, res) => {
-//                 if (err) done(err)
-//                 // assert
-//                 expect(res.statusCode).toEqual(401)
-//                 expect(res.body.message).toEqual("jwt malformed")
-//                 done()
-//             })
-//     })
+    it('Status Code 400 | BrandId is not send in body', (done) => {
+        console.log('>>> access_token', access_token)
+        // setup
+        let body = {
+            name: 'compass gazelle low black',
+            image_url: '/products/compass-gazelle-low-black.jpg',
+            price: 200000,
+            stock: 100,
+            // BrandId: 1
+        }
 
-//     it('Status Code 404 | message : User not found', (done) => {
-//         // setup
+        // execute
+        request(app)
+            .put(`/products/${productId}`)
+            .send(body)
+            .set('access_token', access_token)
+            .end((err, res) => {
+                if (err) done(err)
+                // assert
+                expect(res.statusCode).toEqual(400)
 
-//         // execute
-//         request(app)
-//             .get('/products')
-//             .set('access_token', oldToken)
-//             .end((err, res) => {
-//                 if (err) done(err)
-//                 // assert
-//                 expect(res.statusCode).toEqual(404)
-//                 expect(res.body.message).toEqual("User not found")
-//                 done()
-//             })
-//     })
-// })
+                let error = { "message": "BrandId should be integer" }
+
+                expect(res.body).toEqual(error)
+                done()
+            })
+    })
+
+    it('Status Code 404 | BrandId not found', (done) => {
+        console.log('>>> access_token', access_token)
+        // setup
+        let body = {
+            name: 'compass gazelle low black',
+            image_url: '/products/compass-gazelle-low-black.jpg',
+            price: 200000,
+            stock: 100,
+            BrandId: 100
+        }
+
+        // execute
+        request(app)
+            .put(`/products/${productId}`)
+            .send(body)
+            .set('access_token', access_token)
+            .end((err, res) => {
+                if (err) done(err)
+                // assert
+                expect(res.statusCode).toEqual(404)
+
+                let error = { "message": "BrandId not found" }
+
+                expect(res.body).toEqual(error)
+                done()
+            })
+    })
+
+    it('Status Code 400 | minimum stock is 0, minimum price 100000', (done) => {
+        console.log('>>> access_token', access_token)
+        // setup
+        let body = {
+            name: 'compass gazelle low black',
+            image_url: '/products/compass-gazelle-low-black.jpg',
+            price: 20_000,
+            stock: -5,
+            BrandId: 1
+        }
+
+        // execute
+        request(app)
+            .put(`/products/${productId}`)
+            .send(body)
+            .set('access_token', access_token)
+            .end((err, res) => {
+                if (err) done(err)
+                // assert
+                expect(res.statusCode).toEqual(400)
+
+                let error = {
+                    "message": [
+                        "minimum price is 100000",
+                        "minimum stock is 0"
+                    ]
+                }
+
+                expect(res.body).toEqual(error)
+                done()
+            })
+    })
+
+    it('Status Code 400 | minimum stock is 0', (done) => {
+        console.log('>>> access_token', access_token)
+        // setup
+        let body = {
+            name: 'compass gazelle low black',
+            image_url: '/products/compass-gazelle-low-black.jpg',
+            price: 200_000,
+            stock: -5,
+            BrandId: 1
+        }
+
+        // execute
+        request(app)
+            .put(`/products/${productId}`)
+            .send(body)
+            .set('access_token', access_token)
+            .end((err, res) => {
+                if (err) done(err)
+                // assert
+                expect(res.statusCode).toEqual(400)
+
+                let error = {
+                    "message": [
+                        "minimum stock is 0"
+                    ]
+                }
+
+                expect(res.body).toEqual(error)
+                done()
+            })
+    })
+
+    it('Status Code 400 | minimum price 100000', (done) => {
+        console.log('>>> access_token', access_token)
+        // setup
+        let body = {
+            name: 'compass gazelle low black',
+            image_url: '/products/compass-gazelle-low-black.jpg',
+            price: 20_000,
+            stock: 0,
+            BrandId: 1
+        }
+
+        // execute
+        request(app)
+            .put(`/products/${productId}`)
+            .send(body)
+            .set('access_token', access_token)
+            .end((err, res) => {
+                if (err) done(err)
+                // assert
+                expect(res.statusCode).toEqual(400)
+
+                let error = {
+                    "message": [
+                        "minimum price is 100000"
+                    ]
+                }
+
+                expect(res.body).toEqual(error)
+                done()
+            })
+    })
+
+    it('Status Code 401 | message : access_token is required', (done) => {
+        // setup
+        let body = {
+            name: 'compass gazelle low black',
+            image_url: '/products/compass-gazelle-low-black.jpg',
+            price: 200000,
+            stock: 100,
+            BrandId: 1
+        }
+
+        // execute
+        request(app)
+            .put(`/products/${productId}`)
+            .send(body)
+            .set('access_token', '')
+            .end((err, res) => {
+                if (err) done(err)
+                // assert
+                expect(res.statusCode).toEqual(401)
+                expect(res.body.message).toEqual("access_token is required")
+                done()
+            })
+    })
+
+})
+
+describe('DELETE /products/:idProducts', () => {
+
+    it('Status Code 200', (done) => {
+        console.log('>>> access_token', access_token)
+
+        // execute
+        request(app)
+            .delete(`/products/${productId}`)
+            .set('access_token', access_token)
+            .end((err, res) => {
+                if (err) done(err)
+                // assert
+                expect(res.statusCode).toEqual(200)
+                done()
+            })
+    })
+
+    it('Status Code 404', (done) => {
+        console.log('>>> access_token', access_token)
+
+        // execute
+        request(app)
+            .delete(`/products/${2000}`)
+            .set('access_token', access_token)
+            .end((err, res) => {
+                if (err) done(err)
+                // assert
+                expect(res.statusCode).toEqual(404)
+                done()
+            })
+    })
+
+    it('Status Code 401 | message : access_token is required', (done) => {
+        // console.log('>>> access_token', access_token)
+
+        // execute
+        request(app)
+            .delete(`/products/${productId}`)
+            .set('access_token', '')
+            .end((err, res) => {
+                if (err) done(err)
+                // assert
+                expect(res.statusCode).toEqual(401)
+                expect(res.body.message).toEqual("access_token is required")
+                done()
+            })
+    })
+
+    it('Status Code 401 | message : jwt malformed', (done) => {
+        // console.log('>>> access_token', access_token)
+
+        // execute
+        request(app)
+            .delete(`/products/${productId}`)
+            .set('access_token', 'jwt-ngawur')
+            .end((err, res) => {
+                if (err) done(err)
+                // assert
+                expect(res.statusCode).toEqual(401)
+                expect(res.body.message).toEqual("jwt malformed")
+                done()
+            })
+    })
+})
