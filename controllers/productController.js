@@ -2,11 +2,11 @@ const {Product} = require("../models")
 
 class productController {
     static create(req, res, next) {
-        const {name, image_url, price, stock} = req.body
-        Product.create({name, image_url, price, stock})
+        const {name, imageUrl, category, price, stock} = req.body
+        Product.create({name, imageUrl, category, price, stock})
           .then(product => {
-            const {id, name, image_url, price, stock} = product
-            res.status(201).json({id, name, image_url, price, stock})
+            const {id, name, imageUrl, category, price, stock} = product
+            res.status(201).json({id, name, imageUrl, category, price, stock})
           })
           .catch(err => {
             next(err)
@@ -20,18 +20,30 @@ class productController {
           return { 
             id: el.id, 
             name: el.name,
-            image_url: el.image_url,
+            imageUrl: el.imageUrl,
+            category: el.category,
             price: el.price,
             stock: el.stock }
         })
         res.status(200).json(output)
       })
-      .catch(err => next(err))
+      .catch(err => {
+        next(err)})
+    }
+
+    static getProduct(req, res, next) {
+      Product.findByPk(+req.params.id)
+      .then(product => {
+        const {id, name, imageUrl, category, price, stock} = product
+        res.status(200).json({id, name, imageUrl, category, price, stock})
+      })
+      .catch(err => {
+        next(err)})
     }
 
     static editProduct(req, res, next) {
-      const {name, image_url, price, stock} = req.body
-        Product.update({name, image_url, price, stock}, {where: {id: +req.params.id}})
+      const {name, imageUrl, category, price, stock} = req.body
+        Product.update({name, imageUrl, category, price, stock}, {where: {id: +req.params.id}})
           .then(product => {
             res.status(200).json({message: "edit product successfull"})
           })

@@ -1,4 +1,4 @@
-const {User, Product} = require("../../models")
+const {User, Product, Banner} = require("../../models")
 
 function clearUsers() {
     if (process.env.NODE_ENV === 'test') {
@@ -12,5 +12,11 @@ function clearProducts() {
     }
 }
 
-module.exports = {clearUsers, clearProducts}
+function clearBanners() {
+    if (process.env.NODE_ENV === 'test') {
+        return Banner.destroy({where: {}})
+    }
+}
+
+module.exports = {clearUsers, clearProducts, clearBanners}
 

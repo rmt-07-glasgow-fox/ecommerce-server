@@ -17,8 +17,8 @@ class userController {
                 if (!match) {
                     next({name: "ResourceNotFound"})
                 } else {
-                    const {id, email} = user
-                    const access_token = generateToken({id, email})
+                    const {id, email, role} = user
+                    const access_token = generateToken({id, email, role})
                     res.status(200).json({access_token})
                 }
             }

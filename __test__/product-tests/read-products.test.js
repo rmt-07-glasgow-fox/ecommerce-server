@@ -1,9 +1,9 @@
 const request = require("supertest")
-const app = require("../app")
-const {clearProducts} = require("./helpers/clear")
-const models = require("../models")
-const {User} = require("../models")
-const {generateToken} = require("../helpers/jwt")
+const app = require("../../app")
+const {clearProducts} = require("../helpers/clear")
+const models = require("../../models")
+const {User} = require("../../models")
+const {generateToken} = require("../../helpers/jwt")
 
 let access_token_admin = null
 let access_token_customer = null
@@ -12,13 +12,13 @@ describe('GET /products', () => {
     beforeAll((done) => {
         User.findOne({where: {email: 'admin@mail.com'}})
         .then(user => {
-            const {id, email} = user
-            access_token_admin = generateToken({id, email})
+            const {id, email, role} = user
+            access_token_admin = generateToken({id, email, role})
             return User.findOne({where: {email: 'akira@mail.com'}})
         })
         .then(user => {
-            const {id, email} = user
-            access_token_customer = generateToken({id, email})
+            const {id, email, role} = user
+            access_token_customer = generateToken({id, email, role})
             done()
         })
     })
@@ -42,8 +42,10 @@ describe('GET /products', () => {
                 expect(typeof el.id).toEqual("number")
                 expect(el).toHaveProperty("name");
                 expect(typeof el.name).toEqual("string")
-                expect(el).toHaveProperty("image_url");
-                expect(typeof el.image_url).toEqual("string")
+                expect(el).toHaveProperty("imageUrl");
+                expect(typeof el.imageUrl).toEqual("string")
+                expect(el).toHaveProperty("category");
+                expect(typeof el.category).toEqual("string")
                 expect(el).toHaveProperty("price");
                 expect(typeof el.price).toEqual("number")
                 expect(el).toHaveProperty("stock");

@@ -23,22 +23,12 @@ function authentication(req, res, next) {
 }
 
 function authorization(req, res, next) {
-    const authParams = checkToken(req.headers.access_token)
-    Product.findByPk(+req.params.id)
-    .then(Product => {
-        if (!Product) {
-            next({name: 'requestNotFound'})
-        } else {
-            if (Product.UserId === authParams.id) {
-                next()
-            } else {
-                next({name: 'accessDenied'})
-            }
-        }
-    })
-    .catch(err => {
-        next(err)
-    })
+  const authParams = checkToken(req.headers.access_token)
+  if (authParams.role !== 'admin') {
+    next({name: "AuthError"})
+  } else {
+    next()
+  }
 }
 
 module.exports = {authentication, authorization}
