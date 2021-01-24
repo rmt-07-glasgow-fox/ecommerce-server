@@ -6,10 +6,10 @@ const adminToken =
 const customerToken =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJjdXN0b21lckBtYWlsLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImlhdCI6MTYxMTQ1NTQxNX0.x2OaBW1VCewQWigi66hxtOXpTpc0BBoMephE_bWOOI4";
 let access_token = "";
-let ProductId = 1;
+let BannerId = 1;
 
 /**
- * create product
+ * create banner
  * requirement test cases:
  * 1. not provide valid access_token
  * 2. provide valid access_token but the user is not an Admin
@@ -24,7 +24,7 @@ let ProductId = 1;
 
 afterAll((done) => {
   request(app)
-    .delete(`/api/products/${ProductId}`)
+    .delete(`/api/banners/${BannerId}`)
     .set({ access_token: adminToken })
     .end((err, res) => {
       err ? done(err) : err;
@@ -34,10 +34,10 @@ afterAll((done) => {
     });
 });
 
-describe("POST /api/products/", () => {
+describe("POST /api/banners/", () => {
   // condition: all field filled with valid data
   // result: created success
-  it("Create product success", (done) => {
+  it("Create banner success", (done) => {
     const body = {
       name: "Perahu Karet Rescue BlueLines 100% Original Produk",
       image_url:
@@ -48,13 +48,13 @@ describe("POST /api/products/", () => {
     };
 
     request(app)
-      .post("/api/products/")
+      .post("/api/banners/")
       .set({ access_token: adminToken })
       .send(body)
       .end((err, res) => {
         err ? done(err) : err;
 
-        ProductId = res.body.id;
+        BannerId = res.body.id;
 
         expect(res.statusCode).toEqual(201);
         expect(typeof res.body).toEqual("object");
@@ -93,7 +93,7 @@ describe("POST /api/products/", () => {
     };
 
     request(app)
-      .post("/api/products/")
+      .post("/api/banners/")
       // .set({ access_token: access_token }
       .send(body)
       .end((err, res) => {
@@ -124,7 +124,7 @@ describe("POST /api/products/", () => {
     };
 
     request(app)
-      .post("/api/products/")
+      .post("/api/banners/")
       .set({
         access_token: customerToken,
       })
@@ -157,7 +157,7 @@ describe("POST /api/products/", () => {
     };
 
     request(app)
-      .post("/api/products/")
+      .post("/api/banners/")
       .set({
         access_token: adminToken,
       })
@@ -189,7 +189,7 @@ describe("POST /api/products/", () => {
     };
 
     request(app)
-      .post("/api/products/")
+      .post("/api/banners/")
       .set({
         access_token: adminToken,
       })
@@ -222,7 +222,7 @@ describe("POST /api/products/", () => {
     };
 
     request(app)
-      .post("/api/products/")
+      .post("/api/banners/")
       .set({
         access_token: adminToken,
       })
@@ -255,7 +255,7 @@ describe("POST /api/products/", () => {
     };
 
     request(app)
-      .post("/api/products/")
+      .post("/api/banners/")
       .set({
         access_token: adminToken,
       })
@@ -288,7 +288,7 @@ describe("POST /api/products/", () => {
     };
 
     request(app)
-      .post("/api/products/")
+      .post("/api/banners/")
       .set({
         access_token: adminToken,
       })
@@ -321,7 +321,7 @@ describe("POST /api/products/", () => {
     };
 
     request(app)
-      .post("/api/products/")
+      .post("/api/banners/")
       .set({
         access_token: adminToken,
       })
@@ -354,7 +354,7 @@ describe("POST /api/products/", () => {
     };
 
     request(app)
-      .post("/api/products/")
+      .post("/api/banners/")
       .set({
         access_token: adminToken,
       })
@@ -387,7 +387,7 @@ describe("POST /api/products/", () => {
     };
 
     request(app)
-      .post("/api/products/")
+      .post("/api/banners/")
       .set({
         access_token: adminToken,
       })
@@ -419,7 +419,7 @@ describe("POST /api/products/", () => {
     };
 
     request(app)
-      .post("/api/products/")
+      .post("/api/banners/")
       .set({
         access_token: adminToken,
       })
@@ -441,7 +441,7 @@ describe("POST /api/products/", () => {
 });
 
 /**
- * update product
+ * update banner
  * requirement test cases:
  * 1. not provide valid access_token
  * 2. provide valid access_token but the user is not an Admin
@@ -453,8 +453,8 @@ describe("POST /api/products/", () => {
  * 1.
  */
 
-describe("PUT /api/products/", () => {
-  it("Update product success", (done) => {
+describe("PUT /api/banners/", () => {
+  it("Update banner success", (done) => {
     const body = {
       name: "Perahu Karet Rescue BlueLines 100% Original Produk",
       image_url:
@@ -465,7 +465,7 @@ describe("PUT /api/products/", () => {
     };
 
     request(app)
-      .put(`/api/products/${ProductId}`)
+      .put(`/api/banners/${BannerId}`)
       .set({ access_token: adminToken })
       .send(body)
       .end((err, res) => {
@@ -508,7 +508,7 @@ describe("PUT /api/products/", () => {
     };
 
     request(app)
-      .post("/api/products/")
+      .post("/api/banners/")
       .set({
         access_token: adminToken,
       })
@@ -541,7 +541,7 @@ describe("PUT /api/products/", () => {
     };
 
     request(app)
-      .post("/api/products/")
+      .post("/api/banners/")
       .set({
         access_token: adminToken,
       })
@@ -574,7 +574,7 @@ describe("PUT /api/products/", () => {
     };
 
     request(app)
-      .post("/api/products/")
+      .post("/api/banners/")
       .set({
         access_token: adminToken,
       })
@@ -607,7 +607,7 @@ describe("PUT /api/products/", () => {
     };
 
     request(app)
-      .post("/api/products/")
+      .post("/api/banners/")
       .set({
         access_token: adminToken,
       })
@@ -639,7 +639,7 @@ describe("PUT /api/products/", () => {
     };
 
     request(app)
-      .post("/api/products/")
+      .post("/api/banners/")
       .set({
         access_token: adminToken,
       })
@@ -661,7 +661,7 @@ describe("PUT /api/products/", () => {
 });
 
 /**
- * Delete product
+ * Delete banner
  * requirement test cases:
  * 1. not provide valid access_token
  * 2. provide valid access_token but the user is not an Admin
@@ -670,12 +670,12 @@ describe("PUT /api/products/", () => {
  * 1.
  */
 
-describe("DELETE /api/products/", () => {
+describe("DELETE /api/banners/", () => {
   // condition: not provide valid access_token
   // result: delete failed
   it("Not provide valid access_token", (done) => {
     request(app)
-      .delete(`/api/products/${ProductId}`)
+      .delete(`/api/banners/${BannerId}`)
       .end((err, res) => {
         err ? done(err) : err;
 
@@ -695,7 +695,7 @@ describe("DELETE /api/products/", () => {
   // result: delete failed
   it("Not an admin", (done) => {
     request(app)
-      .delete(`/api/products/${ProductId}`)
+      .delete(`/api/banners/${BannerId}`)
       .set({
         access_token: customerToken,
       })
@@ -714,9 +714,9 @@ describe("DELETE /api/products/", () => {
       });
   });
 
-  it("Delete product success", (done) => {
+  it("Delete banner success", (done) => {
     request(app)
-      .delete(`/api/products/${ProductId}`)
+      .delete(`/api/banners/${BannerId}`)
       .set({ access_token: adminToken })
       .end((err, res) => {
         err ? done(err) : err;
@@ -727,7 +727,7 @@ describe("DELETE /api/products/", () => {
         expect(Array.isArray(res.body.success)).toEqual(true);
         expect(res.body.success).toEqual(
           expect.arrayContaining([
-            `Product with id: '${ProductId}' success to delete`,
+            `Banner with id: '${BannerId}' success to delete`,
           ])
         );
 
