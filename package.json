@@ -14,7 +14,8 @@
     "db:seed:development": "set NODE_ENV=development&&npm run db:seed",
     "db:seed:test": "set NODE_ENV=test&&npm run db:seed",
     "test": "set NODE_ENV=test&&npx jest",
-    "postman": "set NODE_ENV=test&&nodemon bin/http.js"
+    "postman": "set NODE_ENV=test&&nodemon bin/http.js",
+    "dev": "set NODE_ENV=development&&nodemon bin/http.js"
   },
   "repository": {
     "type": "git",
@@ -29,6 +30,7 @@
   "homepage": "https://github.com/hamzahay/ecommerce-server#readme",
   "dependencies": {
     "bcrypt": "^5.0.0",
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jest": "^26.6.3",
