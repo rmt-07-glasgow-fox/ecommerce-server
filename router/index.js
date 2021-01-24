@@ -10,6 +10,7 @@ const brandRouter = require('./brandRouter')
 const { authenticate } = require('../middleware/auth')
 
 // setting router
+router.get('/', (req, res) => { res.status(200).send('<h1>welcome to server cms by abdul rozak</h1>') })
 router.use('/user', userRouter)
 router.use('/banners', authenticate, bannerRouter)
 router.use('/products', authenticate, productRouter)
