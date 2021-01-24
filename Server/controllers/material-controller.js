@@ -66,6 +66,7 @@ class Controller {
         Material.create(material)
             .then(data => {
                 const sent = {
+                    id: data.id,
                     name: data.name,
                     image_url: data.image_url,
                     category: data.category,

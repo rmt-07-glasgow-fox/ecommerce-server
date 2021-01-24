@@ -1,8 +1,10 @@
 const request = require('supertest')
 const app = require('../../app')
+const { materialId } = require('./create-material.test')
 
 describe('PUT /materials/:id', () => {
-    let token =  null
+    let token = null
+    let materialId = null
 
     beforeAll((done) => {
         const user = {
@@ -10,16 +12,38 @@ describe('PUT /materials/:id', () => {
             password: 'admin123'
         }
 
+        const initial = {
+            name: 'Baja Lumayan Kuat',
+            image_url: 'https://www.freepik.com/free-photo/texture-background_1167521.htm#page=1&query=steel&position=5',
+            category: 'steel',
+            price: 200000,
+            stock: 20
+        }
+
+        // login
         request(app)
             .post('/login')
             .send(user)
             .end((err, res) => {
-                if(err) {
+                if (err) {
                     done(err)
                 }
 
                 token = res.body.access_token
                 done()
+            })
+
+        // create
+        request(app)
+            .post('/materials')
+            .set('access_token', token)
+            .send(initial)
+            .end((err, res) => {
+                if (err) {
+                    done(err)
+                }
+
+                materialId = res.body.id
             })
     })
 
@@ -34,11 +58,11 @@ describe('PUT /materials/:id', () => {
         }
 
         request(app)
-            .put('/materials/1')
+            .put('/materials/' + materialId)
             .set('access_token', token)
             .send(material)
             .end((err, res) => {
-                if(err) done(err)
+                if (err) done(err)
 
                 // assert
                 expect(res.statusCode).toEqual(200)
@@ -58,7 +82,7 @@ describe('PUT /materials/:id', () => {
             })
     })
 
-    // epmty field requirement
+    // empty field requirement
     it('should send response with code 401', (done) => {
         // setup
         const material = {
@@ -71,11 +95,11 @@ describe('PUT /materials/:id', () => {
 
         // execute
         request(app)
-            .put('/materials/1')
+            .put('/materials/' + materialId)
             .set('access_token', token)
             .send(material)
             .end((err, res) => {
-                if(err) {
+                if (err) {
                     done(err)
                 }
 
@@ -90,7 +114,7 @@ describe('PUT /materials/:id', () => {
     })
 
     // price diisi angka minus
-    it('should send response with code 401', (done) => {
+    it('should send response with code 404', (done) => {
         // setup
         const material = {
             name: 'Baja Super Kuat',
@@ -102,11 +126,11 @@ describe('PUT /materials/:id', () => {
 
         // execute
         request(app)
-            .post('/materials/1')
+            .post('/materials/' + materialId)
             .set('access_token', token)
             .send(material)
             .end((err, res) => {
-                if(err) {
+                if (err) {
                     done(err)
                 }
 
@@ -119,7 +143,7 @@ describe('PUT /materials/:id', () => {
     })
 
     // stock diisi angka minus
-    it('should send response with code 401', (done) => {
+    it('should send response with code 404', (done) => {
         // setup
         const material = {
             name: 'Baja Super Kuat',
@@ -131,11 +155,11 @@ describe('PUT /materials/:id', () => {
 
         // execute
         request(app)
-            .post('/materials/1')
+            .post('/materials/' + materialId)
             .set('access_token', token)
             .send(material)
             .end((err, res) => {
-                if(err) {
+                if (err) {
                     done(err)
                 }
 
@@ -158,10 +182,10 @@ describe('PUT /materials/:id', () => {
         }
 
         request(app)
-            .put('/materials/1')
+            .put('/materials/' + materialId)
             .send(material)
             .end((err, res) => {
-                if(err) done(err)
+                if (err) done(err)
 
                 // assert
                 expect(res.statusCode).toEqual(500)
@@ -188,7 +212,7 @@ describe('PUT /materials/:id', () => {
             .set('access_token', token)
             .send(material)
             .end((err, res) => {
-                if(err) done(err)
+                if (err) done(err)
 
                 // assert
                 expect(res.statusCode).toEqual(404)

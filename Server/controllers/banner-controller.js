@@ -17,6 +17,24 @@ class Controller {
             })
     }
 
+    static showById(req, res, next) {
+        const id = +req.params.id
+
+        Banner.findByPk(id, {
+            attributes: { exclude: ['createdAt', 'updatedAt'] }
+        })
+            .then(data => {
+                res.status(200).json(data)
+            })
+            .catch(err => {
+                next({
+                    message: err.message,
+                    code: 500,
+                    from: 'Controller Material: show by id'
+                })
+            })
+    }
+
     static createBanner(req, res, next) {
         const banner = {
             title: req.body.title,

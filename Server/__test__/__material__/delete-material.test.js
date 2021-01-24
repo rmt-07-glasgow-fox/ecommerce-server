@@ -3,6 +3,7 @@ const app = require('../../app')
 
 describe('DELETE /materials/:id', () => {
     let token = null
+    let materialId = null
 
     beforeAll((done) => {
         const user = {
@@ -10,6 +11,15 @@ describe('DELETE /materials/:id', () => {
             password: 'admin123'
         }
 
+        const initial = {
+            name: 'Baja Lumayan Kuat',
+            image_url: 'https://www.freepik.com/free-photo/texture-background_1167521.htm#page=1&query=steel&position=5',
+            category: 'steel',
+            price: 200000,
+            stock: 20
+        }
+
+        // login
         request(app)
             .post('/login')
             .send(user)
@@ -21,12 +31,25 @@ describe('DELETE /materials/:id', () => {
                 token = res.body.access_token
                 done()
             })
+
+        // create
+        request(app)
+            .post('/materials')
+            .set('access_token', token)
+            .send(initial)
+            .end((err, res) => {
+                if (err) {
+                    done(err)
+                }
+
+                materialId = res.body.id
+            })
     })
 
     // success case
     it('should send response 200', (done) => {
         request(app)
-            .delete('/materials/6')
+            .delete('/materials/' + materialId)
             .set('access_token', token)
             .end((err, res) => {
                 if (err) done(err)
@@ -44,7 +67,7 @@ describe('DELETE /materials/:id', () => {
     // error case ketika tidak ada akses token
     it('should send response 500', (done) => {
         request(app)
-            .delete('/materials/1')
+            .delete('/materials/' + materialId)
             .end((err, res) => {
                 if (err) done(err)
 

@@ -6,6 +6,7 @@ const { authentication, authorization } = require('../middlewares/auth')
 route.use(authentication)
 
 route.get('/banners', Controller.showBanner)
+route.get('/banners/:id', Controller.showById)
 
 route.post('/banners', authorization, Controller.createBanner)
 route.put('/banners/:id', authorization, Controller.updateBanner)

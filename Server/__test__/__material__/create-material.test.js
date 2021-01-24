@@ -1,5 +1,6 @@
 const request = require('supertest')
 const app = require('../../app')
+const materialId = null
 
 describe('POST /materials', () => {
     let token =  null
@@ -47,6 +48,8 @@ describe('POST /materials', () => {
                 // assert
                 expect(res.statusCode).toEqual(201)
                 expect(typeof res.body).toEqual('object')
+                expect(res.body).toHaveProperty('id')
+                expect(res.body.name).toEqual(material.id)
                 expect(res.body).toHaveProperty('name')
                 expect(res.body.name).toEqual(material.name)
                 expect(res.body).toHaveProperty('image_url')
@@ -57,6 +60,8 @@ describe('POST /materials', () => {
                 expect(res.body.price).toEqual(material.price)
                 expect(res.body).toHaveProperty('stock')
                 expect(res.body.stock).toEqual(material.stock)
+
+                materialId = res.body.id
 
                 done()
             })
@@ -155,3 +160,5 @@ describe('POST /materials', () => {
             })
     })
 })
+
+module.exports = { materialId }
