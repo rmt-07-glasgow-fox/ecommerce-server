@@ -47,7 +47,6 @@ class Controller {
             email: req.body.email,
             password: req.body.password,
             role: req.body.role
-
         }
         User.create(newData)
         .then(data => {
