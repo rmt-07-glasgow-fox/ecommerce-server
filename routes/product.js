@@ -11,8 +11,8 @@ const authorize = require("../middleware/authorize");
 
 router.use(authentificate);
 
-router.get('/', products)
-router.get('/:id', product)
+router.get("/", products);
+router.get("/:id", product);
 
 router.post("/", authorize, create);
 router.put("/:id", authorize, update);

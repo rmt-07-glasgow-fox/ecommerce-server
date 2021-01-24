@@ -31,8 +31,8 @@ module.exports = (sequelize, DataTypes) => {
           },
           isUrl: {
             args: true,
-            msg: "Image url must be an url"
-          }
+            msg: "Image url must be an url",
+          },
         },
       },
       price: {
@@ -44,12 +44,12 @@ module.exports = (sequelize, DataTypes) => {
           },
           min: {
             args: [0],
-            msg: "Price can not less than 0"
+            msg: "Price can not less than 0",
           },
           isNumeric: {
             args: true,
-            msg: "Price must be number"
-          }
+            msg: "Price must be number",
+          },
         },
       },
       stock: {
@@ -61,12 +61,12 @@ module.exports = (sequelize, DataTypes) => {
           },
           min: {
             args: [0],
-            msg: "Stock can not less than 0"
+            msg: "Stock can not less than 0",
           },
           isNumeric: {
             args: true,
-            msg: "Stock must be number"
-          }
+            msg: "Stock must be number",
+          },
         },
       },
     },

@@ -1,6 +1,5 @@
 const request = require("supertest");
 const app = require("../app");
-const clearUsers = require("./helpers/clear-products");
 const models = require("../models");
 
 describe("POST /api/users/login", () => {
@@ -24,7 +23,7 @@ describe("POST /api/users/login", () => {
       .send(body)
       .end((err, res) => {
         // Superset error handling
-        if (err) done(err);
+        err ? done(err) : err;
 
         // Assert
         expect(res.statusCode).toEqual(200);
@@ -51,7 +50,7 @@ describe("POST /api/users/login", () => {
       .send(body)
       .end((err, res) => {
         // superset error handler
-        if (err) done(err);
+        err ? done(err) : err;
 
         // assert
         expect(res.statusCode).toEqual(400);
@@ -80,7 +79,7 @@ describe("POST /api/users/login", () => {
       .send(body)
       .end((err, res) => {
         // superset error handler
-        if (err) done(err);
+        err ? done(err) : err;
 
         // assert
         expect(res.statusCode).toEqual(400);
@@ -109,7 +108,7 @@ describe("POST /api/users/login", () => {
       .send(body)
       .end((err, res) => {
         // superset error handler
-        if (err) done(err);
+        err ? done(err) : err;
 
         // assert
         expect(res.statusCode).toEqual(400);
@@ -138,7 +137,7 @@ describe("POST /api/users/login", () => {
       .send(body)
       .end((err, res) => {
         // superset error handler
-        if (err) done(err);
+        err ? done(err) : err;
 
         // assert
         expect(res.statusCode).toEqual(400);
@@ -166,7 +165,7 @@ describe("POST /api/users/login", () => {
       .send(body)
       .end((err, res) => {
         // superset error handler
-        if (err) done(err);
+        err ? done(err) : err;
 
         // assert
         expect(res.statusCode).toEqual(400);

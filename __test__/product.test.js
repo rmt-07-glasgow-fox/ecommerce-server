@@ -1,6 +1,5 @@
 const request = require("supertest");
 const app = require("../app");
-const { clearProducts } = require("./helpers/clear-products");
 const models = require("../models");
 const adminToken =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTYxMTQ1NTQ3OH0.i1esdATOr_vqTO5yUSmWelzedi1ssHN4_kIcdQVP-kM";
@@ -28,7 +27,7 @@ afterAll((done) => {
     .delete(`/api/products/${ProductId}`)
     .set({ access_token: adminToken })
     .end((err, res) => {
-      if (err) done(err);
+      err ? done(err) : err;
 
       models.sequelize.close();
       done();
@@ -53,7 +52,7 @@ describe("POST /api/products/", () => {
       .set({ access_token: adminToken })
       .send(body)
       .end((err, res) => {
-        if (err) done(err);
+        err ? done(err) : err;
 
         ProductId = res.body.id;
 
@@ -98,7 +97,7 @@ describe("POST /api/products/", () => {
       // .set({ access_token: access_token }
       .send(body)
       .end((err, res) => {
-        if (err) done(err);
+        err ? done(err) : err;
 
         expect(res.statusCode).toEqual(401);
         expect(typeof res.body).toEqual("object");
@@ -131,7 +130,7 @@ describe("POST /api/products/", () => {
       })
       .send(body)
       .end((err, res) => {
-        if (err) done(err);
+        err ? done(err) : err;
 
         expect(res.statusCode).toEqual(403);
         expect(typeof res.body).toEqual("object");
@@ -164,7 +163,7 @@ describe("POST /api/products/", () => {
       })
       .send(body)
       .end((err, res) => {
-        if (err) done(err);
+        err ? done(err) : err;
 
         expect(res.statusCode).toEqual(400);
         expect(typeof res.body).toEqual("object");
@@ -196,7 +195,7 @@ describe("POST /api/products/", () => {
       })
       .send(body)
       .end((err, res) => {
-        if (err) done(err);
+        err ? done(err) : err;
 
         expect(res.statusCode).toEqual(400);
         expect(typeof res.body).toEqual("object");
@@ -229,7 +228,7 @@ describe("POST /api/products/", () => {
       })
       .send(body)
       .end((err, res) => {
-        if (err) done(err);
+        err ? done(err) : err;
 
         expect(res.statusCode).toEqual(400);
         expect(typeof res.body).toEqual("object");
@@ -262,7 +261,7 @@ describe("POST /api/products/", () => {
       })
       .send(body)
       .end((err, res) => {
-        if (err) done(err);
+        err ? done(err) : err;
 
         expect(res.statusCode).toEqual(400);
         expect(typeof res.body).toEqual("object");
@@ -295,7 +294,7 @@ describe("POST /api/products/", () => {
       })
       .send(body)
       .end((err, res) => {
-        if (err) done(err);
+        err ? done(err) : err;
 
         expect(res.statusCode).toEqual(400);
         expect(typeof res.body).toEqual("object");
@@ -328,7 +327,7 @@ describe("POST /api/products/", () => {
       })
       .send(body)
       .end((err, res) => {
-        if (err) done(err);
+        err ? done(err) : err;
 
         expect(res.statusCode).toEqual(400);
         expect(typeof res.body).toEqual("object");
@@ -361,7 +360,7 @@ describe("POST /api/products/", () => {
       })
       .send(body)
       .end((err, res) => {
-        if (err) done(err);
+        err ? done(err) : err;
 
         expect(res.statusCode).toEqual(400);
         expect(typeof res.body).toEqual("object");
@@ -394,7 +393,7 @@ describe("POST /api/products/", () => {
       })
       .send(body)
       .end((err, res) => {
-        if (err) done(err);
+        err ? done(err) : err;
 
         expect(res.statusCode).toEqual(400);
         expect(typeof res.body).toEqual("object");
@@ -426,7 +425,7 @@ describe("POST /api/products/", () => {
       })
       .send(body)
       .end((err, res) => {
-        if (err) done(err);
+        err ? done(err) : err;
 
         expect(res.statusCode).toEqual(400);
         expect(typeof res.body).toEqual("object");
@@ -470,7 +469,7 @@ describe("PUT /api/products/", () => {
       .set({ access_token: adminToken })
       .send(body)
       .end((err, res) => {
-        if (err) done(err);
+        err ? done(err) : err;
 
         expect(res.statusCode).toEqual(200);
         expect(typeof res.body).toEqual("object");
@@ -515,7 +514,7 @@ describe("PUT /api/products/", () => {
       })
       .send(body)
       .end((err, res) => {
-        if (err) done(err);
+        err ? done(err) : err;
 
         expect(res.statusCode).toEqual(400);
         expect(typeof res.body).toEqual("object");
@@ -548,7 +547,7 @@ describe("PUT /api/products/", () => {
       })
       .send(body)
       .end((err, res) => {
-        if (err) done(err);
+        err ? done(err) : err;
 
         expect(res.statusCode).toEqual(400);
         expect(typeof res.body).toEqual("object");
@@ -581,7 +580,7 @@ describe("PUT /api/products/", () => {
       })
       .send(body)
       .end((err, res) => {
-        if (err) done(err);
+        err ? done(err) : err;
 
         expect(res.statusCode).toEqual(400);
         expect(typeof res.body).toEqual("object");
@@ -614,7 +613,7 @@ describe("PUT /api/products/", () => {
       })
       .send(body)
       .end((err, res) => {
-        if (err) done(err);
+        err ? done(err) : err;
 
         expect(res.statusCode).toEqual(400);
         expect(typeof res.body).toEqual("object");
@@ -646,7 +645,7 @@ describe("PUT /api/products/", () => {
       })
       .send(body)
       .end((err, res) => {
-        if (err) done(err);
+        err ? done(err) : err;
 
         expect(res.statusCode).toEqual(400);
         expect(typeof res.body).toEqual("object");
@@ -675,14 +674,13 @@ describe("PUT /api/products/", () => {
  */
 
 describe("DELETE /api/products/", () => {
-
   // condition: not provide valid access_token
   // result: delete failed
   it("Not provide valid access_token", (done) => {
     request(app)
       .delete(`/api/products/${ProductId}`)
       .end((err, res) => {
-        if (err) done(err);
+        err ? done(err) : err;
 
         expect(res.statusCode).toEqual(401);
         expect(typeof res.body).toEqual("object");
@@ -705,7 +703,7 @@ describe("DELETE /api/products/", () => {
         access_token: customerToken,
       })
       .end((err, res) => {
-        if (err) done(err);
+        err ? done(err) : err;
 
         expect(res.statusCode).toEqual(403);
         expect(typeof res.body).toEqual("object");
@@ -724,14 +722,16 @@ describe("DELETE /api/products/", () => {
       .delete(`/api/products/${ProductId}`)
       .set({ access_token: adminToken })
       .end((err, res) => {
-        if (err) done(err);
+        err ? done(err) : err;
 
         expect(res.statusCode).toEqual(200);
         expect(typeof res.body).toEqual("object");
         expect(res.body).toHaveProperty("success");
         expect(Array.isArray(res.body.success)).toEqual(true);
         expect(res.body.success).toEqual(
-          expect.arrayContaining([`Product with id: '${ProductId}' success to delete`])
+          expect.arrayContaining([
+            `Product with id: '${ProductId}' success to delete`,
+          ])
         );
 
         done();
