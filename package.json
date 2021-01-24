@@ -14,7 +14,7 @@
     "test": "NODE_ENV=test npx jest",
     "p" : "npm test products.test.js",
     "u": "npm test user.test.js",
-    "start" : "node app.js"
+    "start" : "node bin/http.js"
   },
   "repository": {
     "type": "git",
