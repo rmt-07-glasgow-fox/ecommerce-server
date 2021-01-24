@@ -38,6 +38,11 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: {
           args: true,
           msg: 'price is required'
+        },
+        notZero(value) {
+          if (value < 1) {
+            throw new Error("the minimum value for price is 1")
+          }
         }
       }
     },
@@ -47,6 +52,11 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: {
           args: true,
           msg: 'stock is required'
+        },
+        notBelowZero(value) {
+          if (value < 0) {
+            throw new Error("the minimum value for stock is 0")
+          }
         }
       }
     }

@@ -84,7 +84,7 @@ class ProductController {
             if (!data) {
                 next({ name: 'Data Not Found'})
             } else {
-                res.status(200).json({message: 'Todo Has Been Succesfully Deleted'})
+                res.status(200).json({message: 'Product Has Been Succesfully Deleted'})
             }
         })
         .catch(err => {
