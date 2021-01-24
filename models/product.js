@@ -45,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Price must contains integer value!"
         },
         isPositive(value) {
-          if (value < 0) {
+          if (value <= 0) {
             throw new Error('Price must contains positive value!');
           }
         }

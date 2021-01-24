@@ -3,6 +3,23 @@ const { hashPassword, checkPassword} = require('../helpers/bcrypt')
 const { generateToken, checkToken } = require('../helpers/jwt')
 
 class Controller {
+  static showAll (req, res, next) {
+    Product.findAll({
+      attributes: {
+        exclude: ['createdAt', 'updatedAt'],
+      },
+      order: [
+        ['updatedAt', 'DESC']
+      ]
+    })
+    .then((data) => {
+      return res.status(200).json(data)
+    })
+    .catch((err) => {
+      next(err)
+    })
+  }
+
   static create (req, res, next) {
     let { name, image_url, price, stock } = req.body
 
@@ -10,6 +27,8 @@ class Controller {
       name, image_url, price, stock,
       UserId: +req.user.id
     }
+
+    console.log(input);
 
     if (req.user.role !== 'admin') {
       return res.status(403).json({message:"Need administrator authorization!"})
@@ -62,6 +81,9 @@ class Controller {
       where:{id:id}
     })
     .then((data) => {
+      if (!data) {
+        return res.status(404).json({message:"Error 404: task not found"})
+      }
       return res.status(201).json({message: "Product deleted successfully!"})
     })
     .catch((err) => {

@@ -9,6 +9,7 @@ router.post('/login', usersController.login)
 router.post('/register', usersController.register)
 
 router.use(authentication)
+router.get('/products', productsController.showAll)
 router.post('/products', productsController.create)
 router.put('/products/:id', productsController.update)
 router.delete('/products/:id', productsController.delete)

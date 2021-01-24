@@ -12,6 +12,8 @@ npx sequelize init
 npx sequelize model:generate --name User --attributes email:string,password:string,role:string
 npx sequelize model:generate --name Product --attributes name:string,image_url:string,price:integer,stock:integer,UserId:integer
 
+npx sequelize seed:generate --name productsSeeds
+
 WINDOWS USER!!
 npm install -g win-node-env
 

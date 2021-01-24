@@ -47,7 +47,12 @@ class Controller {
       //generate token
       let payload = { id: data.id, email: data.email, role:data.role }
       let token = generateToken(payload)
-      return res.status(201).json({access_token: `${token}`})
+      let response = {
+        email: data.email,
+        role: data.role,
+        access_token: token
+      }
+      return res.status(201).json(response)
     })
     .catch((err) => {
       next(err)
