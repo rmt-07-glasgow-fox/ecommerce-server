@@ -3,6 +3,22 @@ const { comparePassword } = require('../helpers/bcrypt')
 const { createToken } = require('../helpers/jwt')
 
 class UserController {
+  static register (req, res, next) {
+    const { email, password } = req.body
+
+    User.create({
+      email,
+      password
+    })
+      .then((createdUser) => {
+        console.log(createdUser)
+        res.status(201).json(createdUser)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
   static login (req, res, next) {
     const { email, password } = req.body
 
