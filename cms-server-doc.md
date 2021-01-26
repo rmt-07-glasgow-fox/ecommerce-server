@@ -19,6 +19,10 @@ E-Commerce CMS is a content management system for our E-commerce site. This app 
 - PATCH /products/:id
 - DELETE /products/:id
 - GET /categories
+- GET /carts
+- POST /carts
+- PATCH /carts/:id
+- DELETE /carts/:id
 
 ### POST /login
 
@@ -629,6 +633,50 @@ _Response (200 - Ok)_
         }
     ]
 ]
+```
+
+_Response (400 - Bad Request)_
+
+```
+{
+    "errors": [
+        "< error message >"
+    ]
+}
+```
+
+---
+
+### DELETE /carts/:id
+
+> Deletes cart item
+
+_Request Header_
+
+```
+{
+  "access_token": "< your access token >"
+}
+```
+
+_Request Params_
+
+```
+"id": "< cart id >"
+```
+
+_Request Body_
+
+```
+not needed
+```
+
+_Response (200 - Ok)_
+
+```
+{
+    "message": "Cart item successfully deleted"
+}
 ```
 
 _Response (400 - Bad Request)_
