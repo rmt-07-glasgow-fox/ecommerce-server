@@ -7,13 +7,13 @@ class CartController {
       let UserId = +req.user.id
       let ProductId = +req.body.ProductId
       let quantity = +req.body.quantity
-      let totalPrice = +req.body.totalPrice
+      let totalPrice = null
 
-      console.log('>>> req.body : ', req.body)
-      console.log('>>> req.user : ', req.user)
-      console.log('>>> create cart : ', { ProductId, quantity, totalPrice })
+      // console.log('>>> req.body : ', req.body)
+      // console.log('>>> req.user : ', req.user)
+      // console.log('>>> create cart : ', { ProductId, quantity })
 
-      if (!ProductId || !quantity || !totalPrice) { return next({ name: 400, message: 'ProductId / quantity / totalPrice is required' }) }
+      if (!ProductId || !quantity) { return next({ name: 400, message: 'ProductId / quantity is required' }) }
 
       // check productId
       let dbProduct = await Product.findByPk(ProductId)
@@ -22,6 +22,9 @@ class CartController {
 
       // check stock
       if (dbProduct.stock < quantity) { return next({ name: 400, message: `please order below current stock ${dbProduct.stock}` }) }
+
+      // set total price
+      totalPrice = dbProduct.price * quantity
 
       let newCart = {
         UserId: UserId,
@@ -32,7 +35,7 @@ class CartController {
 
       // check in cart, if avail plus the quantity and totalPrice
       let dbCart = await Cart.findOne({ where: { UserId: UserId, ProductId: ProductId } })
-      console.log('>>> dbCart  ', dbCart)
+      // console.log('>>> dbCart  ', dbCart)
 
       // update dbCart
       if (dbCart) {
@@ -45,7 +48,7 @@ class CartController {
         }
 
         let updatedDBCart = await Cart.update({ quantity: updatedQuantity, totalPrice: updatedTotalPrice }, { where: { id: dbCart.id } })
-        console.log('>>> updated cart', updatedDBCart)
+        // console.log('>>> updated cart', updatedDBCart)
         return res.status(200).json({ message: `${dbProduct.name} is added to cart` })
       }
 
@@ -53,12 +56,12 @@ class CartController {
       if (!dbCart) {
 
         let createdCart = await Cart.create(newCart)
-        console.log('>>> createdCart', createdCart)
+        // console.log('>>> createdCart', createdCart)
 
         return res.status(201).json({ message: `${dbProduct.name} is added to cart` })
       }
 
-      console.log('>>> check addCart flow control salah')
+      // console.log('>>> check addCart flow control salah')
 
     } catch (err) {
       return next(err)
@@ -117,6 +120,7 @@ class CartController {
     try {
       let idCart = +req.params.id
       let updatedQuantity = +req.body.quantity
+      let totalPrice = null
 
       // validate quantity
       if (!updatedQuantity) { return next({ name: 400, message: 'quantity is required and should higher than 0' }) }
@@ -129,14 +133,17 @@ class CartController {
 
       // check productId
       let dbProduct = await Product.findByPk(cart.ProductId)
-      console.log('>>> dbProduct', dbProduct)
+      // console.log('>>> dbProduct', dbProduct)
 
+      // check product id and stock
       if (!dbProduct) { return next({ name: 404, message: 'product not found' }) }
       if (dbProduct.stock < updatedQuantity) { return next({ name: 400, message: `please order below current stock ${dbProduct.stock}` }) }
 
-      console.log('>>> berhasil dong !!')
+      // console.log('>>> berhasil dong !!')
 
-      let updatedCart = await Cart.update({ quantity: updatedQuantity }, { where: { id: idCart } })
+      totalPrice = dbProduct.price * updatedQuantity
+
+      let updatedCart = await Cart.update({ quantity: updatedQuantity, totalPrice: totalPrice }, { where: { id: idCart } })
       return res.status(200).json({ message: `Cart ${dbProduct.name} quantity is updated to ${updatedQuantity}` })
 
     } catch (err) {
