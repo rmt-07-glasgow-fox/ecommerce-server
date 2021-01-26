@@ -24,7 +24,7 @@ function authenticate(req, res, next){
             next(err)
         })
     } catch (err) {
-        //console.log(err)
+        console.log(err)
         next({name: `JsonWebTokenError`})
     }
 }

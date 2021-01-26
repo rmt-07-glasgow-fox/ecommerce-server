@@ -32,7 +32,17 @@ function errHandling(err, req, res, next){
                 errors : ['jwt is not provided']
             }
             res.status(401).json(obj)
-        }else {
+        } else if(err.name === `quantityBadRequest`){
+            let obj ={
+                errors : ['Quantity should lower than stock']
+            }
+            res.status(400).json(obj)
+        } else if(err.name === `quantityBad`){
+            let obj ={
+                errors : ['Quantity minimum is 1']
+            }
+            res.status(400).json(obj)
+        } else {
             res.status(500).json({msg: `error from the server`})
         }
     }

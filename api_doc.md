@@ -1,6 +1,6 @@
 **E-commerce CMS**
 ----
-    Membuat website untuk memanagement content
+    Membuat website E-commerce
 
 
 * **URL**
@@ -11,7 +11,79 @@
   
   &nbsp;
 
+## POST /register
+_Request Header_
+```
+{
+  not needed
+}
+```
+
+_Request Body_
+```
+{
+  "email": "<email to get insert into>",
+  "password": "<password to get insert into>"
+}
+```
+_Response (201 - OK)_
+```
+{
+  "id": "<id auto insert from the system>",
+  "email": "<email to get insert into>",
+  "role": "<role to get insert into>"
+}
+```
+_Response (400 - Bad Request)_
+```
+{
+  Error message from SequelizeValdationError
+}
+```
+_Response (500 - Internal Server Error)_
+```
+{
+  "message": "error from the server"
+}
+```
+&nbsp;
+
 ## POST /login
+_Request Header_
+```
+{
+  not needed
+}
+```
+
+_Request Body_
+```
+{
+  "email": "<email to get insert into>",
+  "password": "<password to get insert into>"
+}
+```
+_Response (200 - OK)_
+```
+{
+  "access_token": "<access_token>"
+}
+```
+_Response (400 - Bad Request)_
+```
+{
+  Error message from SequelizeValdationError
+}
+```
+_Response (500 - Internal Server Error)_
+```
+{
+  "message": "error from the server"
+}
+```
+&nbsp;
+
+## POST /loginCustomer
 _Request Header_
 ```
 {
@@ -428,6 +500,209 @@ _Response (200 - OK)_
 ```
 {
   "msg": "banner has been deleted"
+}
+```
+&nbsp;
+
+## GET /carts
+_Request Header_
+```
+{
+  "access_token": "<access_token>"
+}
+```
+_Request Body_
+```
+not needed
+```
+_Response (200 - OK)_
+```
+[
+  {
+    "quantity": "<posted quantity>",
+    "UserId": "<give id by system>",
+    "ProductId": "<give id by system>",
+    "Product":
+      {
+        "id": "<give id by system>",
+        "name": "<posted name>",
+        "image_url": "<posted image_url>",
+        "price": "<posted price>",
+        "stock": "<posted stock>",
+        "createdAt: "<automatically inserted system>",
+        "updatedAt: "<automatically inserted system>"
+      }
+  }
+]
+```
+_Response (500 - Internal Server Error)_
+```
+{
+  "message": "error from the server"
+}
+```
+&nbsp;
+
+## POST /carts
+_Request Header_
+```
+{
+  "access_token": "<access_token>"
+}
+```
+_Request Body_
+```
+{
+  "ProductId": "<id get insert into>",
+  "UserId": "<id get insert into>",
+}
+```
+_Response (201 - OK)_
+```
+{
+"quantity": "<posted quantity>",
+"UserId": "<give id by system>",
+"ProductId": "<give id by system>",
+"createdAt: "<automatically inserted system>",
+"updatedAt: "<automatically inserted system>"
+}
+```
+_Response (200 - OK)_
+```
+[
+  {
+    "quantity": "<posted quantity>",
+    "UserId": "<give id by system>",
+    "ProductId": "<give id by system>",
+    "Product":
+      {
+        "id": "<give id by system>",
+        "name": "<posted name>",
+        "image_url": "<posted image_url>",
+        "price": "<posted price>",
+        "stock": "<posted stock>",
+        "createdAt: "<automatically inserted system>",
+        "updatedAt: "<automatically inserted system>"
+      }
+  }
+]
+```
+_Response (500 - Internal Server Error)_
+```
+{
+  "message": "error from the server"
+}
+```
+&nbsp;
+
+## PATCH /carts/inc
+_Request Header_
+```
+{
+  "access_token": "<access_token>"
+}
+```
+_Request Body_
+```
+{
+  "ProductId": "<id get insert into>",
+  "UserId": "<id get insert into>",
+}
+```
+_Response (200 - OK)_
+```
+[
+  {
+    "quantity": "<posted quantity>",
+    "UserId": "<give id by system>",
+    "ProductId": "<give id by system>",
+    "Product":
+      {
+        "id": "<give id by system>",
+        "name": "<posted name>",
+        "image_url": "<posted image_url>",
+        "price": "<posted price>",
+        "stock": "<posted stock>",
+        "createdAt: "<automatically inserted system>",
+        "updatedAt: "<automatically inserted system>"
+      }
+  }
+]
+```
+_Response (500 - Internal Server Error)_
+```
+{
+  "message": "error from the server"
+}
+```
+&nbsp;
+
+## PATCH /carts/dec
+_Request Header_
+```
+{
+  "access_token": "<access_token>"
+}
+```
+_Request Body_
+```
+{
+  "ProductId": "<id get insert into>",
+  "UserId": "<id get insert into>",
+}
+```
+_Response (200 - OK)_
+```
+[
+  {
+    "quantity": "<posted quantity>",
+    "UserId": "<give id by system>",
+    "ProductId": "<give id by system>",
+    "Product":
+      {
+        "id": "<give id by system>",
+        "name": "<posted name>",
+        "image_url": "<posted image_url>",
+        "price": "<posted price>",
+        "stock": "<posted stock>",
+        "createdAt: "<automatically inserted system>",
+        "updatedAt: "<automatically inserted system>"
+      }
+  }
+]
+```
+_Response (500 - Internal Server Error)_
+```
+{
+  "message": "error from the server"
+}
+```
+&nbsp;
+
+## DELETE /carts
+_Request Header_
+```
+{
+  "access_token": "<access_token>"
+}
+```
+_Request Body_
+```
+{
+  "ProductId": "<id get insert into>",
+  "UserId": "<id get insert into>",
+}
+```
+_Response (200 - OK)_
+```
+{
+  "msg": "<Item successfully removed from your cart>"
+}
+```
+_Response (500 - Internal Server Error)_
+```
+{
+  "message": "error from the server"
 }
 ```
 &nbsp;
