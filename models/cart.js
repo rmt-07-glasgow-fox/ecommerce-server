@@ -30,11 +30,13 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id'
       }
     },
-    quantity: DataTypes.INTEGER
+    quantity: DataTypes.INTEGER,
+    status: DataTypes.BOOLEAN
   }, {
     hooks: {
       beforeCreate (instance, option) {
         instance.quantity = 1
+        instance.status = 'Unpaid'
       }
     },
     sequelize,
