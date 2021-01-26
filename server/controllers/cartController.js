@@ -92,22 +92,36 @@ class CartController {
   }
 
   static updateCarts(req, res, next) {
-    let value = {
-      quantity: req.body.quantity
-    }
-    Cart.update(value, {
-      where: {
-        id: req.params.id
-      },
-      returning: true
+    let id = req.params.id
+    console.log(id);
+    let quantity = +req.body.quantity
+    Cart.findByPk(id, {
+      include: [Product]
     }).then(data => {
-      if (data[0]) {
-        res.status(200).json(data[1][0])
+      console.log(data);
+      if(data) {
+        let stock = data.Product.stock
+        let newQty = data.quantity + quantity
+        if(stock >= newQty) {
+          let newData = {
+            quantity: newQty
+          }
+          return Cart.update(newData, {
+            where: { id },
+            returning: true
+          })
+        } else {
+          next({
+            status: 400,
+            message: "Not enough stock"
+          })
+        }
       } else {
-        next({
-          status: 404
-        })
+        next({ status: 404 })
       }
+    })
+    .then(data => {
+      res.status(200).json(data[1][0])
     }).catch(err => {
       if(err.name === "SequelizeValidationError") {
         next({
