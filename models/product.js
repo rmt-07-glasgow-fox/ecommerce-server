@@ -11,8 +11,18 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Product.belongsTo(models.Product, { 
+      Product.belongsTo(models.Category, { 
         foreignKey: "categoryId" 
+      }),
+      Product.belongsToMany(models.User, { 
+        foreignKey: 'productId', 
+        through: 'Cart',
+        as: 'itemoncart'
+      }),
+      Product.belongsToMany(models.User, { 
+        foreignKey: 'productId', 
+        through: 'Wishlist', 
+        as: 'itemonwishlist'
       })
     }
   };
@@ -43,7 +53,7 @@ module.exports = (sequelize, DataTypes) => {
           msg: "please fill the product price"
         },
         valid(value) {
-          if(!value || value <= 0){
+          if(value < 0){
             throw new Error("price can't be a negative number")
           }
         },
@@ -61,7 +71,7 @@ module.exports = (sequelize, DataTypes) => {
           msg: "please fill the product stock"
         },
         valid(value) {
-          if(!value || value <= 0){
+          if(value < 0){
             throw new Error("stock can't be a negative number")
           }
         },

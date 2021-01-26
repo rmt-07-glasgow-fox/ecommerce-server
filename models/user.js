@@ -11,12 +11,23 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      User.belongsToMany(models.Product, { 
+        foreignKey: 'userId', 
+        through: 'Cart',
+        as: 'itemoncart'
+      }),
+      User.belongsToMany(models.Product, { 
+        foreignKey: 'userId', 
+        through: 'Wishlist',
+        as: 'itemonwishlist'
+      })
     }
   };
   User.init({
     email: {
       type: DataTypes.STRING,
+      allowNull: false,
+      unique:true,
       validate: {
         isEmail: {
           args: true,
@@ -26,14 +37,11 @@ module.exports = (sequelize, DataTypes) => {
           args: true,
           msg: "please fill the email"
         }
-      },
-      unique: {
-        args: true,
-        msg: "email already in use"
       }
     },
     password: {
       type: DataTypes.STRING,
+      allowNull: false,
       validate: {
         notEmpty: {
           args: true,
@@ -48,6 +56,7 @@ module.exports = (sequelize, DataTypes) => {
     hooks: {
       beforeCreate: (user, options) => {
         user.password = hashPassword(user.password)
+        user.role = "costumer"
       }
     }
   });

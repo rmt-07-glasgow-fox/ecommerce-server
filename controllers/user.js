@@ -1,6 +1,7 @@
-const { User } = require('../models/index')
+const { User, Product, Wishlist, Cart } = require('../models/index')
 const { comparePassword } = require('../helper/bcrypt')
 const { generateToken } = require('../helper/jwt')
+const { sendEmail } = require('../helper/nodemailer')
 
 class userController {
 
@@ -8,10 +9,12 @@ class userController {
         let obj = {
             email: req.body.email,
             password: req.body.password,
-            role: req.body.role
+            role: req.body.role || "costumer"
         }
         User.create(obj)
         .then(user => {
+            // send email here
+            sendEmail(user.email)
             const response = {
                 id: user.id,
                 email: user.email,
@@ -64,6 +67,35 @@ class userController {
         } catch (error) {
             return next(error)
         }
+    }
+
+    static getInfo (req, res, next) {
+        console.log('here');
+        User.findAll({
+            where: {
+                id: +req.user.id
+            },
+            include: [
+                {
+                    model: Product,
+                    through: Wishlist,
+                    as: 'itemonwishlist',
+                },
+                {
+                    model: Product,
+                    through: Cart,
+                    as: 'itemoncart',
+                }
+            ],
+            attributes: ['email']
+        })
+        .then(data => {
+            res.status(200).json(data)
+        })
+        .catch(err => {
+            console.log(err);
+            next(err)
+        })
     }
 }
 
