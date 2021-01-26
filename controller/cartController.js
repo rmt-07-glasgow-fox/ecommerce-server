@@ -13,21 +13,20 @@ class CartController {
         }
     }
 
-    static async addCart (req, res, next) {
+    static async addCart (req,res, next) {
         let newCart = {
             name : req.body.name,
             image_url : req.body.image_url,
             price : req.body.price,
-            stock : req.body.stock,
-            UserId : req.loginUser.id,
+            stock : 1,
+            UserId : req.userLogin.id
         }
 
         try {
             const data = await Cart.create(newCart)
 
             res.status(201).json(data)
-        } catch (err) {
-
+        } catch(err) {
             next(err)
         }
     }

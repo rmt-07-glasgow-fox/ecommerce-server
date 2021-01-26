@@ -9,7 +9,7 @@ class UserController {
         let newUser = {
             email : req.body.email,
             password : req.body.password,
-            role : 'customer'
+            role : "customer"
         }
 
         try {   

@@ -1,6 +1,6 @@
 'use strict';
 
-const {genPass} = require('../helper/bcrypt')
+const { genPass } = require('../helper/bcrypt')
 
 const users = [{
   email : 'admin@mail.com',
@@ -14,7 +14,6 @@ const users = [{
   role :'customer',
   createdAt : new Date(),
   updatedAt : new Date()
-
 }]
 
 module.exports = {

@@ -14,6 +14,15 @@ E-commerce is an application to upload product and commercial application, This 
 - `POST /products`
 - `PUT /products/:id`
 - `DELETE /products/:id`
+- `GET /carts`
+- `POST /carts`
+- `PUT /carts/:id`
+- `DELETE /carts/:id`
+- `GET /wishlists`
+- `POST /wishlists`
+- `DELETE /wishlists/:id`
+- `GET /transactions`
+- `POST /transactions`
 
 ## RESTful endpoints
 ### POST /register
@@ -254,7 +263,7 @@ _Response (500 - Internal Server Error)_
 ---
 ### PUT /products/:id
 
-> Update task with the id inputed
+> Update products with the id inputed
 
 
 _Request Header_
@@ -316,7 +325,7 @@ _Response (500 - Internal Server Error)_
 
 ### DELETE /products/:id
 
-> Delete task with the id inputed
+> Delete products with the id inputed
 
 _Request Header_
 ```json
@@ -357,6 +366,428 @@ _Response (404 - Not Found)_
 ```json
 {
   "message": "Error Not found"
+}
+```
+
+_Response (500 - Internal Server Error)_
+```json
+{
+  "message": "Error in internal server"
+}
+```
+---
+
+### GET /carts
+
+> Get all carts
+
+_Request Header_
+```json
+{
+  "access_token": "<your access token>"
+}
+```
+
+_Request Body_
+```
+not needed
+```
+
+_Response (200)_
+```json
+[
+  {
+    "id": 1,
+    "name": "<name>",
+    "image_url": "<image url>",
+    "price": "<price>",
+    "stock": "<stock>",
+    "UserId": "<UserId>"
+  },
+]
+```
+
+_Response (500 - Internal Server Error)_
+```json
+{
+  "message": "Error in internal server"
+}
+```
+---
+### POST /carts
+
+> Create new carts
+
+_Request Header_
+```json
+{
+  "access_token": "<your access token>"
+}
+```
+
+_Request Body_
+```json
+{
+  "name": "<name to get insert into>",
+  "image_url": "<image url to get insert into>",
+  "price" : "<price to get insert into>",
+  "stock" : "<stock to get insert into>"
+}
+```
+
+_Response (201 - Created)_
+```json
+{
+  "id": <given id by system>,
+  "name": "<posted name>",
+  "image_url": "<posted image url>",
+  "price" : "<posted price>",
+  "stock" : "<posted stock>",
+  "UserId": "<posted UserId>"
+}
+```
+
+_Response (400 - Bad Request)_
+```json
+{
+  "message": "<err>"
+}
+```
+
+_Response (500 - Internal Server Error)_
+```json
+{
+  "message": "Error in internal server"
+}
+```
+---
+### PUT /carts/:id
+
+> Update stock carts by id carts
+
+
+_Request Header_
+```json
+{
+  "access_token": "<your access token>"
+}
+```
+
+_Request Params_
+```json
+{
+    "id": "<id task want to be updated>"
+}
+```
+
+_Request Body_
+```json
+{
+  "stock" : "<stock to get updated>"
+}
+```
+
+_Response (200)_
+```json
+{
+  "id": 1,
+  "name": "<name>",
+  "image_url": "<image url>",
+  "price": "<price>",
+  "stock": "<stock>"
+}
+```
+
+_Response (400 - Bad Request)_
+```json
+{
+  "message": "<err>"
+}
+```
+
+_Response (404 - Not Found)_
+```json
+{
+  "message": "Not found"
+}
+```
+
+_Response (500 - Internal Server Error)_
+```json
+{
+  "message": "Error in internal server"
+}
+```
+---
+
+### DELETE /carts/:id
+
+> Delete carts with the id inputed
+
+_Request Header_
+```json
+{
+  "access_token": "<your access token>"
+}
+```
+
+_Request Params_
+```json
+{
+    "id": "<id task want to be deleted>"
+}
+```
+
+_Request Body_
+```
+{
+not needed
+}
+```
+
+_Response (200)_
+```json
+{
+  "message": "Cart success to delete"
+}
+```
+
+_Response (400 - Bad Request)_
+```json
+{
+  "message": "<err>"
+}
+```
+
+_Response (404 - Not Found)_
+```json
+{
+  "message": "Error Not found"
+}
+```
+
+_Response (500 - Internal Server Error)_
+```json
+{
+  "message": "Error in internal server"
+}
+```
+---
+
+### GET /wishlists
+
+> Get all wishlists
+
+_Request Header_
+```json
+{
+  "access_token": "<your access token>"
+}
+```
+
+_Request Body_
+```
+not needed
+```
+
+_Response (200)_
+```json
+[
+  {
+    "id": 1,
+    "name": "<name>",
+    "image_url": "<image url>",
+    "price": "<price>",
+    "stock": "<stock>",
+    "UserId": "<UserId>"
+  },
+]
+```
+
+_Response (500 - Internal Server Error)_
+```json
+{
+  "message": "Error in internal server"
+}
+```
+---
+### POST /wishlists
+
+> Create new wishlist
+
+_Request Header_
+```json
+{
+  "access_token": "<your access token>"
+}
+```
+
+_Request Body_
+```json
+{
+  "name": "<name to get insert into>",
+  "image_url": "<image url to get insert into>",
+  "price" : "<price to get insert into>",
+  "stock" : "<stock to get insert into>"
+}
+```
+
+_Response (201 - Created)_
+```json
+{
+  "id": <given id by system>,
+  "name": "<posted name>",
+  "image_url": "<posted image url>",
+  "price" : "<posted price>",
+  "stock" : "<posted stock>",
+  "UserId": "<posted UserId>"
+}
+```
+
+_Response (400 - Bad Request)_
+```json
+{
+  "message": "<err>"
+}
+```
+
+_Response (500 - Internal Server Error)_
+```json
+{
+  "message": "Error in internal server"
+}
+```
+---
+
+### DELETE /wishlists/:id
+
+> Delete wishlist with the id inputed
+
+_Request Header_
+```json
+{
+  "access_token": "<your access token>"
+}
+```
+
+_Request Params_
+```json
+{
+    "id": "<id task want to be deleted>"
+}
+```
+
+_Request Body_
+```
+{
+not needed
+}
+```
+
+_Response (200)_
+```json
+{
+  "message": "Wishlist success to delete"
+}
+```
+
+_Response (400 - Bad Request)_
+```json
+{
+  "message": "<err>"
+}
+```
+
+_Response (404 - Not Found)_
+```json
+{
+  "message": "Error Not found"
+}
+```
+
+_Response (500 - Internal Server Error)_
+```json
+{
+  "message": "Error in internal server"
+}
+```
+---
+
+
+### GET /transactions
+
+> Get all history transactions
+
+_Request Header_
+```json
+{
+  "access_token": "<your access token>"
+}
+```
+
+_Request Body_
+```
+not needed
+```
+
+_Response (200)_
+```json
+[
+  {
+    "id": 1,
+    "name": "<name>",
+    "image_url": "<image url>",
+    "price": "<price>",
+    "stock": "<stock>",
+    "UserId": "<UserId>"
+  },
+]
+```
+
+_Response (500 - Internal Server Error)_
+```json
+{
+  "message": "Error in internal server"
+}
+```
+---
+### POST /transactions
+
+> Create new transactions after paying cart
+
+_Request Header_
+```json
+{
+  "access_token": "<your access token>"
+}
+```
+
+_Request Body_
+```json
+{
+  "name": "<name to get insert into>",
+  "image_url": "<image url to get insert into>",
+  "price" : "<price to get insert into>",
+  "stock" : "<stock to get insert into>"
+}
+```
+
+_Response (201 - Created)_
+```json
+{
+  "id": <given id by system>,
+  "name": "<posted name>",
+  "image_url": "<posted image url>",
+  "price" : "<posted price>",
+  "stock" : "<posted stock>",
+  "UserId": "<posted UserId>"
+}
+```
+
+_Response (400 - Bad Request)_
+```json
+{
+  "message": "<err>"
 }
 ```
 

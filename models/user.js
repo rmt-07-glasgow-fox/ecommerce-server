@@ -50,7 +50,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     hooks : {
       beforeCreate : (user, option) => {
-        return user.password = genPass(user.password)
+        user.password = genPass(user.password)
       }
     },
     sequelize,
