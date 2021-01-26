@@ -5,14 +5,25 @@ class cartController {
     static create(req, res, next) {
         const ProductId = req.body.ProductId
         const UserId = checkToken(req.headers.access_token).id
-        Cart.create({ProductId, UserId})
-          .then(cart => {
-            const {id, ProductId, UserId, quantity} = cart
-            res.status(201).json({id, ProductId, UserId, quantity})
-          })
-          .catch(err => {
-            next(err)
-          })
+        Cart.findOne({include: 'Product', attributes: ['id', 'UserId', 'quantity']}, {where: {UserId, ProductId}})
+        .then(cart => {
+          if (!cart) {
+            return Cart.create({ProductId, UserId})
+            .then(cart => {
+              const {id, ProductId, UserId, quantity} = cart
+              res.status(201).json({id, ProductId, UserId, quantity})
+            })
+          } else {
+            const quantity = cart.quantity + 1
+            return Cart.update({quantity}, {where: {id: cart.id}})
+            .then(cart => {
+              res.status(200).json({message: "added!"})
+            }) 
+          }
+        })
+        .catch(err => {
+          next(err)
+        })
     }
 
     static getCarts(req, res, next) {
