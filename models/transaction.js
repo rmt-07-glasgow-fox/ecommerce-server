@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Product extends Model {
+  class Transaction extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,9 +11,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Transaction.belongsTo(models.User)
     }
   };
-  Product.init({
+  Transaction.init({
     name: {
       type : DataTypes.STRING,
       validate : {
@@ -51,10 +52,11 @@ module.exports = (sequelize, DataTypes) => {
           msg : `price / stock can't be negative`
         }
       }
-    }
+    },
+    UserId: DataTypes.INTEGER
   }, {
     sequelize,
-    modelName: 'Product',
+    modelName: 'Transaction',
   });
-  return Product;
+  return Transaction;
 };

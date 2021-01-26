@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Product extends Model {
+  class Cart extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,9 +11,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Cart.belongsTo(models.User)
     }
   };
-  Product.init({
+  Cart.init({
     name: {
       type : DataTypes.STRING,
       validate : {
@@ -24,6 +25,20 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     image_url: DataTypes.STRING,
+    stock: {
+      type : DataTypes.INTEGER,
+      allowNull : false,
+      validate : {
+        isNumeric : {
+          args : true,
+          msg : `allow for number only`
+        },
+        min : {
+          args : [0],
+          msg : `price / stock can't be negative`
+        }
+      }
+    },
     price: {
       type : DataTypes.INTEGER,
       allowNull : false,
@@ -38,23 +53,10 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    stock: {
-      type : DataTypes.INTEGER,
-      allowNull : false,
-      validate : {
-        isNumeric : {
-          args : true,
-          msg : `allow for number only`
-        },
-        min : {
-          args : [0],
-          msg : `price / stock can't be negative`
-        }
-      }
-    }
+    UserId: DataTypes.INTEGER
   }, {
     sequelize,
-    modelName: 'Product',
+    modelName: 'Cart',
   });
-  return Product;
+  return Cart;
 };
