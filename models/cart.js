@@ -36,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
     hooks: {
       beforeCreate (instance, option) {
         instance.quantity = 1
-        instance.status = 'Unpaid'
+        instance.status = false
       }
     },
     sequelize,
