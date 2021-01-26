@@ -11,11 +11,15 @@ class UserController {
       password
     })
       .then((createdUser) => {
-        console.log(createdUser)
-        res.status(201).json(createdUser)
+        const resp = {
+          id: createdUser.id,
+          email: createdUser.email
+        }
+        res.status(201).json(resp)
       })
       .catch((err) => {
-        console.log(err)
+        err.name = 'ConflictError'
+        next(err)
       })
   }
 

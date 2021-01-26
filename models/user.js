@@ -19,6 +19,10 @@ module.exports = (sequelize, DataTypes) => {
   User.init({
     email: {
       type: DataTypes.STRING,
+      unique: {
+        args: true,
+        msg: 'Email already in use'
+      },
       validate: {
         notEmpty: {
           args: true,
@@ -40,7 +44,7 @@ module.exports = (sequelize, DataTypes) => {
     hooks: {
       beforeCreate: (user, options) => {
         user.password = hashPassword(user.password)
-        user.role = customer
+        user.role = 'customer'
       }
     },
     sequelize,

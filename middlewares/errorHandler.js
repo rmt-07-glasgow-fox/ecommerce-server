@@ -30,6 +30,10 @@ const errorHandler = (err, req, res, next) => {
           res.status(400).json({ errors })
         }
         break
+      case 'ConflictError':
+        errors = err.errors.map(error => error.message)
+        res.status(409).json({ errors })
+        break
       default:
         errors = err.errors.map(error => error.message)
         res.status(400).json({
