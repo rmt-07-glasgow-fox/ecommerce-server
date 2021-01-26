@@ -1,5 +1,5 @@
 const { cekToken } = require('../helpers/jwt')
-const { User, Product, Banner, Category } = require('../models')
+const { User, Product, Banner, Category, Cart } = require('../models')
 
 const authenticate = async (req,res,next) => {
   try {
@@ -103,10 +103,32 @@ const authorizeCategory = async (req,res,next) => {
   }
 }
 
+const authorizeCart = async (req,res,next) => {
+  try {
+    const { id } = req.params
+    const UserId = req.user.id
+    const cart = await Cart.findOne({
+      where: {id}
+    })
+    if(cart){
+      if(UserId === cart.UserId){
+        next()
+      }else{
+        next({name: 'ErrorAuthorize'})
+      }
+    }else{
+      next({name: 'ErrorNotFound'})
+    }
+  } catch (err) {
+    next(err)
+  }
+}
+
 module.exports = {
   authenticate,
   authorize,
   authorizeProduct,
   authorizeBanner,
-  authorizeCategory
+  authorizeCategory,
+  authorizeCart
 }
