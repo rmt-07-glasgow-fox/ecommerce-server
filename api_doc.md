@@ -1,6 +1,8 @@
 # E-Commerce CMS
 
 ## Available endpoints
+- `POST /register`
+- `POST /login`
 - `POST /loginAdmin`
 - `POST /products`
 - `GET /products`
@@ -9,6 +11,70 @@
 - `DELETE /products/:id`
 
 ## RESTful endpoints
+### POST /register
+
+> Create user with role "customer"
+
+_Request Header_
+```
+not needed
+```
+
+_Request Body_
+```
+{
+  "email": "<email to get insert into>",
+  "password": "<password to get insert into>",
+  "role": "customer"
+}
+```
+
+_Response (200 - OK)_
+```
+{
+  "id": "<given by system>",
+  "email": "<posted email>"
+}
+```
+
+_Response (400 - Bad Request)_
+```
+{
+  "message": "<Validation Errors>"
+}
+```
+---
+### POST /login
+
+> Log in for user with role "customer"
+
+_Request Header_
+```
+not needed
+```
+
+_Request Body_
+```
+{
+  "email": "<email>",
+  "password": "<password>"
+}
+```
+
+_Response (200 - OK)_
+```
+{
+  "access_token": "<access_token>"
+}
+```
+
+_Response (400 - Bad Request)_
+```
+{
+  "message": "Invalid Email/Password"
+}
+```
+---
 ### POST /loginAdmin
 
 > Login for user with role "admin"

@@ -8,6 +8,9 @@ function errorHandler (err, req, res, next) {
             case 'Not Admin':
                 res.status(401).json({ message: "Unauthorized"})
                 break;
+            case 'SequelizeUniqueConstraintError':
+                res.status(400).json({ message: err.errors[0].message })
+                break;
             case 'SequelizeValidationError': 
                 let errors = []
                 for (let i = 0; i < err.errors.length; i++) {

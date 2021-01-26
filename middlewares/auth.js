@@ -27,6 +27,7 @@ function authenticate(req, res, next) {
                     next({ name: 'Invalid Input'})
                 } else {
                     req.email = data.email
+                    req.UserId = data.id
                     next()
                 }
             })
