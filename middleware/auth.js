@@ -32,14 +32,10 @@ async function auth (req, res, next) {
 
 async function author (req, res, next) {
     if(req.userLogin.role == 'admin') {
-    
         next()
-
     } else {
-
         next( { name : 'notAuthorize' })
     }
-
 }
 
 module.exports = {

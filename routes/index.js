@@ -2,8 +2,9 @@ const router = require('express').Router()
 
 const userRouter = require('./user')
 const productRoute = require('./product')
+const bannerRoute = require('./banner')
 
-const { auth, author } = require('../middleware/auth')
+const { auth } = require('../middleware/auth')
 
 router.get('/', (req, res, next) => {
     res.status(200).json({
@@ -12,7 +13,7 @@ router.get('/', (req, res, next) => {
 })
 
 router.use('/', userRouter)
-router.use('/products',auth, author, productRoute)
-
+router.use('/products',auth, productRoute)
+router.use('/banners',auth, bannerRoute)
 
 module.exports = router
