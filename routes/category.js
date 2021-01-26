@@ -3,9 +3,6 @@ const routes = require('express').Router()
 const roleAuthorization = require('../middlewares/role-authorization')
 const checkid = require('../middlewares/check-categoryid')
 
-routes.get('/categories', CategoryController.getCategory)
-routes.get('/categories/:id', checkid,CategoryController.getCategoryById)
-
 //authorization
 routes.use(roleAuthorization)
 routes.post('/categories', CategoryController.addCategory)

@@ -1,5 +1,4 @@
 'use strict';
-const _ = require('lodash')
 const {
   Model
 } = require('sequelize');
@@ -21,12 +20,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notEmpty: {
-          msg: `Status Required`
+          msg: `Status is Required`
         },
-        isBoolean: function (val) {
-          if (!_.isBoolean(val)) {
-            throw new Error('Status Must Be Boolean');
-          }
+        isIn : {
+          args : [[true,false]],
+          msg : `Status Must Be Boolean`
         }
       }
     },

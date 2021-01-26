@@ -13,6 +13,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      User.belongsToMany(models.Product, {through: models.Wishlist})
+      User.hasMany(models.Transaction)
     }
   };
   User.init({
@@ -21,10 +23,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull:false,
       validate: {
         notNull: {
-          msg: `Email Required`
+          msg: `Email is Required`
         },
         isEmail: {
-          msg: `Email Invalid`
+          msg: `Email is Invalid`
         }
       }
     },
@@ -33,11 +35,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notNull: {
-          msg: `Password Required`
+          msg: `Password is Required`
         },
         len: {
           args: [6,100],
-          msg: `Password Min 6 Characters`
+          msg: `Password Should Have Minimum 6 Characters`
         }
       }
     },
@@ -46,7 +48,7 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         isIn: {
           args: [['admin', 'customer']],
-          msg: `Role Invalid`
+          msg: `Invalid Role`
         }
       }
     }
@@ -58,7 +60,6 @@ module.exports = (sequelize, DataTypes) => {
   User.beforeCreate((user, opt) => {
     const hashed = hashPassword(user.password)
     user.password = hashed
-
     user.role = 'customer'
   })
 

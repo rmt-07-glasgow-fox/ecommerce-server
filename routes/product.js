@@ -3,8 +3,6 @@ const routes = require('express').Router()
 const roleAuthorization = require('../middlewares/role-authorization')
 const checkId = require('../middlewares/check-productid')
 
-routes.get('/products', ProductController.getProduct)
-routes.get('/products/:id', checkId, ProductController.getProductById)
 //roleauthorization
 routes.use(roleAuthorization) 
 routes.use('/products/:id', checkId)
