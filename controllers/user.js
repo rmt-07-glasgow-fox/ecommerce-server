@@ -42,8 +42,7 @@ exports.register = async (req, res, next) => {
   try {
     const data = {
       email: req.body.email,
-      password: req.body.password,
-      role: "customer",
+      password: req.body.password
     };
     const user = await User.create(data);
     res.status(201).json({ id: user.id, email: user.email });
