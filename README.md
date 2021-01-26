@@ -361,6 +361,63 @@ This server is built with test suites with TDD.
 
 ### Users
 
+**Register**
+---
+
+**Only for customers**
+
+* **URL**
+  /register
+
+* **Method:** 
+  `POST`
+
+*  **URL Params**
+
+    None
+
+* **Data Params**
+    
+    **Content:** `{ 
+    email: 'user@mail.com',
+    password: 'thisisnotapassword'
+    }
+    `
+
+* **Success Response:**
+  
+  * **Code:** 201 Created <br />
+      **Content:** `{ 
+      email: 'user@mail.com',
+      id: 1
+      }
+      `
+
+* **Error Response:**
+
+  * **Code:** 400 Bad Request <br />
+      **Content:** `{
+      'errors': [
+        'Email / password must be filled'
+      ]
+      }
+      `
+
+    OR
+
+  * **Code:** 404 Bad Request <br />
+      **Content:** `{
+      'errors': [
+      'Email already in use'
+      ]
+      }
+      `
+
+* **Sample Call:**
+
+    `localhost:3000/login`
+
+
 **Login**
 ----
 
