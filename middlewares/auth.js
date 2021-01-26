@@ -1,5 +1,5 @@
 const {checkToken} = require("../helpers/jwt")
-const {User, Product} = require("../models")
+const {User} = require("../models")
 
 function authentication(req, res, next) {
     if (!req.headers.access_token) {
@@ -8,7 +8,7 @@ function authentication(req, res, next) {
         const authParams = checkToken(req.headers.access_token)
         User.findOne({where: {email: authParams.email}})
         .then(user => {
-            if (!user || user.email !== 'admin@mail.com') {
+            if (!user) {
                 next({name: "AuthError"})
             } else {
                 req.user = user
