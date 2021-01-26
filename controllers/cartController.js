@@ -17,7 +17,7 @@ class cartController {
 
     static getCarts(req, res, next) {
       const UserId = checkToken(req.headers.access_token).id
-      Cart.findAll({include: 'Product', where: {UserId}})
+      Cart.findAll({include: 'Product', attributes: ['id', 'UserId', 'quantity']}, {where: {UserId}})
       .then(carts => {
         const output = carts.map(el => {
           return { 
