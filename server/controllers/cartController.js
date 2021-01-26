@@ -7,7 +7,8 @@ class CartController {
       where: {
         UserId: userId
       },
-      include: [Product]
+      include: [Product],
+      order: [['createdAt', 'ASC']]
     }).then(data => {
       res.status(200).json(data)
     }).catch(err => {
