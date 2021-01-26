@@ -2,6 +2,138 @@
 
 This server is built with test suites with TDD.
 
+### Carts
+
+**Create Cart / Append product to already existing cart**
+----
+
+* **URL**
+  /carts
+
+* **Method:** 
+  `POST`
+
+*  **Headers**
+
+    access_token
+
+*  **URL Params**
+
+    None
+
+* **Data Params**
+    
+    **Content:** 
+    ```
+    {
+    ProductId: 1,
+    quantity: 2
+    }
+    ```
+
+* **Success Response:**
+  
+  * **Code:** 201 Created <br />
+  **Content:** 
+    ```
+    {
+    message: ['Product added']
+    }
+    ```
+    
+    OR
+
+  * **Code:** 200 OK <br />
+  **Content:** 
+    ```
+    {
+    message: ['Product added']
+    }
+    ```
+
+* **Error Response:**
+
+  * **Code:** 400 Bad Request <br />
+      **Content:** 
+      ```
+      {
+      'errors': [
+        'Not enough stock'
+      ]
+      }
+      ```
+
+* **Sample Call:**
+
+    `localhost:3000/carts`
+
+**Create Cart / Append product to already existing cart**
+----
+
+* **URL**
+  /carts/:cartId
+
+* **Method:** 
+  `POST`
+
+* **Headers**
+
+    access_token
+
+* **URL Params**
+
+    `cartId=[integer]` required
+
+* **Data Params**
+    
+    **Content:** 
+
+    None
+
+* **Success Response:**
+  
+  * **Code:** 200 OK <br />
+  **Content:** 
+    ```
+    {
+    "id": 6,
+    "UserId": 1,
+    "status": false,
+    "quantity": 4,
+    "createdAt": "2021-01-26T21:40:35.529Z",
+    "updatedAt": "2021-01-26T21:40:37.307Z",
+    "ProductId": 2,
+    "Product": {
+        "id": 2,
+        "name": "macbook pro",
+        "image_url": "https://i.pcmag.com/imagery/reviews/038Dr5TVEpwIv8rCljx6UcF-13..1588802180.jpg",
+        "category": "electronics",
+        "price": 2000000,
+        "stock": 5
+    },
+    "User": {
+        "id": 1,
+        "email": "user@mail.com"
+    }
+}
+    ```
+
+* **Error Response:**
+
+  * **Code:** 404 Not Found <br />
+      **Content:** 
+      ```
+      {
+      'errors': [
+        'Not found'
+      ]
+      }
+      ```
+
+* **Sample Call:**
+
+    `localhost:3000/carts/:cartId`
+
 ### Products
 
 **Create Product**
