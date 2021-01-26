@@ -37,3 +37,30 @@ exports.login = async (req, res, next) => {
     return next(err);
   }
 };
+
+exports.register = async (req, res, next) => {
+  const { firstname, lastname, email, password } = req.body;
+
+  if (!firstname || !lastname || !email || !password) {
+    return next({ name: 'RegisterValidation' });
+  }
+  const body = {
+    firstname: req.body.firstname,
+    lastname: req.body.lastname,
+    email: req.body.email,
+    password: req.body.password,
+  };
+
+  try {
+    const user = await User.create(body);
+
+    const data = {
+      id: user.id,
+      email: user.email,
+    };
+
+    return res.status(201).json(data);
+  } catch (err) {
+    next(err);
+  }
+};

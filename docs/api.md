@@ -1261,6 +1261,119 @@ Delete Banner.
 
 # User
 
+## **Register**
+
+Register user.
+
+- **URL**
+
+  `/users/register`
+
+- **Method:**
+
+  `POST`
+
+- **Request Body**
+
+  **Required:**
+
+  - firstname (string)
+  - lastname (string)
+  - email (string)
+  - password (string)
+
+  **Example:**
+
+  - application/json
+    ```json
+    {
+      "firstname": "Ari",
+      "lastname": "Bambang",
+      "email": "ari@mail.com",
+      "password": "1234567890"
+    }
+    ```
+
+- **Success Response:**
+
+  - **Code:** 201 <br />
+    **Content:**
+    ```json
+    {
+      "id": 1,
+      "email": "ari@mail.com"
+    }
+    ```
+
+- **Error Response:**
+
+  - **Code:** 400 Bad Request <br />
+    **Content:**
+
+    ```json
+    [
+      {
+        "message": "Firstname is required"
+      }
+    ]
+    ```
+
+    Or
+
+    ```json
+    [
+      {
+        "message": "Lastname is required"
+      }
+    ]
+    ```
+
+    Or
+
+    ```json
+    [
+      {
+        "message": "Email is required"
+      }
+    ]
+    ```
+
+    Or
+
+    ```json
+    [
+      {
+        "message": "Password is required"
+      }
+    ]
+    ```
+
+    Or
+
+    ```json
+    [
+      {
+        "message": "Password at least 6 characters"
+      }
+    ]
+    ```
+
+  - **Code:** 500 Internal Server Error <br />
+    **Content:**
+    ```json
+    [
+      {
+        "message": "internal server error"
+      }
+    ]
+    ```
+
+- **Sample Call:**
+  - **curl**:
+    ```js
+    curl --location --request POST 'http://localhost:3000/users/register' --data-urlencode 'firstname=ari' --data-urlencode 'lastname=bambang' --data-urlencode 'email=ari@mail.com' --data-urlencode 'password=1234567890'
+    ```
+
 ## **Login**
 
 Login user.
