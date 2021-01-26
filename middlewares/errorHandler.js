@@ -1,4 +1,5 @@
 function errorHandler(err, req, res, next) {
+  console.log(err, 'ini di error handler!! <<<<<<<')
   if(err) {
     const errMessages = {
       errors: []
@@ -16,6 +17,14 @@ function errorHandler(err, req, res, next) {
         })
         res.status(400).json(errMessages)
         console.log(errMessages)
+        break
+      case 'outOfStock':
+        errMessages.errors.push('not enough stock')
+        res.status(400).json(errMessages)
+        break
+      case 'minOfStock':
+        errMessages.errors.push('minimal quantity is 1')
+        res.status(400).json(errMessages)
         break
       case 'invalidEmailPassword':
         errMessages.errors.push('Invalid email or password')
