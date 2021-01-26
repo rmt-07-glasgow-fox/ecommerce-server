@@ -5,11 +5,15 @@ const userRoutes = require('./userRoutes')
 const productRoutes = require('./productRoutes')
 const bannerRoutes = require('./bannerRoutes')
 const categoryRoutes = require('./categoriesRoutes')
+const cartRoutes = require('./cartRoutes')
+const customerRoutes = require('./customerRoutes')
 
 router.use(userRoutes)
+router.use('/customer', customerRoutes)
 router.use(authenticate)
 router.use('/products', productRoutes)
 router.use('/banners', bannerRoutes)
 router.use('/categories', categoryRoutes)
+router.use('/carts', cartRoutes)
 
 module.exports = router

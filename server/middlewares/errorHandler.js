@@ -10,6 +10,10 @@ function errorHandler(err, req, res, next) {
           res.status(400).json({
               message: errMsg
           })
+        } else if (err.message) {
+          res.status(400).json({
+            message: err.message
+          })
         }
         break;
       case 401:

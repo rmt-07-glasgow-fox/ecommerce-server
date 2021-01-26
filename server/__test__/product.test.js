@@ -500,28 +500,3 @@ describe('Products test', () => {
   })
 })
 
-// describe('POST /products ==> Success', () => {
-  
-// })
-
-// describe('POST /products ==> Failed', () => {
-  
-// })
-
-// describe('PUT /products ==> Success', () => {
-  
-// })
-
-
-// describe('PUT /products ==> Failed', () => {
-  
-// })
-
-// describe('DELETE /products ==> Failed', () => {
-  
-// })
-
-// describe('DELETE /products ==> Success', () => {
-  
-// })
-

@@ -29,6 +29,21 @@ class CategoryController {
     })
   }
 
+  static getCategoriesId(req, res, next) {
+    let id = req.params.id
+    Category.findByPk(id, {
+      include: ['Products']
+    }).then(data => {
+      if (data) {
+        res.status(200).json(data)
+      } else {
+        next({ status: 404 })
+      }
+    }).catch(err => {
+      next(err)
+    })
+  }
+
   static deleteCategories(req, res, next) {
     Category.destroy({
       where: {

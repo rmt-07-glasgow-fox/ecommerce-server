@@ -2,6 +2,31 @@ const { User } = require('../models')
 const { decrypt, generateToken } =require('../helpers')
 
 class UserController{
+  static handleRegister(req, res, next){
+    console.log(req.body);
+    User.create({
+      username: req.body.username,
+      email: req.body.email,
+      password: req.body.password
+    }).then(data => {
+      res.status(201).json({
+        id: data.id,
+        username: data.username,
+        email: data.email,
+        role: data.role
+      })
+    }).catch(err => {
+      if (err.name === "SequelizeValidationError" || err.name === "SequelizeUniqueConstraintError") {
+        next({
+          status: 400,
+          errors: err.errors
+        })
+      } else {
+        next(err)
+      }
+    })
+  }
+
   static handleLogin(req, res, next){
     let email = req.body.email
     let password = req.body.password
@@ -19,7 +44,10 @@ class UserController{
             id: data.id,
             email: data.email
           })
-          res.status(200).json({access_token})
+          res.status(200).json({
+            access_token,
+            username: data.username
+          })
         } else {
           next({
             status: 401,

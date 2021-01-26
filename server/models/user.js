@@ -1,4 +1,5 @@
 'use strict';
+const { encrypt } = require('../helpers')
 const {
   Model
 } = require('sequelize');
@@ -14,11 +15,22 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.Product)
       User.hasMany(models.Banner)
       User.hasMany(models.Category)
+      User.hasMany(models.Cart)
     }
   };
   User.init({
+    username: {
+      type: DataTypes.STRING,
+      unique: true,
+      validate: {
+        notEmpty: {
+          msg: "Username must be filled"
+        }
+      }
+    },
     email: {
       type: DataTypes.STRING,
+      unique: true,
       validate: {
         notEmpty: {
           msg: "Email must be filled"
@@ -34,11 +46,21 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notEmpty: {
           msg: "Password must be filled"
+        },
+        len: {
+          args: [6],
+          msg: "Password minimum6 charcaters"
         }
       }
     },
     role: DataTypes.STRING
   }, {
+    hooks: {
+      beforeCreate: (instance) => {
+        instance.password = encrypt(instance.password)
+        instance.role = 'customer'
+      }
+    },
     sequelize,
     modelName: 'User',
   });
