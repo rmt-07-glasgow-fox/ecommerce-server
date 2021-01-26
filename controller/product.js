@@ -1,3 +1,4 @@
+const { verifyJWT } = require('../helper/jwt')
 const { Product } = require('../models')
 
 class productController {
@@ -22,10 +23,10 @@ class productController {
     } 
     static async createProduct (req, res, next) {
         const { name, image_url, price, stock } = req.body
-
+        const UserId = +req.user.id
         try {
             const input = await Product.create({
-                name, image_url, price, stock
+                name, image_url, price, stock, UserId
             })
             res.status(201).json(input)
         } catch (err) {
