@@ -9,7 +9,6 @@ const categoryRouter = require('./category')
 
 router.use('/',userRouter)
 
-router.use(authenticate)
 router.use('/categories', categoryRouter)
 router.use('/products', productRouter)
 router.use('/banners', bannerRouter)

@@ -1,14 +1,14 @@
 const CategoryController = require('../controllers/category')
-const { authorize, authorizeCategory } = require('../middlewares/auth')
+const { authenticate, authorize, authorizeCategory } = require('../middlewares/auth')
 
 const router = require('express').Router()
 
-router.route('/')
-  .get(CategoryController.showAll)
-  .post(authorize, CategoryController.create)
+router.get('/',CategoryController.showAll)
+router.get('/:id', CategoryController.showOne)
 
+router.use(authenticate)
+router.post('/', authorize, CategoryController.create)
 router.route('/:id')
-  .get(CategoryController.showOne)
   .put(authorizeCategory, CategoryController.edit)
   .delete(authorizeCategory, CategoryController.delete)
 
