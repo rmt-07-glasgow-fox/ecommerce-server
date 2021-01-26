@@ -1,0 +1,43 @@
+{
+  "name": "ecommerce-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "db:create": "npx sequelize db:create",
+    "db:migrate": "npx sequelize db:migrate",
+    "db:migrate:undo": "npx sequelize db:migrate:undo",
+    "db:seed:all": "npx sequelize db:seed:all",
+    "db:create:test": "NODE_ENV=test npm run db:create",
+    "db:create:development": "NODE_ENV=development npm run db:create",
+    "db:migrate:test": "NODE_ENV=test npm run db:migrate",
+    "db:migrate:development": "NODE_ENV=development npm run db:migrate",
+    "db:migrate:undo:development": "NODE_ENV=development npm run db:migrate:undo",
+    "db:seed:all:test": "NODE_ENV=test npm run db:seed:all",
+    "db:seed:all:development": "NODE_ENV=development npm run db:seed:all",
+    "dev": "NODE_ENV=development npx supervisor bin/http.js",
+    "test": "NODE_ENV=test npx jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cakrabilisairo/ecommerce-server.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Cakrabilisairo/ecommerce-server/issues"
+  },
+  "homepage": "https://github.com/Cakrabilisairo/ecommerce-server#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jest": "^26.6.3",
+    "jsonwebtoken": "^8.5.1",
+    "pg": "^8.5.1",
+    "sequelize": "^6.4.0",
+    "sequelize-cli": "^6.2.0",
+    "supertest": "^6.1.1"
+  }
+}
