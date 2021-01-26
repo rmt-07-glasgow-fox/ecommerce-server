@@ -3,11 +3,9 @@ const { Banner } = require("../models");
 exports.create = async (req, res, next) => {
   try {
     const data = {
-      name: req.body.name,
-      image_url: req.body.image_url,
-      price: req.body.price,
-      stock: req.body.stock,
-      // banner: req.body.banner
+      title: req.body.title,
+      status: req.body.status,
+      image_url: req.body.image_url
     };
     const banner = await Banner.create(data);
     res.status(201).json(banner);
@@ -39,11 +37,9 @@ exports.update = async (req, res, next) => {
   try {
     const id = req.params.id;
     const data = {
-      name: req.body.name,
-      image_url: req.body.image_url,
-      price: req.body.price,
-      stock: req.body.stock,
-      // banner: req.body.banner
+      title: req.body.title,
+      status: req.body.status,
+      image_url: req.body.image_url
     };
     const banner = await Banner.update(data, {
       where: { id },

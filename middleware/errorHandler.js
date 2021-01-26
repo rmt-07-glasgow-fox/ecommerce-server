@@ -1,5 +1,6 @@
 module.exports = (err, req, res, next) => {
   if (err) {
+    console.log(err);
     switch (err.name) {
       case `SequelizeValidationError`:
         res.status(400).json({ errors: err.errors.map((err) => err.message) });
@@ -7,6 +8,10 @@ module.exports = (err, req, res, next) => {
 
       case `SequelizeUniqueConstraintError`:
         res.status(400).json({ errors: err.errors.map((err) => err.message) });
+        break;
+
+      case `SequelizeDatabaseError`:
+        res.status(400).json({err});
         break;
 
       case `EmailDoesNotExist`:

@@ -6,8 +6,8 @@ const {
   update,
   destroy,
 } = require("../controllers/category");
-const { authentificate } = require("../middleware/authentificate");
-const authorize = require("../middleware/authorize");
+const { authentificate, authorize } = require("../middleware/auth");
+
 
 router.use(authentificate);
 

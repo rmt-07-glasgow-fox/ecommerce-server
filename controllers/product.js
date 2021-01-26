@@ -7,7 +7,7 @@ exports.create = async (req, res, next) => {
       image_url: req.body.image_url,
       price: req.body.price,
       stock: req.body.stock,
-      // category: req.body.category
+      CatId: req.body.CatId
     };
     const product = await Product.create(data);
     res.status(201).json(product);
@@ -43,7 +43,7 @@ exports.update = async (req, res, next) => {
       image_url: req.body.image_url,
       price: req.body.price,
       stock: req.body.stock,
-      // category: req.body.category
+      CatId: req.body.CatId
     };
     const product = await Product.update(data, {
       where: { id },

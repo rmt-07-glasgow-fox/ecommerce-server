@@ -6,8 +6,7 @@ const {
   update,
   destroy,
 } = require("../controllers/banner");
-const { authentificate } = require("../middleware/authentificate");
-const authorize = require("../middleware/authorize");
+const { authentificate, authorize } = require("../middleware/auth");
 
 router.use(authentificate);
 
