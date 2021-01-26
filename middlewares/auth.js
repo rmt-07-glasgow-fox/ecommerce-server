@@ -13,10 +13,7 @@ const authenticate = async (req, res, next) => {
       })
       if (!foundUser) {
         next({ name: 'ResourceNotFound' })
-      } else if (foundUser.role !== 'admin') {
-        next({ name: 'NoCredentials' })
-      }
-      else {
+      } else {
         req.user = {
           id: decodedPayload.id,
           role: decodedPayload.role
@@ -36,25 +33,34 @@ const authorize = (req, res, next) => {
 
   const idProduct = +req.params.id
 
-  Product.findOne({
-    where: {
-      id: idProduct
+  if (idProduct) {
+    Product.findOne({
+      where: {
+        id: idProduct
+      }
+    })
+      .then(foundProduct => {
+        if (!foundProduct) {
+          next({ name: "ResourceNotFound" })
+        }
+        else if (req.user.role !== 'admin') {
+          next({ name: "NoCredentials" })
+        }
+        else {
+          next()
+        }
+      })
+      .catch(err => {
+        next(err)
+      })
+  } else {
+    if (req.user.role !== 'admin') {
+      next({ name: 'NoCredentials' })
+    } else {
+      next()
     }
-  })
-    .then(foundProduct => {
-      if (!foundProduct) {
-        next({ name: "ResourceNotFound" })
-      }
-      else if (req.user.role !== 'admin') {
-        next({ name: "NoCredentials" })
-      }
-      else {
-        next()
-      }
-    })
-    .catch(err => {
-      next(err)
-    })
+  }
+
 }
 
 module.exports = {
