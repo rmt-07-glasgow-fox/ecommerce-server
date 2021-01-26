@@ -1,4 +1,5 @@
 const { Product } = require('../models')
+const { Cart } = require('../models')
 const { cekToken } = require('../helper/jwt')
 
 class ProductController{
@@ -88,6 +89,47 @@ class ProductController{
         .catch(err => {
             next(err)
         })
+    }
+    static addToCart(req, res, next) {
+        let user = cekToken(req.headers.access_token)
+        let idProduct = req.params.id
+        let temp
+        let CartDataId
+        
+        Product.findOne({where: {id:idProduct}})
+            .then(data => {
+                console.log('romi');
+                temp = data
+                return Cart.findOne({where: {ProductId: idProduct} })
+                .then(data => {
+                    CartDataId = data.ProductId
+                    console.log(data.ProductId, 'ini ketemu');
+                })
+                .catch(_ => {
+                    let newShopping = {
+                        UserId: user.id,    
+                        ProductId: idProduct,
+                        quantity: 1,
+                        totalprice: temp.price
+                    }
+                    return Cart.create(newShopping)
+                })
+            })
+            .then(_ => {
+                console.log(temp.id, 'ini id product');
+                console.log(CartDataId, 'ini id producy juga');
+                if (temp.id == CartDataId) {
+                    res.status(201).json({msg: 'berhasil'})
+                    return Cart.increment('quantity', { by: 1, where: { ProductId: idProduct }}) 
+                }
+            })
+            .then(data => {
+                res.status(201).json({msg: 'berhasil'})
+            })
+            .catch(err => {
+                console.log(err)
+                next(err)
+            })
     }
 }
 

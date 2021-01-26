@@ -10,4 +10,7 @@ router.delete('/products/:id', authorize, ProductController.deleteProduct)
 router.put('/products/:id', authorize, ProductController.editProduct)
 router.patch('/products/:id', authorize, ProductController.editOne)
 
+router.post('/cust-products/:id', ProductController.addToCart)
+
+
 module.exports = router
