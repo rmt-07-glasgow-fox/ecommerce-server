@@ -1,7 +1,6 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
+const { hashPassword } = require("../helpers/bcrypt");
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -11,37 +10,52 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      User.belongsToMany(models.Product, {
+        through: models.Cart,
+        foreignKey: "UserId",
+      });
     }
-  };
-  User.init({
-    email: {
-      type: DataTypes.STRING,
-      unique: true,
-      allowNull: false,
-      validate: {
-        notEmpty: {
-          args: true,
-          msg: "Email is required"
-        }
-      }
-    },
-    password: {
-      type: DataTypes.STRING,
-      validate: {
-        notEmpty: {
-          args: true,
-          msg: "Password is required"
+  }
+  User.init(
+    {
+      email: {
+        type: DataTypes.STRING,
+        unique: {
+          msg: "Email is not available"
         },
-        len: {
-          args: [6],
-          msg: "Minimum length is 6 characters"
-        }
-      }
+        allowNull: false,
+        validate: {
+          notEmpty: {
+            args: true,
+            msg: "Email is required",
+          },
+        },
+      },
+      password: {
+        type: DataTypes.STRING,
+        validate: {
+          notEmpty: {
+            args: true,
+            msg: "Password is required",
+          },
+          len: {
+            args: [6],
+            msg: "Minimum length is 6 characters",
+          },
+        },
+      },
+      role: DataTypes.STRING,
     },
-    role: DataTypes.STRING
-  }, {
-    sequelize,
-    modelName: 'User',
-  });
+    {
+      hooks: {
+        beforeCreate(instance, options) {
+          instance.password = hashPassword(instance.password);
+          instance.role = "customer";
+        },
+      },
+      sequelize,
+      modelName: "User",
+    }
+  );
   return User;
 };

@@ -1,12 +1,13 @@
 function errorHandler(err, req, res, next) {
   switch (err.name) {
     case "SequelizeValidationError":
-      let errors = err.errors.map((e) => e.message);
-      res.status(400).json({ errors });
+      let errorVal = err.errors.map((e) => e.message);
+      res.status(400).json({ errors: errorVal });
       break;
 
     case "SequelizeUniqueConstraintError":
-      res.status(400).json(err);
+      let errorUnique = err.errors.map((e) => e.message);
+      res.status(400).json({ errors: errorUnique });
       break;
 
     case "NoEmail":
@@ -57,8 +58,26 @@ function errorHandler(err, req, res, next) {
       });
       break;
 
+    case "AmountExceedsStock":
+      res.status(400).json({
+        errors: ["The amount entered exceeds stock"],
+      });
+      break;
+    
+    case "CartNotFound":
+      res.status(404).json({
+        errors: ["Cart not found"],
+      });
+      break;
+
+    case "NoMatch":
+      res.status(404).json({
+        errors: ["Cart item and product id does not match"],
+      });
+      break;
+
     default:
-      res.status(500).json({err});
+      res.status(500).json({ err });
       break;
   }
 }
