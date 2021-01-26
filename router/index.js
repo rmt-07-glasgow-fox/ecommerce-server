@@ -5,6 +5,7 @@ const productRouter = require('./productRouter')
 const userRouter = require('./userRouter')
 const bannerRouter = require('./bannerRouter')
 const brandRouter = require('./brandRouter')
+const cartRouter = require('./cartRouter')
 
 // import authenticate / authorize
 const { authenticate } = require('../middleware/auth')
@@ -15,5 +16,6 @@ router.use('/user', userRouter)
 router.use('/banners', authenticate, bannerRouter)
 router.use('/products', authenticate, productRouter)
 router.use('/brands', authenticate, brandRouter)
+router.use('/cart', authenticate, cartRouter)
 
 module.exports = router

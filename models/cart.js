@@ -51,7 +51,7 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: { msg: 'totalPrice is empty' },
         notNull: { msg: 'totalPrice is null' },
         isInt: { msg: 'totalPrice should be integer' },
-        min: { args: [0], msg: 'minimum totalPrice is 0' }
+        min: { args: [100000], msg: 'minimum totalPrice is 100000' }
       }
     }
   }, {
