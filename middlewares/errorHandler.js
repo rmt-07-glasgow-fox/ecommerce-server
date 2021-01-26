@@ -36,6 +36,11 @@ const errorHandler = (err, req, res, next) => {
           message: 'This data already exist please add a new one.'
         })
         break;
+      case 'NotEnoughStock':
+        res.status(401).json({
+          message: "There's not enough data to process this request."
+        })
+        break;
       default:
         if(err.name === 'SequelizeValidationError'){
           let errors = err.errors.map(el => {

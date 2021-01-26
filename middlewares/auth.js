@@ -130,9 +130,46 @@ const categoryAuthorization = (req, res, next) => {
   }
 }
 
+const userAuthentication = (req, res, next) => {
+  try {
+    if(req.headers.access_token){
+      let decryptedData = verifyToken(req.headers.access_token)
+      if(decryptedData.role === 'customer'){
+        User.findOne({
+          where:{
+            email: decryptedData.email
+          }
+        })
+          .then(data => {
+            req.userData = data
+            next()
+          })
+          .catch(err => {
+            next({
+              name: 'WrongEmail'
+            })
+          })
+      }else{
+        next({
+          name: 'NotAdmin'
+        })
+      }
+    }else{
+      next({
+        name: 'Forbidden'
+      })
+    }
+  } catch (error) {
+    next({
+      name: 'InvalidToken'
+    })
+  }
+}
+
 module.exports = {
   authentication,
   productAuthorization,
   bannerAuthorization,
-  categoryAuthorization
+  categoryAuthorization,
+  userAuthentication
 }
