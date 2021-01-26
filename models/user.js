@@ -12,6 +12,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      // User.belongsToMany(models.Product, {
+      //   through: models.Cart,
+      //   foreignKey: 'UserId'
+      // })
     }
   };
   User.init({
@@ -53,6 +57,7 @@ module.exports = (sequelize, DataTypes) => {
         const salt = bcrypt.genSaltSync(5)
         const hash = bcrypt.hashSync(user.password, salt)
         user.password = hash
+        user.role = 'customer'
       }
     },
     sequelize,

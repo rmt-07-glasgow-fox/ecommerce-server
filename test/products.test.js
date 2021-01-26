@@ -70,9 +70,9 @@ describe('POST/products', function() {
                 //assert
                 expect(res.statusCode).toEqual(400)
                 expect(typeof res.body).toEqual('object')
-                expect(res.body).toHaveProperty('errors')
-                expect(Array.isArray(res.body.errors)).toEqual(true)
-                expect(res.body.errors).toEqual(
+                expect(res.body).toHaveProperty('message')
+                expect(Array.isArray(res.body.message)).toEqual(true)
+                expect(res.body.message).toEqual(
                     expect.arrayContaining(['name is required'])
                 )
 
@@ -98,9 +98,9 @@ describe('POST/products', function() {
                 //assert
                 expect(res.statusCode).toEqual(400)
                 expect(typeof res.body).toEqual('object')
-                expect(res.body).toHaveProperty('errors')
-                expect(Array.isArray(res.body.errors)).toEqual(true)
-                expect(res.body.errors).toEqual(
+                expect(res.body).toHaveProperty('message')
+                expect(Array.isArray(res.body.message)).toEqual(true)
+                expect(res.body.message).toEqual(
                     expect.arrayContaining(['image_url is required'])
                 )
 
@@ -126,9 +126,9 @@ describe('POST/products', function() {
                 //assert
                 expect(res.statusCode).toEqual(400)
                 expect(typeof res.body).toEqual('object')
-                expect(res.body).toHaveProperty('errors')
-                expect(Array.isArray(res.body.errors)).toEqual(true)
-                expect(res.body.errors).toEqual(
+                expect(res.body).toHaveProperty('message')
+                expect(Array.isArray(res.body.message)).toEqual(true)
+                expect(res.body.message).toEqual(
                     expect.arrayContaining(['price is required'])
                 )
 
@@ -154,9 +154,9 @@ describe('POST/products', function() {
                 //assert
                 expect(res.statusCode).toEqual(400)
                 expect(typeof res.body).toEqual('object')
-                expect(res.body).toHaveProperty('errors')
-                expect(Array.isArray(res.body.errors)).toEqual(true)
-                expect(res.body.errors).toEqual(
+                expect(res.body).toHaveProperty('message')
+                expect(Array.isArray(res.body.message)).toEqual(true)
+                expect(res.body.message).toEqual(
                     expect.arrayContaining(['stock is required'])
                 )
 
@@ -344,9 +344,9 @@ describe('PUT/products/:id', function() {
                 //assert
                 expect(res.statusCode).toEqual(400)
                 expect(typeof res.body).toEqual('object')
-                expect(res.body).toHaveProperty('errors')
-                expect(Array.isArray(res.body.errors)).toEqual(true)
-                expect(res.body.errors).toEqual(
+                expect(res.body).toHaveProperty('message')
+                expect(Array.isArray(res.body.message)).toEqual(true)
+                expect(res.body.message).toEqual(
                     expect.arrayContaining(['name is required'])
                 )
 
@@ -372,9 +372,9 @@ describe('PUT/products/:id', function() {
                 //assert
                 expect(res.statusCode).toEqual(400)
                 expect(typeof res.body).toEqual('object')
-                expect(res.body).toHaveProperty('errors')
-                expect(Array.isArray(res.body.errors)).toEqual(true)
-                expect(res.body.errors).toEqual(
+                expect(res.body).toHaveProperty('message')
+                expect(Array.isArray(res.body.message)).toEqual(true)
+                expect(res.body.message).toEqual(
                     expect.arrayContaining(['image_url is required'])
                 )
 
@@ -400,9 +400,9 @@ describe('PUT/products/:id', function() {
                 //assert
                 expect(res.statusCode).toEqual(400)
                 expect(typeof res.body).toEqual('object')
-                expect(res.body).toHaveProperty('errors')
-                expect(Array.isArray(res.body.errors)).toEqual(true)
-                expect(res.body.errors).toEqual(
+                expect(res.body).toHaveProperty('message')
+                expect(Array.isArray(res.body.message)).toEqual(true)
+                expect(res.body.message).toEqual(
                     expect.arrayContaining(['price is required'])
                 )
 
@@ -428,9 +428,9 @@ describe('PUT/products/:id', function() {
                 //assert
                 expect(res.statusCode).toEqual(400)
                 expect(typeof res.body).toEqual('object')
-                expect(res.body).toHaveProperty('errors')
-                expect(Array.isArray(res.body.errors)).toEqual(true)
-                expect(res.body.errors).toEqual(
+                expect(res.body).toHaveProperty('message')
+                expect(Array.isArray(res.body.message)).toEqual(true)
+                expect(res.body.message).toEqual(
                     expect.arrayContaining(['stock is required'])
                 )
 
@@ -474,7 +474,7 @@ describe('DELETE/products/:id', function() {
                 expect(typeof res.body).toEqual('object')
                 expect(res.body).toEqual(                 
                     expect.objectContaining({
-                        message: 'Todo Has Been Succesfully Deleted'
+                        message: 'Product Has Been Succesfully Deleted'
                     })
                 )
 

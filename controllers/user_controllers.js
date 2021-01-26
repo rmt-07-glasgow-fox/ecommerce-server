@@ -42,7 +42,12 @@ class UserController {
                         email: user.email
                     }
                     const access_token = generateToken(payload)
-                    return res.status(200).json({ access_token })
+                    const userData = {
+                      access_token,
+                      email: user.email,
+                      role: user.role
+                    }
+                    return res.status(200).json(userData)
                 } else {
                     next({name: 'Invalid Email / Password'})
                 }

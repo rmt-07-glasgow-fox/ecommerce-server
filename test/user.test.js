@@ -57,9 +57,9 @@ describe('POST/register', function() {
                 //assert
                 expect(res.statusCode).toEqual(400)
                 expect(typeof res.body).toEqual('object')
-                expect(res.body).toHaveProperty('errors')
-                expect(Array.isArray(res.body.errors)).toEqual(true)
-                expect(res.body.errors).toEqual(
+                expect(res.body).toHaveProperty('message')
+                expect(Array.isArray(res.body.message)).toEqual(true)
+                expect(res.body.message).toEqual(
                     expect.arrayContaining(['email is required'])
                 )
 
@@ -84,9 +84,9 @@ describe('POST/register', function() {
                 //assert
                 expect(res.statusCode).toEqual(400)
                 expect(typeof res.body).toEqual('object')
-                expect(res.body).toHaveProperty('errors')
-                expect(Array.isArray(res.body.errors)).toEqual(true)
-                expect(res.body.errors).toEqual(
+                expect(res.body).toHaveProperty('message')
+                expect(Array.isArray(res.body.message)).toEqual(true)
+                expect(res.body.message).toEqual(
                     expect.arrayContaining(['password is required'])
                 )
 
@@ -111,9 +111,9 @@ describe('POST/register', function() {
                 //assert
                 expect(res.statusCode).toEqual(400)
                 expect(typeof res.body).toEqual('object')
-                expect(res.body).toHaveProperty('errors')
-                expect(Array.isArray(res.body.errors)).toEqual(true)
-                expect(res.body.errors).toEqual(
+                expect(res.body).toHaveProperty('message')
+                expect(Array.isArray(res.body.message)).toEqual(true)
+                expect(res.body.message).toEqual(
                     expect.arrayContaining(['role is required'])
                 )
 
