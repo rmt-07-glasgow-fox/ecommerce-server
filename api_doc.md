@@ -1,35 +1,39 @@
 # Funorama E-Commerce API Documentation
 For make you easier to develop this app, I make a documentation about API endpoints.
 
-| Route              | Method      | Description                   | Authorization   |
-| ------------------ | ----------- | ----------------------------- | --------------- |
-| `/register`        | POST        | For register user             | Everyone        |
-| `/loginadmin`      | POST        | For login admin user          | Everyone        |
-| `/login`           | POST        | For login customer user       | Everyone        |
-| `/getuser`         | GET         | For get user information      | Everyone        |
-|                                                                                    |
-| `/product`         | POST        | For add product to list       | Admin           |
-| `/product`         | GET         | For see product list          | Everyone        |
-| `/product/:id`     | GET         | For see detailed              | Admin, Customer |
-| `/product/:id`     | PUT         | For update product            | Admin           |
-| `/product/:id`     | DELETE      | For delete product            | Admin           |
-|                                                                                    |
-| `/category`        | POST        | For add category to list      | Admin           |
-| `/category`        | GET         | For see category list         | Everyone        |
-| `/category/:id`    | GET         | For see detailed              | Everyone        |
-| `/category/:id`    | PUT         | For update category           | Admin           |
-| `/category/:id`    | DELETE      | For delete category           | Admin           |
-|                                                                                    |
-| `/banner`          | POST        | For add banner to list        | Admin           |
-| `/banner`          | GET         | For see banner list           | Everyone        |
-| `/banner/:id`      | GET         | For see detailed              | Everyone        |
-| `/banner/:id`      | PUT         | For update banner             | Admin           |
-| `/banner/:id`      | DELETE      | For delete banner             | Admin           |
-|                                                                                    |
-| `/cart`            | POST        | For add product to cart       | Customer        |
-| `/cart`            | GET         | For see cart list             | Customer        |
-| `/cart/:id`        | PUT         | For update cart detail        | Customer        |
-| `/cart/:id`        | DELETE      | For delete product in cart    | Customer        |
+| Route              | Method      | Description                     | Authorization   |
+| ------------------ | ----------- | ------------------------------- | --------------- |
+| `/register`        | POST        | For register user               | Everyone        |
+| `/loginadmin`      | POST        | For login admin user            | Everyone        |
+| `/login`           | POST        | For login customer user         | Everyone        |
+| `/getuser`         | GET         | For get user information        | Everyone        |
+|                                                                                      |
+| `/product`         | POST        | For add product to list         | Admin           |
+| `/product`         | GET         | For see product list            | Everyone        |
+| `/product/:id`     | GET         | For see detailed                | Admin, Customer |
+| `/product/:id`     | PUT         | For update product              | Admin           |
+| `/product/:id`     | DELETE      | For delete product              | Admin           |
+|                                                                                      |
+| `/category`        | POST        | For add category to list        | Admin           |
+| `/category`        | GET         | For see category list           | Everyone        |
+| `/category/:id`    | GET         | For see detailed                | Everyone        |
+| `/category/:id`    | PUT         | For update category             | Admin           |
+| `/category/:id`    | DELETE      | For delete category             | Admin           |
+|                                                                                      |
+| `/banner`          | POST        | For add banner to list          | Admin           |
+| `/banner`          | GET         | For see banner list             | Everyone        |
+| `/banner/:id`      | GET         | For see detailed                | Everyone        |
+| `/banner/:id`      | PUT         | For update banner               | Admin           |
+| `/banner/:id`      | DELETE      | For delete banner               | Admin           |
+|                                                                                      |
+| `/cart`            | POST        | For add product to cart         | Customer        |
+| `/cart`            | GET         | For see cart list               | Customer        |
+| `/cart/:id`        | PUT         | For update cart detail          | Customer        |
+| `/cart/:id`        | DELETE      | For delete product in cart      | Customer        |
+|                                                                                      |
+| `/wishlist`        | POST        | For add product to wishlist     | Customer        |
+| `/wishlist`        | GET         | For see wishlist list           | Customer        |
+| `/wishlist/:id`    | DELETE      | For delete product in wishlist  | Customer        |
 <br>
 
 ## Detailed Endpoints
@@ -1072,6 +1076,132 @@ _Response (404)_
 ```json
 {
   "name": "cartNotFound"
+}
+```
+
+_Response (500)_
+```json
+{
+  "name": "Internal server error"
+}
+```
+
+## Wishlist
+### POST /wishlist
+_Request Header_
+```json
+{
+  "access_token": "<customer access_token>"
+}
+```
+
+_Request Body_
+```json
+{
+  "ProductId": "<product id>",
+}
+```
+
+_Response (201)_
+```json
+{
+    "id": "<wishlist id>",
+    "UserId": "<user id>",
+    "ProductId": "<product id>",
+    "updatedAt": "<wishlist updated date>",
+    "createdAt": "<wishlist created date>"
+}
+```
+
+_Response (400)_
+```json
+{
+  "name": "SequelizeValidationError"
+}
+```
+
+_Response (500)_
+```json
+{
+  "name": "SequelizeDatabaseError"
+}
+```
+
+### GET /wishlist
+_Request Header_
+```json
+{
+  "access_token": "<customer access_token>"
+}
+```
+
+_Request Body_
+```
+Unneeded
+```
+
+_Response (200)_
+```json
+[
+  {
+    "id": "<wishlist id>",
+    "UserId": "<user id>",
+    "ProductId": "<product id>",
+    "updatedAt": "<wishlist updated date>",
+    "createdAt": "<wishlist created date>",
+    "User": {
+      "id": "<customer id>",
+      "firstname": "<customer firstname>",
+      "lastname": "<customer lastname>",
+      "profpic": "<customer profpic image url>",
+      "email": "<customer email>"
+    },
+    "Product": {
+      "id": "<product id>",
+      "name": "<product name>",
+      "image_url": "<product image url>",
+      "price": "<product price>",
+      "stock": "<product stock>",
+      "CategoryId": "<category id>",
+      "createdAt": "<product created date>",
+      "updatedAt": "<product updated date>"
+    }
+  }
+  ...
+]
+```
+
+_Response (500)_
+```json
+{
+  "name": "Internal server error"
+}
+```
+
+### DELETE /wishlist/:id
+_Request Header_
+```json
+{
+  "access_token": "<customer access_token>"
+}
+```
+
+_Request Body_
+```
+Unneeded
+```
+
+_Response (200)_
+```json
+{
+  "message": "Product has been removed from your wishlist!"
+}
+```
+
+_Response (404)_
+```json
+{
+  "name": "wishlistNotFound"
 }
 ```
 
