@@ -12,12 +12,16 @@ class HistoryController {
             })
             id.push(req.body[i].allCartId)
         }
-        History.bulkCreate(obj)
-        .then(data => {
-            return Cart.destroy({where: {id: id}})
+        Cart.destroy({where: {id: id}})
             .then(data => {
                 if (data) {
-                    res.status(200).json({message: 'cart deleted'})
+                    return History.bulkCreate(obj)
+                    .then(data => {
+                        res.status(201).json(data)
+                    })
+                    .catch(error => {
+                        next(error)
+                    })
                 } else {
                     throw {
                         status: 404, 
@@ -28,10 +32,6 @@ class HistoryController {
             .catch(error => {
                 next(error)
             })
-        })
-        .catch(error => {
-            next(error)
-        })
     }
 
     static fetchHistory (req,res,next) {
