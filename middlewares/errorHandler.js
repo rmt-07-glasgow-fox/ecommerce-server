@@ -35,6 +35,10 @@ const errorHandler = (err, req, res, next) => {
     res.status(404).json({ message: 'Product not found' })
     break
 
+  case 'WishlistItemNotFound':
+    res.status(404).json({ message: 'Wishlist item not found' })
+    break
+
   default:
     console.log(err.name)
     console.log(err)

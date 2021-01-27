@@ -21,21 +21,37 @@ class userController {
           } else if (!checkHash(password, user.password)) {
             next({ name: 'WrongPassword' })
           } else {
-            res.status(200).json({
+            const payload = {
               id: user.id,
               fullName: user.fullName,
-              email: user.email,
-              role: user.role,
-              access_token: createToken({
-                id: user.id,
-                fullName: user.fullName,
-                email: user.email
-              })
-            })
+              email: user.email
+            }
+            payload.access_token = createToken(payload)
+            payload.role = user.role
+
+            res.status(200).json(payload)
           }
         })
         .catch(next)
     }
+  }
+
+  static register (req, res, next) {
+    const { fullName, email, password } = req.body
+    const newUser = { fullName, email, password }
+
+    User.create(newUser)
+      .then(user => {
+        const payload = {
+          id: user.id,
+          fullName: user.fullName,
+          email: user.email
+        }
+        payload.access_token = createToken(payload)
+
+        res.status(201).json(payload)
+      })
+      .catch(next)
   }
 }
 

@@ -1,4 +1,4 @@
-const { User } = require('../models')
+const { User, Wishlist } = require('../models')
 const { checkToken } = require('../helpers/jwt')
 
 const authenticate = async (req, res, next) => {
@@ -38,7 +38,15 @@ const authAdmin = (req, res, next) => {
   }
 }
 
+const authCustomer = (req, res, next) => {
+  const path = req.path
+
+  console.log(path)
+  next()
+}
+
 module.exports = {
   authenticate,
-  authAdmin
+  authAdmin,
+  authCustomer
 }
