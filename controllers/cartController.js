@@ -32,14 +32,14 @@ class CartController {
       if (quantity > product.stock) return next({ name: 'maximumStock' })
 
       // FIND OR CREATE NEW CART
-      // IF CART DOESN'T EXIST DEFAULT VALUE BE IN DEFAULTS OBJECT OTHERWISE LEAVE IT
+      // IF CART DOESN'T EXIST INSERTED VALUE IN DEFAULTS OBJECT OTHERWISE LEAVE IT
       const [findOrCreateCart] = await Cart.findOrCreate({
         where: { userId: req.user.id },
         defaults: { totalPayment: 0 }
       })
 
       // FIND OR CREATE NEW DETAIL CART PRODUCT
-      // IF DETAIL CART PRODUCT DOESN'T EXIST DEFAULT VALUE BE IN DEFAULTS OBJECT OTHERWISE LEAVE IT
+      // IF DETAIL CART PRODUCT DOESN'T EXIST INSERTED VALUE IN DEFAULTS OBJECT OTHERWISE LEAVE IT
       await ProductCart.findOrCreate({
         where: { productId, cartId: findOrCreateCart.id },
         defaults: { productId, quantity, totalPrice: product.price, cartId: findOrCreateCart.id }
