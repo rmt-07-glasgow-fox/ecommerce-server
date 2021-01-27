@@ -38,7 +38,6 @@ class BannerController {
         next({name: 'notFound'})
       }
     } catch(error) {
-      console.log('COK', error);
       next(error)
     }
   }

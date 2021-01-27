@@ -5,6 +5,7 @@ const authentication = async (req, res, next) => {
   if (!req.headers.access_token) {
     return next({name: 'jwtError'})
   }
+
   try {
     let decoded = decodingToken(req.headers.access_token)
     let user = await User.findOne({where: {email: decoded.email}})
@@ -33,7 +34,7 @@ const authentication = async (req, res, next) => {
   }
 }
 
-const authorization = async (req, res, next) => {
+const adminAuthorization = async (req, res, next) => {
   try {
     let admin = await User.findByPk(req.currentUser.id)
 
@@ -50,4 +51,21 @@ const authorization = async (req, res, next) => {
   }
 }
 
-module.exports = { authentication, authorization }
+const customerAuthorization = async (req, res, next) => {
+  try {
+    let admin = await User.findByPk(req.currentUser.id)
+
+    if (admin.role != 'customer') {
+      // console.log('BUKAN ADMIN', currentUser);
+      next({name: 'notAuthorize'})
+    } else {
+      // console.log('IS ADMIN');
+      next()
+    }
+  } catch(error) {
+    // console.log('CATCH OTORISASI', error);
+    next(error)
+  }
+}
+
+module.exports = { authentication, adminAuthorization, customerAuthorization }

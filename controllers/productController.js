@@ -1,6 +1,22 @@
 const { Product } = require('../models')
 
 class ProductController {
+  static async categories(req, res, next) {
+    try {
+      const products = await Product.findAll({
+        attributes: ['category'],
+        group: ['category']
+      })
+      res.status(200).json(products.map(product => product.category))
+    } catch(error) {
+      if (error) {
+        next(error)
+      } else {
+        next({name: 'cantRetrieve'})
+      }
+    }
+  }
+
   static async findAll(req, res, next) {
     try {
       const products = await Product.findAll()
