@@ -42,6 +42,8 @@ class CartController {
     .then(data => {
       if(data) {
         let newQty = data.quantity + quantity
+        console.log(newQty);
+        console.log(stock);
         if(stock >= newQty) {
           let newData = {
             ProductId,
@@ -55,6 +57,7 @@ class CartController {
             returning: true
           })
         } else {
+          console.log('habis');
           next({
             status: 400,
             message: "Not enough stock"
@@ -76,10 +79,17 @@ class CartController {
         }
       }
     }).then(data => {
-      if (Array.isArray(data)) {
-        res.status(200).json(data[1][0])
+      if(data) {
+        if (Array.isArray(data)) {
+          res.status(200).json(data[1][0])
+        } else {
+          res.status(201).json(data)
+        }
       } else {
-        res.status(201).json(data)
+        next({
+          status: 400,
+          message: "Not enough stock"
+        })
       }
     }).catch(err => {
       if(err.name === "SequelizeValidationError") {
@@ -100,7 +110,6 @@ class CartController {
     Cart.findByPk(id, {
       include: [Product]
     }).then(data => {
-      console.log(data);
       if(data) {
         let stock = data.Product.stock
         let newQty = data.quantity + quantity
@@ -154,63 +163,32 @@ class CartController {
     })
   }
 
-  // static checkout (req, res, next) {
-  //   let cartId = req.body[0].id
-  //   let productId = req.body[0].ProductId
-  //   let qty = req.body[0].quantity
-  //   console.log(qty);
-  //   Product.decrement({
-  //     stock: qty
-  //   },{
-  //     where: {
-  //       id: productId
-  //     }
-  //   }).then(data => {
-  //     if(data[0][0]) {
-  //       return Cart.update({
-  //         checkout: true
-  //       },{
-  //         where: {
-  //           id: cartId
-  //         },
-  //         returning: true
-  //       })
-  //     } else {
-  //       next({
-  //         status: 400,
-  //         message: 'Not enough stock'
-  //       })
-  //     }
-  //   }).then(data => {
-  //     console.log(data[1][0]);
-  //     if(data[1][0]) {
-  //       res.status(200).json({
-  //         message: "Success Checkout"
-  //       })
-  //     } else {
-  //       next({ status: 404 })
-  //     }
-  //   }).catch(err => {
-  //       next(err)
-  //   })
-  // }
-
   static async checkout(req, res, next) {
     try {
+      let count = req.body.length
+      let errors = []
       for (const cart of req.body) {
         let cartId = cart.id
         let productId = cart.ProductId
         let qty = cart.quantity
+        let product
         let data
-        const result = await Product.decrement({
-          stock: qty
-        },{
-          where: {
-            id: productId
-          }
-        })
-        // after update product
-        if (result[0][0]) {
+        const checkStock = await Product.findByPk(productId)
+        if(checkStock.stock >= qty) {
+          product = await Product.decrement({
+            stock: qty
+          },{
+            where: {
+              id: productId
+            }
+          })
+        } else {
+          errors.push({
+            message: 'Not enough stock'
+          })
+        }
+        console.log(product);
+        if (product) {
           data = await Cart.update({
             checkout: true
           },{
@@ -219,17 +197,21 @@ class CartController {
             },
             returning: true
           })
-        } else {
-          next({ status: 404 })
         }
-        // after update cart
-        if(data[1][0]) {
-          res.status(200).json({
-            message: "Success Checkout"
-          })
-        } else {
-          next({ status: 404 })
+        console.log(data);         
+        if(data) {
+          count--
         }
+      }
+      if (count === 0) {
+        res.status(200).json({
+          message: "Success Checkout"
+        })
+      } else {
+        next({
+          status: 400,
+          errors: errors
+        })
       }
     } catch (err) {
       next(err)

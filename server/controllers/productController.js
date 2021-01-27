@@ -75,6 +75,7 @@ class ProductController {
       UserId: +req.userData.id,
       CategoryId: req.body.CategoryId
     }
+    console.log(value);
     Product.update(value, {
         where: {
           id

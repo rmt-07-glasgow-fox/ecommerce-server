@@ -4,7 +4,7 @@ const { categoryAuthorized } = require('../middlewares')
 
 router.get('/', CategoryController.getCategories)
 router.get('/:id', CategoryController.getCategoriesId)
-router.post('/', categoryAuthorized, CategoryController.createCategories)
+router.post('/', CategoryController.createCategories)
 router.delete('/:id', categoryAuthorized, CategoryController.deleteCategories)
 
 module.exports = router

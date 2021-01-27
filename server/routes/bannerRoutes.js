@@ -4,7 +4,7 @@ const express = require('express')
 const router = express.Router()
 
 router.get('/', BannerController.getBanners)
-router.post('/', bannerAuthorized, BannerController.addBanners)
+router.post('/', BannerController.addBanners)
 router.patch('/:id', bannerAuthorized, BannerController.editStatusBanners)
 router.delete('/:id', bannerAuthorized, BannerController.deleteBanners)
 
