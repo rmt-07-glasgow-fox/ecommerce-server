@@ -16,8 +16,26 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Cart.init({
-    userId: DataTypes.INTEGER,
-    totalPayment: DataTypes.INTEGER
+    userId: {
+      type: DataTypes.INTEGER,
+      validate: {
+        notEmpty: {
+          msg: 'field user id is required'
+        }
+      }
+    },
+    totalPayment: {
+      type: DataTypes.INTEGER,
+      validate: {
+        notEmpty: {
+          msg: 'field total payment is required'
+        }
+      },
+      min: {
+        args: [0],
+        msg: 'total payment cannot be negative'
+      }
+    }
   }, {
     sequelize,
     modelName: 'Cart',
