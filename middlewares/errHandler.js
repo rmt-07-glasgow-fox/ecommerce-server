@@ -42,6 +42,11 @@ function errHandling(err, req, res, next){
                 errors : ['Quantity minimum is 1']
             }
             res.status(400).json(obj)
+        } else if(err.name === `wishListErr`){
+            let obj ={
+                errors : ['Item already exist on your wishlist']
+            }
+            res.status(400).json(obj)
         } else {
             res.status(500).json({msg: `error from the server`})
         }

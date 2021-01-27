@@ -85,7 +85,7 @@ class Controller {
   static destroy (req, res, next) {
     let id = req.body.id
     let UserId = req.user.id
-    console.log(id, 'masuk siniii')
+    //console.log(id, 'masuk siniii')
     Cart.destroy({where: {UserId, ProductId: id}})
     .then(data => {
       return res.status(200).json({msg: `Item successfully removed from your cart`})

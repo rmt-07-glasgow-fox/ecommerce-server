@@ -522,6 +522,8 @@ _Response (200 - OK)_
     "quantity": "<posted quantity>",
     "UserId": "<give id by system>",
     "ProductId": "<give id by system>",
+    "createdAt: "<automatically inserted system>",
+    "updatedAt: "<automatically inserted system>"
     "Product":
       {
         "id": "<give id by system>",
@@ -554,7 +556,6 @@ _Request Body_
 ```
 {
   "ProductId": "<id get insert into>",
-  "UserId": "<id get insert into>",
 }
 ```
 _Response (201 - OK)_
@@ -574,16 +575,8 @@ _Response (200 - OK)_
     "quantity": "<posted quantity>",
     "UserId": "<give id by system>",
     "ProductId": "<give id by system>",
-    "Product":
-      {
-        "id": "<give id by system>",
-        "name": "<posted name>",
-        "image_url": "<posted image_url>",
-        "price": "<posted price>",
-        "stock": "<posted stock>",
-        "createdAt: "<automatically inserted system>",
-        "updatedAt: "<automatically inserted system>"
-      }
+    "createdAt: "<automatically inserted system>",
+    "updatedAt: "<automatically inserted system>"
   }
 ]
 ```
@@ -606,27 +599,20 @@ _Request Body_
 ```
 {
   "ProductId": "<id get insert into>",
-  "UserId": "<id get insert into>",
 }
 ```
 _Response (200 - OK)_
 ```
 [
-  {
-    "quantity": "<posted quantity>",
-    "UserId": "<give id by system>",
-    "ProductId": "<give id by system>",
-    "Product":
-      {
-        "id": "<give id by system>",
-        "name": "<posted name>",
-        "image_url": "<posted image_url>",
-        "price": "<posted price>",
-        "stock": "<posted stock>",
-        "createdAt: "<automatically inserted system>",
-        "updatedAt: "<automatically inserted system>"
-      }
-  }
+  [
+    {
+      "quantity": "<posted quantity>",
+      "UserId": "<give id by system>",
+      "ProductId": "<give id by system>",
+      "createdAt: "<automatically inserted system>",
+      "updatedAt: "<automatically inserted system>"
+    }
+  ]
 ]
 ```
 _Response (500 - Internal Server Error)_
@@ -648,16 +634,106 @@ _Request Body_
 ```
 {
   "ProductId": "<id get insert into>",
-  "UserId": "<id get insert into>",
 }
 ```
 _Response (200 - OK)_
 ```
 [
+  [
+    {
+      "quantity": "<posted quantity>",
+      "UserId": "<give id by system>",
+      "ProductId": "<give id by system>",
+      "createdAt: "<automatically inserted system>",
+      "updatedAt: "<automatically inserted system>"
+    }
+  ]
+]
+```
+_Response (500 - Internal Server Error)_
+```
+{
+  "message": "error from the server"
+}
+```
+&nbsp;
+
+## DELETE /carts
+_Request Header_
+```
+{
+  "access_token": "<access_token>"
+}
+```
+_Request Body_
+```
+{
+  "ProductId": "<id get insert into>"
+}
+```
+_Response (200 - OK)_
+```
+{
+  "msg": "<Item successfully removed from your cart>"
+}
+```
+_Response (500 - Internal Server Error)_
+```
+{
+  "message": "error from the server"
+}
+```
+&nbsp;
+
+## POST /wishlists
+_Request Header_
+```
+{
+  "access_token": "<access_token>"
+}
+```
+_Request Body_
+```
+{
+  "ProductId": "<id get insert into>",
+}
+```
+_Response (201 - OK)_
+```
+{
+"UserId": "<give id by system>",
+"ProductId": "<give id by system>",
+"createdAt: "<automatically inserted system>",
+"updatedAt: "<automatically inserted system>"
+}
+```
+_Response (500 - Internal Server Error)_
+```
+{
+  "message": "error from the server"
+}
+```
+&nbsp;
+
+## GET /wishlists
+_Request Header_
+```
+{
+  "access_token": "<access_token>"
+}
+```
+_Request Body_
+```
+not needed
+```
+_Response (200 - OK)_
+```
+[
   {
-    "quantity": "<posted quantity>",
     "UserId": "<give id by system>",
     "ProductId": "<give id by system>",
+    "createdAt: "<automatically inserted system>",
+    "updatedAt: "<automatically inserted system>"
     "Product":
       {
         "id": "<give id by system>",
@@ -679,7 +755,7 @@ _Response (500 - Internal Server Error)_
 ```
 &nbsp;
 
-## DELETE /carts
+## DELETE /wishlists
 _Request Header_
 ```
 {
@@ -689,14 +765,13 @@ _Request Header_
 _Request Body_
 ```
 {
-  "ProductId": "<id get insert into>",
-  "UserId": "<id get insert into>",
+  "ProductId": "<id get insert into>"
 }
 ```
 _Response (200 - OK)_
 ```
 {
-  "msg": "<Item successfully removed from your cart>"
+  "msg": "<Item successfully removed from your wishlists>"
 }
 ```
 _Response (500 - Internal Server Error)_
