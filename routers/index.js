@@ -4,6 +4,7 @@ const banner = require('./banner.js');
 const category = require('./category.js');
 const product = require('./product.js');
 const cart = require('./cart.js');
+const wishlist = require('./wishlist.js');
 const user = require('./user.js');
 const { authenticate } = require('../middlewares/auth.js');
 
@@ -18,5 +19,6 @@ router.use('/category', category);
 router.use(authenticate);
 
 router.use('/cart', cart);
+router.use('/wishlist', wishlist);
 
 module.exports = router;

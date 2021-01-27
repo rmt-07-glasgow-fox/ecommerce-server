@@ -45,6 +45,12 @@ let errorHandlers = (err, req, res, next) => {
       case "cartNotFound":
         res.status(404).json({ errors: 'Your product in cart is not found.' });
         break;
+      case "wishlistNotFound":
+        res.status(404).json({ errors: 'Your product in wishlist is not found.' });
+        break;
+      case "alreadyAddWish":
+        res.status(409).json({ errors: 'This product is already added to your wishlist.' });
+        break;
       case "SequelizeUniqueConstraintError":
         errors = err.errors.map(error => error.message);
         res.status(409).json({ errors });
