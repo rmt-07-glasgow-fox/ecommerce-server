@@ -1,10 +1,12 @@
 const { User } = require('../models')
 const { verifyJWT } = require('../helper/jwt')
-const { Product, Cart } = require('../models/product')
 
 async function authenticate (req, res, next) {
   try {
+    // console.log(req.headers, 'headers =====')
+    console.log(req.url)
     const decode = verifyJWT(req.headers.access_token)
+    // console.log(decode, 'decode =====')
     const data = await User.findOne({
       where: { email: decode.email}
     })

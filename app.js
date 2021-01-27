@@ -8,7 +8,7 @@ const app = express()
 const user = require('./routers/user')
 const product = require('./routers/product')
 const errorHandler = require('./middleware/errorhandler')
-const cart = require('./routers/cart')
+const customer = require('./routers/cart')
 
 app.use(cors())
 app.use(express.urlencoded({ extended:true }))
@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
   res.send('hello app')
 })
 app.use(user)
-app.use(cart)
+app.use(customer)
 app.use(product)
 app.use(errorHandler)
 

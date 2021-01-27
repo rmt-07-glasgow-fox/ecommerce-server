@@ -1,10 +1,13 @@
-const cart = require('express').Router()
+const customer = require('express').Router()
 const controller = require('../controller/cart')
+const productControl = require('../controller/product')
 const { authenticate } = require('../middleware/auth')
 
-cart.use(authenticate)
-cart.get('/cart', controller.readCart)
-cart.post('/cart/:id', controller.createCart)
-cart.put('/cart/:id', controller.editQuantity)
+customer.get('/customer/products', productControl.readProduct)
+customer.use(authenticate)
+customer.get('/cart', controller.readCart)
+customer.post('/cart/:id', controller.createCart)
+customer.put('/cart/:id', controller.editQuantity)
+customer.delete('/cart/:id', controller.deleteCart)
 
-module.exports = cart
+module.exports = customer

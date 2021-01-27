@@ -4,10 +4,11 @@ class Controller {
   static async readCart (req, res) {
     try {
       const data = await Cart.findAll({
-          where: { UserId: req.user.id },
-          include: [{
-          model: Product,
-        }]
+        where: { UserId: req.user.id },
+        include: [{
+        model: Product,
+        }],
+        order: [['createdAt', 'DESC']]
       })
       res.status(200).json(data)
     } catch (err) {
@@ -46,26 +47,55 @@ class Controller {
           model: Product
         }]
       })
-      
-      // update cost on cart
-      const cost = data.price * quantity
-      
-      // input to variabeli
-      const update = {
-        UserId: data.UserId,
-        ProductId: data.ProductId,
-        quantity,
-        cost
+      if (!data) {
+        res.status(404).json({
+          msg: 'data is undefined'
+        })
+      } else {
+        // update cost on cart
+        const cost = data.Product.price * quantity
+        // input to variabeli
+        const update = {
+          UserId: data.UserId,
+          ProductId: data.ProductId,
+          quantity,
+          cost
+        }
+        const edit = await Cart.update(update, {
+          where: { id: cartId }
+        })
+
+        console.log(data.quantity, 'sebelom')
+        console.log(quantity, 'sesudah ====')
+        
+        res.status(200).json(edit)
       }
-      const edit = await Cart.update(update, {
-        where: { id: cartId }
+    } catch (err) {
+      res.status(500).json(err)
+    }
+  }
+  static async deleteCart (req, res) {
+    const id = req.params.id
+    console.log(id, '========= id');
+    try {
+      const data = await Cart.findOne({
+        where: { id },
+        include: [{
+          model: Product
+        }]
       })
-
-      console.log(data.quantity, 'sebelom')
-      console.log(quantity, 'sesudah ====')
-
-      res.status(200).json(edit)
-
+      if (data) {
+        const remove = await Cart.destroy({
+          where: { id }
+        })
+        res.status(200).json({
+          msg: 'Data was deleted'
+        })
+      } else {
+        res.status(404).json({
+          msg: 'Data is undefinded'
+        })
+      }
     } catch (err) {
       res.status(500).json(err)
     }

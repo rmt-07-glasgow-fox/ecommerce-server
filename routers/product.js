@@ -2,7 +2,6 @@ const product = require('express').Router()
 const productControl = require('../controller/product')
 const { authorization, authenticate } = require('../middleware/auth')
 
-product.get('/customer/products', productControl.readProduct)
 product.use(authenticate)
 product.get('/products', productControl.readProduct)
 product.get('/products/:id', productControl.getId)
