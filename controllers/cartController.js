@@ -126,25 +126,31 @@ class CartController {
       if (!updatedQuantity) { return next({ name: 400, message: 'quantity is required and should higher than 0' }) }
 
       // check cart is avail
-      let cart = await Cart.findByPk(idCart)
+      let cart = await Cart.findByPk(idCart, {
+        attributes: { exclude: ['createdAt', 'updatedAt'] },
+        include: [{
+          model: Product,
+          attributes: { exclude: ['createdAt', 'updatedAt'] }
+        }]
+      })
 
+      // console.log('>>> cart : ', cart.dataValues)
+
+      // cart Id
       if (!cart) { return next({ name: 404, message: 'Cart is not found' }) }
+      // cart UserId
       if (cart.UserId !== req.user.id) { return next({ name: 401 }) }
+      // cart Product many to many
+      if (!cart.Product) { return next({ name: 404, message: 'product not found' }) }
+      // product stock >= updated quantity 
+      if (updatedQuantity > cart.Product.stock) { return next({ name: 400, message: `please order below current stock ${cart.Product.stock}` }) }
 
-      // check productId
-      let dbProduct = await Product.findByPk(cart.ProductId)
-      // console.log('>>> dbProduct', dbProduct)
 
-      // check product id and stock
-      if (!dbProduct) { return next({ name: 404, message: 'product not found' }) }
-      if (dbProduct.stock < updatedQuantity) { return next({ name: 400, message: `please order below current stock ${dbProduct.stock}` }) }
+      totalPrice = cart.Product.price * updatedQuantity
+      console.log('>>> requirement qty, price', updatedQuantity, totalPrice)
 
-      // console.log('>>> berhasil dong !!')
-
-      totalPrice = dbProduct.price * updatedQuantity
-
-      let updatedCart = await Cart.update({ quantity: updatedQuantity, totalPrice: totalPrice }, { where: { id: idCart } })
-      return res.status(200).json({ message: `Cart ${dbProduct.name} quantity is updated to ${updatedQuantity}` })
+      await Cart.update({ quantity: updatedQuantity, totalPrice: totalPrice }, { where: { id: idCart } })
+      return res.status(200).json({ message: `Cart ${cart.Product.name} quantity is updated to ${updatedQuantity}` })
 
     } catch (err) {
       return next(err)
