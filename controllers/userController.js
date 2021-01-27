@@ -46,8 +46,7 @@ class UserController {
             res.status(201).json({
                 id: data.id,
                 name: data.name,
-                email: data.email,
-                password: data.password
+                email: data.email
             })
         })
         .catch(error => {
