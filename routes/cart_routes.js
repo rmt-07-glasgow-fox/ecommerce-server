@@ -3,6 +3,7 @@ const router = express.Router()
 const { CartController } = require('../controllers/cart_controllers')
 
 router.get('/', CartController.findCart)
+router.get('/:id', CartController.isInCart)
 router.post('/', CartController.createCart)
 router.put('/:id', CartController.updateCart)
 router.delete('/:id', CartController.destroyCart)

@@ -2,11 +2,11 @@ const { Cart, User, Product } = require('../models')
 
 class CartController {
   static createCart(req, res, next) {
-    const { ProductId, quantity } = req.body
+    const { ProductId } = req.body
     let obj = {
       UserId: req.user.id,
       ProductId,
-      quantity,
+      quantity: 1,
       isPaid: false,
       totalPrice: 0
     }
@@ -34,7 +34,31 @@ class CartController {
       })
   }
 
+  static isInCart(req, res, next) {
+    // console.log('masuk isin cart')
+    const id = +req.params.id
+    // console.log(id, 'ini dri cont isins')
+    Cart.findOne({
+      where: {
+        UserId: req.user.id,
+        ProductId: id
+      }
+    })
+      .then(data => {
+        // console.log(data)
+        if (!data) {
+          res.status(200).json({message: 'not in cart'})
+        } else {
+          res.status(200).json(data)
+        }
+      })
+      .catch(err => {
+        next(err)
+      })
+  }
+
   static updateCart(req, res, next) {
+    console.log('masuk update')
     const id = +req.params.id
     let { quantity, totalPrice, isPaid } = req.body
     if (!isPaid) {
