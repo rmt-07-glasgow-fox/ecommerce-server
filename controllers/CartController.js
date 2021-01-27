@@ -9,6 +9,7 @@ class CartController {
       include: [Product]
     })
       .then(carts => {
+        console.log('masuk sini')
         return res.status(200).json(carts)
       })
       .catch(err => {
