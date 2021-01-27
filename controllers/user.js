@@ -67,7 +67,7 @@ class UserController {
   
         if (!user) {
             throw {
-                status: 400,
+                status: 401,
                 message: `Wrong Email or Password`
             }
         } else {
@@ -135,7 +135,7 @@ class UserController {
                 email: createuser.email,
                 role: createuser.role
               })
-              res.status(200).json({access_token})
+              res.status(201).json({access_token})
           }
       } catch (error) {
           next(error)

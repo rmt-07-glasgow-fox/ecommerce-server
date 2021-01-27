@@ -54,7 +54,7 @@ class TransactionController {
         total: 0,
         UserId
       })
-      res.status(200).json({message: `Cart has been cleared`})
+      res.status(200).json({message: `Cart Has Been Cleared`})
     } catch (error) {
       next(error)
     }
@@ -117,7 +117,26 @@ class TransactionController {
                 returning: true
               })
             })
-      
+ 
+            const promiseall = await Promise.all(array)
+            // promise all not needed? (!)
+            const payload = {
+              status: 'completed',
+              history,
+              total
+            }        
+            const put = await Transaction.update(payload, {
+              where: {
+                id
+              }
+            })
+            const newtransaction = await Transaction.create({
+              status: 'uncompleted',
+              history: null,
+              total: 0,
+              UserId
+            })  
+
             res.status(200).json({message: `Checkout Successfully`})
           }
         }

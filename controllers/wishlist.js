@@ -64,7 +64,7 @@ class WishlistController {
         }
       })
 
-      res.status(200).json({message: 'Successfully Deleted Wishlist'})
+      res.status(200).json({message: 'Product Has Been Removed From Wishlist'})
     } catch (error) {
       next(error)
     }
