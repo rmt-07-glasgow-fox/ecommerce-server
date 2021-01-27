@@ -1,6 +1,5 @@
 module.exports = (err, req, res, next) => {
   if (err) {
-    console.log(err);
     switch (err.name) {
       case `SequelizeValidationError`:
         res.status(400).json({ errors: err.errors.map((err) => err.message) });

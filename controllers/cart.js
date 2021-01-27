@@ -3,12 +3,12 @@ const { Cart, User } = require("../models");
 exports.create = async (req, res, next) => {
   try {
     const data = {
-      quantity: req.body.quantity,
+      qty: req.body.quantity,
       UserId: req.user.id,
-      ProdId: req.body.ProdId
+      ProdId: +req.body.ProdId
     };
     console.log(data);
-    const cart = await Cart.create(data);
+    const cart = await Cart.create(data, {w: 1}, {returning: true});
     res.status(201).json(cart);
   } catch (error) {
     next(error);
