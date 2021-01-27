@@ -21,7 +21,7 @@ class UserController {
         })
     }
 
-    static loginUser(req, res, next) {
+    static loginUserAdmin(req, res, next) {
         let {email, password} = req.body
         User.findOne({where: {email}})
         .then(user => {
@@ -37,6 +37,35 @@ class UserController {
                 }
                 if (payload.role !== 'admin'){
                     next({name: "You Not a Admin"})
+                } else {
+                    const access_token = generateToken(payload)
+                    return res.status(200).json({access_token});
+                }
+            }else {
+                next({name: "wrongInput"})
+            }
+        })
+        .catch(err => {
+            next(err)
+        })
+    }
+
+    static loginUserCustomer (req, res, next) {
+        let {email, password} = req.body
+        User.findOne({where: {email}})
+        .then(user => {
+            if(!user){
+                next({name: "wrongInput"})
+            }
+            const match = comparePassword(password, user.password)
+            if(match){
+                const payload = {
+                    id: user.id,
+                    email: user.email,
+                    role: user.role
+                }
+                if (payload.role !== 'customer'){
+                    next({name: "Only Customer Can Login"})
                 } else {
                     const access_token = generateToken(payload)
                     return res.status(200).json({access_token});

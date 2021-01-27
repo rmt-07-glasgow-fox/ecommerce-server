@@ -1,5 +1,5 @@
 const { cekToken } = require("../helpers/jwt")
-const { Product, User } = require('../models')
+const { Product, User, Cart } = require('../models')
 
 const authentication = (req, res, next) => {
     try {
@@ -26,12 +26,13 @@ const authentication = (req, res, next) => {
 }
 
 const authorization = (req, res, next) => {
+    let decoded = cekToken(req.headers.access_token)
     let id = +req.params.id
     Product.findByPk(id)
     .then(data => {
         if (!data) {
             next({name: 'resourceNotFound'})
-        } else if(data.UserId == req.user.id){
+        } else if(decoded.role == 'admin'){
             next()
         } else {
             next({name: 'unauthorized'})
@@ -42,4 +43,23 @@ const authorization = (req, res, next) => {
     })
 }
 
-module.exports = {authentication, authorization}
+const authorizationCart = (req, res, next) => {
+    let decoded = cekToken(req.headers.access_token)
+    Cart.findOne({where: {
+        UserId: req.user.id
+    }})
+    .then(data => {
+        if (!data) {
+            next({name: 'resourceNotFound'})
+        } else if(decoded.UserId == req.user.id){
+            next()
+        } else {
+            next({name: 'unauthorized'})
+        }
+    })
+    .catch(err => {
+        next(err)
+    })
+}
+
+module.exports = {authentication, authorization, authorizationCart}

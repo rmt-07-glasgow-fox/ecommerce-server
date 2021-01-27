@@ -1,8 +1,9 @@
 const errHandlers = require('./errHandlers');
-const {authentication, authorization} = require('./authMiddle')
+const {authentication, authorization, authorizationCart} = require('./authMiddle')
 
 module.exports = {
     errHandlers,
     authentication,
-    authorization
+    authorization,
+    authorizationCart
 }

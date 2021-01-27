@@ -25,6 +25,10 @@ const errHandlers = (err, req, res, next) => {
                  return res.status(404).json({
                      message: "Data Not Found"
                  });
+            case "notEnoughStock":
+               return res.status(400).json({
+                   message: "Stock Is Out"
+               });
              case "You Not a Admin":
                  return res.status(403).json({
                     message: "You Not a Admin"
