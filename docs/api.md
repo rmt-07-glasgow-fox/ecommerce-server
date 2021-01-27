@@ -1376,11 +1376,82 @@ Register user.
 
 ## **Login**
 
-Login user.
+Login for customer.
 
 - **URL**
 
   `/users/login`
+
+- **Method:**
+
+  `POST`
+
+- **Request Body**
+
+  **Required:**
+
+  - email (string)
+  - password (string)
+
+  **Example:**
+
+  - application/json
+    ```json
+    {
+      "email": "ari@mail.com",
+      "password": "1234567890"
+    }
+    ```
+
+- **Success Response:**
+
+  - **Code:** 200 <br />
+    **Content:**
+    ```json
+    {
+      "access_token": "<JWT_TOKEN>",
+      "firstname": "Ari",
+      "lastname": "Bambang",
+      "email": "ari@mail.com"
+    }
+    ```
+
+- **Error Response:**
+
+  - **Code:** 400 Bad Request <br />
+    **Content:**
+
+    ```json
+    [
+      {
+        "message": "Invalid email or password"
+      }
+    ]
+    ```
+
+  - **Code:** 500 Internal Server Error <br />
+    **Content:**
+    ```json
+    [
+      {
+        "message": "internal server error"
+      }
+    ]
+    ```
+
+- **Sample Call:**
+  - **curl**:
+    ```js
+    curl --location --request POST 'http://localhost:3000/users/login' --data-urlencode 'email=bambang@mail.com' --data-urlencode 'password=1234567890''
+    ```
+
+## **Login Admin**
+
+Login for admin.
+
+- **URL**
+
+  `/users/login/admin`
 
 - **Method:**
 
@@ -1439,5 +1510,5 @@ Login user.
 - **Sample Call:**
   - **curl**:
     ```js
-    curl --location --request POST 'http://localhost:3000/users/login' --data-urlencode 'email=bambang@mail.com' --data-urlencode 'password=1234567890''
+    curl --location --request POST 'http://localhost:3000/users/login/admin' --data-urlencode 'email=bambang@mail.com' --data-urlencode 'password=1234567890''
     ```
