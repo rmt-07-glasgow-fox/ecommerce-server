@@ -24,6 +24,9 @@ function errorHandler (err, req, res, next) {
             case 'JsonWebTokenError':
                 res.status(401).json({ message: 'You need to login first'})
                 break;
+            case 'Unauthorized':
+                res.status(401).json({ message: "Unauthorized"})
+                break;
         }
     }
 }

@@ -22,9 +22,30 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       type: DataTypes.INTEGER
     },
-    UserId: DataTypes.INTEGER,
-    ProductId: DataTypes.INTEGER,
-    quantity: DataTypes.INTEGER,
+    UserId: {
+      type: DataTypes.INTEGER, 
+      validate: {
+        notEmpty: {
+          msg: 'User is required'
+        }
+      }
+    },
+    ProductId: {
+      type: DataTypes.INTEGER,
+      validate: {
+        notEmpty: {
+          msg: 'Product Id is required'
+        }
+      }
+    },
+    quantity: {
+      type: DataTypes.INTEGER,
+      validate: {
+        notEmpty: {
+          msg: 'Quantity is required'
+        }
+      }
+    },
     status: DataTypes.STRING
   }, {
     sequelize,

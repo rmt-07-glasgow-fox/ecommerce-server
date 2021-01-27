@@ -1,5 +1,5 @@
 const { verifyToken } = require('../helpers/jsonwebtoken')
-const { User } = require('../models')
+const { User, Cart } = require('../models')
 
 function authAdmin(req, res, next) {
     let email = req.body.email || req.email
@@ -37,7 +37,23 @@ function authenticate(req, res, next) {
     }
 }
 
+function authCust (req, res, next) {
+    let id = req.params.id
+    Cart.findOne({
+        where: { id }
+    })
+        .then(data => {
+            if (data.UserId == +req.UserId) {
+                next()
+            } else {
+                next({ name: 'Unauthorized'})
+            }
+        })
+        .catch(next)
+}
+
 module.exports = {
     authAdmin,
-    authenticate
+    authenticate,
+    authCust
 }

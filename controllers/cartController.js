@@ -17,35 +17,33 @@ class CartController {
         //cek stock productnya cukup ga
         //cek barangnya sama atau ga
         let ProductId = +req.body.ProductId
-        let quantity = +req.body.quantity
+        // let quantity = +req.body.quantity
         let UserId = +req.UserId
         let cartId
         Product.findOne({ 
             where: { id: ProductId }
         })
             .then(data => {
-                if (!data || data.stock < quantity) {
+                if (!data || data.stock < 1) {
                     // ini apa ya
                     res.status(400).json({ message: `Sorry, we don't have enough stock` })
                 } else {
-                    return Cart.findAll({
-                        where: { UserId },
+                    // console.log(data)
+                    return Cart.findOne({
+                        where: { UserId, ProductId },
                         include: [ Product ]
                     })
                 }
             })
             .then(data => {
-                // cek barangnya udh ada atau blm?
                 // res.send(data)
-                for (let i = 0; i < data.length; i++) {
-                    if (data[i].ProductId === ProductId) {
-                        //new quantity, update quantity waduh wkwk
-                        cartId = data[i].id
-                        let newQuantity = data[i].quantity + quantity
-                        return Cart.update({ quantity: newQuantity }, { where: { id: cartId }, returning: true})
-                    } 
+                if (data) {
+                    let newQuantity = data.quantity + 1
+                    return Cart.update({ quantity: newQuantity }, { where: { id: data.id }, returning: true})
+                } else {
+                    return Cart.create({ UserId, ProductId, quantity: 1 }) 
+
                 }
-                return Cart.create({ UserId, ProductId, quantity }) 
             })
             .then(data => {
                 // kalo hasilnya 1 berhasil ke update, kalo hasilnya object berhasil bikin baru
