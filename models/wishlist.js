@@ -11,11 +11,27 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Wishlist.belongsTo(models.Product, { as: 'product', foreignKey: 'productId' })
+      Wishlist.belongsTo(models.User, { as: 'user', foreignKey: 'userId' })
     }
   };
   Wishlist.init({
-    productId: DataTypes.INTEGER,
-    userId: DataTypes.INTEGER
+    productId: {
+      type: DataTypes.INTEGER,
+      validate: {
+        notEmpty: {
+          msg: 'field product id is required'
+        }
+      }
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      validate: {
+        notEmpty: {
+          msg: 'field user id is required'
+        }
+      }
+    }
   }, {
     sequelize,
     modelName: 'Wishlist',

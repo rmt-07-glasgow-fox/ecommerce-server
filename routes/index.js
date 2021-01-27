@@ -4,6 +4,7 @@ const productRouter = require('./product');
 const categoryRouter = require('./category');
 const bannerRouter = require('./banner');
 const cartRouter = require('./cart');
+const wishlistRouter = require('./wishlist');
 const isLoginCustomer = require('../middlewares/isLoginCustomers');
 
 router.get('/', (req, res) => {
@@ -22,6 +23,7 @@ router.use('/banners', bannerRouter);
 // CUSTOMER ROUTER
 router.use(isLoginCustomer);
 router.use(cartRouter)
+router.use(wishlistRouter)
 
 
 module.exports = router
