@@ -15,6 +15,10 @@ const errorHandler = (err, req, res, next) => {
         errors: unique
       })
       break;
+    case "maximumStock":
+      res.status(400).json({
+        errors: 'ops, order out of stock'
+      })
 
     case "authValidate":
       res.status(401).json({
