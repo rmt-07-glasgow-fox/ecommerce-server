@@ -79,6 +79,7 @@ class CartController {
             next(error)
         })
     }
+
 }
 
 module.exports = CartController

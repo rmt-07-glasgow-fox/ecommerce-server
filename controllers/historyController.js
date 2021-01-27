@@ -1,16 +1,29 @@
-const { History } = require('../models')
-const { Product } = require('../models')
+const { History, Product, Cart } = require('../models')
 
 class HistoryController {
     static addHistory (req,res,next) {
-        const obj = {
-            UserId: req.loggedInUser.id,
-            ProductId: req.body.ProductId,
-            total: req.body.total
-        }
-        History.create(obj)
+        const id = req.body.allCartId
+        Cart.destroy({where: {id: id}})
         .then(data => {
-            res.status(201).json(data)
+            if (data) {
+                const obj = {
+                    UserId: req.loggedInUser.id,
+                    ProductId: req.body.ProductId,
+                    total: req.body.total
+                }
+                return History.create(obj)
+                .then(data => {
+                    res.status(201).json(data)
+                })
+                .catch(error => {
+                    next(error)
+                })
+            } else {
+                throw {
+                    status: 404, 
+                    message: 'cart not found'
+                }
+            }
         })
         .catch(error => {
             next(error)
