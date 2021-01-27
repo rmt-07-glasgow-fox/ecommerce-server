@@ -1,34 +1,42 @@
 [
   {
     "id": 1,
-    "name": "Xiaomi Redmi Note 9 Pro",
-    "image_url": "-",
-    "price": 2000000,
+    "name": "Xiaomi Official Redmi Note 9 Pro 6/64 GB Garansi Resmi Mi Smartphone - Tropical Green",
+    "image_url": "https://ecs7.tokopedia.net/img/cache/900/VqbcmM/2021/1/6/8a5613c9-ff2b-49ba-9eac-3b0594263446.jpg",
+    "price": 3299999,
     "stock": 10,
-    "categoryId": 1
+    "categoryId": 1,
+    "status": true,
+    "description": ""
   },
   {
     "id": 2,
-    "name": "Baju Muslim Pria",
-    "image_url": "-",
-    "price": "100000",
+    "name": "Harry Potter and the Chamber of Secret",
+    "image_url": "https://ecs7.tokopedia.net/img/cache/900/product-1/2019/12/17/3654328/3654328_35311e2a-f728-4c0f-9433-38f15da96dbb_1500_1500.jpg",
+    "price": 130000,
     "stock": 100,
-    "categoryId": 2
+    "categoryId": 3,
+    "status": true,
+    "description": ""
   },
   {
     "id": 3,
-    "name": "Harry Potter and the Chamber of Secret",
-    "image_url": "-",
-    "price": 130000,
-    "stock": 100,
-    "categoryId": 3
+    "name": "Wulfi Gamis Erina Mustard - Ukuran XL Bahan Rainbow Twill Premium Adem Nyaman",
+    "image_url": "https://highlight.id/wp-content/uploads/2020/04/merek-baju-busana-pakaian-muslimah-hijab-jilbab-lokal-indonesia-branded-terkenal-koleksi_21.jpg",
+    "price": 100000,
+    "stock": 50,
+    "categoryId": 2,
+    "status": true,
+    "description": ""
   },
   {
     "id": 4,
-    "name": "Laptop Huaweii Matebook D14",
-    "image_url": "-",
-    "price": 10000000,
-    "stock": 0,
-    "categoryId": 1
+    "name": "Novel - LASKAR PELANGI - karya Andrea Hirata",
+    "image_url": "https://ecs7.tokopedia.net/img/cache/700/product-1/2020/5/4/8306123/8306123_c104d71c-05b8-4673-a6c7-87bf773c53e8_532_532.jpg",
+    "price": 85000,
+    "stock": 32,
+    "categoryId": 3,
+    "status": true,
+    "description": ""
   }
 ]

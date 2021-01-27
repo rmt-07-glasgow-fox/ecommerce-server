@@ -10,5 +10,13 @@
   {
     "id": 3,
     "categoryName": "Book"
+  },
+  {
+    "id": 4,
+    "categoryName": "Inventory"
+  },
+  {
+    "id": 5,
+    "categoryName": "Toy"
   }
 ]
