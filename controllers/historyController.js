@@ -14,7 +14,6 @@ class HistoryController {
         }
         History.bulkCreate(obj)
         .then(data => {
-            res.status(201).json(data)
             return Cart.destroy({where: {id: id}})
             .then(data => {
                 if (data) {
