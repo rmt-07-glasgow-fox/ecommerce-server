@@ -1,5 +1,5 @@
 const { checkToken } = require('../helper/jwt')
-const { User } = require('../models')
+const { User, Cart } = require('../models')
 
 const authenticate = async (req, res, next) => {
   try {
@@ -15,6 +15,21 @@ const authenticate = async (req, res, next) => {
   }
 }
 
+const authorization = async (req, res, next) => {
+  const id = req.user.id
+  const cartId = +req.params.id
+  try {
+    const cart = await Cart.findOne({ where: { id: cartId }})
+    if (cart.UserId !== id) {
+      return res.status(401).json({ message: 'This Product Cart not belongs to you'})
+    }
+    next()
+  } catch (err) {
+    return res.status(500).json({ message: "Internal Server Error"})
+  }
+}
+
 module.exports = {
-  authenticate
+  authenticate,
+  authorization
 }

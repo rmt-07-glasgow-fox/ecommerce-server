@@ -22,6 +22,8 @@ const errorHandlers = (err, req, res, next) => {
         return res.status(401).json({message: 'Invalid email / password'})
       case 'notFound':
         return res.status(404).json({message: 'Error Product not found'})
+      case 'outOfStock':
+        return res.status(400).json({message: 'Out of Stock, please reduce your request amount'})
       default:
         return res.status(500).json({message: 'Internal Server Error'})
     }
