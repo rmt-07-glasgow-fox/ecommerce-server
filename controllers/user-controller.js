@@ -1,11 +1,11 @@
-const { User } = require('../models')
+const { User, Cart } = require('../models')
 const { comparePassword } = require('../helper/bcrypt')
 const { tokenGenerate } = require('../helper/jwt')
 
 class UserController {
       static login(req, res, next) {
             let { email, password } = req.body
-
+            console.log(req.body);
             User.findOne({where: {email}})
                 .then(user => {
                       if(!user) res.status(401).json({message: "invalid email/password"})
@@ -19,7 +19,9 @@ class UserController {
 
                       let access_token = tokenGenerate(payload)
                       res.status(200).json({ access_token })
-                }).catch(next)
+                }).catch(err => {
+                      console.log(err);
+                })
       }
 
       static register(req, res, next){
@@ -30,7 +32,9 @@ class UserController {
 
             User.create(newUser)
                .then(data => {
-                     res.status(201).json(data)
+                     return Cart.create({ UserId: data.id })
+               }).then(cart => {
+                     res.status(201).json(cart)
                }).catch(err => {
                   //    res.status(400).json(err)
                   console.log(err);

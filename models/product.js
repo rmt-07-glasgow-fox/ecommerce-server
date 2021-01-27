@@ -11,6 +11,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Product.belongsTo(models.User)
+      Product.belongsToMany(models.Cart, {
+        through: models.CartProduct,
+        foreignKey: "ProductId"
+      })
       // define association here
     }
   };
@@ -34,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
       }
       },
     price: {
-      type: DataTypes.STRING,
+      type: DataTypes.DOUBLE,
       validate: {
         notEmpty: {
           args: true,
@@ -46,7 +50,7 @@ module.exports = (sequelize, DataTypes) => {
       }
       },
     stock: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       validate: {
         notEmpty: {
           args: true,
