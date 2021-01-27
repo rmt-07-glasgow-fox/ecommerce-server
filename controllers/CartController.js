@@ -6,10 +6,10 @@ class CartController {
 		const payload = {
 			UserId: req.loggedInUser.id,
 			ProductId: req.body.productId,
-			quantity: req.body.quantity,
+			quantity: +req.body.quantity,
 			status: false
 		}
-		console.log(pasyload);
+		console.log(payload);
 
 		try {
 			const inCart = await Cart.findOne({
@@ -95,7 +95,7 @@ class CartController {
 					status: true
 				},
 				include: [ Product ],
-				order: [[ 'createdAt', 'ASC' ]]
+				order: [[ 'updateddAt', 'ASC' ]]
 			})
 
 			res.status(200).json(carts)
@@ -107,7 +107,9 @@ class CartController {
 
 	static async delete (req, res, next) {
 		try {
-
+			const CartId = req.body.cartId
+			const deleteCart = await Cart.destroy({ where : {id: CartId, UserId: req.loggedInUser.id}})
+      res.status(200).json({message: 'succesfully deleted an item'})
 		}
 		catch (error) {
 			next(error)
@@ -129,9 +131,9 @@ class CartController {
 			const fixQuantity = []
 
 			checkoutCarts.forEach(el => {
-				if (el.quantity <= e.Product.stock) {
+				if (el.quantity <= el.Product.stock) {
 					execute.push(Product.update({ stock: el.Product.stock - el.quantity }, { where: { id: el.Product.id }, returning: true, transaction: t}))
-					execute.push(Cart.update({ status:true }, { where: { id: el.id }, returning: true, transaction:t }))
+					execute.push(Cart.update({ status:true }, { where: { id: el.id }, returning: true, transaction: t }))
 				}
 				else {
 					errors.push(`failed to buy ${el.Product.name}`)
@@ -152,6 +154,7 @@ class CartController {
 			res.status(200).json({ success: result })
 		}
 		catch (error) {
+			await t.rollback();
 			next(error)
 		}
 	}
