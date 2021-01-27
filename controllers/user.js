@@ -6,6 +6,10 @@ class UserController {
   static register (req, res, next) {
     const { email, password } = req.body
 
+    if (!email || !password) {
+      throw { name: 'BadRequest' }
+    }
+
     User.create({
       email,
       password

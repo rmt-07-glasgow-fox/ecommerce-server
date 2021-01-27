@@ -64,6 +64,7 @@ class CartController {
       const quantity = +req.body.quantity
       const ProductId = +req.body.ProductId
 
+      console.log('>>>>', quantity, ProductId)
       let currentCart
       let productStock = 0
 
@@ -82,9 +83,8 @@ class CartController {
           }
         })
       } else {
-        next({ name: 'StockExceeded' })
+        throw { name: 'StockExceeded' }
       }
-
       if (!currentCart) {
         let newCart = await Cart.create({
           UserId,
@@ -137,7 +137,7 @@ class CartController {
       if (!currentCart) {
         next({ name: 'ResourceNotFound' })
       } else {
-        const newQuantity = currentCart.quantity + quantity
+        const newQuantity = quantity
         if (newQuantity <= productStock) {
           let updatedCart = await currentCart.update({
             quantity: newQuantity
