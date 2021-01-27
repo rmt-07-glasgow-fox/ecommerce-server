@@ -17,8 +17,16 @@
   - [List Banners](#list-banners)
   - [Update Banner](#update-banner)
   - [Delete Banner](#delete-banner)
+- [Cart](#Cart)
+  - [Create Cart](#create-cart)
+  - [List Carts](#list-carts)
+  - [Increment Quantity Cart](#increment-quantity-cart)
+  - [Decrement Quantity Cart](#decrement-quantity-cart)
+  - [Delete Banner](#delete-banner)
 - [User](#user)
+  - [Register](#register)
   - [Login](#login)
+  - [Login Admin](#login-admin)
 
 # Product
 
@@ -983,7 +991,7 @@ Create a Banner.
 - **Sample Call:**
   - **curl**:
     ```js
-    curl --location --request POST 'http://localhost:3000/boards' --header 'Authorization: Bearer <JWT_TOKEN>' --data-urlencode 'title=Cake' --data-urlencode 'status=true' --data-urlencode 'image_url=https://blog.picniq.co.uk/wp-content/uploads/2020/02/birthday-cakes-for-kids-1024x567.jpg'
+    curl --location --request POST 'http://localhost:3000/banners' --header 'Authorization: Bearer <JWT_TOKEN>' --data-urlencode 'title=Cake' --data-urlencode 'status=true' --data-urlencode 'image_url=https://blog.picniq.co.uk/wp-content/uploads/2020/02/birthday-cakes-for-kids-1024x567.jpg'
     ```
 
 ## **List Banners**
@@ -1257,6 +1265,429 @@ Delete Banner.
   - **curl**:
     ```js
     curl --location --request DELETE 'http://localhost:3000/banners/1' --header 'Authorization: Bearer <JWT_TOKEN>'
+    ```
+
+# Cart
+
+## **Create Cart**
+
+Create a Cart.
+
+- **URL**
+
+  `/carts`
+
+- **Method:**
+
+  `POST`
+
+- **Request Header**
+
+  **Required:**
+
+  - Authorization (string)
+
+  **Example:**
+
+  - application/json
+    ```json
+    {
+      "Authorization": "Bearer <JWT_TOKEN>"
+    }
+    ```
+
+- **Request Body**
+
+  **Required:**
+
+  - ProductId (integer)
+  - UserId (integer)
+  - quantity (integer)
+
+  **Example:**
+
+  - application/json
+    ```json
+    {
+      "ProductId": 1,
+      "UserId": 1,
+      "quantity": 1
+    }
+    ```
+
+- **Success Response:**
+
+  - **Code:** 201 <br />
+    **Content:**
+
+    ```json
+    {
+      "id": 1,
+      "ProductId": 1,
+      "UserId": 1,
+      "quantity": 1,
+      "updatedAt": "2021-01-13T06:04:11.210Z",
+      "createdAt": "2021-01-13T06:04:11.210Z"
+    }
+    ```
+
+  - **Code:** 200 <br />
+    **Content:**
+    ```json
+    {
+      "message": "Cart has been updated"
+    }
+    ```
+
+- **Error Response:**
+
+  - **Code:** 400 Bad Request <br />
+    **Content:**
+
+    ```json
+    [
+      {
+        "message": "Product id is required"
+      }
+    ]
+    ```
+
+    Or
+
+    ```json
+    [
+      {
+        "message": "User id is required"
+      }
+    ]
+    ```
+
+    Or
+
+    ```json
+    [
+      {
+        "message": "Quantity is required"
+      }
+    ]
+    ```
+
+  - **Code:** 401 Forbidden <br />
+    **Content:**
+
+    ```json
+    [
+      {
+        "message": "You must be logged in."
+      }
+    ]
+    ```
+
+  - **Code:** 500 Internal Server Error <br />
+    **Content:**
+    ```json
+    [
+      {
+        "message": "internal server error"
+      }
+    ]
+    ```
+
+- **Sample Call:**
+  - **curl**:
+    ```js
+    curl --location --request POST 'http://localhost:3000/carts' --header 'Authorization: Bearer <JWT_TOKEN>' --data-urlencode 'ProductId=1' --data-urlencode 'UserId=1' --data-urlencode 'quantity=1'
+    ```
+
+## **List Carts**
+
+Show list carts.
+
+- **URL**
+
+  `/carts`
+
+- **Method:**
+
+  `GET`
+
+- **Request Header**
+
+  **Required:**
+
+  - Authorization (string)
+
+  **Example:**
+
+  - application/json
+    ```json
+    {
+      "Authorization": "Bearer <JWT_TOKEN>"
+    }
+    ```
+
+- **Success Response:**
+
+  - **Code:** 200 <br />
+    **Content:**
+    ```json
+    [
+      {
+        "id": 1,
+        "ProductId": 1,
+        "UserId": 1,
+        "quantity": 1,
+        "createdAt": "2021-01-13T06:04:11.210Z",
+        "updatedAt": "2021-01-13T06:04:11.210Z"
+      }
+    ]
+    ```
+
+- **Error Response:**
+
+  - **Code:** 500 Internal Server Error <br />
+    **Content:**
+    ```json
+    [
+      {
+        "message": "internal server error"
+      }
+    ]
+    ```
+
+- **Sample Call:**
+  - **curl**:
+    ```js
+    curl --location --request GET 'http://localhost:3000/carts' --header 'Authorization: Bearer <JWT_TOKEN>'
+    ```
+
+## **Increment Quantity Cart**
+
+Increment quantity cart.
+
+- **URL**
+
+  `/carts/:id/increment`
+
+- **Method:**
+
+  `PATCH`
+
+- **Request Header**
+
+  **Required:**
+
+  - Authorization (string)
+
+  **Example:**
+
+  - application/json
+    ```json
+    {
+      "Authorization": "Bearer <JWT_TOKEN>"
+    }
+    ```
+
+- **Request Params**
+
+  - id (integer)
+
+- **Success Response:**
+
+  - **Code:** 200 <br />
+    **Content:**
+    ```json
+    { "message": "Cart has been updated" }
+    ```
+
+- **Error Response:**
+
+  - **Code:** 400 Bad Request <br />
+    **Content:**
+
+    ```json
+    [
+      {
+        "message": "Limit exceeded"
+      }
+    ]
+    ```
+
+  - **Code:** 404 Not Found <br />
+    **Content:**
+
+    ```json
+    [
+      {
+        "message": "Cart not found"
+      }
+    ]
+    ```
+
+  - **Code:** 500 Internal Server Error <br />
+    **Content:**
+    ```json
+    [
+      {
+        "message": "internal server error"
+      }
+    ]
+    ```
+
+- **Sample Call:**
+  - **curl**:
+    ```js
+    curl --location --request PATCH 'http://localhost:3000/carts/1/increment' --header 'Authorization: Bearer <JWT_TOKEN>'
+    ```
+
+## **Decrement Quantity Cart**
+
+Decrement quantity cart.
+
+- **URL**
+
+  `/carts/:id/decrement`
+
+- **Method:**
+
+  `PATCH`
+
+- **Request Header**
+
+  **Required:**
+
+  - Authorization (string)
+
+  **Example:**
+
+  - application/json
+    ```json
+    {
+      "Authorization": "Bearer <JWT_TOKEN>"
+    }
+    ```
+
+- **Request Params**
+
+  - id (integer)
+
+- **Success Response:**
+
+  - **Code:** 200 <br />
+    **Content:**
+    ```json
+    { "message": "Cart has been updated" }
+    ```
+
+- **Error Response:**
+
+  - **Code:** 400 Bad Request <br />
+    **Content:**
+
+    ```json
+    [
+      {
+        "message": "Quantity invalid"
+      }
+    ]
+    ```
+
+  - **Code:** 404 Not Found <br />
+    **Content:**
+
+    ```json
+    [
+      {
+        "message": "Cart not found"
+      }
+    ]
+    ```
+
+  - **Code:** 500 Internal Server Error <br />
+    **Content:**
+    ```json
+    [
+      {
+        "message": "internal server error"
+      }
+    ]
+    ```
+
+- **Sample Call:**
+  - **curl**:
+    ```js
+    curl --location --request PATCH 'http://localhost:3000/carts/1/decrement' --header 'Authorization: Bearer <JWT_TOKEN>'
+    ```
+
+## **Delete Cart**
+
+Delete Cart.
+
+- **URL**
+
+  `/carts/:id`
+
+- **Method:**
+
+  `DELETE`
+
+- **Request Header**
+
+  **Required:**
+
+  - Authorization (string)
+
+  **Example:**
+
+  - application/json
+    ```json
+    {
+      "Authorization": "Bearer <JWT_TOKEN>"
+    }
+    ```
+
+- **Request Params**
+
+  - id (integer)
+
+- **Success Response:**
+
+  - **Code:** 200 <br />
+    **Content:**
+
+    ```json
+    {
+      "message": "Cart has been deleted"
+    }
+    ```
+
+- **Error Response:**
+
+  - **Code:** 404 Not Found <br />
+    **Content:**
+
+    ```json
+    [
+      {
+        "message": "Cart not found"
+      }
+    ]
+    ```
+
+  - **Code:** 500 Internal Server Error <br />
+    **Content:**
+    ```json
+    [
+      {
+        "message": "internal server error"
+      }
+    ]
+    ```
+
+- **Sample Call:**
+  - **curl**:
+    ```js
+    curl --location --request DELETE 'http://localhost:3000/carts/1' --header 'Authorization: Bearer <JWT_TOKEN>'
     ```
 
 # User

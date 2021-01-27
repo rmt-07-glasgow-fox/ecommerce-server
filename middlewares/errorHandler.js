@@ -38,6 +38,10 @@ module.exports = (err, req, res, next) => {
       res.status(403).json([{ message: 'You are not Admin' }]);
     } else if (err.name === 'Greater') {
       res.status(400).json([{ message: `${err.attr} must greater than ${err.value}` }]);
+    } else if (err.name === 'LimitStock') {
+      res.status(400).json([{ message: 'Limit exceeded' }]);
+    } else if (err.name === 'Invalid') {
+      res.status(400).json([{ message: `${err.attr} invalid` }]);
     } else {
       res.status(500).json([{ message: 'Internal Server Error', error: err }]);
     }
