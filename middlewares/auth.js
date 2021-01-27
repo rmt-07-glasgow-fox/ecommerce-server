@@ -1,4 +1,4 @@
-const { User, Product } = require('../models');
+const { User } = require('../models');
 const { verifyToken } = require('../helpers/jwt');
 
 module.exports = {
@@ -24,7 +24,6 @@ module.exports = {
     async authorize (req, res, next) {
         try {
             let userRole = req.user.role;
-            // let user = await User.findOne({ where: { id: userId } });
             if (userRole !== 'admin') {
                 throw new Error ('NotAuthorize');
             }
