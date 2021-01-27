@@ -15,13 +15,7 @@ class CartController {
       ]
     })
       .then(data => {
-        if(data.length === 0){
-          next({
-            name: 'NoData'
-          })
-        }else{
-          res.status(200).json(data)
-        }
+        res.status(200).json(data)
       })
       .catch(err => {
         next(err)
@@ -100,35 +94,70 @@ class CartController {
       next(error)
     }
   }
-  static patchCartStatus (req, res, next) {
-    Cart.findOne({
-      where: {
+  static deleteCartById (req, res, next) {
+    Cart.destroy({
+      where:{
         id: req.params.id
       }
     })
       .then(data => {
-        if(!data){
+        if(data === 1){
+          res.status(200).json({
+            message: 'Success your banner has been deleted.'
+          })
+        }else{
           next({
             name: 'NoData'
           })
-        }else{
-          return Cart.update({
-            status: req.body.status
-          },{
-            where: {
-              id: req.params.id
-            }
-          })
         }
-      })
-      .then(data => {
-        res.status(200).json({
-          message: 'Success your product has been removed from your cart.'
-        })
       })
       .catch(err => {
         next(err)
       })
+  }
+  static async checkoutCart(req, res, next) {
+    let errors = []
+    let cartPromise = []
+    let productPromise = []
+    const getCart = await Cart.findAll({
+      where: { 
+        UserId: req.userData.id 
+      }, 
+      include: [Product]
+    })
+    getCart.forEach((el, idx) => {
+      if(el.amount <= el.Product.stock && el.status) {
+        cartPromise.push(Cart.update({
+          status: false
+        }, {
+          where: {
+            id: el.id
+          }
+        }))
+        productPromise.push(Product.update({
+          stock: el.Product.stock - el.amount
+        }, {
+          where: {
+            id: el.ProductId
+          },
+          returning: true
+        }))
+      } else if (el.amount > el.Product.stock && el.status){
+        errors.push({
+          name: 'SoldOut',
+          itemName: el.Product.name
+        })
+      }
+    })
+    if(errors.length) {
+      next({
+        name: errors[0].name,
+        itemName: errors[0].itemName
+      })
+    }
+    await Promise.all(cartPromise)
+    let promiseReturn = await Promise.all(productPromise)
+    res.status(200).json(promiseReturn)
   }
 }
 

@@ -41,6 +41,11 @@ const errorHandler = (err, req, res, next) => {
           message: "There's not enough data to process this request."
         })
         break;
+      case 'SoldOut':
+        res.status(401).json({
+          message: `Sorry ${err.itemName} is sold out!!`
+        })
+        break;
       default:
         if(err.name === 'SequelizeValidationError'){
           let errors = err.errors.map(el => {
