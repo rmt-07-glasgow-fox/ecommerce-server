@@ -61,6 +61,7 @@ class CartController {
         UserId,
         isBought: false,
       },
+      order: [['id', 'ASC']],
       attributes: ["id", "UserId", "ProductId", "amount", "isBought"],
       include: [
         {
