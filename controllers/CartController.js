@@ -5,8 +5,11 @@ class CartController {
     const UserId = req.user.id;
     const { ProductId, amount } = req.body;
 
+    let productData;
+
     Product.findByPk(ProductId)
       .then((data) => {
+        productData = data
         if (amount > data.stock) {
           next({ name: "AmountExceedsStock" });
         }
@@ -21,9 +24,14 @@ class CartController {
       })
       .then((cartItem) => {
         if (cartItem) {
+          let add = cartItem.amount
+          if(cartItem.amount < productData.stock){
+            ++ add
+          }
+          // console.log(add, cartItem.amount, 'ini add lohhhhh');
           return Cart.update(
             {
-              amount,
+              amount: add,
             },
             {
               where: { id: cartItem.id },
