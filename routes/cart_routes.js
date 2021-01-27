@@ -4,7 +4,7 @@ const { CartController } = require('../controllers/cart_controllers')
 
 router.get('/', CartController.findCart)
 router.post('/', CartController.createCart)
-// router.put('/:id', CartController.updateCart)
-// router.delete('/:id', CartController.destroyCart)
+router.put('/:id', CartController.updateCart)
+router.delete('/:id', CartController.destroyCart)
 
 module.exports = router
