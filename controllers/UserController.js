@@ -64,13 +64,6 @@ module.exports = class UserController {
         try {
             let ProductId = +req.body.ProductId;
             let UserId = req.user.id;
-            let updatedCart = {
-                quantity: req.body.quantity,
-                totalPrice: req.body.totalPrice,
-                paymentStatus: req.body.paymentStatus,
-                invoice: req.body.invoice
-            }
-
             let [ userProduct ] = await UserProduct.findOrCreate({
                 where: { UserId, ProductId, 
                     [Op.or]: [
@@ -85,6 +78,14 @@ module.exports = class UserController {
             })
 
             if (findWishlist) updatedCart.wishlist = true
+            
+            let updatedCart = {
+                quantity: req.body.quantity,
+                totalPrice: req.body.totalPrice,
+                paymentStatus: req.body.paymentStatus,
+                invoice: req.body.invoice
+            }
+
             updatedCart.quantity += userProduct.quantity
             updatedCart.totalPrice += userProduct.totalPrice
 
@@ -96,10 +97,19 @@ module.exports = class UserController {
                     ]
                 },
             })
-
-            res.status(200).json({
-                message: 'Cart created'
-            }) 
+            let findUserProduct = await UserProduct.findOne({
+                where: {id: userProduct.id},
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt']
+                },
+                include: {
+                    model: Product,
+                    attributes: {
+                        exclude: ['createdAt', 'updatedAt']
+                    }
+                }
+            })
+            res.status(200).json(findUserProduct) 
         } catch (err) {
             console.log(err)
             next(err)
@@ -118,10 +128,20 @@ module.exports = class UserController {
             } 
 
             let buyerProduct = await UserProduct.create(newBuyer)
-            let updateProduct = await UserProduct.update(
-                newBuyer,
-                { where: { id: buyerProduct.id }})
-            res.status(200).json(updateProduct)
+            await UserProduct.update(newBuyer, { where: { id: buyerProduct.id }})
+            let findUserProduct = await UserProduct.findOne({
+                where: { id: buyerProduct.id },
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt']
+                },
+                include: {
+                    model: Product,
+                    attributes: {
+                        exclude: ['createdAt', 'updatedAt']
+                    }
+                }
+            })
+            res.status(200).json(findUserProduct)
         } catch (err) {
             next (err)
         }
@@ -173,9 +193,19 @@ module.exports = class UserController {
                 where: { UserId, ProductId, paymentStatus: 'pending' },
             })
 
-            res.status(200).json({
-                message: 'Cart updated'
-            }) 
+            let userProduct = await UserProduct.findOne({
+                where: { id: findUserProduct.id },
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt']
+                },
+                include: {
+                    model: Product,
+                    attributes: {
+                        exclude: ['createdAt', 'updatedAt']
+                    }
+                }
+            })
+            res.status(200).json(userProduct)
         } catch (err) {
             console.log(err)
             next(err)
@@ -185,14 +215,10 @@ module.exports = class UserController {
 
     static async deleteProduct (req, res, next) {
         try {
-            let ProductId = req.body.ProductId;
-            let UserId = req.user.id;
+            let id = req.params.id
 
             await UserProduct.destroy({
-                where: {
-                    UserId,
-                    ProductId
-                }
+                where: { id }
             })
             res.status(200).json({
                 message: 'User product has been deleted'
