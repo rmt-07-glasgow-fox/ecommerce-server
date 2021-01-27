@@ -13,6 +13,7 @@ This table is list of this app's API endpoint. You can see the detail in [API Do
 | ------------------ | ----------- | ----------------------------- | --------------- |
 | `/register`        | POST        | For register user             | Everyone        |
 | `/loginadmin`      | POST        | For login admin user          | Everyone        |
+| `/login`           | POST        | For login customer user       | Everyone        |
 | `/getuser`         | GET         | For get user information      | Everyone        |
 |                                                                                    |
 | `/product`         | POST        | For add product to list       | Admin           |
@@ -32,6 +33,11 @@ This table is list of this app's API endpoint. You can see the detail in [API Do
 | `/banner/:id`      | GET         | For see detailed              | Everyone        |
 | `/banner/:id`      | PUT         | For update banner             | Admin           |
 | `/banner/:id`      | DELETE      | For delete banner             | Admin           |
+|                                                                                    |
+| `/cart`            | POST        | For add product to cart       | Customer        |
+| `/cart`            | GET         | For see cart list             | Customer        |
+| `/cart/:id`        | PUT         | For update cart detail        | Customer        |
+| `/cart/:id`        | DELETE      | For delete product in cart    | Customer        |
 <br>
 
 ## Getting Started

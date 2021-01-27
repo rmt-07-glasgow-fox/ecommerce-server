@@ -9,6 +9,9 @@ let errorHandlers = (err, req, res, next) => {
       case "SequelizeForeignKeyConstraintError":
         res.status(400).json({ errors: ['Please insert you category!'] });
         break;
+      case "notEnoughStock":
+        res.status(400).json({ errors: ['Maximum stock exceeded!'] });
+        break;
       case "invalidLogin":
         res.status(401).json({ errors: 'Your Email or Password is invalid' });
         break;
@@ -24,6 +27,9 @@ let errorHandlers = (err, req, res, next) => {
       case "unauthorizeAdmin":
         res.status(401).json({ errors: 'Staff only, keep out!' });
         break;
+      case "isAdmin":
+        res.status(401).json({ errors: 'Admin account cannot login from here!' });
+        break;
       case "notFound":
         res.status(404).json({ errors: 'Your request is not found.' });
         break;
@@ -35,6 +41,9 @@ let errorHandlers = (err, req, res, next) => {
         break;
       case "bannerNotFound":
         res.status(404).json({ errors: 'Banner is not found.' });
+        break;
+      case "cartNotFound":
+        res.status(404).json({ errors: 'Your product in cart is not found.' });
         break;
       case "SequelizeUniqueConstraintError":
         errors = err.errors.map(error => error.message);

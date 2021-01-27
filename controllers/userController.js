@@ -30,7 +30,7 @@ class UserController {
       if (!loginadmin) throw { name: 'invalidLogin' };
 
       if (loginadmin.role !== 'admin') throw { name: 'unauthorizeAdmin' };
-      
+
       const chkPass = compPass(password, loginadmin.password);
 
       if (!chkPass) throw { name: 'invalidLogin' };
@@ -42,6 +42,38 @@ class UserController {
         profpic: loginadmin.profpic,
         email: loginadmin.email,
         role: loginadmin.role
+      };
+      const access_token = genToken(payload);
+
+      res.status(200).json({ access_token });
+    } catch (err) {
+      next(err);
+    };
+  };
+
+  static async login (req, res, next) {
+    try {
+      const { email, password } = req.body;
+
+      if (!email || !password) throw { name: 'invalidLogin' };
+
+      const login = await User.findOne({ where: { email } });
+
+      if (!login) throw { name: 'invalidLogin' };
+
+      if (login.role === 'admin') throw { name: 'isAdmin' };
+
+      const chkPass = compPass(password, login.password);
+
+      if (!chkPass) throw { name: 'invalidLogin' };
+
+      const payload = {
+        id: login.id,
+        firstname: login.firstname,
+        lastname: login.lastname,
+        profpic: login.profpic,
+        email: login.email,
+        role: login.role,
       };
       const access_token = genToken(payload);
 

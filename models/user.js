@@ -11,8 +11,10 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate(models) {
+    static associate (models) {
       User.hasMany(models.Product, { foreignKey: 'UserId' });
+      User.hasMany(models.Cart, { foreignKey: 'UserId' });
+      models.Cart.belongsTo(User, { foreignKey: 'UserId' });
     }
   };
   User.init({
@@ -68,7 +70,7 @@ module.exports = (sequelize, DataTypes) => {
     role: { type: DataTypes.STRING, }
   }, {
     hooks: {
-      beforeCreate(user, options) {
+      beforeCreate (user, options) {
         user.firstname = user.firstname[0].toUpperCase() + user.firstname.slice(1).toLowerCase();
         user.password = hashPass(user.password);
         !user.lastname ? user.lastname = user.firstname : user.lastname;

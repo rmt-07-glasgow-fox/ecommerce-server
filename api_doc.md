@@ -5,6 +5,7 @@ For make you easier to develop this app, I make a documentation about API endpoi
 | ------------------ | ----------- | ----------------------------- | --------------- |
 | `/register`        | POST        | For register user             | Everyone        |
 | `/loginadmin`      | POST        | For login admin user          | Everyone        |
+| `/login`           | POST        | For login customer user       | Everyone        |
 | `/getuser`         | GET         | For get user information      | Everyone        |
 |                                                                                    |
 | `/product`         | POST        | For add product to list       | Admin           |
@@ -24,6 +25,11 @@ For make you easier to develop this app, I make a documentation about API endpoi
 | `/banner/:id`      | GET         | For see detailed              | Everyone        |
 | `/banner/:id`      | PUT         | For update banner             | Admin           |
 | `/banner/:id`      | DELETE      | For delete banner             | Admin           |
+|                                                                                    |
+| `/cart`            | POST        | For add product to cart       | Customer        |
+| `/cart`            | GET         | For see cart list             | Customer        |
+| `/cart/:id`        | PUT         | For update cart detail        | Customer        |
+| `/cart/:id`        | DELETE      | For delete product in cart    | Customer        |
 <br>
 
 ## Detailed Endpoints
@@ -853,13 +859,6 @@ _Response (404)_
 }
 ```
 
-_Response (409)_
-```json
-{
-  "name": "SequelizeUniqueConstraintError"
-}
-```
-
 _Response (500)_
 ```json
 {
@@ -898,6 +897,182 @@ _Response (404)_
 ```json
 {
   "name": "notFound"
+}
+```
+
+_Response (500)_
+```json
+{
+  "name": "Internal server error"
+}
+```
+
+## Cart
+### POST /cart
+_Request Header_
+```json
+{
+  "access_token": "<customer access_token>"
+}
+```
+
+_Request Body_
+```json
+{
+  "ProductId": "<product id>",
+  "quantity": "<product quantity>"
+}
+```
+
+_Response (201)_
+```json
+{
+    "id": "<cart id>",
+    "UserId": "<user id>",
+    "ProductId": "<product id>",
+    "quantity": "<product quantity>",
+    "isPaid": "<product status>",
+    "updatedAt": "<cart updated date>",
+    "createdAt": "<cart created date>"
+}
+```
+
+_Response (400)_
+```json
+{
+  "name": "SequelizeValidationError"
+}
+```
+
+_Response (500)_
+```json
+{
+  "name": "SequelizeDatabaseError"
+}
+```
+
+### GET /cart
+_Request Header_
+```json
+{
+  "access_token": "<customer access_token>"
+}
+```
+
+_Request Body_
+```
+Unneeded
+```
+
+_Response (200)_
+```json
+[
+  {
+    "id": "<cart id>",
+    "UserId": "<user id>",
+    "ProductId": "<product id>",
+    "quantity": "<product quantity>",
+    "isPaid": "<product status>",
+    "updatedAt": "<cart updated date>",
+    "createdAt": "<cart created date>",
+    "User": {
+      "id": "<customer id>",
+      "firstname": "<customer firstname>",
+      "lastname": "<customer lastname>",
+      "profpic": "<customer profpic image url>",
+      "email": "<customer email>"
+    },
+    "Product": {
+      "id": "<product id>",
+      "name": "<product name>",
+      "image_url": "<product image url>",
+      "price": "<product price>",
+      "stock": "<product stock>",
+      "CategoryId": "<category id>",
+      "createdAt": "<product created date>",
+      "updatedAt": "<product updated date>"
+    }
+  }
+  ...
+]
+```
+
+_Response (500)_
+```json
+{
+  "name": "Internal server error"
+}
+```
+
+### PUT /cart/:id
+_Request Header_
+```json
+{
+  "access_token": "<customer access_token>"
+}
+```
+
+_Request Body_
+```json
+{
+  "ProductId": "<product id>",
+  "quantity": "<product quantity>",
+  "isPaid": "<product status>
+}
+```
+
+_Response (200)_
+```json
+{
+  "message": "Product has been checked out!"
+}
+```
+
+_Response (400)_
+```json
+{
+  "name": "SequelizeValidationError"
+}
+```
+
+_Response (404)_
+```json
+{
+  "name": "notFound"
+}
+```
+
+_Response (500)_
+```json
+{
+  "name": "Internal server error"
+}
+```
+
+### DELETE /cart/:id
+_Request Header_
+```json
+{
+  "access_token": "<customer access_token>"
+}
+```
+
+_Request Body_
+```
+Unneeded
+```
+
+_Response (200)_
+```json
+{
+  "message": "Product has been removed from your cart!"
+}
+```
+
+_Response (404)_
+```json
+{
+  "name": "cartNotFound"
 }
 ```
 
