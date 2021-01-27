@@ -15,14 +15,7 @@ module.exports = (req,res,next) => {
             User.findOne({where: {id: decoded.id}})
             .then(data => {
                 if(data){
-                    if (data.role == 'admin') {
-                        next()
-                    } else {
-                        throw {
-                            status: 401,
-                            message: "you aren't an admin"
-                        }
-                    }
+                    next()
                 }else {
                     throw {
                         status: 401,
