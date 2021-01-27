@@ -37,7 +37,7 @@ This server is built with test suites with TDD.
   **Content:** 
     ```
     {
-    message: ['Product added']
+    messages: ['Product added']
     }
     ```
     
@@ -47,7 +47,7 @@ This server is built with test suites with TDD.
   **Content:** 
     ```
     {
-    message: ['Product added']
+    messages: ['Product added']
     }
     ```
 
@@ -67,18 +67,130 @@ This server is built with test suites with TDD.
 
     `localhost:3000/carts`
 
-**Create Cart / Append product to already existing cart**
+**Fetch all Carts**
+----
+
+* **URL**
+  /carts
+
+* **Method:** 
+  `GET`
+
+* **Headers**
+
+  access_token
+
+* **URL Params**
+
+  None
+
+* **Data Params**
+    
+    **Content:** 
+
+    None
+
+* **Success Response:**
+  
+  * **Code:** 200 OK <br />
+  **Content:** 
+    ```
+    [
+    {
+        "id": 17,
+        "UserId": 1,
+        "status": false,
+        "quantity": 5,
+        "createdAt": "2021-01-27T17:36:20.081Z",
+        "updatedAt": "2021-01-27T19:01:35.348Z",
+        "ProductId": 1,
+        "Product": {
+            "id": 1,
+            "name": "nice headphones",
+            "image_url": "https://media.wired.com/photos/5e7164aeb9399f00096a2ae6/1:1/w_1800,h_1800,c_limit/Gear-Mont-Blanc-Smart-Headphones-Gold-Front-SOURCE-Mont-Blanc.jpg",
+            "category": "electronics",
+            "price": 120000,
+            "stock": 5
+        },
+        "User": {
+            "id": 1,
+            "email": "user@mail.com"
+        }
+    },
+    {
+        "id": 19,
+        "UserId": 1,
+        "status": false,
+        "quantity": 5,
+        "createdAt": "2021-01-27T17:38:18.370Z",
+        "updatedAt": "2021-01-27T19:00:45.343Z",
+        "ProductId": 2,
+        "Product": {
+            "id": 2,
+            "name": "macbook pro",
+            "image_url": "https://i.pcmag.com/imagery/reviews/038Dr5TVEpwIv8rCljx6UcF-13..1588802180.jpg",
+            "category": "electronics",
+            "price": 2000000,
+            "stock": 5
+        },
+        "User": {
+            "id": 1,
+            "email": "user@mail.com"
+        }
+    },
+    {
+        "id": 16,
+        "UserId": 1,
+        "status": false,
+        "quantity": 3,
+        "createdAt": "2021-01-27T17:30:49.321Z",
+        "updatedAt": "2021-01-27T19:01:43.227Z",
+        "ProductId": 6,
+        "Product": {
+            "id": 6,
+            "name": "nice headset",
+            "image_url": "https://media.wired.com/photos/5e7164aeb9399f00096a2ae6/1:1/w_1800,h_1800,c_limit/Gear-Mont-Blanc-Smart-Headphones-Gold-Front-SOURCE-Mont-Blanc.jpg",
+            "category": null,
+            "price": 20000,
+            "stock": 3
+        },
+        "User": {
+            "id": 1,
+            "email": "user@mail.com"
+        }
+    }
+    ]
+    ```
+
+* **Error Response:**
+
+  * **Code:** 404 Not Found <br />
+      **Content:** 
+      ```
+      {
+      'errors': [
+        'Not found'
+      ]
+      }
+      ```
+
+* **Sample Call:**
+
+    `localhost:3000/carts`
+
+
+**Fetch A Cart**
 ----
 
 * **URL**
   /carts/:cartId
 
 * **Method:** 
-  `POST`
+  `GET`
 
 * **Headers**
 
-    access_token
+  access_token
 
 * **URL Params**
 
@@ -96,26 +208,142 @@ This server is built with test suites with TDD.
   **Content:** 
     ```
     {
-    "id": 6,
-    "UserId": 1,
-    "status": false,
-    "quantity": 4,
-    "createdAt": "2021-01-26T21:40:35.529Z",
-    "updatedAt": "2021-01-26T21:40:37.307Z",
-    "ProductId": 2,
-    "Product": {
-        "id": 2,
-        "name": "macbook pro",
-        "image_url": "https://i.pcmag.com/imagery/reviews/038Dr5TVEpwIv8rCljx6UcF-13..1588802180.jpg",
-        "category": "electronics",
-        "price": 2000000,
-        "stock": 5
-    },
-    "User": {
-        "id": 1,
-        "email": "user@mail.com"
+        "id": 17,
+        "UserId": 1,
+        "status": false,
+        "quantity": 5,
+        "createdAt": "2021-01-27T17:36:20.081Z",
+        "updatedAt": "2021-01-27T19:01:35.348Z",
+        "ProductId": 1,
+        "Product": {
+            "id": 1,
+            "name": "nice headphones",
+            "image_url": "https://media.wired.com/photos/5e7164aeb9399f00096a2ae6/1:1/w_1800,h_1800,c_limit/Gear-Mont-Blanc-Smart-Headphones-Gold-Front-SOURCE-Mont-Blanc.jpg",
+            "category": "electronics",
+            "price": 120000,
+            "stock": 5
+        },
+        "User": {
+            "id": 1,
+            "email": "user@mail.com"
+        }
     }
-}
+    ```
+
+* **Error Response:**
+
+  * **Code:** 404 Not Found <br />
+      **Content:** 
+      ```
+      {
+      'errors': [
+        'Not found'
+      ]
+      }
+      ```
+
+* **Sample Call:**
+
+    `localhost:3000/carts/:cartId`
+
+
+**Update the Quantity of a Cart**
+----
+
+* **URL**
+  /carts/:cartId
+
+* **Method:** 
+  `PATCH`
+
+* **Headers**
+
+  access_token
+
+* **URL Params**
+
+    `cartId=[integer]` required
+
+* **Data Params**
+    
+    **Content:** 
+
+    ```
+    {
+    "quantity": 1,
+    "ProductId": 1
+    }
+    ```
+
+* **Success Response:**
+  
+  * **Code:** 200 OK <br />
+  **Content:** 
+    ```
+    {
+    "messages": ["Cart updated"]
+    }
+    ```
+
+* **Error Response:**
+
+  * **Code:** 404 Not Found <br />
+      **Content:** 
+      ```
+      {
+      'errors': [
+        'Not found'
+      ]
+      }
+      ```
+
+    OR
+
+  * **Code:** 400 Bad Request <br />
+      **Content:** 
+      ```
+      {
+      'errors': [
+        'Not enough stock'
+      ]
+      }
+      ```
+
+* **Sample Call:**
+
+    `localhost:3000/carts/:cartId`
+
+**Delete a product from Cart**
+----
+
+* **URL**
+  /carts/:cartId
+
+* **Method:** 
+  `DELETE`
+
+* **Headers**
+
+  access_token
+
+* **URL Params**
+
+    `cartId=[integer]` required
+
+* **Data Params**
+    
+    **Content:** 
+
+    None
+
+* **Success Response:**
+  
+  * **Code:** 200 OK <br />
+  **Content:** 
+    ```
+    {
+    "messages": ["Product removed from cart"]
+    }
     ```
 
 * **Error Response:**
