@@ -7,7 +7,6 @@ exports.create = async (req, res, next) => {
       UserId: req.user.id,
       ProdId: +req.body.ProdId
     };
-    console.log(data);
     const cart = await Cart.create(data, {w: 1}, {returning: true});
     res.status(201).json(cart);
   } catch (error) {

@@ -8,10 +8,11 @@ const {
 } = require("../controllers/banner");
 const { authentificate, requireAdmin } = require("../middleware/auth");
 
-router.use(authentificate);
 
 router.get("/", banners);
 router.get("/:id", banner);
+
+router.use(authentificate);
 
 router.post("/", requireAdmin, create);
 router.put("/:id", requireAdmin, update);

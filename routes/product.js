@@ -8,11 +8,10 @@ const {
 } = require("../controllers/product");
 const { authentificate, requireAdmin } = require("../middleware/auth");
 
-
-router.use(authentificate);
-
 router.get("/", products);
 router.get("/:id", product);
+
+router.use(authentificate);
 
 router.post("/", requireAdmin, create);
 router.put("/:id", requireAdmin, update);

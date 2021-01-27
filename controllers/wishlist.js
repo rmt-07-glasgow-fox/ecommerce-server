@@ -6,7 +6,6 @@ exports.create = async (req, res, next) => {
       UserId: req.user.id,
       ProdId: +req.body.ProdId,
     };
-    console.log(data);
     const wishlist = await Wishlist.create(data, { w: 1 }, { returning: true });
     res.status(201).json(wishlist);
   } catch (error) {

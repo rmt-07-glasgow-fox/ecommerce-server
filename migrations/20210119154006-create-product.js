@@ -20,6 +20,9 @@ module.exports = {
       stock: {
         type: Sequelize.INTEGER,
       },
+      CatId: {
+        type: Sequelize.INTEGER,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

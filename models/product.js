@@ -15,6 +15,8 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'ProdId',
         otherKey: 'UserId'
       });
+
+      Product.belongsTo(models.Category, { foreignKey: 'CatId'})
     }
   }
   Product.init(
@@ -72,6 +74,23 @@ module.exports = (sequelize, DataTypes) => {
           isNumeric: {
             args: true,
             msg: "Stock must be number",
+          },
+        },
+      },
+      CatId: {
+        type: DataTypes.INTEGER,
+        validate: {
+          notEmpty: {
+            args: true,
+            msg: "CatId is required",
+          },
+          min: {
+            args: [0],
+            msg: "CatId can not less than 0",
+          },
+          isNumeric: {
+            args: true,
+            msg: "CatId must be number",
           },
         },
       },
