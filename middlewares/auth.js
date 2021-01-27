@@ -6,19 +6,23 @@ const authenticate = async (req, res, next) => {
   try {
     if (req.headers.access_token) {
       const decodedPayload = await verifyToken(req.headers.access_token)
-      const foundUser = await User.findOne({
-        where: {
-          email: decodedPayload.email
-        }
-      })
-      if (!foundUser) {
-        next({ name: 'ResourceNotFound' })
+      if (!decodedPayload) {
+        next({ name: 'JsonWebTokenError' })
       } else {
-        req.user = {
-          id: decodedPayload.id,
-          role: decodedPayload.role
+        const foundUser = await User.findOne({
+          where: {
+            email: decodedPayload.email
+          }
+        })
+        if (!foundUser) {
+          next({ name: 'ResourceNotFound' })
+        } else {
+          req.user = {
+            id: decodedPayload.id,
+            role: decodedPayload.role
+          }
+          next()
         }
-        next()
       }
     } else {
       next({ name: 'NoCredentials' })

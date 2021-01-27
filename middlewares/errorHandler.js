@@ -38,6 +38,10 @@ const errorHandler = (err, req, res, next) => {
         errors = err.errors.map(error => error.message)
         res.status(409).json({ errors })
         break
+      case 'JsonWebTokenError':
+        errors.push('Invalid credentials')
+        res.status(401).json({ errors })
+        break
       default:
         errors = err.errors.map(error => error.message)
         res.status(400).json({
