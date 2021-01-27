@@ -1,20 +1,19 @@
-const { Cart, Product, ProductCart } = require('../models');
+const { Cart, Product, ProductCart, Category } = require('../models');
 
 class CartController {
   static async getAll(req, res, next) {
     try {
       const cart = await Cart.findAll({
-        where: {
-          userId: req.user.id
-        },
+        where: { userId: req.user.id },
         include: [{
           model: Product,
           as: 'product',
-          through: ProductCart
-        }]
+          include: [{ model: Category, as: 'category', attributes: ['name'] }],
+          attributes: { exclude: ['createdAt', 'updatedAt', 'userId'] },
+          through: { model: ProductCart, attributes: ['id', 'quantity', 'totalPrice'] },
+        }],
+        attributes: { exclude: ['createdAt', 'updatedAt'] }
       })
-
-      console.log(cart);
 
       return res.status(200).json(cart)
     } catch (error) {
@@ -66,11 +65,18 @@ class CartController {
 
   static async destroy(req, res, next) {
     try {
-      const { productId, cartId } = req.params
-      const cart = await CartProduct.findByOne({ where: { productId, cartId } });
+      const cart = await ProductCart.findOne({ where: { id: req.params.id } });
       if (!cart) return next({ name: 'notFound' });
 
       await cart.destroy();
+
+      // SUM TOTAL PAYMENT
+      let totalPayment = await ProductCart.sum('totalPrice', { where: { cartId: cart.cartId } });
+
+      if (isNaN(totalPayment)) totalPayment = 0
+
+      // THEN UPDATE TOTAL PAYMENT
+      await Cart.update({ totalPayment }, { where: { id: cart.cartId } })
 
       return res.status(200).json({
         message: 'successfully remove cart'
