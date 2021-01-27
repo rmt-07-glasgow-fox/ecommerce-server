@@ -10,7 +10,7 @@ const isLoginCustomer = require('../middlewares/isLoginCustomers');
 router.get('/', (req, res) => {
   res.status(200).json({
     status: 'success',
-    message: 'Hello CMS'
+    message: 'HELLO NIKECOMMERCE'
   })
 })
 
@@ -22,8 +22,8 @@ router.use('/banners', bannerRouter);
 
 // CUSTOMER ROUTER
 router.use(isLoginCustomer);
-router.use(cartRouter)
-router.use(wishlistRouter)
+router.use('/cart', cartRouter)
+router.use('/wishlist', wishlistRouter)
 
 
 module.exports = router

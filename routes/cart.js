@@ -1,8 +1,8 @@
 const router = require('express').Router();
 const cartController = require('../controllers/cartController')
 
-router.get('/cart', cartController.getAll);
-router.post('/cart/add', cartController.createOrUpdateCart);
-router.delete('/cart/:id', cartController.destroy);
+router.get('/', cartController.getAll);
+router.post('/add', cartController.createOrUpdateCart);
+router.delete('/:id', cartController.destroy);
 
 module.exports = router
