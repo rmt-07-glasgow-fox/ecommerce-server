@@ -4,9 +4,6 @@ const router = require('express').Router()
 const ProductController = require('../controllers/productController')
 const { authorizeAdminOnly, checkBrandId, checkProductId } = require('../middleware/auth')
 
-// user
-router.get('/user', ProductController.showProduct)
-
 // admin
 router.get('/', authorizeAdminOnly, ProductController.showProduct)
 router.get('/:idProduct', authorizeAdminOnly, checkProductId, ProductController.showProductById)
