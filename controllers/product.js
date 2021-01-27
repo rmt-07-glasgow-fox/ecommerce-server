@@ -69,6 +69,21 @@ class ProductController {
     }
   }
 
+  static async updateStock(req,res,next) {
+    try {
+      const { id } = req.params
+      const { stock } = req.body
+      const product = await Product.update({stock},{
+        where: {id},
+        returning: true
+      })
+      if(product[0] === 1) res.status(200).json(product[1][0])
+      else next({name: 'ErrorNotFound'})
+    } catch (err) {
+      next(err)
+    }
+  }
+
   static async delete(req,res,next){
     try {
       const { id } = req.params

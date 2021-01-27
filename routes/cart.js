@@ -9,6 +9,7 @@ router.route('/')
   .post(CartController.create)
   .patch(CartController.updateStatus)
 router.route('/:id')
+  .patch(authorizeCart, CartController.updateQuantity)
   .delete(authorizeCart, CartController.delete)
 
 module.exports = router

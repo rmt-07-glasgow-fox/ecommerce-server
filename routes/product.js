@@ -9,6 +9,7 @@ router.get('/:id', ProductController.showOne)
 router.use(authenticate)
 router.post('/',authorize, ProductController.create)
 router.route('/:id')
+  .patch(ProductController.updateStock)
   .put(authorizeProduct, ProductController.edit)
   .delete(authorizeProduct, ProductController.delete)
 

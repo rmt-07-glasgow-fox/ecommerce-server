@@ -59,6 +59,20 @@ class CartController {
     }
   }
 
+  static async updateQuantity(req,res,next){
+    try {
+      const { id } = req.params
+      const { quantity } = req.body
+      const cart = await Cart.update({quantity},{
+        where: {id},
+        returning: true
+      })
+      res.status(200).json(cart[1][0])
+    } catch (err) {
+      next()
+    }
+  }
+
   static async delete(req,res,next){
     try {
       const { id } = req.params

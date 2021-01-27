@@ -16,8 +16,18 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Cart.init({
-    UserId: DataTypes.INTEGER,
-    ProductId: DataTypes.INTEGER,
+    UserId: {
+      type: DataTypes.INTEGER,
+      validate: {
+        notEmpty: 'user id must be filled'
+      }
+    },
+    ProductId: {
+      type: DataTypes.INTEGER,
+      validate: {
+        notEmpty: 'product id must be filled'
+      }
+    },
     quantity: {
       type: DataTypes.INTEGER,
       validate: {
