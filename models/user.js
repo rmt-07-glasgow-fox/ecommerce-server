@@ -15,7 +15,6 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.Product, { as: 'product', foreignKey: 'userId' });
       User.hasMany(models.Wishlist, { as: 'wishlist', foreignKey: 'userId' });
       User.hasOne(models.Cart, { as: 'cart', foreignKey: 'userId' });
-      User.hasMany(models.Wishlist, { as: 'wishlist', foreignKey: 'userId' })
     }
   };
   User.init({
