@@ -12,26 +12,28 @@ class HistoryController {
             })
             id.push(req.body[i].allCartId)
         }
-        Cart.destroy({where: {id: id}})
-            .then(data => {
-                if (data) {
-                    return History.bulkCreate(obj)
-                    .then(data => {
-                        res.status(201).json(data)
-                    })
-                    .catch(error => {
-                        next(error)
-                    })
-                } else {
-                    throw {
-                        status: 404, 
-                        message: 'cart not found'
+        History.bulkCreate(obj)
+        .then(data => {
+            for (let i = 0; i < id.length; i++) {
+                return Cart.destroy({where: {id: id[i]}})
+                .then(data => {
+                    if (data) {
+                        res.status(200).json({message: 'cart deleted'})
+                    } else {
+                        throw {
+                            status: 404, 
+                            message: 'cart not found'
+                        }
                     }
-                }
-            })
-            .catch(error => {
-                next(error)
-            })
+                })
+                .catch(error => {
+                    next(error)
+                })
+            }
+        })
+        .catch(error => {
+            next(error)
+        })
     }
 
     static fetchHistory (req,res,next) {
