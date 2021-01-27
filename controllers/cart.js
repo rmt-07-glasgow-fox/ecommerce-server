@@ -6,11 +6,7 @@ class cartController {
         Cart.findAll({
             where: {
                 userId: +req.user.id,
-            },
-            include: [
-                {
-                    model: Product
-                }]
+            }
         })
             .then(data => {
                 res.status(200).json(data)
