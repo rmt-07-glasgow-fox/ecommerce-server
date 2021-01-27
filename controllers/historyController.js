@@ -14,8 +14,7 @@ class HistoryController {
         }
         History.bulkCreate(obj)
         .then(data => {
-            for (let i = 0; i < id.length; i++) {
-                return Cart.destroy({where: {id: id[i]}})
+                return Cart.destroy({where: {UserId: req.loggedInUser.id}})
                 .then(data => {
                     if (data) {
                         res.status(200).json({message: 'cart deleted'})
@@ -29,7 +28,6 @@ class HistoryController {
                 .catch(error => {
                     next(error)
                 })
-            }
         })
         .catch(error => {
             next(error)
