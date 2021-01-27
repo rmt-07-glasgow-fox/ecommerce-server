@@ -1,4 +1,4 @@
-const { User } = require('../models')
+const { User, Transaction } = require('../models')
 const { comparePassword } = require('../helpers/bcryptjs')
 const { generateAccessToken } = require('../helpers/jsonwebtoken')
 const {OAuth2Client} = require('google-auth-library');
