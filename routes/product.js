@@ -20,7 +20,7 @@ router.delete('/wishlist/:id', wishlistController.delete)
 router.get('/cart', cartController.getCart)
 router.post('/cart', cartController.insert)
 router.patch('/cart/:id', cartController.patchQuantity)
-router.patch('/checkout/:id', cartController.checkout)
+router.patch('/checkout/', cartController.checkout)
 
 
 router.delete('/cart/:id', cartController.delete)
