@@ -1,6 +1,6 @@
 const { User, Sequelize } = require('../models')
 const { checkPassword } = require('../helpers/bcryptjs.js')
-const { generateToken } = require('../helpers/jwt')
+const { generateToken, checkToken } = require('../helpers/jwt')
 
 module.exports = class ControllerAuth {
     static register(req, res, next) {
@@ -22,9 +22,8 @@ module.exports = class ControllerAuth {
     static async login(req, res, next) {
         try {
             const { email, password, role } = req.body
-
-            if (!email && !password) next({ name: "emptyLogin" })
             
+            await User.build({ email, password, role }).validate()
             const found = await User.findOne({
                 where: Sequelize.and({
                     email: email,
@@ -33,7 +32,6 @@ module.exports = class ControllerAuth {
             })
 
             if (!found) next({ name: "loginFailed" })
-
             const match = checkPassword(password, found.password)
 
             if (!match) next({ name: "loginFailed" })
@@ -78,6 +76,23 @@ module.exports = class ControllerAuth {
 
             if (!hapus) next({ name: "notFound" })
             else return res.status(200).json({ message: "User has been deleted" })
+        } catch (err) {
+            next(err)
+        }
+    }
+
+    static async tokening(req, res, next) {
+        try {
+            const user = checkToken(req.headers.access_token)
+            const found = await User.findByPk(user.id)
+    
+            if (!found) next({ name: 'notLogin' })
+            else {
+                return res.status(200).json({
+                    id: found.id,
+                    email: found.email
+                })
+            }
         } catch (err) {
             next(err)
         }

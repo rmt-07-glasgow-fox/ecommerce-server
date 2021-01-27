@@ -18,15 +18,19 @@ module.exports = (sequelize, DataTypes) => {
   User.init({
     email: {
       type: DataTypes.STRING,
+      allowNull: false,
       validate: {
         isEmail: { msg: "Error format Email" },
-        notEmpty: { msg: "Email cant be Empty" }
+        notEmpty: { msg: "Email cant be Empty" },
+        notNull: { msg: "Email is required" }
       }
     },
     password: {
       type: DataTypes.STRING,
+      allowNull: false,
       validate: {
         notEmpty: { msg: "Password cant be Empty" },
+        notNull: { msg: "Password is required" },
         len: {
           args: [5],
           msg: "Password need at least 5 characters"
@@ -50,6 +54,11 @@ module.exports = (sequelize, DataTypes) => {
     hooks: {
       beforeCreate: (instance, option) => {
         instance.password = hashPassword(instance.password)
+      },
+      beforeBulkCreate: (instance, option) => {
+        instance = instance.map(el => {
+          el.password = hashPassword(el.password)
+        })
       }
     }
   });
