@@ -4,7 +4,31 @@ const { Cart, Product, User } = require('../models/')
 class CartController {
   // for history
   static fetchAllCarts (req, res, next) {
+    const UserId = +req.user.id
 
+    Cart.findAll({
+      where: {
+        UserId
+      },
+      include: [{
+        model: Product, attributes: {
+          exclude: ['createdAt', 'updatedAt']
+        }
+      }, {
+        model: User, attributes: {
+          exclude: ['createdAt', 'updatedAt', 'password', 'role']
+        }
+      }
+      ]
+    })
+      .then(carts => {
+        if (!carts) {
+          next({ name: 'ResourceNotFound' })
+        } else {
+          res.status(200).json(carts)
+        }
+      })
+      .catch(next)
   }
 
   // for carts page
