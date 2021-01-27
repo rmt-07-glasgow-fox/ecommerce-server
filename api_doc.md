@@ -24,6 +24,13 @@ E-commerce CMS is an application to manage your products as admin. This app has 
 - `PATCH /banners/:id`
 - `DELETE /banners/:id`
 
+## Cart
+- `POST /carts`
+- `GET /carts`
+- `PATCH /minitem/:id`
+- `PATCH /additem/:id`
+- `DELETE /carts/:id`
+
 ## RESTful endpoints
 ### POST /products
 
@@ -610,6 +617,216 @@ _Response (200)_
 ```json
 {
   "message": "banner success to delete"
+}
+```
+#### Error
+
+_Response (404 - Error Not Found)_
+```json
+{
+  "erros": ["error not found"]
+}
+```
+
+_Response (500 - Internal Server Error)_
+```json
+{
+  "errors": ["internal server error"]
+}
+```
+---
+
+### POST /carts
+> add to carts
+
+_Request Header_
+```json
+{
+  "access_token": "<your access token>"
+}
+```
+
+_Request Body_
+```json
+{
+  "UserId": 1,
+  "ProductId": 1,
+  "quantity": 1,
+  "status": false,
+}
+```
+#### Success
+
+_Response (201 - Created)_
+```json
+{
+  "id": 1,
+  "UserId": 1,
+  "ProductId": 1,
+  "quantity": 1,
+  "status": false,
+  "createdAt": "2021-01-04T14:23:52.990Z",
+  "updatedAt": "2021-01-04T14:23:52.990Z"
+}
+```
+#### Error
+
+_Response (500 - Internal Server Error)_
+```json
+{
+  "errors": ["internal server error"]
+}
+```
+---
+### GET /carts
+
+> Get all carts user have
+
+_Request Header_
+```json
+{
+  "access_token": "<your access token>"
+}
+```
+
+_Request Body_
+```
+not needed
+```
+#### Success
+
+_Response (200)_
+```json
+{
+  "data": [
+    {
+      "id": 1,
+      "UserId": 1,
+      "ProductId": 1,
+      "quantity": 1,
+      "status": false,
+      "createdAt": "2021-01-26T14:27:55.097Z",
+      "updatedAt": "2021-01-26T16:22:01.884Z",
+      "Product": {
+        "id": 1,
+        "name": "Iphone 12",
+        "image_url": "https://blog.amartha.com/wp-content/uploads/2020/11/iphone-12_169.jpeg",
+        "price": 18999000,
+        "stock": 99,
+        "createdAt": "2021-01-20T05:47:10.706Z",
+        "updatedAt": "2021-01-21T04:52:02.142Z"
+      }
+    }
+  ],
+  "totalBayar": 18999000
+}
+```
+#### Error
+
+_Response (500 - Internal Server Error)_
+```json
+{
+  "errors": ["internal server error"]
+}
+```
+---
+### PATCH /additem/:id
+
+> Add item quantity in cart
+
+_Request Header_
+```json
+{
+  "access_token": "<your access token>"
+}
+```
+
+_Request Params_
+```json
+{ "id": 1 }
+```
+#### Success
+
+_Response (200)_
+```json
+{
+  "id": 1,
+  "UserId": 1,
+  "ProductId": 1,
+  "quantity": 2,
+  "status": false,
+  "createdAt": "2021-01-04T14:23:52.990Z",
+  "updatedAt": "2021-01-04T14:23:53.990Z"
+}
+```
+#### Error
+
+_Response (500 - Internal Server Error)_
+```json
+{
+  "errors": ["internal server error"]
+}
+```
+---
+### PATCH /minitem/:id
+
+> Min item quantity in cart
+
+_Request Header_
+```json
+{
+  "access_token": "<your access token>"
+}
+```
+
+_Request Params_
+```json
+{ "id": 1 }
+```
+#### Success
+
+_Response (200)_
+```json
+{
+  "id": 1,
+  "UserId": 1,
+  "ProductId": 1,
+  "quantity": 1,
+  "status": false,
+  "createdAt": "2021-01-04T14:23:52.990Z",
+  "updatedAt": "2021-01-04T14:23:55.990Z"
+}
+```
+#### Error
+
+_Response (500 - Internal Server Error)_
+```json
+{
+  "errors": ["internal server error"]
+}
+```
+---
+### DELETE /carts/:id
+
+> remove data cart by id
+
+_Request Header_
+```json
+{
+  "access_token": "<your access token>"
+}
+```
+
+_Request Params_
+```json
+{ "id": 1 }
+```
+#### Success
+
+_Response (200)_
+```json
+{
+  "message": "Cart success to delete"
 }
 ```
 #### Error
