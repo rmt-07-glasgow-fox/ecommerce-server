@@ -52,7 +52,6 @@ class UserController{
   }
 
   static customerRegister(req, res, next){
-    console.log(req.body);
     User.create({
       username: req.body.username,
       email: req.body.email,

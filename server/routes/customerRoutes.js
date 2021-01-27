@@ -1,5 +1,4 @@
 const { UserController, BannerController, CategoryController } = require('../controllers')
-// const { auntheticate, authorized } = require('../middlewares')
 const express = require('express')
 const router = express.Router()
 
