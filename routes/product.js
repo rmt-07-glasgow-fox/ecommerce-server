@@ -3,9 +3,10 @@ const ProductController = require('../controllers/productController')
 const { authorization } = require('../middleware/auth')
 
 router.get('/',ProductController.get)
+router.put('/:id/stock',ProductController.updateStock)
 router.use(authorization)
-router.post('/',ProductController.create)
 router.put('/:id',ProductController.update)
+router.post('/',ProductController.create)
 router.delete('/:id',ProductController.delete)
 
 

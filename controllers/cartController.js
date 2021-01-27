@@ -1,10 +1,10 @@
-const { Product } = require('../models')
+const { Cart } = require('../models')
 
-class ProductController {
+class CartController {
     static async create(req,res,next){
         try {
             let data = req.body
-            let result = await Product.create(data)
+            let result = await Cart.create(data)
             if(result) res.status(201).json(result)
             
         } catch (error) {
@@ -14,7 +14,12 @@ class ProductController {
 
     static async get(req,res,next){
         try {
-            let result = await Product.findAll()
+            let result = await Cart.findAll({
+                where:{
+                    UserId: req.user.id
+                },
+                include:{model:'Product'}
+            })
             res.status(200).json(result)            
         } catch (error) {
             next(error)
@@ -24,24 +29,7 @@ class ProductController {
     static async update(req,res,next){
         try {
             let data = req.body
-            let result = await Product.update(data,{
-                where:{
-                    id: req.params.id
-                },
-                returning:true
-            })
-            if (result){
-                res.status(200).json(result[1][0])
-            }
-        } catch (error) {
-            next(error)
-        }
-    }
-
-    static async updateStock(req,res,next){
-        try {
-            let {stock} = req.body
-            let result = await Product.update({stock},{
+            let result = await Cart.update(data,{
                 where:{
                     id: req.params.id
                 },
@@ -57,13 +45,13 @@ class ProductController {
 
     static async delete(req,res,next){
         try {
-            let result = await Product.destroy({
+            let result = await Cart.destroy({
                 where:{
                     id: req.params.id
                 }
             })
             if(result){
-                res.status(200).json({message:'delete product success'})
+                res.status(200).json({message:'delete cart success'})
             }
         } catch (error) {
             next(error)
@@ -71,4 +59,4 @@ class ProductController {
     }
 }
 
-module.exports = ProductController
+module.exports = CartController

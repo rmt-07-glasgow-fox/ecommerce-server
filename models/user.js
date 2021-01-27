@@ -12,6 +12,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      User.belongsToMany(models.Product,{
+        through: models.Cart
+      })
     }
   };
   User.init({
@@ -45,6 +48,9 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     hooks:{
       beforeCreate: (user,opt)=>{
+        if(!user.role){
+          user.role = 'customer'
+        }
         user.password = hash(user.password)
       }
     },

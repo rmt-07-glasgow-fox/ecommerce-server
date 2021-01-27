@@ -13,18 +13,13 @@ class AuthController {
             })
             if(result){
                 if(compare(password,result.password)){
-                    if(result.role == 'admin'){
-                        let payload = {
-                            id: result.id,
-                            email: result.email,
-                            role: result.role
-                        }
-                        let access_token = generateToken(payload)
-                        res.status(200).json({access_token})
-
-                    }else{
-                        next({name:'Unauthorized',message:'Only admins !'})
+                    let payload = {
+                        id: result.id,
+                        email: result.email,
+                        role: result.role
                     }
+                    let access_token = generateToken(payload)
+                    res.status(200).json({access_token})
                 }else{
                     next({name:'BadRequest',message:'invalid email / password'})
                 }
@@ -32,6 +27,21 @@ class AuthController {
                 next({name:'BadRequest',message:'invalid email / password'})
             }
             
+        } catch (error) {
+            next(error)
+        }
+    }
+    static async register (req,res,next){
+        try {
+            const data = req.body
+            let result = await User.create(data)
+            if(result){
+                let response = {
+                    id: result.id,
+                    email: result.email
+                }
+                res.status(201).json(response)
+            }            
         } catch (error) {
             next(error)
         }
