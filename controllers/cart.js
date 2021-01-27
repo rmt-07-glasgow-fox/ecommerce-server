@@ -23,7 +23,7 @@ class CartController {
     })
       .then(carts => {
         if (!carts) {
-          next({ name: 'ResourceNotFound' })
+          throw { name: 'ResourceNotFound' }
         } else {
           res.status(200).json(carts)
         }
@@ -49,7 +49,7 @@ class CartController {
     })
       .then((foundCart) => {
         if (!foundCart) {
-          next({ name: 'ResourceNotFound' })
+          throw { name: 'ResourceNotFound' }
         } else {
           res.status(200).json(foundCart)
         }
@@ -64,7 +64,6 @@ class CartController {
       const quantity = +req.body.quantity
       const ProductId = +req.body.ProductId
 
-      console.log('>>>>', quantity, ProductId)
       let currentCart
       let productStock = 0
 
@@ -92,17 +91,17 @@ class CartController {
           quantity: +quantity
         })
         const message = ['Product added']
-        res.status(201).json({ message })
+        res.status(201).json({ messages })
       } else {
         const newQuantity = Number(currentCart.quantity) + Number(quantity)
         if (newQuantity <= productStock) {
           let updatedCart = await currentCart.update({
             quantity: newQuantity
           })
-          const message = ['Product added']
-          res.status(200).json({ message })
+          const messages = ['Product added']
+          res.status(200).json({ messages })
         } else {
-          next({ name: 'StockExceeded' })
+          throw { name: 'StockExceeded' }
         }
       }
 
@@ -131,21 +130,21 @@ class CartController {
         productStock = product.stock
         currentCart = await Cart.findByPk(cartId)
       } else {
-        next({ name: 'StockExceeded' })
+        throw { name: 'StockExceeded' }
       }
 
       if (!currentCart) {
-        next({ name: 'ResourceNotFound' })
+        throw { name: 'ResourceNotFound' }
       } else {
         const newQuantity = quantity
         if (newQuantity <= productStock) {
           let updatedCart = await currentCart.update({
             quantity: newQuantity
           })
-          const message = ['Cart updated']
-          res.status(200).json({ message })
+          const messages = ['Cart updated']
+          res.status(200).json({ messages })
         } else {
-          next({ name: 'StockExceeded' })
+          throw { name: 'StockExceeded' }
         }
       }
     } catch (err) {
@@ -164,11 +163,11 @@ class CartController {
     })
       .then(result => {
         if (result === 1) {
-          const message = ['Product removed from cart']
+          const messages = ['Product removed from cart']
 
-          res.status(200).json({ message })
+          res.status(200).json({ messages })
         } else {
-          next({ name: 'ResourceNotFound' })
+          throw { name: 'ResourceNotFound' }
         }
       })
       .catch(next)
