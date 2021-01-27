@@ -45,10 +45,10 @@ exports.register = async (req, res, next) => {
     return next({ name: 'RegisterValidation' });
   }
   const body = {
-    firstname: req.body.firstname,
-    lastname: req.body.lastname,
-    email: req.body.email,
-    password: req.body.password,
+    firstname,
+    lastname,
+    email,
+    password,
   };
 
   try {

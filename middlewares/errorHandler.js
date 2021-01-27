@@ -14,6 +14,8 @@ module.exports = (err, req, res, next) => {
         };
       });
       res.status(400).json([errorMessage]);
+    } else if (err.name === 'RegisterValidation') {
+      res.status(400).json([{ message: 'Must provide firstname, lastname, email and password' }]);
     } else if (err.name === 'LoginValidation') {
       res.status(422).json([{ message: 'Must provide email and password' }]);
     } else if (err.name === 'LoginFailed') {
