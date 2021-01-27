@@ -24,9 +24,9 @@ E-Commerce CMS is a content management system for our E-commerce site. This app 
 - PATCH /carts/:id
 - DELETE /carts/:id
 
-### POST /login
+### POST /register
 
-> User login
+> User register
 
 _Request Header_
 
@@ -47,8 +47,10 @@ _Response (200 - Ok)_
 
 ```
 {
-    "id": < new user id >,
-    "email": "< new user email >"
+    "id": < user id >,
+    "email": "< user email >",
+    "role": "< user role >",
+    "access_token": "< jwt access token >"
 }
 ```
 

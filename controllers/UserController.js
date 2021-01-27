@@ -11,9 +11,18 @@ class UserController {
       password,
     })
       .then((response) => {
-        res.status(201).json({
+        const payload = {
           id: response.id,
           email: response.email,
+          role: response.role,
+        };
+
+        const access_token = createToken(payload);
+        res.status(200).json({
+          id: response.id,
+          email: response.email,
+          role: response.role,
+          access_token,
         });
       })
       .catch((err) => next(err));
