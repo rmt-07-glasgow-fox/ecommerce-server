@@ -1,5 +1,6 @@
 const UserController = require("./UserController")
 const ProductController = require("./ProductController")
+const CartController = require("./CartController")
 
 class Controller {
   static getRootHandler(req, res) {
@@ -11,4 +12,5 @@ module.exports = {
   Controller,
   UserController,
   ProductController,
+  CartController
 }

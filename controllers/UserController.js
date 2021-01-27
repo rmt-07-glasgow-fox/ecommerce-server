@@ -44,6 +44,18 @@ class UserController {
         next(err)
       })
   }
+  static register (req, res, next) {
+    const payload = {
+      email: req.body.email,
+      password: req.body.password,
+      role: ''
+    }
+    User.create(payload)
+    res.status(201).json(payload)
+    .catch (err => {
+      next(err)
+    })
+  }
 }
 
 module.exports = UserController

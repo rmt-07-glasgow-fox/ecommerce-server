@@ -55,6 +55,15 @@ class ProductController {
       next(err);
     }
   }
+
+  static async findProd(req, res, next) {
+    try {
+
+    }
+    catch{
+      next(err)
+    }
+  }
 }
 
 module.exports = ProductController
