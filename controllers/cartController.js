@@ -21,6 +21,19 @@ class CartController {
         next(err)
       })
   }
+  static getHistories (req, res, next) {
+    Cart.findAll({
+      where: { UserId: req.user.id, status: true },
+      include: [Product],
+      order: [['updatedAt', 'ASC']]
+    })
+      .then(data => {
+        res.status(200).json(data)
+      })
+      .catch(err => {
+        next(err)
+      })
+  }
   static addToCart (req, res, next) {
     let isAdd = ''
     let stock = 0
@@ -128,6 +141,41 @@ class CartController {
         res.status(200).json({
           message: 'Cart success to delete'
         })
+      })
+      .catch(err => {
+        next(err)
+      })
+  }
+  static checkout (req, res, next) {
+    Cart.findAll({
+      where: {
+        UserId: req.user.id,
+        status: false
+      },
+      include: [Product]
+    })
+      .then(data => {
+        data.map(cart => {
+          if (cart.Product.stock < cart.quantity) {
+            throw { name: 'outOfStock' }
+          }
+        })
+        data.map(cart => {
+          Product.update({ stock: cart.Product.stock - cart.quantity },
+            { where: { id: cart.ProductId }
+          })
+        })
+        const dataUpdate = data.map(cart => {
+          Cart.update({ status: true }, {
+              where: { id: cart.id },
+              returning: true
+          })
+        })
+        console.log(dataUpdate)
+        return Promise.all(dataUpdate)
+      })
+      .then(data => {
+        res.status(200).json(data)
       })
       .catch(err => {
         next(err)
