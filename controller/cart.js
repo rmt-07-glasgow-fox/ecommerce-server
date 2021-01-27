@@ -18,20 +18,50 @@ class Controller {
   static async createCart (req, res) {
     const UserId = req.user.id
     const ProductId = req.params.id
-    const quantity = 1
-    const data = await Product.findOne({
-      where: { id: UserId }
-    })
-    const cost = data.price * quantity
+    
+    const dataCart = await Cart.findOne({ where: { ProductId }})
+    const dataProduct = await Product.findOne({ where: { id: ProductId }})
     try {
-      const data = {
-        UserId,
-        ProductId,
-        quantity,
-        cost
+      if (!dataCart) {
+        // kalo ga ada data cart nya harus ngebuat cart baru
+        let quantity = 1
+        let data = {
+          UserId,
+          ProductId,
+          quantity,
+          cost: dataProduct.price * quantity
+        }
+        const createCart = await Cart.create(data)
+        let stock = dataProduct.stock - 1
+        const dataUpdate = {
+          name: dataProduct.name,
+          image_url: dataProduct.image_url,
+          price: dataProduct.price,
+          stock
+        }
+        const updateProduct = await Product.update(dataUpdate, { where: { id: ProductId}})
+        res.status(201).json(createCart)
+      } else {
+        // kalo ada cart nya kita edit quantity aja
+        let quantity = dataCart.quantity + 1
+        const editCart = {
+          UserId,
+          ProductId,
+          quantity: dataCart.quantity+=1,
+          cost: dataProduct.price * quantity
+        }
+        const newCart = await Cart.update(editCart, { where: { ProductId }})
+        let stock = dataProduct.stock - 1
+        const editProduct = {
+          name: dataProduct.name,
+          image_url: dataProduct.image_url,
+          price: dataProduct.price,
+          price: dataProduct.price,
+          stock
+        }
+        const newProduct = await Product.update(editProduct, { where: { id: ProductId}})
+        res.status(200).json(newCart)
       }
-      const create = await Cart.create(data)
-      res.status(200).json(create)
     } catch (err) {
       res.status(500).json(err)
     }
@@ -64,10 +94,6 @@ class Controller {
         const edit = await Cart.update(update, {
           where: { id: cartId }
         })
-
-        console.log(data.quantity, 'sebelom')
-        console.log(quantity, 'sesudah ====')
-        
         res.status(200).json(edit)
       }
     } catch (err) {
@@ -76,7 +102,6 @@ class Controller {
   }
   static async deleteCart (req, res) {
     const id = req.params.id
-    console.log(id, '========= id');
     try {
       const data = await Cart.findOne({
         where: { id },

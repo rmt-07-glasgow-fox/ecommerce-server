@@ -3,10 +3,8 @@ const { verifyJWT } = require('../helper/jwt')
 
 async function authenticate (req, res, next) {
   try {
-    // console.log(req.headers, 'headers =====')
     console.log(req.url)
     const decode = verifyJWT(req.headers.access_token)
-    // console.log(decode, 'decode =====')
     const data = await User.findOne({
       where: { email: decode.email}
     })
@@ -24,7 +22,6 @@ async function authenticate (req, res, next) {
   }
 }
 async function authorization (req, res, next) {
-    // console.log(req.user.role);
   try {
     if (req.user.role.toLowerCase() === 'admin') next()
     else {
@@ -36,22 +33,5 @@ async function authorization (req, res, next) {
     next(err)
   }
 }
-// async function customerAuthorization (req, res, next) {
-//   try {
-//     const find = await Cart.findOne({
-//       where: { UserId: req.user.id}
-//     })
-//     console.log(req.user)
-//     console.log(find.UserId)
-//     if (find) next()
-//     else {
-//       res.status(200).json({
-//         msg: 'Your not allowed'
-//       })
-//     }
-//   } catch (err) {
-//     next(err)
-//   }
-// }
 
 module.exports = { authenticate, authorization }
