@@ -17,11 +17,9 @@ class ProductController {
    
     Product.create(newProduct)
       .then(product => {
-        console.log('lah ini produk', product)
         return res.status(201).json(product)
       })
       .catch(err => {
-        console.log(err)
         next(err)
       })
   }

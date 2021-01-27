@@ -1,6 +1,6 @@
 # Kanban API
 
-Style By Manda is an application to manage store products. This app has:
+Style By Manda is an ecommerce . This app has:
 
 - RESTful endpoint for kanban's CRUD operation
 - JSON formatted response
@@ -22,6 +22,12 @@ Style By Manda is an application to manage store products. This app has:
 - `GET /banners/:id`
 - `PUT /banners/:id`
 - `DELETE /banners/:id`
+<!-- Carts -->
+- `GET /carts`
+- `POST /carts`
+- `PATCH /banners/increase`
+- `PATCH /banners/decrease`
+- `DELETE /banners`
 
 &nbsp;
 
@@ -698,6 +704,310 @@ content:
 _Error Response_
 
 ```
+code: 401
+
+content:
+{
+    "message": "access denied"
+}
+
+code: 404
+
+content:
+{
+    "message": "resource not found"
+}
+
+code: 500
+
+content:
+{
+  "message" : "internal server error"
+}
+```
+
+<!-- CARTS -->
+
+# GET /carts
+
+_Request Header_
+
+```
+{
+  "access_token": "<access token>"
+}
+```
+
+_Success Response_
+
+```
+code: 200
+
+content:
+[
+    {
+        "ProductId": 8,
+        "UserId": 2,
+        "quantity": 3,
+        "status": true,
+        "createdAt": "2021-01-27T05:28:08.542Z",
+        "updatedAt": "2021-01-27T08:57:06.621Z",
+        "Product": {
+            "id": 8,
+            "name": "Yoko Knit Olive",
+            "image_url": "https://lookboutiquestore.com/wp-content/uploads/2020/01/LOOKBOUTIQUESTORE-YOKO-KNIT-OUTER-OLIVE-2-570x855.jpg",
+            "price": 390000,
+            "stock": 7,
+            "category": null,
+            "createdAt": "2021-01-20T18:14:02.029Z",
+            "updatedAt": "2021-01-20T19:35:10.139Z"
+        }
+    }
+]
+```
+
+_Error Response_
+
+```
+code: 401
+
+content:
+{
+    "message": "JWT must be provided"
+}
+
+OR
+
+code: 500
+
+content:
+{
+  "message": "internal server error"
+}
+```
+
+&nbsp;
+
+# POST /carts
+
+_Request Header_
+
+```
+{
+  "access_token": "<access token>"
+}
+```
+
+_Request Body_
+
+```
+{
+  "id": 1
+}
+```
+
+_Success Response_
+
+```
+code: 201
+
+content:
+{
+    "ProductId": 1,
+    "UserId": 2,
+    "quantity": 5,
+    "status": true,
+    "createdAt": "2021-01-26T12:36:03.813Z",
+    "updatedAt": "2021-01-26T16:14:40.203Z"
+}
+```
+
+_Error Response_
+
+```
+code: 500
+
+content:
+{
+  "message" : "internal server error"
+}
+```
+
+&nbsp;
+
+# PUT /carts/increase
+
+_Request Header_
+
+```
+{
+  "access_token": "<access token>"
+}
+```
+
+_Request Body_
+
+```
+{
+  "id": 1
+}
+```
+
+_Success Response_
+
+```
+code: 200
+
+content:
+[
+    [
+        {
+            "id": 1,
+            "ProductId": 1,
+            "UserId": 2,
+            "quantity": 2,
+            "status": true,
+            "createdAt": "2021-01-26T12:36:03.813Z",
+            "updatedAt": "2021-01-27T09:11:47.161Z"
+        },
+        1
+    ],
+    2
+]
+```
+
+_Error Response_
+
+```
+code: 400
+
+content:
+{
+  "message": "Stock not enough"
+}
+
+OR
+
+code: 401
+
+content:
+{
+    "message": "JWT must be provided"
+}
+
+OR
+
+code: 500
+
+content:
+{
+  "message" : "internal server error"
+}
+```
+
+&nbsp;
+
+# PUT /carts/decrease
+
+_Request Header_
+
+```
+{
+  "access_token": "<access token>"
+}
+```
+
+_Request Body_
+
+```
+{
+  "id": 1
+}
+```
+
+_Success Response_
+
+```
+code: 200
+
+content:
+[
+    [
+        {
+            "id": 1,
+            "ProductId": 1,
+            "UserId": 2,
+            "quantity": 1,
+            "status": true,
+            "createdAt": "2021-01-26T12:36:03.813Z",
+            "updatedAt": "2021-01-27T09:11:47.161Z"
+        },
+        1
+    ],
+    2
+]
+```
+
+_Error Response_
+
+```
+
+code: 401
+
+content:
+{
+    "message": "JWT must be provided"
+}
+
+OR
+
+code: 500
+
+content:
+{
+  "message" : "internal server error"
+}
+```
+
+&nbsp;
+
+# DELETE /carts
+
+_Request Header_
+
+```
+{
+  "access_token": "<access token>"
+}
+```
+
+_Request Body_
+
+```
+not needed
+```
+
+_Request Params_
+
+```
+id : 1
+```
+
+_Success Response_
+
+```
+code: 200
+
+content:
+{
+    "message": "Cart succesfully deleted"
+}
+```
+
+_Error Response_
+
+```
+
 code: 401
 
 content:

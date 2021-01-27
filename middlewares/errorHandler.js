@@ -22,6 +22,9 @@ function errorHandler(err, req, res, next) {
     case 'TypeError':
       res.status(404).json({message: 'resource not found'})
       break
+    case 'notEnoughStock':
+      res.status(400).json({message: 'Stock not enough'})
+      break
     default: 
       console.log(err.name)
       res.status(500).json({message: 'internal server error'})
