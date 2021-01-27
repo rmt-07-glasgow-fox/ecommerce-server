@@ -1,5 +1,6 @@
 const { Cart } = require('../models')
 const { Op } = require("sequelize");
+const { Product } = require('../models')
 
 class CartController {
     static addCart (req, res, next) {
@@ -46,7 +47,7 @@ class CartController {
     }
     
     static fetchCart (req,res,next) {
-        Cart.findAll({where: {UserId: req.loggedInUser.id}})
+        Cart.findAll({where: {UserId: req.loggedInUser.id}, include: Product})
         .then(data => {
             res.status(200).json(data)
         })

@@ -1,4 +1,5 @@
 const { History } = require('../models')
+const { Product } = require('../models')
 
 class HistoryController {
     static addHistory (req,res,next) {
@@ -17,7 +18,7 @@ class HistoryController {
     }
 
     static fetchHistory (req,res,next) {
-        History.findAll({where: {UserId: req.loggedInUser.id}})
+        History.findAll({where: {UserId: req.loggedInUser.id}, include: Product})
         .then(data => {
             res.status(200).json(data)
         })
