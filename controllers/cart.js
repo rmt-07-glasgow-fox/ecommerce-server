@@ -1,4 +1,4 @@
-const { User, Cart, Product } = require('../models')
+const { User, Cart, Product, sequelize } = require('../models')
 
 class CartController {
   static async showAll(req,res,next){
@@ -46,14 +46,40 @@ class CartController {
     }
   }
 
-  static async updateStatus(req,res,next){
+  static async checkout(req,res,next){
+    let transaction
     try {
       const UserId = req.user.id
-      const cart = await Cart.update({ status: true }, {
-        where: {UserId},
-        returning: true
-      })
-      res.status(200).json(cart[1][0])
+
+      const carts = await Cart.findAll({where: {
+        UserId,
+        status: false
+      }})
+      if(carts.length > 0){
+        carts.map(async (e) => {
+          try {
+            transaction = await sequelize.transaction()
+            const product = await Product.findByPk(e.ProductId)
+            if(product.stock-e.quantity < 0) throw {message: product.name + 'out of stock'}
+            if(product){
+              const update = await Product.update({stock: product.stock-e.quantity},{
+                where: {id: e.ProductId},
+                returning: true
+              })
+              if(!update) throw {name: "updateFailed"}
+            }
+            const cart = await Cart.update({ status: true }, {
+              where: {UserId, ProductId: e.ProductId},
+              returning: true
+            })
+            res.status(200).json({message: 'Checkout success'})
+            await transaction.commit()
+          } catch (err) {
+            if (transaction) await transaction.rollback()
+            next(err)
+          }
+        })
+      } else throw {name: "NoCart", message: "cart not found"}
     } catch (err) {
       next(err)
     }
