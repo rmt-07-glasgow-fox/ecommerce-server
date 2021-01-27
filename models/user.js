@@ -5,13 +5,15 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
-      // define association here
+      User.belongsToMany(models.Product, {
+        through: 'Carts',
+        foreignKey: 'UserId'
+      })
+      User.belongsToMany(models.Product, {
+        through: 'Wishlists',
+        through: 'UserId'
+      })
     }
     getFullName() {
       return `${this.first_name} ${this.last_name}`
@@ -67,16 +69,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     role: {
       type: DataTypes.STRING,
-      allowNull: false,
       validate: {
-        notNull: {
-          args: true,
-          msg: "image url cannot be empty"
-        },
-        notEmpty: {
-          args: true,
-          msg: "image url cannot be empty"
-        },
         isIn: {
           args: ['admin','customer'],
           msg: "invalid role"
@@ -86,8 +79,9 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     hooks: {
       beforeCreate: (instance, options) => {
-        instance.password = hashPassword(instance.password)
+        instance.password = hashPassword(instance.password);
         if(!instance.last_name) instance.last_name = instance.first_name;
+        instance.role = 'customer';
       }
     },
     sequelize,

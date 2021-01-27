@@ -1,14 +1,14 @@
 [
   {
-    "first_name": "Admin",
-    "last_name": "CMS",
+    "first_name": "admin",
+    "last_name": "admin",
     "email": "admin@mail.com",
     "password": "1234",
     "role": "admin"
   },
   {
-    "first_name": "Customer",
-    "last_name": "CMS",
+    "first_name": "customer",
+    "last_name": "customer",
     "email": "customer@mail.com",
     "password": "1234",
     "role": "customer"

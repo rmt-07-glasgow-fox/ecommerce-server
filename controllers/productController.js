@@ -89,6 +89,23 @@ class ProductController {
       next(err)
     }
   }
+  static checkout (req,res,next) {
+    const id = Number(req.params.id)
+    Product.findByPk(id)
+      .then(data => {
+        const obj = {
+          stock: data.stock - req.body.quantity
+        }
+        return Product.update(obj, {
+          where: {
+            id
+          }
+        })
+      })
+      .then(data => {
+        res.status(200).json(data)
+      })
+  }
 }
 
 module.exports = ProductController

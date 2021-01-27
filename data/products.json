@@ -1,0 +1,242 @@
+[
+  {
+    "id": 1,
+    "name": "Playstation 5",
+    "image_url": "https://www.pricerunner.com/product/200x200/3000396114/Sony-PlayStation-5.jpg",
+    "price": 12750000,
+    "stock": 112,
+    "category": "console"
+  },
+  {
+    "id": 2,
+    "name": "Nintendo Switch",
+    "image_url": "https://i5.walmartimages.com/asr/afdb71df-4810-4e3e-9c3c-187e88a98619_1.9abc0f91d776fcbf0b8b580e875ed6c0.jpeg?odnWidth=612&odnHeight=612&odnBg=ffffff",
+    "price": 4500000,
+    "stock": 258,
+    "category": "console"
+  },
+  {
+    "id": 3,
+    "name": "Xbox Series X",
+    "image_url": "https://thriftboxcommerce.com/wp-content/uploads/2020/11/theonex.jpg",
+    "price": 11000000,
+    "stock": 333,
+    "category": "console"
+  },
+  {
+    "id": 4,
+    "name": "Playstation 4",
+    "image_url": "https://p.ipricegroup.com/uploaded_8ae069a66cfed02ea4c304e9a08b886a.jpg",
+    "price": 3750000,
+    "stock": 176,
+    "category": "console"
+  },
+  {
+    "id": 5,
+    "name": "Xbox Series S",
+    "image_url": "https://media.gamestop.com/i/gamestop/11108372/Xbox-Series-S-Digital-Edition?$pdp$",
+    "price": 6150000,
+    "stock": 167,
+    "category": "console"
+  },
+  {
+    "id": 6,
+    "name": "Playstation 3",
+    "image_url": "https://images-na.ssl-images-amazon.com/images/I/41-ioVbs9tL.jpg",
+    "price": 2250000,
+    "stock": 88,
+    "category": "console"
+  },
+  {
+    "id": 7,
+    "name": "Oculus Quest 2",
+    "image_url": "https://static.bhphoto.com/images/images1500x1500/1600268763_1590536.jpg",
+    "price": 7000000,
+    "stock": 263,
+    "category": "console"
+  },
+  {
+    "id": 8,
+    "name": "High-end gaming PC",
+    "image_url": "https://www.static-src.com/wcsstore/Indraprastha/images/catalog/full/asus_asus-rog-tytan-g20aj-desktop-gaming-pc_full07.jpg",
+    "price": 28000000,
+    "stock": 108,
+    "category": "computer"
+  },
+  {
+    "id": 9,
+    "name": "Mid-end Gaming PC",
+    "image_url": "https://www.megaportpc.co.uk/media/catalog/product/cache/4/small_image/400x/9df78eab33525d08d6e5fb8d27136e95/c/o/corsair_spec-omega-rgb_main-min_1.jpg",
+    "price": 12800000,
+    "stock": 227,
+    "category": "computer"
+  },
+  {
+    "id": 10,
+    "name": "Low-end Gaming PC",
+    "image_url": "https://www.asus.com/media/global/products/HIZcNH6yKn5DtN3c/P_setting_fff_1_90_end_600.png",
+    "price": 6850000,
+    "stock": 528,
+    "category": "computer"
+  },
+  {
+    "id": 11,
+    "name": "Alienware M15",
+    "image_url": "https://s0.bukalapak.com/img/08744072241/large/Dell_Alienware_M15_.jpg",
+    "price": 34500000,
+    "stock": 360,
+    "category": "laptop"
+  },
+  {
+    "id": 12,
+    "name": "Razer Blackshark V2 PRO wireless",
+    "image_url": "https://cdn.shopify.com/s/files/1/0024/9803/5810/products/481965-Product-0-I-637366403871611096_800x800.jpg",
+    "price": 3000000,
+    "stock": 428,
+    "category": "audio"
+  },
+  {
+    "id": 13,
+    "name": "Apple Airpods Max",
+    "image_url": "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/airpods-max-select-silver-202011_FMT_WHH?wid=890&hei=890&fmt=jpeg&qlt=80&op_usm=0.5,0.5&.v=1604615276000",
+    "price": 10800000,
+    "stock": 75,
+    "category": "audio"
+  },
+  {
+    "id": 14,
+    "name": "Assassins Creed Valhalla",
+    "image_url": "https://image.api.playstation.com/vulcan/ap/rnd/202008/1318/8XGEPtD1xoasK0FYkYNcCn1z.png",
+    "price": 700000,
+    "stock": 758,
+    "category": "game"
+  },
+  {
+    "id": 15,
+    "name": "Cyberpunk 2077",
+    "image_url": "https://assets-prd.ignimgs.com/2020/07/16/cyberpunk-2077-button-fin-1594877291453.jpg",
+    "price": 550000,
+    "stock": 2077,
+    "category": "game"
+  },
+  {
+    "id": 16,
+    "name": "The Witcher 3",
+    "image_url": "https://image.api.playstation.com/vulcan/img/rnd/202009/2913/TQKAd8U6hnIFQIIcz6qnFh8C.png",
+    "price": 330000,
+    "stock": 303,
+    "category": "game"
+  },
+  {
+    "id": 17,
+    "name": "Spiderman Miles Morales",
+    "image_url": "https://image.api.playstation.com/vulcan/ap/rnd/202008/1020/T45iRN1bhiWcJUzST6UFGBvO.png",
+    "price": 680000,
+    "stock": 219,
+    "category": "game"
+  },
+  {
+    "id": 18,
+    "name": "Red Dead Redemption 2",
+    "image_url": "https://image.api.playstation.com/cdn/UP1004/CUSA03041_00/3zDubiWo2X5WU18FGiwlsf4lKWb8MwkE.png",
+    "price": 420000,
+    "stock": 311,
+    "category": "game"
+  },
+  {
+    "id": 19,
+    "name": "PERSONA 5 Royal",
+    "image_url": "https://assets1.ignimgs.com/2020/02/14/persona-5-royal---button-fin-1581716582492.jpg",
+    "price": 580000,
+    "stock": 371,
+    "category": "game"
+  },
+  {
+    "id": 20,
+    "name": "The Last of Us",
+    "image_url": "https://image.api.playstation.com/vulcan/img/rnd/202011/1020/FKgazVvG7BcWouCr39mIiXkW.png",
+    "price": 250000,
+    "stock": 189,
+    "category": "game"
+  },
+  {
+    "id": 21,
+    "name": "The Last of Us Part 2",
+    "image_url": "https://image.api.playstation.com/vulcan/img/rnd/202010/2618/w48z6bzefZPrRcJHc7L8SO66.png",
+    "price": 430000,
+    "stock": 266,
+    "category": "game"
+  },
+  {
+    "id": 22,
+    "name": "God of War",
+    "image_url": "https://m.media-amazon.com/images/I/51Gr9-eTgLL.jpg",
+    "price": 210000,
+    "stock": 688,
+    "category": "game"
+  },
+  {
+    "id": 23,
+    "name": "Metal Gear Solid V",
+    "image_url": "https://image.api.playstation.com/vulcan/ap/rnd/202010/0205/dyvo9eGUf7WTZx49eTpQyDuL.png?w=440",
+    "price": 175000,
+    "stock": 882,
+    "category": "game"
+  },
+  {
+    "id": 24,
+    "name": "Bloodborne",
+    "image_url": "https://image.api.playstation.com/cdn/HP9000/CUSA01363_00/W8cO3RQp79ns1NVv739h1UdZBvQFURYe2edkxFm5ANjMzkx7WDfWnpQsABVqlHYA.png",
+    "price": 200000,
+    "stock": 241,
+    "category": "game"
+  },
+  {
+    "id": 25,
+    "name": "Resident Evil 2 Remake",
+    "image_url": "https://image.api.playstation.com/cdn/EP0102/CUSA09171_00/Vl6kGbTmofHzUHT8hsEmv8zQfkr4DpDN.png",
+    "price": 315000,
+    "stock": 269,
+    "category": "game"
+  },
+  {
+    "id": 26,
+    "name": "Sekiro: Shadows Die Twice",
+    "image_url": "https://image.api.playstation.com/vulcan/img/rnd/202010/2723/knxU5uU5aKvQChKX5OvWtSGC.png",
+    "price": 478000,
+    "stock": 662,
+    "category": "game"
+  },
+  {
+    "id": 27,
+    "name": "Ghost of Tsushima",
+    "image_url": "https://image.api.playstation.com/vulcan/ap/rnd/202010/0222/niMUubpU9y1PxNvYmDfb8QFD.png",
+    "price": 620000,
+    "stock": 333,
+    "category": "game"
+  },
+  {
+    "id": 28,
+    "name": "Horizon Zero Dawn",
+    "image_url": "https://image.api.playstation.com/cdn/HP9000/CUSA05682_00/1J6HqFz7q5jR0bS1poj3oYbQ9veI64NgpGHo36qeC4CfwrLjikjQYONSqBtwXwiU.png",
+    "price": 180000,
+    "stock": 485,
+    "category": "game"
+  },
+  {
+    "id": 29,
+    "name": "Final Fantasy VII Remake",
+    "image_url": "https://image.api.playstation.com/vulcan/img/cfn/113075PxnarzRek4cRpjrRWSpLfrcBd23B5e_Yj2azms6nWYKmySv4h3a22G5_R1CM4BQUmSRD6oOArDROKv041NUkgun78-.png",
+    "price": 580000,
+    "stock": 777,
+    "category": "game"
+  },
+  {
+    "id": 30,
+    "name": "Death Stranding",
+    "image_url": "https://image.api.playstation.com/vulcan/img/rnd/202009/2921/40aD0BqRUHyHdXdC6nwtwON5.png",
+    "price": 375000,
+    "stock": 666,
+    "category": "game"
+  }
+]
