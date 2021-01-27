@@ -53,7 +53,7 @@ module.exports = {
         updatedAt: new Date ()
       },
       {
-        name: 'Reyben Sunglasses',
+        name: 'Straw Hat',
         image_url: 'https://images-na.ssl-images-amazon.com/images/I/81cEKAcwoKL._AC_UL1500_.jpg',
         price: 30000,
         stock: 12,

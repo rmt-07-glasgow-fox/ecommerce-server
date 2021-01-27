@@ -1,6 +1,7 @@
 function errorHandlers (err, req, res, next) {
   console.log (err.name, 'err.name')
   console.log (err.message, 'err.message')
+  console.log (err)
   if (err.errors) {
     var errors = err.errors.map (e => {
       return e.message
@@ -22,6 +23,12 @@ function errorHandlers (err, req, res, next) {
       break;
     case 'Unauthorized access':
       res.status (401).json ({message: 'Unauthorized access'})
+      break;
+    case 'Product already added':
+      res.status (400).json ({message: 'Product already added to shopping cart'})
+      break;
+    case 'JsonWebTokenError':
+      res.status (401).json ({message: 'Please login first'})
       break;
     default:
       res.status (500).json ({message: 'Internal server error'})

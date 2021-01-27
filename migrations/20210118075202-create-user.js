@@ -15,6 +15,9 @@ module.exports = {
       password: {
         type: Sequelize.STRING
       },
+      balance: {
+        type: Sequelize.DOUBLE
+      },
       role: {
         type: Sequelize.STRING
       },

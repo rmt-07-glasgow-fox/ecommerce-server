@@ -1,4 +1,4 @@
-const { Product } = require ('../models/index')
+const { User, Product } = require ('../models/index')
 
 class ProductController {
   static getProduct (req, res, next) {
@@ -40,6 +40,36 @@ class ProductController {
       .catch (err => {
         next (err)
       })
+  }
+
+  static async patchProductAndUpdateBalance (req, res, next) {
+    try {
+      const checkBalance = await User.findByPk(req.user)
+      if (checkBalance.balance < +req.body.totalPrice) {
+        return next ({name: 'Not enough balance'})
+      } else {
+        let currentProduct = await Product.findByPk(+req.params.id)
+        let toBeUpdatedStock = currentProduct.stock - (+req.body.quantity)
+        const obj = {
+          stock: toBeUpdatedStock
+        }
+        let data = await Product.update (obj, {
+          where: {
+            id: +req.params.id
+          },
+          returning: true
+        })
+        let isSuccess = data[0]
+        let dataObj = data[1]
+        if (isSuccess === 1) {
+          res.status(200).json (dataObj[0])
+        } else {
+          next ({name: 'Error not found'})
+        }
+      }  
+    } catch (err) {
+      next (err)
+    }
   }
 
   static putProduct (req, res, next) {

@@ -19,6 +19,7 @@ module.exports = {
           email: 'admin@mail.com',
           password: hashPassword('admin'),
           role: 'admin',
+          balance: 0,
           createdAt: new Date (),
           updatedAt: new Date ()
         },
@@ -26,6 +27,7 @@ module.exports = {
           email: 'wow@gmail.com',
           password: hashPassword('qweqwe'),
           role: 'customer',
+          balance: 0,
           createdAt: new Date (),
           updatedAt: new Date ()
         }

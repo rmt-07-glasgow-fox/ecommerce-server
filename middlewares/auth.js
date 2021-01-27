@@ -1,7 +1,7 @@
 const { checkToken } = require ('../helpers/jwt')
-const { User, Product } = require ('../models/index')
+const { User, Product, Cart } = require ('../models/index')
 
-async function authenticate (req, res, next) {
+async function authenticateAdmin (req, res, next) {
   try {
     let decoded = checkToken (req.headers.access_token)
 
@@ -23,21 +23,47 @@ async function authenticate (req, res, next) {
   }
 }
 
-async function authorize (req, res, next) {
+async function authenticate (req, res, next) {
   try {
-    const targetId = +req.params.id
-    let data = await Product.findByPk (targetId)
-    if (data.UserId !== req.user) {
-      res.status (401).json ({message: 'Unauthorized'})
-    } else if (req.user === 1 || data.UserId === req.user) {
-      next()
+    let decoded = checkToken (req.headers.access_token)
+
+    let data = await User.findOne ({
+      where: {
+        email: decoded.email
+      }
+    })
+    if (!data) {
+      res.status (403).json ({message: 'Please login first'})
+    } else {
+      req.user = data.id
+      next ()
     }
   } catch (err) {
     next (err)
   }
 }
 
+async function authorize (req, res, next) {
+  try {
+    const targetId = +req.params.cartId
+    var data = await Cart.findOne({
+      where: {
+        id: targetId
+      }
+    })
+    if (data.userId !== req.user) {
+      res.status (401).json ({message: 'Unauthorized'})
+    } else if (data.userId === req.user) {
+      next()
+    }
+  } catch (err) {
+    console.log(data, 'masuk')
+    next (err)
+  }
+}
+
 module.exports = {
+  authenticateAdmin,
   authenticate,
   authorize
 }
