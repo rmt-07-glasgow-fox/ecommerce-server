@@ -15,6 +15,13 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'UserId',
         otherKey: 'ProdId'
       });
+
+      User.belongsToMany(models.Wishlist, {
+        through: 'Wishlists',
+        as: 'Wishlists',
+        foreignKey: 'ProdId',
+        otherKey: 'UserId'
+      });
     }
   }
   User.init(
