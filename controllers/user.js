@@ -13,7 +13,8 @@ class UserController {
 
     User.create(newUser)
     .then(user => {
-      return res.status(201).json(user)
+      const {id, name, email, password, role} = user
+      return res.status(201).json({id, name, email, role})
     })
     .catch(next)
   }
