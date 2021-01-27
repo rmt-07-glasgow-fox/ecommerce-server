@@ -1,10 +1,10 @@
 const { CategoryController } = require('../controllers')
 const router = require('express').Router()
-const { authorized } = require('../middlewares')
+const { categoryAuthorized } = require('../middlewares')
 
 router.get('/', CategoryController.getCategories)
 router.get('/:id', CategoryController.getCategoriesId)
-router.post('/', authorized, CategoryController.createCategories)
-router.delete('/:id', authorized, CategoryController.deleteCategories)
+router.post('/', categoryAuthorized, CategoryController.createCategories)
+router.delete('/:id', categoryAuthorized, CategoryController.deleteCategories)
 
 module.exports = router

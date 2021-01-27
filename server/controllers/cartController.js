@@ -31,7 +31,8 @@ class CartController {
         return Cart.findOne({
           where: {
             UserId,
-            ProductId
+            ProductId,
+            checkout: false
           }
         })
       } else {
@@ -151,6 +152,88 @@ class CartController {
     }).catch(err => {
       next(err)
     })
+  }
+
+  // static checkout (req, res, next) {
+  //   let cartId = req.body[0].id
+  //   let productId = req.body[0].ProductId
+  //   let qty = req.body[0].quantity
+  //   console.log(qty);
+  //   Product.decrement({
+  //     stock: qty
+  //   },{
+  //     where: {
+  //       id: productId
+  //     }
+  //   }).then(data => {
+  //     if(data[0][0]) {
+  //       return Cart.update({
+  //         checkout: true
+  //       },{
+  //         where: {
+  //           id: cartId
+  //         },
+  //         returning: true
+  //       })
+  //     } else {
+  //       next({
+  //         status: 400,
+  //         message: 'Not enough stock'
+  //       })
+  //     }
+  //   }).then(data => {
+  //     console.log(data[1][0]);
+  //     if(data[1][0]) {
+  //       res.status(200).json({
+  //         message: "Success Checkout"
+  //       })
+  //     } else {
+  //       next({ status: 404 })
+  //     }
+  //   }).catch(err => {
+  //       next(err)
+  //   })
+  // }
+
+  static async checkout(req, res, next) {
+    try {
+      for (const cart of req.body) {
+        let cartId = cart.id
+        let productId = cart.ProductId
+        let qty = cart.quantity
+        let data
+        const result = await Product.decrement({
+          stock: qty
+        },{
+          where: {
+            id: productId
+          }
+        })
+        // after update product
+        if (result[0][0]) {
+          data = await Cart.update({
+            checkout: true
+          },{
+            where: {
+              id: cartId
+            },
+            returning: true
+          })
+        } else {
+          next({ status: 404 })
+        }
+        // after update cart
+        if(data[1][0]) {
+          res.status(200).json({
+            message: "Success Checkout"
+          })
+        } else {
+          next({ status: 404 })
+        }
+      }
+    } catch (err) {
+      next(err)
+    }
   }
 }
 
