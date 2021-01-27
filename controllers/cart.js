@@ -1,4 +1,4 @@
-const { Cart, Product } = require('../models');
+const { Cart, Product, User, Category } = require('../models');
 
 exports.create = async (req, res, next) => {
   try {
@@ -28,9 +28,18 @@ exports.create = async (req, res, next) => {
 
 exports.list = async (req, res, next) => {
   try {
-    const userId = req.user.id;
-
-    const carts = await findAll({ where: { UserId: userId } });
+    const userId = Number(req.user.id);
+    const carts = await Cart.findAll({
+      where: { UserId: userId },
+      order: [['createdAt', 'ASC']],
+      include: [
+        Product,
+        {
+          model: User,
+          attributes: { exclude: ['password'] },
+        },
+      ],
+    });
     return res.status(200).json(carts);
   } catch (err) {
     return next(err);
@@ -75,6 +84,21 @@ exports.decrementQty = async (req, res, next) => {
     } else {
       return next({ name: 'NotFound', attr: 'Cart' });
     }
+  } catch (err) {
+    return next(err);
+  }
+};
+
+exports.changeStatus = async (req, res, next) => {
+  const id = req.params.id;
+  const { status } = req.body;
+
+  try {
+    const isFound = await Cart.findOne({ where: { id: id } });
+    if (!isFound) return next({ name: 'NotFound', attr: 'Cart' });
+
+    const cart = await Cart.update({ status: status }, { where: { id: id } });
+    return res.status(200).json({ message: 'Cart has been updated' });
   } catch (err) {
     return next(err);
   }

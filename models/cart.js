@@ -39,10 +39,18 @@ module.exports = (sequelize, DataTypes) => {
           notEmpty: { args: true, msg: 'Quantity is required' },
         },
       },
+      status: {
+        type: DataTypes.BOOLEAN,
+      },
     },
     {
       sequelize,
       modelName: 'Cart',
+      hooks: {
+        beforeCreate: (cart, options) => {
+          cart.status = true;
+        },
+      },
     },
   );
   return Cart;

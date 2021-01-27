@@ -22,6 +22,7 @@
   - [List Carts](#list-carts)
   - [Increment Quantity Cart](#increment-quantity-cart)
   - [Decrement Quantity Cart](#decrement-quantity-cart)
+  - [Change Status Cart](#change-status-cart)
   - [Delete Banner](#delete-banner)
 - [User](#user)
   - [Register](#register)
@@ -1617,6 +1618,100 @@ Decrement quantity cart.
   - **curl**:
     ```js
     curl --location --request PATCH 'http://localhost:3000/carts/1/decrement' --header 'Authorization: Bearer <JWT_TOKEN>'
+    ```
+
+## **Change Status Cart**
+
+Change status cart.
+
+- **URL**
+
+  `/carts/:id/status`
+
+- **Method:**
+
+  `PUT`
+
+- **Request Header**
+
+  **Required:**
+
+  - Authorization (string)
+
+  **Example:**
+
+  - application/json
+    ```json
+    {
+      "Authorization": "Bearer <JWT_TOKEN>"
+    }
+    ```
+
+- **Request Params**
+
+  - id (integer)
+
+- **Request Body**
+
+  **Required:**
+
+  - status (boolean)
+
+  **Example:**
+
+  - application/json
+    ```json
+    {
+      "status": true
+    }
+    ```
+
+- **Success Response:**
+
+  - **Code:** 200 <br />
+    **Content:**
+    ```json
+    { "message": "Cart has been updated" }
+    ```
+
+- **Error Response:**
+
+  - **Code:** 400 Bad Request <br />
+    **Content:**
+
+    ```json
+    [
+      {
+        "message": "Status is required"
+      }
+    ]
+    ```
+
+  - **Code:** 404 Not Found <br />
+    **Content:**
+
+    ```json
+    [
+      {
+        "message": "Cart not found"
+      }
+    ]
+    ```
+
+  - **Code:** 500 Internal Server Error <br />
+    **Content:**
+    ```json
+    [
+      {
+        "message": "internal server error"
+      }
+    ]
+    ```
+
+- **Sample Call:**
+  - **curl**:
+    ```js
+    curl --location --request PATCH 'http://localhost:3000/carts/1/status' --header 'Authorization: Bearer <JWT_TOKEN>' --data-urlencode 'status=true'
     ```
 
 ## **Delete Cart**
