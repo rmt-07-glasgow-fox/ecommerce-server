@@ -1,5 +1,3 @@
-const { User, Wishlist, WishlistItem, Product } = require('../models')
-
 class wishlistController {
 
   static async addItem (req, res, next) {

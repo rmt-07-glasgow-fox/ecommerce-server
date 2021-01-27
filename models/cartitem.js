@@ -11,12 +11,32 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      CartItem.belongsTo(models.Cart)
+      CartItem.belongsTo(models.Product)
     }
   };
   CartItem.init({
-    UserId: DataTypes.INTEGER,
+    CartId: DataTypes.INTEGER,
     ProductId: DataTypes.INTEGER,
-    quantity: DataTypes.INTEGER
+    quantity: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: 'Please input quantity'
+        },
+        notEmpty: {
+          msg: 'Please input quantity'
+        },
+        isNumeric: {
+          msg: 'Please input quantity'
+        },
+        min: {
+          args: [1],
+          msg: 'Minimum quantity is 1'
+        }
+      }
+    }
   }, {
     sequelize,
     modelName: 'CartItem',

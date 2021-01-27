@@ -3,6 +3,7 @@ const errorHandler = (err, req, res, next) => {
   switch (err.name) {
   case 'SequelizeUniqueConstraintError':
   case 'SequelizeValidationError':
+  case 'AggregateError':
     res.status(400).json({
       message: 'Validation Error',
       errors: err.errors.map( error => error.message )
@@ -37,6 +38,10 @@ const errorHandler = (err, req, res, next) => {
 
   case 'WishlistItemNotFound':
     res.status(404).json({ message: 'Wishlist item not found' })
+    break
+
+  case 'CartItemNotFound':
+    res.status(404).json({ message: 'Cart item not found' })
     break
 
   default:
