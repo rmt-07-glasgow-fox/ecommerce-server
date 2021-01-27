@@ -277,7 +277,7 @@ _Request Body_
 {
   "email": "admin@mail.com",
   "password": "12345678",
-
+  "role": "customer"
 }
 ```
 #### Success
@@ -287,6 +287,7 @@ _Response (201)_
 {
   "id": 1,
   "email": "email@mail.com",
+  "role": "customer"
 }
 ```
 #### Error

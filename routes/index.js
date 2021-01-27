@@ -3,17 +3,15 @@ const productRouter = require('./product')
 const bannerRouter = require('./banner')
 const cartRouter = require('./cart')
 const authController = require('../controllers/authController')
-const { authenticate, authorize } = require('../middlewares/auth')
 
 router.get('/', (req, res) => {
   res.status(200).json({ message: 'e-Commerce CMS, hello admin ^_^'})
 })
 
 router.post('/login', authController.login)
-router.use(authenticate)
+router.post('/register', authController.register)
 
 router.use('/carts', cartRouter)
-router.use(authorize)
 router.use('/products', productRouter)
 router.use('/banners', bannerRouter)
 
