@@ -17,7 +17,7 @@ describe('POST/register', function() {
         const body = {
             email: 'tes@mail.com',
             password: 'tes123',
-            role: 'admin'
+            role: 'customer'
         }
         //execute
         request(app)
