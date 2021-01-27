@@ -21,7 +21,7 @@ class UserController {
                       let access_token = tokenGenerate(payload)
                       res.status(200).json({ access_token })
                 }).catch(err => {
-                      console.log(err);
+                      res.status(500).json(err)
                 })
       }
 
@@ -37,8 +37,8 @@ class UserController {
                }).then(cart => {
                      res.status(201).json(cart)
                }).catch(err => {
-                  //    res.status(400).json(err)
-                  console.log(err);
+                     res.status(400).json(err)
+                  // console.log(err);
                })
       }
 
