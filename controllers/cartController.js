@@ -21,18 +21,32 @@ class CartController {
 
   static async createCart (req, res, next) {
     try {
-      const UserId = req.user.id;
-      const { ProductId, quantity } = req.body;
-      const isPaid = false;
+      let UserId = req.user.id;
+      let ProductId = req.body.ProductId;
+      let quantity = 1;
+      let isPaid = false;
 
       const findProduct = await Product.findByPk(ProductId);
 
       if (!findProduct) throw { name: 'productNotFound' };
       if (findProduct.stock < quantity) throw { name: 'notEnoughStock' };
 
+      const findOne = await Cart.findOne({ where: { UserId, ProductId } });
+
+      if (findOne) {
+        let oldQuantity = findOne.quantity;
+        let newQuantity = oldQuantity + quantity;
+
+        await Cart.update({ UserId, ProductId, quantity: newQuantity, isPaid }, { where: { id: findOne.id } });
+
+        const find = await Cart.findByPk(findOne.id);
+
+        return res.status(200).json(find);
+      };
+
       const create = await Cart.create({ UserId, ProductId, quantity, isPaid });
 
-      res.status(201).json(create);
+      return res.status(201).json(create);
     } catch (err) {
       next(err);
     };

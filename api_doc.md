@@ -920,7 +920,6 @@ _Request Body_
 ```json
 {
   "ProductId": "<product id>",
-  "quantity": "<product quantity>"
 }
 ```
 
