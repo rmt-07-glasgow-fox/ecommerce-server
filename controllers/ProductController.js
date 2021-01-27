@@ -1,4 +1,4 @@
-const { Product } = require('../models')
+const { Product, sequelize } = require('../models')
 const { Cart } = require('../models')
 const { cekToken } = require('../helper/jwt')
 
@@ -95,7 +95,8 @@ class ProductController{
         let idProduct = req.params.id
         let temp
         let CartDataId
-        
+        let statusCart
+
         Product.findOne({where: {id:idProduct}})
             .then(data => {
                 console.log('romi');
@@ -103,6 +104,7 @@ class ProductController{
                 return Cart.findOne({where: {ProductId: idProduct, UserId:user.id} })
                 .then(data => {
                     CartDataId = data.ProductId
+                    statusCart = data.Paid
                     console.log(data.ProductId, 'ini ketemu');
                 })
                 .catch(_ => {
@@ -118,9 +120,18 @@ class ProductController{
             .then(_ => {
                 console.log(temp.id, 'ini id product');
                 console.log(CartDataId, 'ini id producy juga');
-                if (temp.id == CartDataId) {
+                if (temp.id == CartDataId && statusCart == 'Unpaid') {
                     res.status(201).json({msg: 'berhasil'})
-                    return Cart.increment({'quantity':1, 'totalprice':temp.price}, {where: { ProductId: idProduct }}) 
+                    return Cart.increment({'quantity':1, 'totalprice':temp.price}, {where: { ProductId: idProduct , UserId:user.id}}) 
+                } else {
+                    console.log('masuk sini>>>>>>>>>>>');
+                    let newShopping = {
+                        UserId: user.id,    
+                        ProductId: idProduct,
+                        quantity: 1,
+                        totalprice: temp.price
+                    }
+                    return Cart.create(newShopping)
                 }
             })
             .then(_ => {
@@ -133,11 +144,34 @@ class ProductController{
     }
     static getCartUser (req, res, next) {
         let user = cekToken(req.headers.access_token)
-        Cart.findAll({where: { UserId: user.id}})
+        Cart.findAll({
+            where: {UserId: user.id, Paid: 'Unpaid'},
+            attributes: ['id','UserId','ProductId','Paid','quantity','totalprice','createdAt', 'updatedAt'],
+            include: 'Product'
+        })
         .then(data => {
+            console.log(data, '>>>>>>>>>>>> disini');
             res.status(200).json(data)
         })
         .catch(err => {
+            console.log(err);
+            next(err)
+        })
+    }
+
+    static getCartUserHistory (req, res, next) {
+        let user = cekToken(req.headers.access_token)
+        Cart.findAll({
+            where: {UserId: user.id, Paid: 'Paid'},
+            attributes: ['id','UserId','ProductId','Paid','quantity','totalprice','createdAt', 'updatedAt'],
+            include: 'Product'
+        })
+        .then(data => {
+            console.log(data, '>>>>>>>>>>>> disini');
+            res.status(200).json(data)
+        })
+        .catch(err => {
+            console.log(err);
             next(err)
         })
     }
@@ -146,16 +180,17 @@ class ProductController{
         let user = cekToken(req.headers.access_token)
         let idProduct = req.params.id
 
-        Cart.findOne({where: {ProductId: idProduct, UserId:user.id} })
+        Cart.findOne({
+            where: {ProductId: idProduct, UserId:user.id},
+            include: [{ model: Product, attributes: { exclude: ['createdAt', 'updatedAt'] } }]
+        })
         .then(data => {
-            if (data.quantity > 0) {
-                if (data.quantity == 1) {
-                    priceTemp = data.totalprice
-                    return Cart.decrement({'quantity': 1, 'totalprice': priceTemp}, {where: { ProductId: idProduct }}) 
-                } else if (data.quantity > 1) {
-                    let priceTemp = (data.totalprice/data.quantity)
-                    console.log(priceTemp);
-                    return Cart.decrement({'quantity': 1, 'totalprice': priceTemp}, {where: { ProductId: idProduct }}) 
+            console.log(data.quantity, 'halo darisini');
+            if (data.quantity > 1) {
+                return Cart.decrement({'quantity': 1, 'totalprice': data.Product.price}, {where: { ProductId: idProduct, UserId:user.id, Paid: 'Unpaid'}})  
+            } else if (data.quantity <= 1) {
+                throw {
+                    err
                 }
             }
         })
@@ -171,17 +206,12 @@ class ProductController{
         let user = cekToken(req.headers.access_token)
         let idProduct = req.params.id
 
-        Cart.findOne({where: {ProductId: idProduct, UserId:user.id} })
+        Cart.findOne({
+            where: {ProductId: idProduct, UserId:user.id}, 
+            include: [{ model: Product, attributes: { exclude: ['createdAt', 'updatedAt'] } }]
+        })
         .then(data => {
-            if (data.quantity > 0) {
-                if (data.quantity == 1) {
-                    let priceTemp = data.totalprice
-                    return Cart.increment({'quantity': 1, 'totalprice': priceTemp}, {where: { ProductId: idProduct }}) 
-                } else if (data.quantity > 1) {
-                    let priceTemp = (data.totalprice/data.quantity)
-                    return Cart.increment({'quantity': 1, 'totalprice': priceTemp}, {where: { ProductId: idProduct }}) 
-                }
-            }
+            return Cart.increment({'quantity': 1, 'totalprice': data.Product.price}, {where: { ProductId: idProduct, UserId:user.id, Paid: 'Unpaid'}}) 
         })
         .then(_ => {
             res.status(200).json({ msg: 'berhasil' })
@@ -199,6 +229,37 @@ class ProductController{
         .catch(err => {
             next(err)
         })
+    }
+    static async checkout (req,res,next) {
+        let user = cekToken(req.headers.access_token)
+        const t = await sequelize.transaction()
+        try {
+            const UserId = user.id
+            const cart = await Cart.findAll({
+                where: {
+                    UserId, Paid: 'Unpaid'
+                }
+            }, {
+                transaction: t
+            })
+            for(const item of cart) {
+                const product = await Product.findByPk(item.ProductId)
+                if (item.quantity > product.stock) {
+                    throw { msg: 'Tidak boleh lebi dari stok' }
+                } else {
+                    let stock = product.stock - item.quantity
+                    await Product.update({stock}, {where: {id: item.ProductId}}, {transaction: t})
+                    await Cart.update({ stock,Paid: 'Paid' }, { where: { UserId, ProductId: item.ProductId, Paid: 'Unpaid' } })
+                }
+            }
+            t.afterCommit(_ => {
+                return res.status(200).json({ msg: 'Success Paid Product' })
+            })
+            await t.commit()
+        } catch (err) {
+          await t.rollback()
+          next(err)
+        }
     }
 }
 
