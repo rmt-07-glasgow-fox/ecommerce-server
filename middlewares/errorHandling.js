@@ -11,6 +11,9 @@ const errorHandlers = (err, req, res, next) => {
         case "Product not found":
             res.status(404).json({ message: "Product not found"});
             break;
+        case "There is no active Cart":
+            res.status(404).json({ message: "There Is No Active Cart"});
+            break;
         case "Email / Password not found":
             res.status(404).json({ message: "Email / Password not found"});
             break;

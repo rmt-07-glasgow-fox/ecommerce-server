@@ -20,4 +20,26 @@ function authorization(req, res, next) {
     });
 };
 
-module.exports = authorization;
+function authorizationCustomer(req, res, next) {
+    const id = req.headers.user.id;
+    User.findOne({ where: { id } })
+    .then(user => {
+        if (user) {
+            if (user.role === 'customer') {
+                next();
+            } else {
+                throw { name: "Please login / register first" };
+            }
+        } else {
+            throw { name: "Please login / register first"};
+        }
+    })
+    .catch(err => {
+        next(err);
+    });
+};
+
+module.exports = {
+    authorization,
+    authorizationCustomer
+};
