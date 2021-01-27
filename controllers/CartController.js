@@ -47,8 +47,9 @@ class CartController {
             name: 'NoData'
           })
         }else {
+          let productAmount = (req.body.amount ? req.body.amount : 1)
           let productStock = checkProductInCart.stock
-          if(productStock - req.body.amount >= 0) {
+          if(productStock - productAmount >= 0) {
             const addProduct = await Cart.create({
               UserId: req.userData.id,
               ProductId: req.params.productId,
