@@ -6,15 +6,15 @@ const {
   update,
   destroy,
 } = require("../controllers/banner");
-const { authentificate, authorize } = require("../middleware/auth");
+const { authentificate, requireAdmin } = require("../middleware/auth");
 
 router.use(authentificate);
 
 router.get("/", banners);
 router.get("/:id", banner);
 
-router.post("/", authorize, create);
-router.put("/:id", authorize, update);
-router.delete("/:id", authorize, destroy);
+router.post("/", requireAdmin, create);
+router.put("/:id", requireAdmin, update);
+router.delete("/:id", requireAdmin, destroy);
 
 module.exports = router;

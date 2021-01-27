@@ -1,5 +1,6 @@
 "use strict";
 const { Model } = require("sequelize");
+const { generateHash } = require("../helpers/bcrypt")
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -18,9 +19,9 @@ module.exports = (sequelize, DataTypes) => {
 
       User.belongsToMany(models.Wishlist, {
         through: 'Wishlists',
-        as: 'Wishlists',
-        foreignKey: 'ProdId',
-        otherKey: 'UserId'
+        as: 'wishlist',
+        foreignKey: 'UserId',
+        otherKey: 'ProdId'
       });
     }
   }
@@ -33,7 +34,14 @@ module.exports = (sequelize, DataTypes) => {
             args: true,
             msg: "Email is required",
           },
+          isEmail: {
+            args: 'email',
+            msg: 'Email must be valid email address'
+          }
         },
+        unique: {
+          msg: "Email must be unique"
+        }
       },
       password: {
         type: DataTypes.STRING,
@@ -42,6 +50,10 @@ module.exports = (sequelize, DataTypes) => {
             args: true,
             msg: "Password is required",
           },
+          len: {
+            args: [6],
+            msg: "Password at least 6 characters"
+          }
         },
       },
       role: {
@@ -55,6 +67,7 @@ module.exports = (sequelize, DataTypes) => {
       hooks: {
         beforeCreate(user, option) {
           user.role = 'customer'
+          user.password = generateHash(user.password)
         }
       }
     }

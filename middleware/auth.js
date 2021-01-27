@@ -1,4 +1,5 @@
 const { verifyToken } = require("../helpers/jwt");
+const { Product } = require("../models");
 
 exports.authentificate = (req, res, next) => {
   try {
@@ -29,8 +30,10 @@ exports.requireAdmin = async (req, res, next) => {
 
 exports.authorize = async (req, res, nect) => {
   try {
-    
+    const user = req.user;
+    const product = await Product.findByPk(+req.params.id);
+    user.id === product.UserId ? next() : next({ name: "Unauthorized" });
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
+};

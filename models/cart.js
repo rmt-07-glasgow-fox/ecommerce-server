@@ -20,6 +20,9 @@ module.exports = (sequelize, DataTypes) => {
         min: {
           args: [0],
           msg: 'Quantity can not less than 0'
+        },
+        notEmpty: {
+          msg: 'Quantity is required'
         }
       }
     },
