@@ -12,11 +12,65 @@ e-commerce cms web app, you can create product authorized by admin, and can do o
 Server URL : http://localhost:3000
 ```
 
-## ENDPOINT
 
+### REGISTER /register
+> User allowed to do register a new account through customer-client endpoint
+
+_Request_
+```
+url: http://localhost:3000/register
+```
+
+_Request Params_
+```
+Not needed
+```
+
+_Request Header_
+```
+Not needed
+```
+
+_Request Body_
+```
+{
+  "email": "<email>",
+  "password": "<password>",
+  "username": "<username>"
+}
+```
+
+_Response (200)_
+```
+{
+    "id": <given id by system>,
+    "email": "customer1@mail.com",
+    "password": "$2a$05$A8WsJL2BXcaqDRISot07qORFAt4w/I6LzD./VtQospLsWo1oYdcDm",
+    "username": "customer1",
+    "updatedAt": "2021-01-27T16:50:07.073Z",
+    "createdAt": "2021-01-27T16:50:07.073Z",
+    "role": "customer"
+}
+```
+
+_Response (400)_
+```
+{
+  "message": <given messages by system>
+}
+```
+
+_Response (500 - Server Error)_
+```
+{
+  "message": "Internal server error"
+}
+```
+
+---
 
 ### POST /signin
-> User and Admin Login
+> User and Admin Login, There is a middleware to define and separate authentication from deferent client request between customer and admin.
 
 _Request_
 ```
@@ -657,3 +711,278 @@ _Response (404)_
 }
 ```
 ---
+
+
+### POST /carts/addToCart
+
+> Add Product To Cart
+
+_Request_
+```
+url: http://localhost:3000/carts/addTocart
+```
+
+_Request Params_
+```
+npt needed
+```
+
+_Request Header_
+```
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTYxMTEyMzcxN30.ZpC6kOy3iDO--tfUuch4zqXMXNCIbEK0RdYtL39yyE8"
+}
+```
+
+_Request Body_
+```
+{
+  "ProductId": <given automatically when customer click product>
+}
+```
+
+_Response (200)_
+```
+{
+  "cart": {
+    "id": 16,
+    "UserId": 5,
+    "total": 12000000,
+    "createdAt": "2021-01-27T13:31:57.099Z",
+    "updatedAt": "2021-01-27T16:59:12.469Z"
+  },
+  "cartItem": {
+    "id": 62,
+    "CartId": 16,
+    "ProductId": 22,
+    "quantity": 5,
+    "createdAt": "2021-01-27T15:57:13.475Z",
+    "updatedAt": "2021-01-27T16:59:12.473Z"
+  }
+}
+```
+
+_Response (400)_
+```
+{
+  "message": <given id by system>
+}
+```
+
+_Response (500)_
+```
+{
+  "message": "Internal server error!"
+}
+```
+
+_Response (404)_
+```
+{
+  "message": "Data not found!"
+}
+```
+---
+
+
+### GET /carts
+
+> Get array of object for from Cart DB, with its relation CartItems
+
+_Request_
+```
+url: http://localhost:3000/carts
+```
+
+_Request Params_
+```
+not needed
+```
+
+_Request Header_
+```
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTYxMTEyMzcxN30.ZpC6kOy3iDO--tfUuch4zqXMXNCIbEK0RdYtL39yyE8"
+}
+```
+
+_Request Body_
+```
+not needed
+```
+
+_Response (200)_
+```
+{
+  "cart": {
+    "id": 16,
+    "UserId": 5,
+    "total": 12000000,
+    "createdAt": "2021-01-27T13:31:57.099Z",
+    "updatedAt": "2021-01-27T16:59:12.469Z"
+  },
+  "cartItems": [
+    {
+        "id": 61,
+        "CartId": 16,
+        "ProductId": 23,
+        "quantity": 1,
+        "createdAt": "2021-01-27T15:37:37.165Z",
+        "updatedAt": "2021-01-27T16:00:27.324Z",
+        "Product": {
+            "id": 23,
+            "name": "Iphon 9",
+            "image_url": "https://p.ipricegroup.com/uploaded_52f24cf680a4969869579b2d21a6bb71.jpg",
+            "price": 2000000,
+            "stock": 20,
+            "category": "Electronic",
+            "createdAt": "2021-01-24T10:07:48.109Z",
+            "updatedAt": "2021-01-24T10:07:48.109Z"
+        }
+    },
+    {
+        "id": 62,
+        "CartId": 16,
+        "ProductId": 22,
+        "quantity": 5,
+        "createdAt": "2021-01-27T15:57:13.475Z",
+        "updatedAt": "2021-01-27T16:59:12.473Z",
+        "Product": {
+            "id": 22,
+            "name": "iphone 2",
+            "image_url": "https://picsum.photos/200",
+            "price": 2000000,
+            "stock": 20,
+            "category": "Electronic",
+            "createdAt": "2021-01-24T09:49:43.630Z",
+            "updatedAt": "2021-01-24T09:53:40.972Z"
+        }
+    }
+  ]
+}
+```
+
+_Response (404)_
+```
+{
+  "message": "Not found"
+}
+```
+
+_Response (400)_
+```
+{
+  "message": <given messages by system>
+}
+```
+
+_Response (500)_
+```
+{
+  "message": "Internal server error!"
+}
+```
+
+---
+
+### PATCH /carts/:id
+
+> Set quantity cartItem and its grandTotal price for each product
+
+_Request_
+```
+url: http://localhost:3000/carts/:id
+```
+
+_Request Params_
+```
+{
+  "id": <automatically get an id for CartItem from system, when user wanna update its quantity at carts page>
+}
+```
+
+_Request Header_
+```
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTYxMTEyMzcxN30.ZpC6kOy3iDO--tfUuch4zqXMXNCIbEK0RdYtL39yyE8"
+}
+```
+
+_Request Body_
+```
+{
+  "CartItemId": <given automatically when customer click Update quantity>
+  "quantity": <input from user>
+}
+```
+
+_Response (200)_
+```
+{
+  total: 6000000
+}
+
+```
+
+_Response (400)_
+```
+{
+  "message": <given id by system>
+}
+```
+
+_Response (500)_
+```
+{
+  "message": "Internal server error!"
+}
+```
+
+---
+
+
+### DELETE /cartItems/:id
+
+> Delete object/record.
+
+_Request_
+```
+url: http://localhost:3000/cartItems/:id
+```
+
+_Request Params_
+```
+{
+  "id": <:id>
+}
+```
+
+_Request Header_
+```
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTYxMTEyMzcxN30.ZpC6kOy3iDO--tfUuch4zqXMXNCIbEK0RdYtL39yyE8"
+}
+```
+
+_Request Body_
+```
+{
+  CartItemId: <given automatically when customer click remove an item from cart>,
+  ProductId: <given automatically when customer click remove an item from cart, for use calculate grandTotal>,
+  quantity: <given automatically when customer click remove an item from cart, for use calculate grandTotal>
+}
+```
+
+_Response (200)_
+```
+{
+  message: 'Deleted product from your cart success'
+}
+```
+
+_Response (500)_
+```
+{
+  "message": "Internal server error!"
+}
+```

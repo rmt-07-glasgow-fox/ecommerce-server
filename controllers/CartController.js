@@ -1,9 +1,8 @@
-const { Cart, CartItem, Product } = require('../models')
+const { Cart, CartItem, Product, User } = require('../models')
 
 class CartController {
   static async addToCart(req, res, next) {
     try {
-      // console.log('AAAAA', Cart);
       let { ProductId } = req.body
       let cart = await Cart.findOne({where: {UserId: req.currentUser.id}})
       let product = await Product.findByPk(ProductId)
@@ -39,11 +38,15 @@ class CartController {
   static async showCarts(req, res, next) {
     try {
       let cart = await Cart.findOne({
-        where: {UserId: req.currentUser.id},
-        include: CartItem
+        where: {UserId: req.currentUser.id}
       })
 
-      return res.status(200).json(cart)
+      let cartItems = await CartItem.findAll({
+        where: {CartId: cart.id},
+        include: [{model: Product}]
+      })
+
+      return res.status(200).json({cart, cartItems})
     } catch(error) {
       next(error)
     }

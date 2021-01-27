@@ -20,17 +20,10 @@ class UserController {
   }
 
   static async login(req, res, next) {
-    // res.status(200).json({
-    //   access_token: 'asdasdasd',
-    //   id: 1,
-    //   email: 'asdf@mail.com',
-    //   username: 'asdf'
-    // })
-
     try {
-      let { email, password, role } = req.body //
+      let { email, password, role } = req.body
       let user = await User.findOne({where: {email}})
-      console.log('AAAAAAA');
+
       if (!user) {
         next({name: 'invalidLogin'})
       } else {
