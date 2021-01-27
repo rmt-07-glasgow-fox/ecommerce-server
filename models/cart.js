@@ -10,13 +10,19 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Cart.belongsTo(models.User, {foreignKey: 'UserId'})
+      Cart.belongsTo(models.Product, {foreignKey: 'ProductId'})
     }
   };
   Cart.init({
     quantity: DataTypes.INTEGER,
     status: DataTypes.BOOLEAN
   }, {
+    hooks: {
+      beforeCreate: (cart, options) => {
+        cart.status = false
+      },
+    },
     sequelize,
     modelName: 'Cart',
   });
