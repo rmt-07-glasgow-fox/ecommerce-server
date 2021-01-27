@@ -4,6 +4,7 @@ const router = require('express').Router()
 
 router.get('/', CategoryController.findAll)
 router.get('/:id', CategoryController.findByPk)
+router.use(Auth.authentication)
 router.use(Auth.authorizationAdmin)
 router.post('/', CategoryController.create)
 router.put('/:id', CategoryController.update)

@@ -4,6 +4,7 @@ const router = require('express').Router()
 
 router.get('/', BannerController.findAll)
 router.get('/:id', BannerController.findByPk)
+router.use(Auth.authentication)
 router.use(Auth.authorizationAdmin)
 router.post('/', BannerController.create)
 router.put('/:id', BannerController.update)

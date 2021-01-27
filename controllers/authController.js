@@ -4,15 +4,13 @@ const { User } = require('../models')
 
 class AuthController {
   static register(req, res, next) {
-    const { name, email, password, role } = req.body
-    User.create({ name, email, password, role })
+    const { name, avatar, email, password } = req.body
+    User.create({ name, avatar, email, password })
       .then(user => {
-        const { id, name, email, role } = user
-        res.status(201).json({ id, name, email, role })
+        const { id, name, avatar, email, role } = user
+        res.status(201).json({ id, avatar, name, email, role })
       })
-      .catch(err => {
-        res.status(500).json({ message: 'Internal Server Error' })
-      })
+      .catch(next)
   }
 
   static login(req, res, next) {
@@ -30,9 +28,7 @@ class AuthController {
             res.status(400).json({ message: 'Email or password wrong!' })
           }
         })
-        .catch(err => {
-          res.status(500).json({ message: 'Internal server error'})
-        })
+        .catch(next)
     }
   }
 }

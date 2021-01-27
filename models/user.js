@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      User.hasMany(models.Cart)
     }
   };
   User.init({
@@ -23,6 +24,9 @@ module.exports = (sequelize, DataTypes) => {
           msg: 'Name cannot be empty!'
         }
       }
+    },
+    avatar: {
+      type: DataTypes.STRING
     },
     email: {
       type: DataTypes.STRING,
@@ -45,16 +49,17 @@ module.exports = (sequelize, DataTypes) => {
     },
     role: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: {
-          msg: 'Role cannot be empty!'
-        }
-      }
+      // allowNull: false,
+      // validate: {
+      //   notEmpty: {
+      //     msg: 'Role cannot be empty!'
+      //   }
+      // }
     }
   }, {
     hooks: {
       beforeCreate(user, opt) {
+        !user.role && (user.role = 'customer')
         user.password = hashPassword(user.password)
       }
     },
