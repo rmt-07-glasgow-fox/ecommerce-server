@@ -13,6 +13,7 @@ class Controller {
       ]
     })
     .then((data) => {
+      // console.log('showAll DATA=', data);
       return res.status(200).json(data)
     })
     .catch((err) => {

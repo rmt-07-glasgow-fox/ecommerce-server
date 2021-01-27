@@ -14,6 +14,10 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       User.hasMany(models.Product)
+      User.belongsToMany(models.Product, {
+        through: models.Cart,
+        foreignKey: "UserId"
+      })
     }
   };
   User.init({
@@ -22,8 +26,16 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notEmpty: {
           args: true,
-          msg: "Email must not empty"
+          msg: "Email must not empty!"
+        },
+        isEmail: {
+          args: true,
+          msg: "Invalid email format!"
         }
+      },
+      unique: {
+        args: true,
+        msg: 'Email address already in use!'
       }
     },
     password: {
@@ -31,7 +43,11 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notEmpty: {
           args: true,
-          msg: "Password must not empty"
+          msg: "Password must not empty!"
+        },
+        len: {
+          args: [6],
+          msg: "Password contains at least 6 characters!"
         }
       }
     },
