@@ -10,6 +10,11 @@ const errorHandler = (err, req, res, next) => {
           message: err.message
         })
 
+      case "OrderCountTooBig":
+        return res.status(400).json({
+          message: "Order count exceed product stock!"
+        })
+
       case "NotLoggedIn":
         return res.status(401).json({
           message: "Please login first"

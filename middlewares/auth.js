@@ -1,4 +1,4 @@
-const { User } = require("../models")
+const { User, Order } = require("../models")
 const { verifyToken } = require("../helpers/jwt")
 
 const authentication = (req, res, next) => {
@@ -37,7 +37,42 @@ const adminAuthorization = (req, res, next) => {
     })
 }
 
+const userAuthorization = (req, res, next) => {
+  let id = req.user.id
+  Order.findOne({
+    where: { userId: id }
+  })
+    .then(data => {
+      next()
+    })
+    .catch(err => {
+      next(err)
+    })
+}
+
+const userAuthorizationSingle = (req, res, next) => {
+  let id = req.params.orderId
+  let userId = req.user.id
+  Order.findOne({
+    where: { id }
+  })
+    .then(data => {
+      if (!data) {
+        return next({ name: "NotFound" })
+      } else if (data.userId === userId) {
+        next()
+      } else {
+        return next({ name: "Unauthorized" })
+      }
+    })
+    .catch(err => {
+      next(err)
+    })
+}
+
 module.exports = {
   authentication,
-  adminAuthorization
+  adminAuthorization,
+  userAuthorization,
+  userAuthorizationSingle
 }

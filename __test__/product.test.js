@@ -44,7 +44,6 @@ beforeAll(done => {
 })
 
 afterAll((done) => {
-  console.log(access_token_notAdmin);
   clearProduct()
     .then(() => {
       return clearNewUser()

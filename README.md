@@ -9,8 +9,7 @@ Simple ecommerce web app, using express, sequelize, axios, vue-cli and vuex
 # USAGE
 ```
 Open your text editor with Node.js in your computer and then run `npm install`
-Run `npx nodemon app.js`  to start the server
-Run `live-server --host=localhost` to start the client
+Run `npx nodemon bin/http.js`  to start the server
 ```
 
 ## Restful endpoints
@@ -28,8 +27,13 @@ Server URL : http://localhost:3000
 - PUT /products/:id
 - DELETE /products/:id
 - POST /register
-- POST /login
-
+- POST /loginAdmin
+- POST /loginUser
+- POST /orders
+- GET /orders
+- PATCH /orders/:orderId
+- DELETE /orders/:orderId
+- DELETE /orders
 
 ## POST/products
 
@@ -378,7 +382,53 @@ _Response (500)_
 }
 ```
 
-## POST/login
+## POST/loginAdmin
+
+>Login Admin
+
+_Request Header_
+```
+not needed
+```
+
+_Request Body_
+```
+{
+  "email": "<User's email>",
+  "password": "<User's password>"
+}
+```
+
+_Response(200)_
+```
+{
+  access_token: token 
+}
+```
+_Response(400- bad request)_
+```
+{
+    "Error" :  "VALIDATION_ERROR"
+    "message": "invalid email or password"
+}
+```
+_Response(403- Unauthorized)_
+```
+{
+  "Error" :  "Unauthorized"
+  "message": "You're not authorized!!"
+}
+```
+
+_Response (500)_
+```
+{
+  "Error": "INTERNAL_SERVER_ERROR",
+  "message": "internal server error"
+}
+```
+
+## POST/loginUser
 
 >Login User
 
@@ -408,6 +458,13 @@ _Response(400- bad request)_
     "message": "invalid email or password"
 }
 ```
+_Response(403- Unauthorized)_
+```
+{
+  "Error" :  "Unauthorized"
+  "message": "You're not authorized!!"
+}
+```
 
 _Response (500)_
 ```
@@ -416,3 +473,316 @@ _Response (500)_
   "message": "internal server error"
 }
 ```
+
+## POST/orders
+
+>Create new order
+
+_Request Header_
+```
+{
+  access_token: token
+}
+```
+_Request Body_
+```
+{
+  count: 1,
+  productId: 1 
+}
+```
+_Response (201 - Created)_
+```
+{
+  "id": <given id by system>,
+  count: "posted count number",
+  userId: <automatically filled>,
+  productId: "posted product id"
+}
+```
+_Response(400- bad request)_
+```
+{
+  "Error" :  "VALIDATION_ERROR"
+  "message": "Minimum count needed is 1"
+}
+```
+_Response(401- Not Logged In)_
+```
+{
+  "Error" :  "NotLoggedIn"
+  "message": "Please login first!"
+}
+```
+_Response (500)_
+```
+{
+  "Error": "INTERNAL_SERVER_ERROR",
+  "message": "internal server error"
+}
+```
+
+
+## GET/orders
+
+>get all orders list
+
+
+_Request Header_
+```
+{
+  access_token: token
+}
+```
+_Request Body_
+```
+not needed
+```
+_Response (200)_
+```
+[
+    {
+        "id": 12,
+        "count": 1,
+        "productId": 1,
+        "userId": 2,
+        "createdAt": "2021-01-26T23:55:02.828Z",
+        "updatedAt": "2021-01-26T23:55:02.828Z",
+        "Product": {
+            "id": 1,
+            "name": "Monster Hunter World",
+            "imageUrl": "https://www.monsterhunterworld.com/sp/images/top/bg_mv.jpg",
+            "price": 699999,
+            "stock": 100,
+            "genre": "adventure",
+            "genreId": null,
+            "createdAt": "2021-01-26T17:20:34.640Z",
+            "updatedAt": "2021-01-26T17:20:34.640Z"
+        }
+    },
+    {
+        "id": 13,
+        "count": 1,
+        "productId": 2,
+        "userId": 2,
+        "createdAt": "2021-01-26T23:55:34.610Z",
+        "updatedAt": "2021-01-26T23:55:34.610Z",
+        "Product": {
+            "id": 2,
+            "name": "Cyberpunk 2077",
+            "imageUrl": "https://upload.wikimedia.org/wikipedia/en/9/9f/Cyberpunk_2077_box_art.jpg",
+            "price": 699999,
+            "stock": 100,
+            "genre": "adventure",
+            "genreId": null,
+            "createdAt": "2021-01-26T17:20:34.640Z",
+            "updatedAt": "2021-01-26T17:20:34.640Z"
+        }
+    },
+    {
+        "id": 14,
+        "count": 3,
+        "productId": 7,
+        "userId": 2,
+        "createdAt": "2021-01-27T00:16:07.680Z",
+        "updatedAt": "2021-01-27T00:16:20.804Z",
+        "Product": {
+            "id": 7,
+            "name": "Red Dead Redemption II",
+            "imageUrl": "https://cf.shopee.com.my/file/78f0fd149a90a973d40f800a4f73ecaf",
+            "price": 699999,
+            "stock": 100,
+            "genre": "adventure",
+            "genreId": null,
+            "createdAt": "2021-01-26T17:20:34.640Z",
+            "updatedAt": "2021-01-26T17:20:34.640Z"
+        }
+    }
+]
+```
+
+
+_Response(401- Not Logged In)_
+```
+{
+  "Error" :  "NotLoggedIn"
+  "message": "Please login first!"
+}
+```
+
+_Response (500)_
+```
+{
+  "Error": "INTERNAL_SERVER_ERROR",
+  "message": "internal server error"
+}
+```
+
+
+
+
+## PATCH/orders/:orderId
+
+>Update order count by order ID
+
+_Request Header_
+```
+{
+  access_token: token
+}
+```
+
+
+_Request Body_
+```
+{
+  count: 10 <any number>
+}
+```
+_Response(200)_
+```
+{
+  "id": 12,
+  "count": 1,
+  "productId": 10,
+  "userId": 2,
+  "createdAt": "2021-01-26T23:55:02.828Z",
+  "updatedAt": "2021-01-26T23:55:02.828Z",
+  "Product": {
+      "id": 1,
+      "name": "Monster Hunter World",
+      "imageUrl": "https://www.monsterhunterworld.com/sp/images/top/bg_mv.jpg",
+      "price": 699999,
+      "stock": 100,
+      "genre": "adventure",
+      "genreId": null,
+      "createdAt": "2021-01-26T17:20:34.640Z",
+      "updatedAt": "2021-01-26T17:20:34.640Z"
+  }
+},
+```
+_Response(400- bad request)_
+```
+{
+  "Error" :  "VALIDATION_ERROR"
+  "message": "Minimum count needed is 1"
+}
+```
+_Response(401- Not Logged In)_
+```
+{
+  "Error" :  "NotLoggedIn"
+  "message": "Please login first!"
+}
+```
+_Response(403- Unauthorized)_
+```
+{
+  "Error" :  "Unauthorized"
+  "message": "You're not authorized!!"
+}
+```
+_Response(404 - Not Found)_
+```
+{
+  "Error": "NotFound",
+  "message": "Not Found"
+}
+```
+
+_Response (500)_
+```
+{
+  "Error": "INTERNAL_SERVER_ERROR",
+  "message": "internal server error"
+}
+```
+
+
+
+## DELETE/orders/:orderId
+
+>Delete order by order ID
+
+_Request Header_
+```
+{
+  access_token: token
+}
+```
+
+_Response(200)_
+```
+{
+  "message": "Order deleted"
+}
+```
+
+_Response(401- Not Logged In)_
+```
+{
+  "Error" :  "NotLoggedIn"
+  "message": "Please login first!"
+}
+```
+_Response(403- Unauthorized)_
+```
+{
+  "Error" :  "Unauthorized"
+  "message": "You're not authorized!!"
+}
+```
+
+_Response (500)_
+```
+{
+  "Error": "INTERNAL_SERVER_ERROR",
+  "message": "internal server error"
+}
+```
+
+
+## DELETE/orders
+
+>Delete all order by user ID
+
+
+__Request Header_
+```
+{
+  access_token: token
+}
+```
+_Request Body_
+```
+not needed
+```
+_Response(200)_
+```
+{
+  "message": "All Order deleted"
+}
+```
+_Response(401- Not Logged In)_
+```
+{
+  "Error" :  "NotLoggedIn"
+  "message": "Please login first!"
+}
+```
+_Response(403- Unauthorized)_
+```
+{
+  "Error" :  "Unauthorized"
+  "message": "You're not authorized!!"
+}
+```
+
+_Response (500)_
+```
+{
+  "Error": "INTERNAL_SERVER_ERROR",
+  "message": "internal server error"
+}
+```
+
