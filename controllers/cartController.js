@@ -32,7 +32,14 @@ class CartController {
                     ProductId: data.ProductId,
                     total: data.total + 1
                 }
-                return Cart.update(updateCart,{where: {UserId: data.UserId}})
+                return Cart.update(updateCart,{
+                    where: {
+                        [Op.and]: [
+                            { UserId: req.loggedInUser.id },
+                            { ProductId: req.body.ProductId }
+                        ]
+                    }
+                })
                 .then(data3 => {
                     res.status(201).json(data3)
                 })
