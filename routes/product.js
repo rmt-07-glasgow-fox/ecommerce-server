@@ -11,6 +11,10 @@ router.put('/products/:id', authorize, ProductController.editProduct)
 router.patch('/products/:id', authorize, ProductController.editOne)
 
 router.post('/cust-products/:id', ProductController.addToCart)
+router.get('/cust-products/', ProductController.getCartUser)
+router.put('/cust-products-minus/:id', ProductController.minusCart)
+router.put('/cust-products-plus/:id', ProductController.plusCart)
+router.delete('/cust-products/:id', ProductController.destroyCart)
 
 
 module.exports = router

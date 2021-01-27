@@ -100,7 +100,7 @@ class ProductController{
             .then(data => {
                 console.log('romi');
                 temp = data
-                return Cart.findOne({where: {ProductId: idProduct} })
+                return Cart.findOne({where: {ProductId: idProduct, UserId:user.id} })
                 .then(data => {
                     CartDataId = data.ProductId
                     console.log(data.ProductId, 'ini ketemu');
@@ -120,16 +120,85 @@ class ProductController{
                 console.log(CartDataId, 'ini id producy juga');
                 if (temp.id == CartDataId) {
                     res.status(201).json({msg: 'berhasil'})
-                    return Cart.increment('quantity', { by: 1, where: { ProductId: idProduct }}) 
+                    return Cart.increment({'quantity':1, 'totalprice':temp.price}, {where: { ProductId: idProduct }}) 
                 }
             })
-            .then(data => {
+            .then(_ => {
                 res.status(201).json({msg: 'berhasil'})
             })
             .catch(err => {
                 console.log(err)
                 next(err)
             })
+    }
+    static getCartUser (req, res, next) {
+        let user = cekToken(req.headers.access_token)
+        Cart.findAll({where: { UserId: user.id}})
+        .then(data => {
+            res.status(200).json(data)
+        })
+        .catch(err => {
+            next(err)
+        })
+    }
+
+    static minusCart (req, res, next) {
+        let user = cekToken(req.headers.access_token)
+        let idProduct = req.params.id
+
+        Cart.findOne({where: {ProductId: idProduct, UserId:user.id} })
+        .then(data => {
+            if (data.quantity > 0) {
+                if (data.quantity == 1) {
+                    priceTemp = data.totalprice
+                    return Cart.decrement({'quantity': 1, 'totalprice': priceTemp}, {where: { ProductId: idProduct }}) 
+                } else if (data.quantity > 1) {
+                    let priceTemp = (data.totalprice/data.quantity)
+                    console.log(priceTemp);
+                    return Cart.decrement({'quantity': 1, 'totalprice': priceTemp}, {where: { ProductId: idProduct }}) 
+                }
+            }
+        })
+        .then(_ => {
+            res.status(200).json({ msg: 'berhasil' })
+        })
+        .catch(err => {
+            next(err)
+        })
+
+    }
+    static plusCart (req,res,next) {
+        let user = cekToken(req.headers.access_token)
+        let idProduct = req.params.id
+
+        Cart.findOne({where: {ProductId: idProduct, UserId:user.id} })
+        .then(data => {
+            if (data.quantity > 0) {
+                if (data.quantity == 1) {
+                    let priceTemp = data.totalprice
+                    return Cart.increment({'quantity': 1, 'totalprice': priceTemp}, {where: { ProductId: idProduct }}) 
+                } else if (data.quantity > 1) {
+                    let priceTemp = (data.totalprice/data.quantity)
+                    return Cart.increment({'quantity': 1, 'totalprice': priceTemp}, {where: { ProductId: idProduct }}) 
+                }
+            }
+        })
+        .then(_ => {
+            res.status(200).json({ msg: 'berhasil' })
+        })
+        .catch(err => {
+            next(err)
+        })
+    }
+    static destroyCart (req,res,next) {
+        let idCart = req.params.id
+        Cart.destroy({where: {id: idCart}})
+        .then(_ => {
+            res.status(200).json({ msg: 'berhasil' })
+        })
+        .catch(err => {
+            next(err)
+        })
     }
 }
 
