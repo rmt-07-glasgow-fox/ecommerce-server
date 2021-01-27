@@ -1,7 +1,7 @@
 const { verifyToken } = require('../helpers/jwt')
-const { User, Product } = require('../models')
+const { User, Product, CartProduct } = require('../models')
 
-async function customerAuthenticate(req, res, next){
+async function customerAuthenticate (req, res, next) {
     try {
         let decoded = verifyToken(req.headers.access_token)
 
@@ -24,7 +24,7 @@ async function customerAuthenticate(req, res, next){
     }
 }
 
-async function adminAuthenticate(req, res, next){
+async function adminAuthenticate (req, res, next) {
     try {
         let decoded = verifyToken(req.headers.access_token)
 
@@ -47,19 +47,25 @@ async function adminAuthenticate(req, res, next){
     }
 }
 
-// async function adminAuthorize(req, res, next){
-//     try {
-//         if(req.user.role === 'admin'){
-//             next()
-//         } else {
-//             res.status(401).json({
-//                 message: "You don't have permission!"
-//             })
-//         }
-//     } catch (error) {
-        
-//     }
-// }
+async function customerAuthorize (req, res, next) {
+    try {
+        const result = await CartProduct.findOne({
+            where: {
+                id: req.params.id
+            }
+        })
+
+        if(result || result === req.user.id){
+            next()
+        } else {
+          return res.status(401).json({
+                message: "You don't have permission!"
+            })
+        }
+    } catch (error) {
+      return res.status(500).json(error)
+    }
+}
 
 module.exports = {
     adminAuthenticate,

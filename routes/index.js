@@ -8,6 +8,7 @@ const { adminAuthenticate, customerAuthenticate } = require('../middlewares/auth
 router.use(userRouter)
 router.use(customerAuthenticate)
 router.use(cartProductRouter)
+router.use(cartRouter)
 router.use(adminAuthenticate)
 router.use(productRouter)
 

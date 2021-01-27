@@ -14,6 +14,13 @@ const dataUser = [
     password: hashPassword("123456"),
     createdAt: new Date(),
     updatedAt: new Date()
+  },
+  {
+    email: "customer2@mail.com",
+    role: "customer",
+    password: hashPassword("123456"),
+    createdAt: new Date(),
+    updatedAt: new Date()
   }
 ]
 module.exports = {
