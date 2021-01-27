@@ -5,6 +5,7 @@ const categoryRouter = require('./category');
 const bannerRouter = require('./banner');
 const cartRouter = require('./cart');
 const wishlistRouter = require('./wishlist');
+const transactionRouter = require('./transaction');
 const isLoginCustomer = require('../middlewares/isLoginCustomers');
 
 router.get('/', (req, res) => {
@@ -24,6 +25,7 @@ router.use('/banners', bannerRouter);
 router.use(isLoginCustomer);
 router.use('/cart', cartRouter)
 router.use('/wishlist', wishlistRouter)
+router.use(transactionRouter)
 
 
 module.exports = router

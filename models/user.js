@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       User.hasMany(models.Product, { as: 'product', foreignKey: 'userId' });
       User.hasMany(models.Wishlist, { as: 'wishlist', foreignKey: 'userId' });
+      User.hasMany(models.History, { as: 'history', foreignKey: 'userId' });
       User.hasOne(models.Cart, { as: 'cart', foreignKey: 'userId' });
     }
   };

@@ -19,6 +19,10 @@ const errorHandler = (err, req, res, next) => {
       res.status(400).json({
         errors: 'ops, order out of stock'
       })
+    case "emptyCart":
+      res.status(400).json({
+        errors: 'cart is empty'
+      })
 
     case "authValidate":
       res.status(401).json({
