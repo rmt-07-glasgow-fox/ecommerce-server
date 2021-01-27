@@ -38,7 +38,7 @@ const errorHandler = (err, req, res, next) => {
         break;
       case 'NotEnoughStock':
         res.status(401).json({
-          message: "There's not enough data to process this request."
+          message: "There's not enough stock to process this order."
         })
         break;
       case 'SoldOut':
