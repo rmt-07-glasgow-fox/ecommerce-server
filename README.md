@@ -453,3 +453,105 @@ _Response (500)_
   "message": "Your Internal Server Is not Connect / Error"
 }
 ```
+
+## PUT/carts/:id
+
+>Update product by ID
+_Request Header_
+```
+{
+  access_token: token
+}
+```
+
+
+_Request Body_
+```
+{
+  "UserId": 5
+  "ProductId": 2
+  "quantity": 9
+}
+```
+_Response(200)_
+```
+{
+    "message": "Success Update"
+}
+```
+_Response(400- bad request)_
+```
+{
+  "Error" :  "VALIDATION_ERROR"
+  "message": "Stock is Out, Stock Cannot Less then 0"
+}
+```
+_Response(401- Not Logged In)_
+```
+{
+  "Error" :  "notLogin"
+  "message": "You Must login First"
+}
+```
+_Response(403- Unauthorized)_
+```
+{
+  "Error" :  "Unauthorized"
+  "message": "You not Unauthorized"
+}
+```
+_Response(404 - Not Found)_
+```
+{
+  "Error": "resourceNotFound",
+  "message": "Data Not Found"
+}
+```
+
+_Response (500)_
+```
+{
+  "Error": "INTERNAL_SERVER_ERROR",
+  "message": "internal server error"
+}
+```
+
+## DELETE/carts/:id
+
+>Delete product by ID
+_Request Header_
+```
+{
+  access_token: token
+}
+```
+
+_Response(200)_
+```
+{
+  "message": "Success Delete Data"
+}
+```
+
+_Response(401- Not Logged In)_
+```
+{
+  "Error" :  "notLogin"
+  "message": "You Must login First"
+}
+```
+_Response(403- Unauthorized)_
+```
+{
+  "Error" :  "Unauthorized"
+  "message": "You not Unauthorized"
+}
+```
+
+_Response (500)_
+```
+{
+  "Error": "INTERNAL_SERVER_ERROR",
+  "message": "internal server error"
+}
+```
