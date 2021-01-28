@@ -35,6 +35,20 @@ _Banners Endpoint_
 - `PUT /banners/:id`
 - `DELETE /banners/:id`
 
+_Cart Endpoint_
+- `GET /cart`
+- `POST /cart/add`
+- `DELETE /cart/:id`
+
+_Wishlist Endpoint_
+- `GET /cart`
+- `POST /cart/add`
+- `DELETE /cart/:id`
+
+_Transaction Endpoint_
+- `GET /history`
+- `POST /checkout`
+
 
 
 ### POST /login
@@ -137,10 +151,8 @@ _Response (500 - Internal Server Error)_
 > Get all product
 
 _Request Header_
-```json
-{
-  "access_token": "<your access token>"
-}
+```
+  not needed
 ```
 
 _Request Body_
@@ -206,10 +218,8 @@ _Response (500 - Internal Server Error)_
 > Get a product
 
 _Request Header_
-```json
-{
-  "access_token": "<your access token>"
-}
+```
+  not needed
 ```
 
 _Request Body_
@@ -235,13 +245,6 @@ _Response (200)_
       "createdAt": "2021-01-24T06:08:23.194Z",
       "updatedAt": "2021-01-24T06:08:23.194Z"
   }
-}
-```
-
-_Response (401 - Unauthorized)_
-```json
-{
-  "errors": "unauthorized!"
 }
 ```
 
@@ -439,10 +442,8 @@ _Response (500 - Internal Server Error)_
 > Get all category
 
 _Request Header_
-```json
-{
-  "access_token": "<your access token>"
-}
+```
+  not needed
 ```
 
 _Request Body_
@@ -486,10 +487,8 @@ _Response (500 - Internal Server Error)_
 > Get a category
 
 _Request Header_
-```json
-{
-  "access_token": "<your access token>"
-}
+```
+  not needed
 ```
 
 _Request Body_
@@ -504,13 +503,6 @@ _Response (200)_
   "name": "<category name>",
   "createdAt": "2021-01-24T06:09:17.186Z",
   "updatedAt": "2021-01-24T06:09:17.186Z"
-}
-```
-
-_Response (401 - Unauthorized)_
-```json
-{
-  "errors": "unauthorized!"
 }
 ```
 
@@ -679,10 +671,8 @@ _Response (500 - Internal Server Error)_
 > Get all banner
 
 _Request Header_
-```json
-{
-  "access_token": "<your access token>"
-}
+```
+  not needed
 ```
 
 _Request Body_
@@ -730,10 +720,8 @@ _Response (500 - Internal Server Error)_
 > Get a product
 
 _Request Header_
-```json
-{
-  "access_token": "<your access token>"
-}
+```
+  not needed
 ```
 
 _Request Body_
@@ -750,13 +738,6 @@ _Response (200)_
   "status": "<banner status>",
   "createdAt": "2021-01-24T06:09:17.186Z",
   "updatedAt": "2021-01-24T06:09:17.186Z"
-}
-```
-
-_Response (401 - Unauthorized)_
-```json
-{
-  "errors": "unauthorized!"
 }
 ```
 
@@ -930,3 +911,366 @@ _Response (500 - Internal Server Error)_
   "errors": "Internal server error"
 }
 ```
+### GET /cart
+
+> Get all cart
+
+_Request Header_
+```json
+{
+  "access_token": "<your access token>"
+}
+```
+
+_Request Body_
+```
+not needed
+```
+
+_Response (200)_
+```json
+{
+    "id": "<id cart>",
+    "userId": "<user id>",
+    "totalPayment": "<total payment>",
+    "product": [
+        {
+            "id": "<id product>",
+            "name": "<name product>",
+            "image_url": "<image url product>",
+            "price": "<price product>",
+            "stock": "<stock product>",
+            "categoryId": "<category id>",
+            "category": {
+                "name": "<category name>"
+            },
+            "ProductCart": {
+                "id": "<id product cart>",
+                "quantity": "<quantity cart item>",
+                "totalPrice":"<total price item item>"
+            }
+        },
+        {
+            "id": "<id product>",
+            "name": "<name product>",
+            "image_url": "<image url product>",
+            "price": "<price product>",
+            "stock": "<stock product>",
+            "categoryId": "<category id>",
+            "category": {
+                "name": "<category name>"
+            },
+            "ProductCart": {
+                "id": "<id product cart>",
+                "quantity": "<quantity cart item>",
+                "totalPrice":"<total price item item>"
+            }
+        }
+    ]
+}
+```
+
+_Response (500 - Internal Server Error)_
+```json
+{
+  "errors": "Internal server error"
+}
+```
+### POST /cart
+
+> add item cart
+
+_Request Header_
+```json
+{
+  "access_token": "<your access token>"
+}
+```
+
+_Request Body_
+```json
+{
+  "productId": "<productId to get insert into>",
+  "quantity": "<quantity to get insert into>"
+}
+```
+
+_Response (201 - Created)_
+```json
+{
+    "id": "<given id by system>",
+    "userId": "<posted user id>",
+    "totalPayment": "<posted total payment>",
+    "createdAt": "2021-01-27T00:52:14.788Z",
+    "updatedAt": "2021-01-27T00:56:13.042Z"
+}
+```
+
+_Response (404 - Bad Request)_
+```json
+{
+  "errors": "not found!"
+}
+```
+
+_Response (500 - Internal Server Error)_
+```json
+{
+  "errors": "Internal server error"
+}
+```
+### DELETE /cart/:id
+
+> Delete cart
+
+_Request Header_
+```json
+{
+  "access_token": "<your access token>"
+}
+```
+
+_Request Body_
+```
+not needed
+```
+
+_Response (200)_
+```json
+{
+  "message": "successfully remove cart",
+}
+```
+
+_Response (401 - Unauthorized)_
+```json
+{
+  "errors": "unauthorized!"
+}
+```
+
+_Response (404 - Not Found)_
+```json
+{
+  "errors": "not found"
+}
+```
+
+_Response (500 - Internal Server Error)_
+```json
+{
+  "errors": "Internal server error"
+}
+```
+### GET /wishlist
+
+> Get all wishlist
+
+_Request Header_
+```json
+{
+  "access_token": "<your access token>"
+}
+```
+
+_Request Body_
+```
+not needed
+```
+
+_Response (200)_
+```json
+[
+    {
+        "id": "<id wishlist>",
+        "productId": "<product id>",
+        "userId": "<user id>",
+        "createdAt": "2021-01-28T04:58:36.110Z",
+        "updatedAt": "2021-01-28T04:58:36.110Z",
+        "product": {
+            "id": "<product id>",
+            "name": "<product name>",
+            "image_url": "<product image url>",
+            "price": "<product price>",
+            "stock": "<product stock>",
+            "categoryId": "<categoryId>",
+            "userId": "<user id>",
+            "createdAt": "2021-01-26T23:50:16.817Z",
+            "updatedAt": "2021-01-28T02:55:04.191Z"
+        }
+    }
+]
+```
+
+_Response (500 - Internal Server Error)_
+```json
+{
+  "errors": "Internal server error"
+}
+```
+### POST /wishlist
+
+> add item wishlist
+
+_Request Header_
+```json
+{
+  "access_token": "<your access token>"
+}
+```
+
+_Request Body_
+```json
+{
+  "productId": "<productId to get insert into>"
+}
+```
+
+_Response (201 - Created)_
+```json
+{
+    "id": "<given id by system>",
+    "userId": "<posted user id>",
+    "productId": "<posted product id>",
+    "createdAt": "2021-01-27T00:52:14.788Z",
+    "updatedAt": "2021-01-27T00:56:13.042Z"
+}
+```
+
+_Response (404 - Bad Request)_
+```json
+{
+  "errors": "not found!"
+}
+```
+
+_Response (500 - Internal Server Error)_
+```json
+{
+  "errors": "Internal server error"
+}
+```
+### DELETE /wishlist/:id
+
+> Delete wishlist
+
+_Request Header_
+```json
+{
+  "access_token": "<your access token>"
+}
+```
+
+_Request Body_
+```
+not needed
+```
+
+_Response (200)_
+```json
+{
+  "message": "successfully remove wishlist",
+}
+```
+
+_Response (401 - Unauthorized)_
+```json
+{
+  "errors": "unauthorized!"
+}
+```
+
+_Response (404 - Not Found)_
+```json
+{
+  "errors": "not found"
+}
+```
+
+_Response (500 - Internal Server Error)_
+```json
+{
+  "errors": "Internal server error"
+}
+```
+### GET /history
+
+> Get all history transaction
+
+_Request Header_
+```json
+{
+  "access_token": "<your access token>"
+}
+```
+
+_Request Body_
+```
+not needed
+```
+
+_Response (200)_
+```json
+[
+    {
+        "id": "<id history>",
+        "userId": "<user id>",
+        "productName": "history product name",
+        "productImage": "history product image",
+        "productPrice": "history product price",
+        "quantity": "history product quantity",
+        "category": "history category product",
+        "createdAt": "2021-01-28T05:09:59.516Z",
+        "updatedAt": "2021-01-28T05:09:59.516Z"
+    }
+]
+```
+
+_Response (500 - Internal Server Error)_
+```json
+{
+  "errors": "Internal server error"
+}
+```
+### POST /checkout
+
+> checkout
+
+_Request Header_
+```json
+{
+  "access_token": "<your access token>"
+}
+```
+
+_Request Body_
+```
+not needed
+```
+
+_Response (200)_
+```json
+{
+    "message": "Successfully checkout!"
+}
+```
+
+_Response (400 - Bad Request)_
+```json
+{
+  "errors": "ops, order out of stock"
+}
+```
+
+_Response (400 - Bad Request)_
+```json
+{
+  "errors": "cart is empty"
+}
+```
+
+_Response (500 - Internal Server Error)_
+```json
+{
+  "errors": "Internal server error"
+}
