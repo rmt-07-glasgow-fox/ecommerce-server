@@ -11,6 +11,5 @@ router.use(authorization)
 router.patch(`/:id/add`, CartController.increaseQty)
 router.patch(`/:id/remove`, CartController.decreaseQty)
 router.delete(`/:id`, CartController.delete)
-// router.patch('/:id', CartController.patch)
 
 module.exports = router

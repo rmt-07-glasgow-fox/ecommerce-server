@@ -20,21 +20,6 @@ class ProductController {
       next(err)
     }
   }
-  // static async add(req,res,next) {
-  //   const payload = {
-  //     name: req.body.name,
-  //     image_url: req.body.image_url,
-  //     price: req.body.price,
-  //     stock: req.body.stock,
-  //     category:req.body.category
-  //   }
-  //   try {
-  //     const data = await Product.create(payload)
-  //     res.status(201).json(data)
-  //   } catch (err) {
-  //     next(err)
-  //   }
-  // }
   static add(req,res,next) {
     const payload = {
       name: req.body.name,
@@ -89,23 +74,23 @@ class ProductController {
       next(err)
     }
   }
-  static checkout (req,res,next) {
-    const id = Number(req.params.id)
-    Product.findByPk(id)
-      .then(data => {
-        const obj = {
-          stock: data.stock - req.body.quantity
-        }
-        return Product.update(obj, {
-          where: {
-            id
-          }
-        })
-      })
-      .then(data => {
-        res.status(200).json(data)
-      })
-  }
+  // static checkout (req,res,next) {
+  //   const id = Number(req.params.id)
+  //   Product.findByPk(id)
+  //     .then(data => {
+  //       const obj = {
+  //         stock: data.stock - req.body.quantity
+  //       }
+  //       return Product.update(obj, {
+  //         where: {
+  //           id
+  //         }
+  //       })
+  //     })
+  //     .then(data => {
+  //       res.status(200).json(data)
+  //     })
+  // }
 }
 
 module.exports = ProductController

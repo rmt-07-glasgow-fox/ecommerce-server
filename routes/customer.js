@@ -11,6 +11,6 @@ router.use(authorization);
 router.post(`/products`, ProductController.add)
 router.put(`/products/:id`, ProductController.update)
 router.delete(`/products/:id`, ProductController.delete)
-router.patch('/products/:id', ProductController.checkout)
+// router.patch('/products/:id', ProductController.checkout)
 
 module.exports = router

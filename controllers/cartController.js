@@ -100,28 +100,6 @@ class CartController {
         next(err)
       })
   }
-  static patch (req,res,next) {
-    const id = req.params.id
-    Cart.findByPk(id, {
-      include: Product
-    })
-    .then(response => {
-      const obj = {
-        quantity: req.body.quantity
-      }
-      return Cart.update(obj, {
-        where: {
-          id
-        }
-      })
-    })
-    .then(response => {
-      res.status(200).json(response)
-    })
-    .catch(err => {
-      next(err)
-    })
-  }
 }
 
 module.exports = CartController
