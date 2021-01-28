@@ -16,7 +16,13 @@ class productController {
             const read = await Product.findOne({
                 where: { id:req.params.id}
             })
-            res.status(200).json(read)
+            if (read) {
+                res.status(200).json(read)
+            } else {
+                next({
+                    name: 'undefined'
+                })
+            }
         } catch (err) {
             next(err)
         }
