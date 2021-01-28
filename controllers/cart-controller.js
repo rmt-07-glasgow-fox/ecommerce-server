@@ -19,7 +19,7 @@ class CartController {
                     if(!data) return CartProduct.create(newCart)
                     cart = data
                     let quantity ={
-                          quantity: req.body.quantity
+                          quantity: data.quantity + 1
                     }
                     return CartProduct.update(quantity, {where: {
                               ProductId: productid,
