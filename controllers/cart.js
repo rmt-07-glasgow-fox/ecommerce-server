@@ -77,7 +77,7 @@ class CartController {
           try {
             transaction = await sequelize.transaction()
             const product = await Product.findByPk(e.ProductId)
-            if(product.stock-e.quantity < 0) throw {message: product.name + 'out of stock'}
+            if(product.stock-e.quantity < 0) throw {message: product.name + ' out of stock'}
             if(product){
               const update = await Product.update({stock: product.stock-e.quantity},{
                 where: {id: e.ProductId},
