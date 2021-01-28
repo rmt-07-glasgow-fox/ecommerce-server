@@ -3,6 +3,8 @@
 | ROUTES            | METHODS | DESCRIPTION                    |
 |-------------------|---------|--------------------------------|
 | `/login`          | POST    | In Need To login user          |
+| `/register`          | POST    | In Need To register user          |
+| `/user`          | GET    | In Need To see user data         |
 | `/products`       | POST    | In Need To add products        |
 | `/products`       | GET     | In Need To see products        |
 | `/products/:id`   | PUT     | In Need To update products     |
@@ -18,7 +20,14 @@
 | `/banner/:id`     | PATCH   | In Need To change status       |
 | `/banner/:id`     | PUT     | In Need To update banner       |
 | `/banner/:id`     | DELETE  | In Need To delete banner       |
-
+| `/products/wishlist`         | GET     | In Need To see wishlist          |
+| `/products/wishlist`         | POST    | In Need To add wishlist          |
+| `/products/wishlist/:id`     | DELETE  | In Need To delete wishlist       |
+| `/products/cart`         | GET     | In Need To see cart          |
+| `/products/cart`         | POST    | In Need To add cart          |
+| `/products/cart/:id`     | PATCH   | In Need To change status       |
+| `/checkout`     | PATCH   | In Need To change status       |
+| `/products/cart/:id`     | DELETE  | In Need To delete cart       |
 -------------------
 ## ERROR RESPONSE 
 | STATUS |       ERROR DESC                 |
@@ -81,6 +90,49 @@
   * **Code:** 500 INTERNAL SERVER ERROR <br />
     **Content:** `{ error messages }`
 -----
+**POST /register**
+----
+ register into app.
+
+* **URL**
+
+  /register
+
+* **Method:**
+
+  `POST`
+  
+* **Req Body**
+
+  **Required:**
+  ```
+    {
+        "email": "<input email>",
+        "password": "<input password>",
+    }
+  ```
+    
+
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Content:** 
+    ``` json
+    {
+        "id": "<given by system>",
+        "email": "<email on database>"
+    }
+ 
+* **Error Response:**
+
+  * **Code:** 400 VALIDATION ERROR <br />
+    **Content:** `{ SequelizeValidationError message }`
+  
+  OR
+
+  * **Code:** 500 INTERNAL SERVER ERROR <br />
+    **Content:** `{ error messages }`
+-----
 **POST /products**
 ----
  Insert product into app.
@@ -110,7 +162,7 @@
 
 * **Success Response:**
 
-  * **Code:** 201 <br />
+  * **Code:** 200 <br />
     **Content:** 
     ``` json
     {
@@ -785,6 +837,375 @@
     **Content:** `{ SequelizeValidationError message }`
   
   OR
+
+  * **Code:** 500 INTERNAL SERVER ERROR <br />
+    **Content:** `{ error messages }`
+------
+**POST /products/wishlist**
+----
+ Insert wishlist into app.
+
+* **URL**
+
+  /products/wishlist
+
+* **Method:**
+
+  `POST`
+  
+* **Req Body**
+
+
+  **Required:**
+  ``` json
+    {
+        "productId": "<FK ID>",
+    }
+  ```
+    
+
+* **Success Response:**
+
+  * **Code:** 201 <br />
+    **Content:** 
+    ``` json
+    {
+        "id": "<given id by system>",
+        "userId": "<FK ID>",
+        "productId": "<FK ID>",
+        "createdAt": "<given by sytem>",
+        "updatedAt": "<given by sytem>"
+    }
+ 
+* **Error Response:**
+
+  * **Code:** 400 VALIDATION ERROR <br />
+    **Content:** `{ SequelizeValidationError message }`
+  
+  OR
+
+  * **Code:** 500 INTERNAL SERVER ERROR <br />
+    **Content:** `{ error messages }`
+-------
+**GET /products/wishlist**
+----
+  Returns json data wishlist.
+
+* **URL**
+
+  /products/wishlist
+
+* **Method:**
+
+  `GET`
+  
+  
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Content:** 
+    ``` json
+    {
+        "id": "<given id by system>",
+        "userId": "<FK ID>",
+        "productId": "<FK ID>",
+        "createdAt": "<given by sytem>",
+        "updatedAt": "<given by sytem>"
+    }
+ 
+* **Error Response:**
+
+  * **Code:** 500 INTERNAL SERVER ERROR <br />
+    **Content:** `{ error messages }`
+------
+**DELETE /products/wishlist/:id**
+----
+ In Need To delete banner 
+
+* **URL**
+
+  /products/wishlist/:id
+
+* **Method:**
+
+  `DELETE`
+
+* **Req Params**
+
+  **Required:**
+  ``` json
+    {
+      "id": "<wishlist id>",
+    }
+  ```
+  
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Content:** 
+    ``` json
+    {
+        "wishlist Deleted"
+    }
+ 
+* **Error Response:**
+
+  * **Code:** 404 RESOURCE NOT FOUND <br />
+    **Content:** `{ ResourceNotFound }`
+  
+  OR
+
+  * **Code:** 400 VALIDATION ERROR <br />
+    **Content:** `{ SequelizeValidationError message }`
+  
+  OR
+
+  * **Code:** 500 INTERNAL SERVER ERROR <br />
+    **Content:** `{ error messages }`
+------
+**POST /products/cart**
+----
+ Insert cart into app.
+
+* **URL**
+
+  /products/cart
+
+* **Method:**
+
+  `POST`
+  
+* **Req Body**
+
+
+  **Required:**
+  ``` json
+    {
+        "productId": "<FK ID>",
+        "quantity" : "<Integer of any>"
+    }
+  ```
+    
+
+* **Success Response:**
+
+  * **Code:** 201 <br />
+    **Content:** 
+    ``` json
+    {
+        "id": "<given id by system>",
+        "userId": "<FK ID>",
+        "productId": "<FK ID>",
+        "quantity": "<DB quantity>",
+        "isBought" : "<Boolean>",
+        "createdAt": "<given by sytem>",
+        "updatedAt": "<given by sytem>"
+    }
+ 
+* **Error Response:**
+
+  * **Code:** 400 VALIDATION ERROR <br />
+    **Content:** `{ SequelizeValidationError message }`
+  
+  OR
+
+  * **Code:** 500 INTERNAL SERVER ERROR <br />
+    **Content:** `{ error messages }`
+-------
+**GET /products/cart**
+----
+  Returns json data cart.
+
+* **URL**
+
+  /products/cart
+
+* **Method:**
+
+  `GET`
+  
+  
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Content:** 
+    ``` json
+    {
+        "id": "<given id by system>",
+        "userId": "<FK ID>",
+        "productId": "<FK ID>",
+        "quantity": "<DB quantity>",
+        "isBought" : "<Boolean>",
+        "createdAt": "<given by sytem>",
+        "updatedAt": "<given by sytem>"
+    }
+ 
+* **Error Response:**
+
+  * **Code:** 500 INTERNAL SERVER ERROR <br />
+    **Content:** `{ error messages }`
+------
+**DELETE /products/cart/:id**
+----
+ In Need To delete Cart 
+
+* **URL**
+
+  /products/cart/:id
+
+* **Method:**
+
+  `DELETE`
+
+* **Req Params**
+
+  **Required:**
+  ``` json
+    {
+      "id": "<Cart id>",
+    }
+  ```
+  
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Content:** 
+    ``` json
+    {
+        "Cart Deleted"
+    }
+ 
+* **Error Response:**
+
+  * **Code:** 404 RESOURCE NOT FOUND <br />
+    **Content:** `{ ResourceNotFound }`
+  
+  OR
+
+  * **Code:** 400 VALIDATION ERROR <br />
+    **Content:** `{ SequelizeValidationError message }`
+  
+  OR
+
+  * **Code:** 500 INTERNAL SERVER ERROR <br />
+    **Content:** `{ error messages }`
+------
+**PATCH /products/cart:id**
+----
+ In Need To change cart 
+
+* **URL**
+
+  /products/cart/:id
+
+* **Method:**
+
+  `PATCH`
+
+* **Req Params**
+   ``` json
+    {
+      "id": "<cart id>",
+    }
+  ```
+  **Required:**
+  ``` json
+    {
+      "quantity": "<quantity>",
+    }
+  ```
+  
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Content:** 
+    ``` json
+     {
+        "id": "<given id by system>",
+        "userId": "<FK ID>",
+        "productId": "<FK ID>",
+        "quantity": "<DB quantity>",
+        "isBought" : "<Boolean>",
+        "createdAt": "<given by sytem>",
+        "updatedAt": "<given by sytem>"
+    }
+ 
+* **Error Response:**
+
+  * **Code:** 404 RESOURCE NOT FOUND <br />
+    **Content:** `{ ResourceNotFound }`
+  
+  OR
+
+  * **Code:** 400 VALIDATION ERROR <br />
+    **Content:** `{ SequelizeValidationError message }`
+  
+  OR
+
+  * **Code:** 500 INTERNAL SERVER ERROR <br />
+    **Content:** `{ error messages }`
+------
+**PATCH /checkout**
+----
+ In Need To change cart 
+
+* **URL**
+
+  /checkout
+
+* **Method:**
+
+  `PATCH`
+
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Content:** 
+    ``` json
+     {
+        "message": "Checkout Success"
+    }
+ 
+* **Error Response:**
+
+  * **Code:** 404 RESOURCE NOT FOUND <br />
+    **Content:** `{ ResourceNotFound }`
+  
+  OR
+
+  * **Code:** 400 VALIDATION ERROR <br />
+    **Content:** `{ SequelizeValidationError message }`
+  
+  OR
+
+  * **Code:** 500 INTERNAL SERVER ERROR <br />
+    **Content:** `{ error messages }`
+------
+**GET /user**
+----
+  Returns json data user.
+
+* **URL**
+
+  /user
+
+* **Method:**
+
+  `GET`
+  
+  
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Content:** 
+    ``` json
+    {
+        "email": "admin@mail.com",
+        "itemonwishlist": "[array]",
+        "itemoncart": "[array]",
+    }
+ 
+* **Error Response:**
 
   * **Code:** 500 INTERNAL SERVER ERROR <br />
     **Content:** `{ error messages }`
