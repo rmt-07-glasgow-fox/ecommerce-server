@@ -1,5 +1,5 @@
 'use strict';
-const { encrypt } = require('../helpers')
+const { encrypt } = require('../helpers/bcrypt')
 const {
   Model
 } = require('sequelize');
