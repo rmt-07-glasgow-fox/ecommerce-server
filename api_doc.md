@@ -27,8 +27,10 @@ E-commerce CMS is an application to manage your products as admin. This app has 
 ## Cart
 - `POST /carts`
 - `GET /carts`
-- `PATCH /minitem/:id`
-- `PATCH /additem/:id`
+- `GET /carts/histories`
+- `PATCH /carts/checkout`
+- `PATCH /carts/minitem/:id`
+- `PATCH /carts/additem/:id`
 - `DELETE /carts/:id`
 
 ## RESTful endpoints
@@ -86,10 +88,8 @@ _Response (500 - Internal Server Error)_
 > Get all products
 
 _Request Header_
-```json
-{
-  "access_token": "<your access token>"
-}
+```
+not needed
 ```
 
 _Request Body_
@@ -400,10 +400,8 @@ _Response (500 - Internal Server Error)_
 > Get all banners
 
 _Request Header_
-```json
-{
-  "access_token": "<your access token>"
-}
+```
+not needed
 ```
 
 _Request Body_
@@ -730,7 +728,56 @@ _Response (500 - Internal Server Error)_
 }
 ```
 ---
-### PATCH /additem/:id
+### GET /carts/histories
+
+> Get all histories user have
+
+_Request Header_
+```json
+{
+  "access_token": "<your access token>"
+}
+```
+
+_Request Body_
+```
+not needed
+```
+#### Success
+
+_Response (200)_
+```json
+[
+  {
+    "id": 2,
+    "UserId": 1,
+    "ProductId": 4,
+    "quantity": 1,
+    "status": true,
+    "createdAt": "2021-01-26T14:30:31.377Z",
+    "updatedAt": "2021-01-28T00:04:13.591Z",
+    "Product": {
+      "id": 4,
+      "name": "Ipad Pro 2020",
+      "image_url": "https://s3.bukalapak.com/bukalapak-kontenz-production/content_attachments/52633/w-744/ipad_pro2020.jpg",
+      "price": 7499000,
+      "stock": 78,
+      "createdAt": "2021-01-20T11:14:24.528Z",
+      "updatedAt": "2021-01-28T00:04:13.590Z"
+    }
+  }
+]
+```
+#### Error
+
+_Response (500 - Internal Server Error)_
+```json
+{
+  "errors": ["internal server error"]
+}
+```
+---
+### PATCH /carts/additem/:id
 
 > Add item quantity in cart
 
@@ -768,7 +815,7 @@ _Response (500 - Internal Server Error)_
 }
 ```
 ---
-### PATCH /minitem/:id
+### PATCH /carts/minitem/:id
 
 > Min item quantity in cart
 
@@ -837,6 +884,55 @@ _Response (404 - Error Not Found)_
   "erros": ["error not found"]
 }
 ```
+
+_Response (500 - Internal Server Error)_
+```json
+{
+  "errors": ["internal server error"]
+}
+```
+---
+### GET /carts/checkout
+
+> Checkout all carts to history
+
+_Request Header_
+```json
+{
+  "access_token": "<your access token>"
+}
+```
+
+_Request Body_
+```
+not needed
+```
+#### Success
+
+_Response (200)_
+```json
+[
+  {
+    "id": 2,
+    "UserId": 1,
+    "ProductId": 4,
+    "quantity": 1,
+    "status": true,
+    "createdAt": "2021-01-26T14:30:31.377Z",
+    "updatedAt": "2021-01-28T00:04:13.591Z",
+  },
+  {
+    "id": 1,
+    "UserId": 1,
+    "ProductId": 3,
+    "quantity": 1,
+    "status": true,
+    "createdAt": "2021-01-26T14:27:55.097Z",
+    "updatedAt": "2021-01-28T00:04:13.591Z",
+  }
+]
+```
+#### Error
 
 _Response (500 - Internal Server Error)_
 ```json
