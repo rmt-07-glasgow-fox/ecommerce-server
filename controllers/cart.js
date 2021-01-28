@@ -4,9 +4,9 @@ exports.create = async (req, res, next) => {
   try {
     const userId = req.user.id;
     const cart = await Cart.findOne({ where: { UserId: userId, ProductId: req.body.ProductId } });
+    const product = await Product.findByPk(cart.ProductId);
 
     if (cart) {
-      const product = await Product.findByPk(cart.ProductId);
       if (product.stock < cart.quantity + 1) {
         return next({ name: 'LimitStock' });
       } else {
