@@ -23,7 +23,23 @@ class CartController {
 
   static async createOrUpdateCart(req, res, next) {
     try {
-      const { productId, quantity } = req.body;
+      let { productId, quantity, add } = req.body;
+
+      // HANDLE REQUEST DARI ADD CART
+      if (add) {
+        const findCart = await Cart.findOne({ where: { userId: req.user.id } })
+        if (findCart) {
+          const findProductInCart = await ProductCart.findOne({ where: { productId, cartId: findCart.id } });
+          if (findProductInCart) {
+            quantity = findProductInCart.quantity + 1
+          } else {
+            quantity = 1
+          }
+        } else {
+          quantity = 1
+        }
+
+      }
 
       const product = await Product.findByPk(productId);
       if (!product) return next({ name: 'notFound' });
@@ -87,4 +103,5 @@ class CartController {
   }
 }
 
+module.exports = CartController
 module.exports = CartController
