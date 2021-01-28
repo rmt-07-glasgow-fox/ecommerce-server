@@ -1,10 +1,9 @@
 'use strict';
-const { hashPassword } = require('../helpers/hashPassword')
 const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
+  class Cart extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -12,24 +11,21 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      User.hasMany(models.Cart, {
+      Cart.belongsTo(models.User, {
         foreignKey: "UserId"
+      })
+      Cart.belongsTo(models.Product, {
+        foreignKey: "ProductId"
       })
     }
   };
-  User.init({
-    email: DataTypes.STRING,
-    password: DataTypes.STRING,
-    role: DataTypes.STRING
+  Cart.init({
+    UserId: DataTypes.INTEGER,
+    ProductId: DataTypes.INTEGER,
+    amount: DataTypes.INTEGER
   }, {
-    hooks: {
-      beforeCreate: (instance, options) => {
-        instance.password = hashPassword(instance.password)
-        instance.role = 'customer'
-      }
-    },
     sequelize,
-    modelName: 'User',
+    modelName: 'Cart',
   });
-  return User;
+  return Cart;
 };

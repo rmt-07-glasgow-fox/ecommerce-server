@@ -4,6 +4,29 @@ const { makeToken } = require("../helpers/jwt")
 
 class userController {
 
+    static regist(req, res, next) {
+        const data = {
+            email: req.body.email,
+            password: req.body.password
+        }
+
+        User.create(data)
+        .then(data => {
+            res.status(201).json({
+                id: data.id,
+                email: data.email
+            })
+        })
+        .catch(err => {
+            next({
+                message: err.message,
+                code: 500
+            })
+        })
+
+
+    }
+
     static login(req, res, next) {
         const {
             email,
