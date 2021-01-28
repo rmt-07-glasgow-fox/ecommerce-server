@@ -106,7 +106,7 @@ class CartController {
         },
         returning: true
       })
-      if (checkouts[0] == 1 || checkouts[0] == 2) {
+      if (checkouts[0] > 0) {
         res.status(200).json(checkouts[1])
       } else {
         throw { name: 'NotFound' }
