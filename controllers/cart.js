@@ -6,7 +6,8 @@ class cartController {
         Cart.findAll({
             where: {
                 userId: +req.user.id,
-            }
+            },
+            attributes: ['id', 'userId', 'productId', 'quantity', 'isBought']
         })
             .then(data => {
                 res.status(200).json(data)
