@@ -8,7 +8,7 @@ class Controller {
     let { email, password, role } = req.body
 
     let input = { email, password, role }
-    console.log(input);
+    console.log('register input:', input);
 
     User.create(input, {
       returning: true

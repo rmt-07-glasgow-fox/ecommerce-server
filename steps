@@ -19,3 +19,8 @@ npm install -g win-node-env
 
 npm run db:create:test
 npm run db:migrate:test
+
+# cart
+npx sequelize model:generate --name Cart --attributes UserId:integer,ProductId:integer,quantity:integer,status:boolean
+add references
+migrate
