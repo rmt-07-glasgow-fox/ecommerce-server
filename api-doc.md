@@ -244,3 +244,175 @@ _Response (500 - internalStatusError)_
     "message": "internal server error"
 }
 ```
+
+### POST /cart/:id
+
+> create new cart
+
+_Request Header_
+```json
+{
+    "access_token": "<access_token given by system>"
+}
+```
+
+_Request Body_
+```json
+not needed
+```
+
+_Response (201 - OK)_
+```json
+{
+    "id": "<id from system>",
+    "ProductId": "integer",
+    "UserId": "integer",
+    "quantity": "integer",
+    "status": "integer",
+    "createdAt": "<created date from system>",
+    "updatedAt": "<last update date from system>"
+}
+```
+
+_Response (401 - unauthorized)_
+```json
+{
+    "message": "Please Login First"
+}
+```
+
+_Response (500 - internalStatusError)_
+```json
+{
+    "message": "internal server error"
+}
+```
+
+### GET /cart
+
+> get user's cart list
+
+_Request Header_
+```json
+{
+    "access_token": "<access_token given by system>"
+}
+```
+
+_Request Body_
+```json
+not needed
+```
+
+_Response (200 - OK)_
+```json
+{
+    "id": "<id from system>",
+    "ProductId": "integer",
+    "UserId": "integer",
+    "quantity": "integer",
+    "status": "integer",
+    "createdAt": "<created date from system>",
+    "updatedAt": "<last update date from system>"
+}
+```
+
+_Response (401 - unauthorized)_
+```json
+{
+    "message": "Please Login First"
+}
+```
+
+_Response (500 - internalStatusError)_
+```json
+{
+    "message": "internal server error"
+}
+```
+
+### PATCH /cart/:id
+
+> patch cart quantity
+
+_Request Header_
+```json
+{
+    "access_token": "<access_token given by system>"
+}
+```
+
+_Request Body_
+```json
+not needed
+```
+
+_Response (200 - OK)_
+```json
+{
+    "id": "<id from system>",
+    "ProductId": "integer",
+    "UserId": "integer",
+    "quantity": "integer",
+    "status": "integer",
+    "createdAt": "<created date from system>",
+    "updatedAt": "<last update date from system>"
+}
+```
+
+_Response (401 - unauthorized)_
+```json
+{
+    "message": "Please Login First"
+}
+```
+
+_Response (500 - internalStatusError)_
+```json
+{
+    "message": "internal server error"
+}
+```
+
+### DELETE /cart/:id
+
+> delete cart 
+
+_Request Header_
+```json
+{
+    "access_token": "<access_token given by system>"
+}
+```
+
+_Request Body_
+```json
+not needed
+```
+
+_Response (200 - OK)_
+```json
+{
+    "id": "<id from system>",
+    "ProductId": "integer",
+    "UserId": "integer",
+    "quantity": "integer",
+    "status": "integer",
+    "createdAt": "<created date from system>",
+    "updatedAt": "<last update date from system>"
+}
+```
+
+_Response (401 - unauthorized)_
+```json
+{
+    "message": "Please Login First"
+}
+```
+
+_Response (500 - internalStatusError)_
+```json
+{
+    "message": "internal server error"
+}
+```

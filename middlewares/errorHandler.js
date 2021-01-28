@@ -12,6 +12,8 @@ function errorHandlers(err, req, res, next) {
                 eror.push({message: e.message})
             });
             return res.status(400).json(eror)
+        case 'badRequest':
+            return res.status(400).json({message: err.message})
         case 'JsonWebTokenError':
             return res.status(401).json({message: err.message})
         case 'NotLogin':

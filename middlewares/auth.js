@@ -1,8 +1,45 @@
 const { checkToken } = require('../helpers/jwt')
-const { User } = require('../models')
+const { User, Product, Cart } = require('../models')
 
-function authenticate(req, res, next) {
+function authUser(req, res, next) {
+    if (req.headers.access_token) {
+        console.log('hai');
+        let login = checkToken(req.headers.access_token)
+        console.log(login);
+        User.findOne({
+            where: {email: login.email}
+        })
+        .then(data => {
+            // console.log('masuk then',data);
+            if (data) {
+                req.user = login
+                next()
+            } else {
+                console.log('imel ga ktemu');
+                next({name: 'NotLogin', message: 'please login first'})
+            }
+        })
+        .catch(next)
+    } else {
+        next({name: 'NotLogin', message: 'please login first'})
+    }
+}
 
+function authorizeUser(req, res, next) {
+    console.log('author user');
+    Cart.findByPk(req.params.id)
+    .then(data => {
+        if (!data) {
+            next({name: 'NotFound', message: 'data not found'})
+        } else {
+            if (data.UserId === req.user.id) {
+                next()
+            } else {
+                next({name: 'Unauthorized', message: 'not your own'})
+            }
+        }
+    })
+    .catch(next)
 }
 
 function authAdmin(req, res, next) {
@@ -14,6 +51,7 @@ function authAdmin(req, res, next) {
             where: {email: login.email}
         })
         .then(result => {
+            console.log('auth');
             if (!result) {
                 next({name: 'NotFound', message: 'data not found'})
             } else {
@@ -32,5 +70,7 @@ function authAdmin(req, res, next) {
 }
 
 module.exports = {
-    authAdmin
+    authAdmin,
+    authUser,
+    authorizeUser
 }
