@@ -9,7 +9,7 @@ const cartsRouter = require('./carts')
 router.post('/register', UserController.register)
 router.post('/login', UserController.login)
 
-router.use('/products', authenticate, productsRouter)
+router.use('/products', productsRouter)
 router.use('/carts', authenticate, cartsRouter)
 
 module.exports = router
