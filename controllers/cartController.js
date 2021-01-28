@@ -61,16 +61,6 @@ class cartController {
         next(err)})
     }
 
-    static getCart(req, res, next) {
-      Cart.findOne({include: ['Product'], where: {id: +req.params.id}})
-      .then(cart => {
-        const {id, UserId, ProductId, quantity, Product} = cart
-        res.status(200).json({id, UserId, ProductId, quantity, Product})
-      })
-      .catch(err => {
-        next(err)})
-    }
-
     static edit(req, res, next) {
       const {quantity} = req.body
         Cart.update({quantity}, {where: {id: +req.params.id}})

@@ -2,7 +2,6 @@ const {checkToken} = require("../helpers/jwt")
 const {User} = require("../models")
 
 function authentication(req, res, next) {
-    console.log(req.headers.access_token, "<<<<<<<< ini akses token")
     if (!req.headers.access_token) {
         next({name: "AuthError"})
     } else {

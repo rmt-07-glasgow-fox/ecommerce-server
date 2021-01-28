@@ -11,6 +11,8 @@ function errorHandler(err, req, res, next) {
             res.status(404).json({message: 'Email/Password Invalid'})
         } else if (err.name === 'EmailInvalid') {
             res.status(400).json({message: "Please log in first"})
+        } else if (err.name === 'StockNotEnough') {
+            res.status(400).json({message: "We do not have enough stock to fulfill your order"})
         } else {
             res.status(500).json({message: err.message})
         }
