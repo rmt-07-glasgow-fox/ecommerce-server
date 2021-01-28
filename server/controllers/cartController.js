@@ -165,9 +165,17 @@ class CartController {
 
   static async checkout(req, res, next) {
     try {
-      let count = req.body.length
+      const userId = req.userData.id
+      const carts = await Cart.findAll({
+        where: {
+          UserId: userId,
+          checkout: false
+        },
+        include: [Product]
+      })
+      let count = carts.length
       let errors = []
-      for (const cart of req.body) {
+      for (const cart of carts) {
         let cartId = cart.id
         let productId = cart.ProductId
         let qty = cart.quantity

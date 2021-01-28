@@ -1324,7 +1324,7 @@ _Response (500 - Bad Request)_
 }
 ```
 ---
-### PUT /carts/checkout
+### PUT /carts
 
 > Update status checkout and update product stock
 
@@ -1336,18 +1336,7 @@ _Request Headers_
 ```
 _Request Body_
 ```
-[
-  {
-    "id": 1,
-    "ProductId": 10,
-    "quantity": 2
-  },
-  {
-    "id": 2,
-    "ProductId": 8,
-    "quantity": 1
-  }
-]
+not needed
 ```
 _Response (200 - OK)_
 ```
