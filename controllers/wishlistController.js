@@ -19,6 +19,19 @@ class WishlistController {
     };
   };
 
+  static async readOneWishlist (req, res, next) {
+    try {
+      const inputId = Number(req.params.id);
+      const wishlist = await Wishlist.findAll({ where: { ProductId: inputId } });
+
+      if (!wishlist) throw { name: 'wishlistNotFound' };
+
+      return res.status(200).json(wishlist);
+    } catch (err) {
+      next(err);
+    };
+  };
+
   static async createWishlist (req, res, next) {
     try {
       let UserId = req.user.id;

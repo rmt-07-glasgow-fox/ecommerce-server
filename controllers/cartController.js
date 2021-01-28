@@ -35,16 +35,29 @@ class CartController {
 
       const findOne = await Cart.findOne({ where: { UserId, ProductId } });
 
-      if (findOne) {
+      console.log(findOne, '<<<<<<<<<<<< PAID LHO')
+
+      if (findOne && !findOne.isPaid) {
         let oldQuantity = findOne.quantity;
         let newQuantity = oldQuantity + quantity;
 
-        await Cart.update({ UserId, ProductId, quantity: newQuantity, isPaid }, { where: { id: findOne.id } });
+        await Cart.update({ UserId, ProductId, quantity: newQuantity, isPaid }, { where: { id: findOne.id, isPaid: false } });
 
         const find = await Cart.findByPk(findOne.id);
 
         return res.status(200).json(find);
       };
+
+      // if (findOne && findOne.isPaid) {
+      //   let oldQuantity = findOne.quantity;
+      //   let newQuantity = oldQuantity + quantity;
+
+      //   await Cart.update({ UserId, ProductId, quantity: newQuantity, isPaid }, { where: { id: findOne.id } });
+
+      //   const find = await Cart.findByPk(findOne.id);
+
+      //   return res.status(200).json(find);
+      // };
 
       const create = await Cart.create({ UserId, ProductId, quantity, isPaid });
 
@@ -97,7 +110,7 @@ class CartController {
       const id = Number(req.params.id);
       const { isPaid } = req.body;
 
-      const find = await Cart.findByPk(id,{include:[{model: Product}]});
+      const find = await Cart.findByPk(id, { include: [{ model: Product }] });
 
       if (!find) throw { name: 'cartNotFound' };
 
