@@ -1,4 +1,4 @@
-const { Product } = require('../models/index')
+const { User, Product, Cart } = require('../models/index')
 
 class Controller {
     static addProduct(req, res, next) {
