@@ -83,7 +83,7 @@ module.exports = (sequelize, DataTypes) => {
           msg: 'stock need input number'
         },
         isMinus(value) {
-          if(value <= 0) {
+          if(value < 0) {
             throw new Error('stock must be greater than 0')
           }
         },
