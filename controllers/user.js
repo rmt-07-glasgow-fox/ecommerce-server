@@ -80,7 +80,7 @@ class userController {
                     model: Product,
                     through: {
                         model: Wishlist,
-                        attributes: ['id', 'userId', 'productId', 'createdAt', 'updateAt']
+                        attributes: ['id', 'userId', 'productId', 'createdAt', 'updatedAt']
                     },
                     as: 'itemonwishlist'
                 },
@@ -88,7 +88,7 @@ class userController {
                     model: Product,
                     through: {
                         model: Cart,
-                        attributes: ['id', 'userId', 'productId', 'quantity', 'isBought', 'createdAt', 'updateAt']
+                        attributes: ['id', 'userId', 'productId', 'quantity', 'isBought', 'createdAt', 'updatedAt']
                     },
                     as: 'itemoncart'
                 }
