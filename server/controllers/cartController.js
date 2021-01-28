@@ -1,4 +1,5 @@
 const { Cart, Product } = require('../models')
+const { sequelize } = require('../models')
 
 class CartController {
   static getCarts(req, res, next) {
@@ -164,62 +165,66 @@ class CartController {
   }
 
   static async checkout(req, res, next) {
+    const t = await sequelize.transaction()
     try {
-      const userId = req.userData.id
+      const UserId = req.userData.id
       const carts = await Cart.findAll({
         where: {
-          UserId: userId,
+          UserId,
           checkout: false
         },
         include: [Product]
       })
-      let count = carts.length
-      let errors = []
-      for (const cart of carts) {
-        let cartId = cart.id
-        let productId = cart.ProductId
-        let qty = cart.quantity
-        let product
-        let data
-        const checkStock = await Product.findByPk(productId)
-        if(checkStock.stock >= qty) {
-          product = await Product.decrement({
-            stock: qty
-          },{
-            where: {
-              id: productId
-            }
+      try {
+        let errors = []
+        for (const cart of carts) {
+          const CartId = cart.id
+          const ProductId = cart.ProductId
+          const quantity = cart.quantity
+          let product
+          let data
+          const checkStock = await Product.findByPk(ProductId)
+          if(checkStock.stock >= quantity) {
+            product = await Product.decrement({
+              stock: quantity
+            },{
+              where: {
+                id: ProductId
+              },
+              transaction: t
+            })
+          } 
+          if (product) {
+            data = await Cart.update({
+              checkout: true
+            },{
+              where: {
+                id: CartId
+              },
+              transaction: t,
+              returning: true
+            })
+          } else {
+            errors.push({
+              message: `${checkStock.name} not enough stock`
+            })
+          }     
+        }
+        if (!errors.length) {
+          await t.commit()
+          res.status(200).json({
+            message: "Success Checkout"
           })
         } else {
-          errors.push({
-            message: 'Not enough stock'
+          await t.rollback()
+          next({
+            status: 400,
+            errors: errors
           })
         }
-        console.log(product);
-        if (product) {
-          data = await Cart.update({
-            checkout: true
-          },{
-            where: {
-              id: cartId
-            },
-            returning: true
-          })
-        }
-        console.log(data);         
-        if(data) {
-          count--
-        }
-      }
-      if (count === 0) {
-        res.status(200).json({
-          message: "Success Checkout"
-        })
-      } else {
-        next({
-          status: 400,
-          errors: errors
-        })
+      } catch (err) {
+        await t.rollback()
+        next(err)
       }
     } catch (err) {
       next(err)
