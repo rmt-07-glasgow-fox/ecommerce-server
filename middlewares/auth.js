@@ -41,7 +41,24 @@ async function authorization(req, res, next) {
     }
 }
 
+async function authorizationCustomer(req, res, next) {
+    
+    try {
+        let role = req.user.role
+        if(role === 'customer') {
+            next()
+        }
+        else {
+            next({name:"NotAuthorized"})
+        }
+    }
+    catch(error) {
+        next(error)
+    }
+}
+
 module.exports = {
     authentication,
-    authorization
+    authorization,
+    authorizationCustomer
 }

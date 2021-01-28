@@ -7,7 +7,7 @@ const username = process.env['DB_USERNAME_' + upperCasedEnv]
 const password = process.env['DB_PASSWORD_' + upperCasedEnv]
 const database = process.env['DB_DATABASE_' + upperCasedEnv]
 const host = process.env['DB_HOST_' + upperCasedEnv]
-const dialect = process.env['DB_DIALECT_' + upperCasedEnv]
+const dialect = "postgres"
 
 module.exports = {
   development: {

@@ -1,7 +1,6 @@
 const { User } = require('../models')
 const { comparePassword } = require('../helpers/bcryptjs')
 const { generateToken } = require('../helpers/jwt.js')
-const { compare } = require('bcryptjs')
 
 
 class UserController {
@@ -52,7 +51,7 @@ class UserController {
                 }
             })
             .catch(err => {
-                next(err)
+                console.log(err)
             })
     }
 }

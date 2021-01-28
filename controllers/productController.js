@@ -3,7 +3,7 @@ const { Product } = require('../models')
 class ProductController {
 
     static postProductHandler(req, res, next) {
-
+        console.log('masuk')
         let obj = {
             name: req.body.name,
             image_url: req.body.image_url,
@@ -15,7 +15,9 @@ class ProductController {
             .then(data => {
                 res.status(201).json(data)
             })
-            .catch(next)
+            .catch(err =>{
+                console.log(err)
+            })
     }
 
     static getProductHandler(req, res, next) {
