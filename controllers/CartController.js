@@ -103,7 +103,7 @@ class CartController {
       .then(data => {
         if(data === 1){
           res.status(200).json({
-            message: 'Success your banner has been deleted.'
+            message: 'Success your product has been removed.'
           })
         }else{
           next({
