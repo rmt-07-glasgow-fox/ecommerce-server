@@ -15,7 +15,7 @@ module.exports = {
      * }], {});
     */
       await queryInterface.bulkInsert('Users', [{
-        email:'admin77@mail.com',
+        email:'admin@mail.com',
         password: adminPass,
         role: 'admin',
         createdAt: new Date(),
