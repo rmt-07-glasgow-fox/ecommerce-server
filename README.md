@@ -322,9 +322,9 @@ _Response (500)_
 }
 ```
 
-### DELETE/products/:id
+### DELETE/Carts/:id
 
->Delete todos list by ID
+>Delete Carts list by ID
 
 _Request Header_
 ```
@@ -351,6 +351,522 @@ _Response(403- Forbidden)_
 ```
 {
   "message": "Sorry you no Authorized in product"
+}
+```
+
+_Response(404 - not found)_
+```
+{
+  "message": "id not found"
+}
+```
+
+_Response (500)_
+```
+{
+  "message": "Internal Server Error"
+}
+```
+### DELETE/products/:id
+
+>Delete product by ID
+
+_Request Header_
+```
+{
+  access_token: token
+}
+```
+
+_Response(200)_
+```
+{
+  "message": "delete success"
+}
+```
+
+_Response(401- Unauthorized)_
+```
+{
+  "message": "Please login first"
+}
+```
+
+_Response(403- Forbidden)_
+```
+{
+  "message": "Sorry you no Authorized in product"
+}
+```
+
+_Response(404 - not found)_
+```
+{
+  "message": "id not found"
+}
+```
+
+_Response (500)_
+```
+{
+  "message": "Internal Server Error"
+}
+```
+
+### GET/carts
+
+>Get Cart
+
+_Request Header_
+```
+{
+  access_token: token
+}
+```
+
+_Response(200)_
+```
+[
+  {
+    "Product": {
+      "name": "sepatu",
+      "category": "sepatu".
+      "stock": 2,
+      "price": 1000000,
+      "image_url": "www.sepatu.com"
+    },
+    "id": 1,
+    "UserId": 2,
+    "ProductId": 2,
+    "status": "unpaid",
+    "quantity: 2
+  }
+]
+```
+
+_Response(401- Unauthorized)_
+```
+{
+  "message": "Please login first"
+}
+```
+
+_Response(403- Forbidden)_
+```
+{
+  "message": "Sorry you no Authorized in product"
+}
+```
+
+_Response(404 - not found)_
+```
+{
+  "message": "id not found"
+}
+```
+
+_Response (500)_
+```
+{
+  "message": "Internal Server Error"
+}
+```
+### POST/carts
+
+>add Carts
+
+_Request Header_
+```
+{
+  access_token: token
+},
+```
+_Request Body_
+```
+{
+  "UserId": 2",
+  "quantity;": 2",
+  "ProcutId": 2,
+}
+```
+
+_Response(200)_
+```
+{
+  "id": 1,
+  "UserId": 2,
+  "ProductId": 2,
+  "status": "unpaid",
+  "quantity: 2
+}
+```
+
+_Response(401- Unauthorized)_
+```
+{
+  "message": "Please login first"
+}
+```
+
+_Response(404 - not found)_
+```
+{
+  "message": "id not found"
+}
+```
+
+_Response (500)_
+```
+{
+  "message": "Internal Server Error"
+}
+```
+### PUT/carts
+
+>Edit Carts Quantity
+
+_Request Header_
+```
+{
+  access_token: token
+},
+```
+_Request Body_
+```
+{
+  "UserId": 2",
+  "quantity;": 2",
+  "ProcutId": 2,
+}
+```
+
+_Response(200)_
+```
+{
+  "id": 1,
+  "UserId": 2,
+  "ProductId": 2,
+  "status": "unpaid",
+  "quantity: 2
+}
+```
+
+_Response(401- Unauthorized)_
+```
+{
+  "message": "Please login first"
+}
+```
+
+_Response(404 - not found)_
+```
+{
+  "message": "id not found"
+}
+```
+
+_Response (500)_
+```
+{
+  "message": "Internal Server Error"
+}
+```
+### GET/banners/:id
+
+>Get All Banner
+
+_Request Header_
+```
+{
+  access_token: token
+},
+```
+_Request Body_
+```
+{
+  "title": 2",
+  ";": 2",
+  "ProcutId": 2,
+}
+```
+
+_Response(200)_
+```
+[
+  {
+    "id": 1,
+    "UserId": 2,
+    "ProductId": 2,
+    "status": "unpaid",
+    "quantity: 2
+  }
+]
+```
+
+_Response(401- Unauthorized)_
+```
+{
+  "message": "Please login first"
+}
+```
+
+_Response(404 - not found)_
+```
+{
+  "message": "id not found"
+}
+```
+
+_Response (500)_
+```
+{
+  "message": "Internal Server Error"
+}
+```
+### POST/banners
+
+>add Carts
+
+_Request Header_
+```
+{
+  access_token: token
+},
+```
+_Request Body_
+```
+{
+  "title": 2",
+  "image_url": "www.html.com",
+  "status": "active",
+}
+```
+
+_Response(200)_
+```
+{
+  "id": 1,
+  "UserId": 2,
+  "ProductId": 2,
+  "status": "unpaid",
+  "quantity: 2
+}
+```
+
+_Response(401- Unauthorized)_
+```
+{
+  "message": "Please login first"
+}
+```
+
+_Response(404 - not found)_
+```
+{
+  "message": "id not found"
+}
+```
+
+_Response (500)_
+```
+{
+  "message": "Internal Server Error"
+}
+```
+### PUT/banners/:id
+
+>Edit Carts Quantity
+
+_Request Header_
+```
+{
+  access_token: token
+},
+```
+_Request Body_
+```
+{
+  "title": "Tokopedia",
+  "image_url;": "www.tokopedia.com",
+  "status": "inactive",
+}
+```
+
+_Response(200)_
+```
+{
+  "title": "Tokopedia",
+  "image_url;": "www.tokopedia.com",
+  "status": "inactive",
+}
+```
+
+_Response(401- Unauthorized)_
+```
+{
+  "message": "Please login first"
+}
+```
+
+_Response(404 - not found)_
+```
+{
+  "message": "id not found"
+}
+```
+
+_Response (500)_
+```
+{
+  "message": "Internal Server Error"
+}
+```
+
+### DELETE/banners/:id
+
+>Delete banner by ID
+
+_Request Header_
+```
+{
+  access_token: token
+}
+```
+
+_Response(200)_
+```
+{
+  "message": "delete success"
+}
+```
+
+_Response(401- Unauthorized)_
+```
+{
+  "message": "Please login first"
+}
+```
+
+_Response(403- Forbidden)_
+```
+{
+  "message": "Sorry you no Authorized in product"
+}
+```
+
+_Response(404 - not found)_
+```
+{
+  "message": "id not found"
+}
+```
+
+_Response (500)_
+```
+{
+  "message": "Please login first"
+}
+```
+
+### GET/chechkouts
+
+>Get history Checkout
+
+_Request Header_
+```
+{
+  access_token: token
+}
+```
+
+_Response(200)_
+```
+[
+  {
+    "Product": {
+    "name": "sepatu",
+    "category": "sepatu".
+    "stock": 2,
+    "price": 1000000,
+    "image_url": "www.sepatu.com"
+    },
+    "id": 1,
+    "UserId": 2,
+    "ProductId": 2,
+    "status": "unpaid",
+    "quantity: 2
+  }
+]
+```
+
+_Response(401- Unauthorized)_
+```
+{
+  "message": "Please login first"
+}
+```
+
+_Response(403- Forbidden)_
+```
+{
+  "message": "Sorry you no Authorized in product"
+}
+```
+
+_Response(404 - not found)_
+```
+{
+  "message": "id not found"
+}
+```
+
+_Response (500)_
+```
+{
+  "message": "Internal Server Error"
+}
+```
+### POST/checkouts
+
+>add Carts
+
+_Request Header_
+```
+{
+  access_token: token
+},
+```
+_Request Body_
+```
+{
+  "UserId": 2",
+  "quantity;": 2",
+  "ProcutId": 2,
+}
+```
+
+_Response(200)_
+```
+{
+  "Product": {
+    "name": "sepatu",
+    "category": "sepatu".
+    "stock": 2,
+    "price": 1000000,
+    "image_url": "www.sepatu.com"
+  },
+  "id": 1,
+  "UserId": 2,
+  "ProductId": 2,
+  "status": "unpaid",
+  "quantity: 2
+}
+```
+
+_Response(401- Unauthorized)_
+```
+{
+  "message": "Please login first"
 }
 ```
 

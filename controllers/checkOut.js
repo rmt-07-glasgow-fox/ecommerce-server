@@ -13,7 +13,6 @@ class Checkout {
         }
     } 
     static async checkout (req, res, next) {
-        console.log(req.loggedInUser.id, '<<<<< update checkout ')
         try {
           const status = 'paid'
           const carts = await Cart.findAll({
