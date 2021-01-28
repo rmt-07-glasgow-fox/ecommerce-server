@@ -6,8 +6,8 @@ const cart = require('./cart')
 const { authenticate } = require('../middleware/auth')
 
 router.use('/', user)
-router.use(authenticate)
 router.use('/products', product)
+router.use(authenticate)
 router.use('/carts', cart)
 
 module.exports = router;
