@@ -17,6 +17,23 @@ class CartController {
     }
   }
 
+  static async showTransaction(req,res,next){
+    try {
+      const UserId = req.user.id
+      const carts = await Cart.findAll({
+        where: {
+          status: true,
+          UserId
+        },
+        order: [['updatedAt', 'DESC']],
+        include: [Product]
+      })
+      res.status(200).json(carts)
+    } catch (err) {
+      next(err)
+    }
+  }
+
   static async create(req,res,next){
     try {
       const UserId = req.user.id
