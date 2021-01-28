@@ -986,3 +986,44 @@ _Response (500)_
   "message": "Internal server error!"
 }
 ```
+
+
+### POST /carts/checkout
+
+> Checkout
+
+_Request_
+```
+url: http://localhost:3000/carts/checkout
+```
+
+_Request Params_
+```
+not needed
+```
+
+_Request Header_
+```
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTYxMTEyMzcxN30.ZpC6kOy3iDO--tfUuch4zqXMXNCIbEK0RdYtL39yyE8"
+}
+```
+
+_Request Body_
+```
+not needed
+```
+
+_Response (200)_
+```
+{
+  msg: 'Checkout success'
+}
+```
+
+_Response (500)_
+```
+{
+  "message": "Internal server error!"
+}
+```
