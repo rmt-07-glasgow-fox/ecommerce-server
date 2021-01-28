@@ -1,4 +1,6 @@
 'use strict';
+const { hashPassword } = require('../helpers/bcrypt')
+
 const {
   Model
 } = require('sequelize');
@@ -10,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      User.belongsToMany(models.Product, { through: models.Cart, foreignKey: 'UserId'})
     }
   };
   User.init({
@@ -35,10 +37,18 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: { msg: 'password is required' },
       }
     },
-    role: DataTypes.STRING
+    role: {
+      type: DataTypes.STRING,
+      defaultValue: 'customer'
+    }
   }, {
     sequelize,
     modelName: 'User',
+    hooks: {
+      beforeCreate: (user, options) => {
+        user.password = hashPassword(user.password)
+      }
+    }
   });
   return User;
 };

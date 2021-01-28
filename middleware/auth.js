@@ -8,6 +8,7 @@ async function authenticate (req, res, next) {
     let payload = await verifyToken(access_token)
     let user = await User.findOne({where: {email: payload.email}})
     if (user) {
+      req.headers.userId = user.id
       next()
     } else {
       throw ({name: 401, message: 'unauthorized'})

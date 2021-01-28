@@ -6,11 +6,7 @@ class Controller {
     let { name, img_url, price, stock } = req.body
     Product.create({ name, img_url, price, stock })
     .then(product => {
-      if (product) {
-        res.status(201).json(product)
-      } else {
-        throw ({ name: 500 })
-      }
+      res.status(201).json(product)
     })
     .catch(err => {
       next(err)
@@ -20,7 +16,11 @@ class Controller {
   static getAllProducts (req, res, next) {
     Product.findAll()
     .then(products => {
-      res.status(200).json(products)
+      if (products) {
+        res.status(200).json(products)
+      } else {
+        throw ({ name: 404 })
+      }
     })
     .catch(err => {
       next(err)

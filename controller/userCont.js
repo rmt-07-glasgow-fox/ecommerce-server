@@ -16,7 +16,7 @@ class Controller {
         }
         let access_token = generateToken(payload)
         req.headers.access_token = access_token
-        res.status(200).json({access_token})
+        res.status(200).json({access_token, role: user.role})
       } else {
         throw {name: 404, message: 'wrong username/password'}
       }
@@ -26,6 +26,16 @@ class Controller {
     })
   }
 
+  static register (req, res, next) {
+    let { email, password } = req.body
+    User.create({ email, password })
+    .then(user => {
+      res.status(201).json(user)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
 }
 
 module.exports = Controller;
