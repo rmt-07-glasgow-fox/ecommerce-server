@@ -1,6 +1,7 @@
 const { User } = require('../models')
 const { comparePassword } = require('../helpers/bcrypt')
 const { generateToken } = require('../helpers/jsonwebtoken')
+const nodemailer = require('nodemailer')
 
 class UserController {
     static login(req, res, next) {
@@ -36,7 +37,28 @@ class UserController {
         }
         User.create(input)
             .then(data => {
-                res.status(201).json({ id: data.id, email: data.email })
+                let transporter = nodemailer.createTransport({
+                    service: 'gmail',
+                    auth: {
+                      user: 'nodemailer05@gmail.com',
+                      pass: 'testnodemailerlagi'
+                    }
+                });
+                let mailOptions = {
+                    from: 'nodemailer05@gmail.com',
+                    to: input.email,
+                    subject: 'Registration Success',
+                    text: 'Congratulations, your account has been succesfully created'
+                };
+
+                transporter.sendMail(mailOptions, function(error, info){
+                    if (error) {
+                      console.log(error);
+                    } else {
+                      console.log('Email sent: ' + info.response);
+                      res.status(201).json({ id: data.id, email: data.email })
+                    }
+                  });
             })
             .catch(next)
     }
