@@ -8,7 +8,6 @@ router.use(Auth.authentication)
 router.get('/', CartController.findAll)
 router.get('/customer', CartController.findByCust)
 router.post('/', CartController.create)
-// router.use(Auth.authorizationCart)
 router.patch('/:id', Auth.authorizationCart, CartController.updateQty)
 router.delete('/:id', Auth.authorizationCart, CartController.delete)
 

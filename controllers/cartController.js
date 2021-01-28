@@ -41,6 +41,7 @@ class CartController {
     const quantity = +req.body.quantity
     const UserId = req.UserData.id
     let product = null
+    let statusCode = null
 
     Product
       .findOne({ // find to check stock
@@ -66,15 +67,24 @@ class CartController {
           })
       })
       .then(data => {
-        if (data && data[1]) {
-          const { id, UserId, ProductId, quantity } = data[1][0].dataValues
-          res.status(200).json({ id, UserId, ProductId, quantity }) // update
-        } else if (data && !data[1]) {
-          const { id, UserId, ProductId, quantity } = data
-          res.status(201).json({ id, UserId, ProductId, quantity }) // create
-        } else {
-          next({ name: 'CustomError', statusCode: 404, message: 'Cart Not Found' })
-        }
+        statusCode = data && data[1] ? 200 : data && !data[1] ? 201 : 500
+        const id = data && data[1] ? data[1][0].dataValues.id :
+          data && !data[1] ? data.id : null
+        
+        return data ? Cart.findOne({
+          where: { id },
+          attributes: ['id', 'quantity'],
+          include: [
+            {
+              model: Product,
+              attributes: { exclude: ['createdAt', 'updatedAt'] }
+            }
+          ]
+        }) :
+        next({ name: 'CustomError', statusCode: 404, message: 'Cart Not Found' })
+      })
+      .then(data => {
+        res.status(statusCode).json(data) // update
       })
       .catch(next)
   }
@@ -95,9 +105,9 @@ class CartController {
     .then(product => {
       return !product ?
         next({ name: 'CustomError', statusCode: 404, message: 'Product Not Found' }) :
-      cart.quantity + quantity > product.stock ?
+      quantity > product.stock ?
         next({ name: 'CustomError', statusCode: 400, message: 'Out of stock!' }) :
-        Cart.update({ quantity: cart.quantity + quantity },{
+        Cart.update({ quantity },{
           where: { id },
           returning: true
         })
