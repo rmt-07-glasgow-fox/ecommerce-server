@@ -13,14 +13,17 @@ class cartController {
       if (!hasProduct) {
         const result = await cart.addProduct(ProductId, { through: { quantity } })
 
-        console.log(result)
         res.status(201).json({ message: 'Product added to cart' })
       } else {
         const cartProduct = await cart.getProducts({ where: { id: ProductId } })
-        cartProduct[0].CartItem.quantity += +quantity
-        const result = await cartProduct[0].CartItem.save()
+        if (cartProduct[0].CartItem.quantity + +quantity <= cartProduct[0].stock) {
+          cartProduct[0].CartItem.quantity += +quantity
+          const result = await cartProduct[0].CartItem.save()
 
-        res.status(200).json({ message: 'Product added to cart' })
+          res.status(200).json({ message: 'Product added to cart' })
+        } else {
+          res.status(400).json({ message: 'Cannot add Product to cart' })
+        }
       }
     } catch (err) {
       next(err)
@@ -60,10 +63,14 @@ class cartController {
       const cartProduct = await cart.getProducts({ where: { id: ProductId } })
 
       if (cartProduct.length > 0) {
-        cartProduct[0].CartItem.quantity = quantity
-        const result = await cartProduct[0].CartItem.save()
+        if (cartProduct[0].stock >= quantity) {
+          cartProduct[0].CartItem.quantity = quantity
+          const result = await cartProduct[0].CartItem.save()
 
-        res.status(200).json({ message: 'Cart has been updated' })
+          res.status(200).json({ message: 'Cart has been updated' })
+        } else {
+          res.status(400).json({ message: 'Cannot update Cart' })
+        }
       } else {
         next({ name: 'CartItemNotFound' })
       }
