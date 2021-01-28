@@ -30,16 +30,16 @@ class wishlistController {
         .then(data => {
             if (!data[0]) {
                 Wishlist.create(obj)
-                .then(data => res.status(201).json(data))
-                .catch(err => {
-                    next(err)
-                })
             } else {
-                next({
-                    name: "Item sudah di wishlist" 
+                Wishlist.destroy({
+                    where: {
+                        userId: +req.user.id,
+                        productId: req.body.productId
+                    }
                 })
             }
         })
+        .then(data => res.status(201).json(data))
         .catch(err => {
             console.log(err);
             next(err)
