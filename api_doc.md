@@ -241,4 +241,159 @@
     ]
     ```
 
+### GET/carts
 
+* **REQUEST HEADERS**
+    * **content**
+    ```json
+    [
+        {
+            "access_token": "string"
+        }
+    ]
+    ```
+* **SUCCESS RESPONSE**
+    * **code** 200
+    * **content**
+    ```json
+    [
+        {
+            "id": "number",
+            "UserId": "number",
+            "ProductId": "number",
+            "quantity": "number",
+            "isPaid": "boolean",
+            "totalPrice": "number",
+            "Product": {
+                "id": "number",
+                "name": "string",
+                "image_url": "string",
+                "price": "number",
+                "stock": "number",
+            }
+        }
+    ]
+    ```
+* **ERROR RESPONSE**
+    * **code** 500
+    * **content**
+    ```json
+    [
+        {
+            "message": "Internal Server Error"
+        }
+    ]
+    ```
+
+### POST/carts
+
+* **REQUEST HEADERS**
+    * **content**
+    ```json
+    [
+        {
+            "access_token": "string"
+        }
+    ]
+    ```
+* **SUCCESS RESPONSE**
+    * **code** 201
+    * **content**
+    ```json
+    [
+        {
+            "id": "number",
+            "UserId": "number",
+            "ProductId": "number",
+            "quantity": "number",
+            "isPaid": "boolean",
+            "totalPrice": "number",
+        }
+    ]
+    ```
+* **ERROR RESPONSE**
+    * **code** 500
+    * **content**
+    ```json
+    [
+        {
+            "message": "Internal Server Error"
+        }
+    ]
+    ```
+
+### DELETE/carts/:id
+
+* **REQUEST HEADERS**
+    * **content**
+    ```json
+    [
+        {
+            "access_token": "string"
+        }
+    ]
+    ```
+* **SUCCESS RESPONSE**
+    * **code** 200
+    * **content**
+    ```json
+    [
+        {
+            "message": "Cart Has Been Succesfully Deleted"
+        }
+    ]
+    ```
+* **ERROR RESPONSE**
+    * **code** 500
+    * **content**
+    ```json
+    [
+        {
+            "message": "Internal Server Error"
+        }
+    ]
+    ```
+
+### PUT/carts/:id
+
+* **REQUEST HEADERS**
+    * **content**
+    ```json
+    [
+        {
+            "access_token": "string"
+        }
+    ]
+    ```
+* **SUCCESS RESPONSE**
+    * **code** 200
+    * **content**
+    ```json
+    [
+        {
+            "id": "number",
+            "UserId": "number",
+            "ProductId": "number",
+            "quantity": "number",
+            "isPaid": "boolean",
+            "totalPrice": "number",
+            "Product": {
+                "id": "number",
+                "name": "string",
+                "image_url": "string",
+                "price": "number",
+                "stock": "number",
+            }
+        }
+    ]
+    ```
+* **ERROR RESPONSE**
+    * **code** 500
+    * **content**
+    ```json
+    [
+        {
+            "message": "Internal Server Error"
+        }
+    ]
+    ```
