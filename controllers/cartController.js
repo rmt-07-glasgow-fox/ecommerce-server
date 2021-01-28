@@ -1,4 +1,4 @@
-const { Cart, Product } = require('../models')
+const { Cart, Product, Transaction, sequelize } = require('../models')
 
 class CartController {
   static findAll(req, res, next) {
@@ -137,6 +137,63 @@ class CartController {
           next({ name: 'CustomError', statusCode: 404, message: 'Cart Not Found' })
       })
       .catch(next)
+  }
+
+  static checkout(req, res, next) {
+    // let transaction = null
+    let productData = null
+    Cart
+      .findAll({
+        where: { UserId: req.UserData.id }
+      })
+      .then(cart => {
+        if (cart.length > 0) {
+          cart.map(el => {
+            // sequelize.transaction()
+            //   .then(data => {
+            //     transaction = data
+            //     return Product.findByPk(el.id)
+            //   })
+            Product.findByPk(el.ProductId)
+              .then(product => {
+                productData = product
+                return !product ? next({ name: 'CustomError', statusCode: 404, message: 'Product Not Found' }) :
+                product.stock - el.quantity < 0 ? next({ name: 'CustomError', statusCode: 400, message: 'Out of stock!' }) :
+                Transaction.create({
+                  name: product.name,
+                  image_url: product.image_url,
+                  price: product.price,
+                  quantity: el.quantity,
+                  total: product.price * el.quantity,
+                  UserId: req.UserData.id
+                })
+              })
+              .then(data => {
+                return Product.update({ stock: productData.stock - el.quantity }, {
+                  where: { id: el.ProductId },
+                  returning: true
+                })
+              })
+              .then(data => {
+                return Cart.destroy({
+                  where: { id: el.id }
+                })
+              })
+              .then(data => {
+                res.status(200).json({ message: 'Checkout success' })
+                // return transaction.commit()
+              })
+              .catch(err => {
+                // transaction && transaction.rollback()
+                next(err)
+              })
+          })
+
+        } else {
+          next({ name: 'CustomError', statusCode: 404, message: 'Cart Not Found' })
+        }
+      })
+      .catch(next)   
   }
   
 }

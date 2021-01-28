@@ -2,7 +2,6 @@ const { Wishlist, Product } = require('../models')
 
 class WishlistController {
   static findByCust(req, res, next) {
-    console.log('ok');
     const UserId = req.UserData.id
     Wishlist.findAll({
       where: { UserId },
@@ -22,7 +21,7 @@ class WishlistController {
     const { ProductId } = req.body
     const UserId = req.UserData.id
     Wishlist.findOne({
-      where: { ProductId }
+      where: { ProductId, UserId }
     })
       .then(data => {
         return data ?
@@ -30,7 +29,7 @@ class WishlistController {
           Wishlist.create({ ProductId, UserId })
       })
       .then(data => {
-        return Wishlist.findOne({
+        return data && Wishlist.findOne({
           where: { id: data.id },
           attributes: ['id'],
           include: [

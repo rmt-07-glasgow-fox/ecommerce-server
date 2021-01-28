@@ -6,6 +6,7 @@ const banner = require('./banner')
 const category = require('./category')
 const cart = require('./cart')
 const wishlist = require('./wishlist')
+const transaction = require('./transaction')
 const { errorHandlers } = require('../middlewares/errorHandlers')
 
 router.get('/', (req, res) => {
@@ -18,6 +19,7 @@ router.use('/banners', banner)
 router.use('/categories', category)
 router.use('/carts', cart)
 router.use('/wishlists', wishlist)
+router.use('/transactions', transaction)
 
 router.use(errorHandlers)
 
