@@ -15,7 +15,8 @@ class Controller {
     Cart.findOne({
       where: {
         UserId: +req.user.id,
-        ProductId: +req.body.ProductId
+        ProductId: +req.body.ProductId,
+        status: false
       },
       include: [ Product ]
     })
@@ -74,15 +75,25 @@ class Controller {
     })
     .then((data) => {
       // console.log('   check whether all quantity are above stocks!')
+      let isQtyAboveStocks = true
       data.forEach(element => {
-        let stock = element.Product.quantity
+        let stock = element.Product.stock
         let checkoutQty = element.quantity
         if (checkoutQty > stock) {
-          return res.status(400).json({
-            message: "Can't checkout, quantity you wish to buy exceeds our stock"
-          })
+          console.log("   Can't checkout, quantity you wish to buy exceeds our stock");
+          isQtyAboveStocks = false
+          // return res.status(400).json({
+          //   message: "Can't checkout, quantity you wish to buy exceeds our stock"
+          // })
         }
       })
+
+      if (isQtyAboveStocks == false) {
+        console.log("   isQtyAboveStocks=", isQtyAboveStocks);
+        return res.status(400).json({
+          message: "Can't checkout, quantity you wish to buy exceeds our stock"
+        })
+      }
 
       // console.log('   substract all the quantity in Products to the quantity of checkout!')
       data.forEach(element => {
@@ -116,7 +127,7 @@ class Controller {
       //   next(err)
       // })
 
-      // set all carts status to reu
+      // set all carts status to true
       Cart.update({ status: true }, {
         where:{UserId: +req.user.id}
       })
@@ -126,6 +137,7 @@ class Controller {
       .catch((err) => {
         next(err)
       })
+
     })
     .catch((err) => {
       next(err)
