@@ -4,7 +4,11 @@ const { cekToken } = require('../helper/jwt')
 
 class ProductController{
     static getProduct(req,res,next){
-        Product.findAll()
+        Product.findAll({
+            order: [
+                ['id','DESC']
+            ]
+        })
         .then(data => {
             res.status(200).json(data)
         })
@@ -138,8 +142,11 @@ class ProductController{
         let user = cekToken(req.headers.access_token)
         Cart.findAll({
             where: {UserId: user.id, Paid: 'Unpaid'},
+            order: [
+                ['id','DESC']
+            ],
             attributes: ['id','UserId','ProductId','Paid','quantity','totalprice','createdAt', 'updatedAt'],
-            include: 'Product'
+            include: 'Product',
         })
         .then(data => {
             res.status(200).json(data)

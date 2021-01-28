@@ -20,6 +20,15 @@ And routes below need authorization
 - `PATCH /products/:id`
 - `PUT /products/:id`
 
+And routes below need authorization
+- `POST /cust-products/:id`
+- `GET /cust-products/`
+- `GET /cust-products-history/`
+- `PUT /cust-products-minus/:id`
+- `PUT /cust-products-plus/:id`
+- `DELETE /cust-products/:id`
+- `PUT /cust-products/`
+
 
 ### POST /register
 
@@ -115,11 +124,6 @@ Request:
 ### GET /products
 
 Description: Get all current products in user passwords
-
-Request:
-
-- headers:
-  - access_token: string
 
 Response:
 
@@ -242,5 +246,188 @@ Response:
 ```json
 {
     "message": "Product has been updated"
+}
+```
+
+### POST /cust-products/:id
+
+description: 
+  Add to Cart selected item by params.id
+
+Request:
+
+- headers: access_token
+- params: 
+  - id: integer (required)
+- data:
+
+Response:
+
+- status: 200
+- body:
+
+```json
+{
+    "message": "berhasil"
+}
+```
+
+### GET /cust-products/
+
+description: 
+  Get All Product On cart where Paid is 'Unpaid'
+
+Request:
+
+- headers: access_token
+
+Response:
+
+- status: 200
+- body:
+
+```json
+[
+    {
+        "id": 53,
+        "UserId": 2,
+        "ProductId": 3,
+        "Paid": "Unpaid",
+        "quantity": 2,
+        "totalprice": 2200000,
+        "createdAt": "2021-01-28T02:21:30.839Z",
+        "updatedAt": "2021-01-28T02:24:23.367Z",
+        "Product": {
+            "id": 3,
+            "name": "Patek Philippe",
+            "description": "BNIB Garansi Resmi Indonesia",
+            "image_url": "https://i.pinimg.com/736x/e6/1c/5b/e61c5bd9008a01f6283e626ed26628e1.jpg",
+            "condition": "New",
+            "price": 1100000,
+            "stock": 13,
+            "createdAt": "2021-01-26T16:42:15.563Z",
+            "updatedAt": "2021-01-28T02:11:15.622Z"
+        }
+    }
+]
+```
+
+### GET /cust-products-history/
+
+description: 
+  Get All Product On cart where Paid is 'Paid'
+
+Request:
+
+- headers: access_token
+
+Response:
+
+- status: 200
+- body:
+
+```json
+[
+    {
+        "id": 53,
+        "UserId": 2,
+        "ProductId": 3,
+        "Paid": "Paid",
+        "quantity": 2,
+        "totalprice": 2200000,
+        "createdAt": "2021-01-28T02:21:30.839Z",
+        "updatedAt": "2021-01-28T02:24:23.367Z",
+        "Product": {
+            "id": 3,
+            "name": "Patek Philippe",
+            "description": "BNIB Garansi Resmi Indonesia",
+            "image_url": "https://i.pinimg.com/736x/e6/1c/5b/e61c5bd9008a01f6283e626ed26628e1.jpg",
+            "condition": "New",
+            "price": 1100000,
+            "stock": 13,
+            "createdAt": "2021-01-26T16:42:15.563Z",
+            "updatedAt": "2021-01-28T02:11:15.622Z"
+        }
+    }
+]
+```
+
+### PUT /cust-products-minus/:id
+
+description: 
+  Decrement selected item where Paid is Unpaid in Cart Table with one point
+
+Request:
+
+- headers: access_token
+
+Response:
+
+- status: 200
+- body:
+
+```json
+{
+  "msg" : "berhasil"
+}
+```
+
+### PUT /cust-products-plus/:id
+
+description: 
+  Incerment selected item where Paid is Unpaid in Cart Table with one point
+
+Request:
+
+- headers: access_token
+
+Response:
+
+- status: 200
+- body:
+
+```json
+{
+  "msg" : "berhasil"
+}
+```
+
+### DELETE /cust-products/:id
+
+description: 
+  Delete selected item where Paid is Unpaid in Cart Table with
+
+Request:
+
+- headers: access_token
+
+Response:
+
+- status: 200
+- body:
+
+```json
+{
+  "msg" : "berhasil"
+}
+```
+
+### PUT /cust-products/
+
+description: 
+  Delete selected item where Paid is Unpaid in Cart Table with
+
+Request:
+
+- headers: access_token
+
+Response:
+
+- status: 200
+- body:
+
+```json
+{
+  "msg": "Success Paid Product"
 }
 ```
