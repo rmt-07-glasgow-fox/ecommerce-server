@@ -12,6 +12,18 @@ class BannerController {
       .catch(next)
   }
 
+  static findActiveBanner(req, res, next) {
+    Banner
+      .findAll({
+        where: { status: true },
+        include: ['Category']
+      })
+      .then(banners => {
+        res.status(200).json(banners)
+      })
+      .catch(next)
+  }
+
   static findByPk(req, res, next) {
     Banner
       .findByPk(+req.params.id, {

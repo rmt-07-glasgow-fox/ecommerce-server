@@ -3,6 +3,7 @@ const Auth = require('../middlewares/auth')
 const router = require('express').Router()
 
 router.get('/', BannerController.findAll)
+router.get('/active', BannerController.findActiveBanner)
 router.get('/:id', BannerController.findByPk)
 router.use(Auth.authentication)
 router.use(Auth.authorizationAdmin)

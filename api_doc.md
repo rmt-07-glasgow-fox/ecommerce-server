@@ -18,6 +18,7 @@
 ** BANNERS **
 * POST /banners
 * GET /banners
+* GET /banners/active
 * GET /banners/:id
 * PUT /banners/:id
 * PATCH /banners/:id
@@ -30,6 +31,12 @@
 * PUT /categories/:id
 * PATCH /categories/:id
 * DELETE /categories/:id
+
+** CARTS **
+* POST /carts
+* GET /carts/customer
+* PATCH /carts/:id
+* DELETE /carts/:id
 
 ```
 &nbsp;
@@ -603,6 +610,64 @@ _Response (500 - Internal Server Error)_
 ```
 ---
 
+### GET /banners/active
+> Get All Banners Data
+_Request Header_
+```
+{
+  "access_token": "<your access token>"
+}
+```
+
+_Request Body_
+```
+not needed
+```
+
+_Response (200)_
+```
+[
+  {
+    "id": 1,
+    "title": "Discount 50%",
+    "image_url": "discount.jpg",
+    "status": true
+    "CategoryId": 1,
+    "createdAt": "2021-01-24T08:54:23.584Z",
+    "updatedAt": "2021-01-24T08:54:23.584Z",
+    "Category": {
+      "id": 1,
+      "name": "Fashion",
+      "createdAt": "2021-01-24T07:58:14.776Z",
+      "updatedAt": "2021-01-24T07:58:14.776Z"
+    }
+  },
+  {
+    "id": 2,
+    "title": "Discount 50%",
+    "image_url": "discount.jpg",
+    "status": true
+    "CategoryId": 1,
+    "createdAt": "2021-01-24T08:00:37.289Z",
+    "updatedAt": "2021-01-24T08:00:37.289Z",
+    "Category": {
+      "id": 1,
+      "name": "Fashion",
+      "createdAt": "2021-01-24T07:58:14.776Z",
+      "updatedAt": "2021-01-24T07:58:14.776Z"
+    }
+  }
+]
+```
+
+_Response (500 - Internal Server Error)_
+```
+{
+  "message": "Internal Server Error"
+}
+```
+---
+
 ### GET /banners/:id
 > Get Detail Banner By Id
 _Request Header_
@@ -855,3 +920,269 @@ _Response (500 - Internal Server Error)_
 ```
 
 ---
+
+## CART
+---
+
+### POST /carts
+> Create Cart
+_Request Header_
+```
+no needed
+```
+
+_Request Body_
+```
+{
+    "ProductId": 4,
+    "quantity": 10
+}
+```
+
+_Response (201 - Created)_
+```
+{
+    "id": 1,
+    "quantity": 10,
+    "Product": {
+        "id": 4,
+        "name": "Helmet3",
+        "image_url": "helmet.jpg",
+        "price": 300000,
+        "stock": 10,
+        "CategoryId": 2
+    }
+}
+```
+
+_Response (200 - Ok)_
+```
+{
+    "id": 1,
+    "quantity": 10,
+    "Product": {
+        "id": 4,
+        "name": "Helmet3",
+        "image_url": "helmet.jpg",
+        "price": 300000,
+        "stock": 10,
+        "CategoryId": 2
+    }
+}
+```
+
+_Response (400 - Bad Request)_
+```
+{
+  "message": "Out of Stock!"
+}
+```
+
+_Response (404 - Not Found)_
+```
+{
+  "message": "Product Not Found"
+}
+```
+
+_Response (404 - Not Found)_
+```
+{
+  "message": "Cart Not Found"
+}
+```
+
+_Response (500 - Internal Server Error)_
+```
+{
+  "message": "Internal Server Error"
+}
+```
+---
+
+### GET /carts/customer
+> Get Customer Cart
+_Request Header_
+```
+{
+  "access_token": "<your access token>"
+}
+```
+
+_Request Body_
+```
+not needed
+```
+
+_Response (200)_
+```
+[
+    {
+        "id": 69,
+        "quantity": 2,
+        "Product": {
+            "id": 1,
+            "name": "Helmet",
+            "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRew3vXSN6RJJn3jJRFOXwnoMmnXkOPxMutdA&usqp=CAU",
+            "price": 300000,
+            "stock": 10,
+            "CategoryId": null
+        }
+    },
+    {
+        "id": 70,
+        "quantity": 1,
+        "Product": {
+            "id": 2,
+            "name": "Helmet 2",
+            "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRew3vXSN6RJJn3jJRFOXwnoMmnXkOPxMutdA&usqp=CAU",
+            "price": 300000,
+            "stock": 10,
+            "CategoryId": 2
+        }
+    }
+]
+```
+
+_Response (500 - Internal Server Error)_
+```
+{
+  "message": "Internal Server Error"
+}
+```
+---
+
+### PATCH /carts/:id
+> Update Stock Product By Id
+_Request Header_
+```
+{
+  "access_token": "<your access token>"
+}
+```
+
+_Request Body_
+```
+{
+    "quantity": 1
+}
+```
+
+_Request Params_
+```
+{
+  id: 1
+}
+```
+
+_Response (200 - Ok)_
+```
+{
+    "id": 1,
+    "UserId": 6,
+    "ProductId": 4,
+    "quantity": 1,
+}
+```
+
+_Response (400 - Bad Request)_
+```
+{
+  "message": "Out of Stock!"
+}
+```
+
+_Response (404 - Not Found)_
+```
+{
+  "message": "Product Not Found"
+}
+```
+
+_Response (404 - Not Found)_
+```
+{
+  "message": "Cart Not Found"
+}
+```
+
+_Response (401 - Unauthorized)_
+```
+{
+  "message": "Please login first!"
+}
+```
+
+_Response (403 - Forbidden)_
+```
+{
+  "message": "You dont have access!"
+}
+```
+
+_Response (500 - Internal Server Error)_
+```
+{
+  "message": "Internal Server Error"
+}
+```
+---
+
+### DELETE /products/:id
+> Delete Data Product By Id
+_Request Header_
+```
+{
+  "access_token": "<your access token>"
+}
+```
+
+_Request Body_
+```
+not needed
+```
+
+_Request Params_
+```
+{
+  id: 1
+}
+```
+
+_Response (200)_
+```
+{
+    "message:" "Cart success deleted!"
+}
+```
+
+_Response (401 - Unauthorized)_
+```
+{
+  "message": "Please login first!"
+}
+```
+
+_Response (403 - Forbidden)_
+```
+{
+  "message": "You dont have access!"
+}
+```
+
+_Response (404 - Not Found)_
+```
+{
+  "message": "Cart Not Found"
+}
+```
+
+_Response (500 - Internal Server Error)_
+```
+{
+  "message": "Internal Server Error"
+}
+```
+
+---
+
