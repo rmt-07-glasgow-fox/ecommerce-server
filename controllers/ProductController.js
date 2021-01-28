@@ -99,32 +99,24 @@ class ProductController{
 
         Product.findOne({where: {id:idProduct}})
             .then(data => {
-                console.log('romi');
                 temp = data
-                return Cart.findOne({where: {ProductId: idProduct, UserId:user.id} })
+                return Cart.findOne({where: {ProductId: idProduct, UserId:user.id, Paid: 'Unpaid'} })
                 .then(data => {
                     CartDataId = data.ProductId
                     statusCart = data.Paid
-                    console.log(data.ProductId, 'ini ketemu');
                 })
                 .catch(_ => {
-                    let newShopping = {
-                        UserId: user.id,    
-                        ProductId: idProduct,
-                        quantity: 1,
-                        totalprice: temp.price
-                    }
-                    return Cart.create(newShopping)
+                    console.log('error');
                 })
             })
             .then(_ => {
                 console.log(temp.id, 'ini id product');
                 console.log(CartDataId, 'ini id producy juga');
+                console.log(statusCart, 'ini status');
                 if (temp.id == CartDataId && statusCart == 'Unpaid') {
                     res.status(201).json({msg: 'berhasil'})
                     return Cart.increment({'quantity':1, 'totalprice':temp.price}, {where: { ProductId: idProduct , UserId:user.id}}) 
                 } else {
-                    console.log('masuk sini>>>>>>>>>>>');
                     let newShopping = {
                         UserId: user.id,    
                         ProductId: idProduct,
@@ -150,7 +142,6 @@ class ProductController{
             include: 'Product'
         })
         .then(data => {
-            console.log(data, '>>>>>>>>>>>> disini');
             res.status(200).json(data)
         })
         .catch(err => {
@@ -167,7 +158,6 @@ class ProductController{
             include: 'Product'
         })
         .then(data => {
-            console.log(data, '>>>>>>>>>>>> disini');
             res.status(200).json(data)
         })
         .catch(err => {
@@ -181,7 +171,7 @@ class ProductController{
         let idProduct = req.params.id
 
         Cart.findOne({
-            where: {ProductId: idProduct, UserId:user.id},
+            where: {ProductId: idProduct, UserId:user.id, Paid: 'Unpaid'},
             include: [{ model: Product, attributes: { exclude: ['createdAt', 'updatedAt'] } }]
         })
         .then(data => {
@@ -207,7 +197,7 @@ class ProductController{
         let idProduct = req.params.id
 
         Cart.findOne({
-            where: {ProductId: idProduct, UserId:user.id}, 
+            where: {ProductId: idProduct, UserId:user.id, Paid: 'Unpaid'}, 
             include: [{ model: Product, attributes: { exclude: ['createdAt', 'updatedAt'] } }]
         })
         .then(data => {
@@ -249,7 +239,7 @@ class ProductController{
                 } else {
                     let stock = product.stock - item.quantity
                     await Product.update({stock}, {where: {id: item.ProductId}}, {transaction: t})
-                    await Cart.update({ stock,Paid: 'Paid' }, { where: { UserId, ProductId: item.ProductId, Paid: 'Unpaid' } })
+                    await Cart.update({ Paid: 'Paid' }, { where: { UserId, ProductId: item.ProductId, Paid: 'Unpaid' } })
                 }
             }
             t.afterCommit(_ => {
