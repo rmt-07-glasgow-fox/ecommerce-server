@@ -129,30 +129,6 @@ class CartController {
           next(err)
         })
     }
-
-    static checkout (req, res, next) {
-      const UserId = +req.user.id
-      const id = +req.body.id
-      
-      Cart.findAll({
-        where: { UserId, status: true },
-        include: Product
-      })
-        .then(cart => {
-          console.log(cart, 'ini isi cart aktif')
-          // return Product.decrement(
-          //   ['stock', `${cart.}`]
-          //   { where: { UserId, ProductId: id},
-          //   returning: true, plain: true
-          // })
-        })
-        .then(cart => {
-          // return res.status(200).json(cart)
-        })
-        .catch(err => {
-          next(err)
-        })
-    }
 }
 
 module.exports = CartController
