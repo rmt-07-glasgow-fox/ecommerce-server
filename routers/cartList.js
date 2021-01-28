@@ -4,10 +4,11 @@ const CartController = require("../controllers/cart")
 const {authorizeCust} = require("../middlewares/auth")
 
 router.post("/", CartController.add)
-router.get("/", CartController.allCarts)
-router.patch("/:id/plus", authorizeCust, CartController.quantityPlus)
-router.patch("/:id/min", authorizeCust, CartController.quantitMin)
-router.put("/:id", authorizeCust, CartController.quantitMin)
-router.delete("/:id", authorizeCust, CartController.delete)
+router.get("/unpaid", CartController.allCarts)
+router.get("/paid", CartController.allHistories)
+router.patch("/:id/plus", CartController.quantityPlus)
+router.patch("/:id/min", CartController.quantitMin)
+router.put("/", CartController.checkout)
+router.delete("/:id", CartController.delete)
 
 module.exports = router

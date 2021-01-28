@@ -23,7 +23,15 @@ module.exports = (sequelize, DataTypes) => {
     },
     UserId: DataTypes.INTEGER,
     ProductId: DataTypes.INTEGER,
-    quantity: DataTypes.INTEGER,
+    quantity: {
+      type: DataTypes.INTEGER,
+      validate: {
+        min: {
+          args: 1,
+          msg: `Minimum amount is 1`
+        }
+      }
+    },
     status: DataTypes.STRING
   }, {
     sequelize,
