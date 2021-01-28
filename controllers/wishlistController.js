@@ -22,7 +22,7 @@ class WishlistController {
   static async readOneWishlist (req, res, next) {
     try {
       const inputId = Number(req.params.id);
-      const wishlist = await Wishlist.findAll({ where: { ProductId: inputId } });
+      const wishlist = await Wishlist.findAll({ where: { UserId: req.user.id, ProductId: inputId } });
 
       if (!wishlist) throw { name: 'wishlistNotFound' };
 
