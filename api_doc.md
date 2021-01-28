@@ -4,6 +4,10 @@
 - `POST /register`
 - `POST /login`
 - `POST /loginAdmin`
+- `GET /carts`
+- `POST /carts`
+- `PUT /carts/:id`
+- `DELETE /carts/:id`
 - `POST /products`
 - `GET /products`
 - `GET /products/:id`
@@ -114,6 +118,182 @@ _Response (401 - Unauthorized)_
 ```
 
 ---
+### GET /carts
+
+> Get all carts from user
+
+_Request Header_
+```
+{
+  access_token: "<access_token>"
+}
+```
+
+_Request Body_
+```
+not needed
+```
+
+_Response (200 - OK)_
+```
+[
+  {
+      "id": 14,
+      "UserId": 3,
+      "ProductId": 10,
+      "quantity": 1,
+      "status": "In Cart",
+      "createdAt": "2021-01-27T18:19:49.711Z",
+      "updatedAt": "2021-01-27T18:19:49.711Z",
+      "Product": {
+          "id": 10,
+          "name": "Bolster",
+          "image_url": "https://www.shopmarriott.com/images/products/v2/xlrg/Marriott-block-print-bolster-pillow-MAR-108-B-BP_xlrg.jpg",
+          "price": 2000000,
+          "stock": 123123,
+          "createdAt": "2021-01-24T02:58:35.374Z",
+          "updatedAt": "2021-01-24T02:58:35.374Z"
+      }
+  },
+  {
+      "id": 15,
+      "UserId": 3,
+      "ProductId": 12,
+      "quantity": 1,
+      "status": "In Cart",
+      "createdAt": "2021-01-27T19:00:24.599Z",
+      "updatedAt": "2021-01-27T19:00:24.599Z",
+      "Product": {
+          "id": 12,
+          "name": "Bolster",
+          "image_url": "https://www.shopmarriott.com/images/products/v2/xlrg/Marriott-block-print-bolster-pillow-MAR-108-B-BP_xlrg.jpg",
+          "price": 1984,
+          "stock": 123,
+          "createdAt": "2021-01-24T05:01:52.478Z",
+          "updatedAt": "2021-01-24T05:01:52.478Z"
+      }
+  }
+]
+```
+_Response (500 - Internal Server Error)_
+```
+{
+  "message": "Internal Server Error"
+}
+```
+---
+### POST /carts
+
+> Create cart
+
+_Request Header_
+```
+{
+  access_token: "<access_token>"
+}
+```
+
+_Request Body_
+```
+{
+  ProductId: "<ProductId to get insert into>"
+}
+```
+
+_Response (200 - OK)_
+```
+{
+  "message: "Cart has been updated"
+}
+```
+_Response (201 - OK)_
+```
+{
+    "id": 14,
+    "UserId": 3,
+    "ProductId": 10,
+    "quantity": 1,
+    "status": "In Cart",
+    "createdAt": "2021-01-27T18:19:49.711Z",
+    "updatedAt": "2021-01-27T18:19:49.711Z"
+}
+```
+_Response (500 - Internal Server Error)_
+```
+{
+  "message": "Internal Server Error"
+}
+```
+---
+### PUT /carts/:id
+
+> Update cart
+
+_Request Header_
+```
+{
+  access_token: "<access_token>"
+}
+```
+
+_Request Body_
+```
+{
+  ProductId: "<ProductId to get insert into>",
+  quantity: "<quantity>"
+}
+```
+
+_Response (200 - OK)_
+```
+{
+    "id": 14,
+    "UserId": 3,
+    "ProductId": 10,
+    "quantity": <"updated quantity">,
+    "status": "In Cart",
+    "createdAt": "2021-01-27T18:19:49.711Z",
+    "updatedAt": "2021-01-27T18:19:49.711Z"
+}
+```
+_Response (500 - Internal Server Error)_
+```
+{
+  "message": "Internal Server Error"
+}
+```
+---
+### DELETE /carts/:id
+
+> Delete cart based on id
+
+_Request Header_
+```
+{
+  access_token: "<access_token>"
+}
+```
+
+_Request Body_
+```
+{
+  not needed
+}
+```
+
+_Response (200 - OK)_
+```
+{
+    "message": "Cart has been deleted"
+}
+```
+_Response (500 - Internal Server Error)_
+```
+{
+  "message": "Internal Server Error"
+}
+```
+---
 ### POST /products
 
 > Create new products
@@ -173,9 +353,7 @@ _Response (500 - Internal Server Error)_
 
 _Request Header_
 ```
-{
-  "access_token": "<your access token>"
-}
+not needed
 ```
 
 _Request Body_

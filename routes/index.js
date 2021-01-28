@@ -9,9 +9,9 @@ const cartRoutes = require('./cart')
 router.post('/register', UserController.register)
 router.post('/login', UserController.login)
 router.post('/loginAdmin', authAdmin, UserController.login)
+router.get('/products', ProductController.getProducts)
 
 router.use(authenticate)
-router.get('/products', ProductController.getProducts)
 router.use('/carts', cartRoutes)
 
 router.use(authAdmin)

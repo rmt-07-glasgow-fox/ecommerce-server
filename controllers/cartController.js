@@ -7,6 +7,7 @@ class CartController {
             include: [ Product ]
         })
             .then(data => {
+                res.send(data)
                 res.status(200).json(data)
             })
             .catch(next)
@@ -19,7 +20,7 @@ class CartController {
         let ProductId = +req.body.ProductId
         // let quantity = +req.body.quantity
         let UserId = +req.UserId
-        let cartId
+        // let cartId
         Product.findOne({ 
             where: { id: ProductId }
         })
@@ -38,8 +39,7 @@ class CartController {
             .then(data => {
                 // res.send(data)
                 if (data) {
-                    let newQuantity = data.quantity + 1
-                    return Cart.update({ quantity: newQuantity }, { where: { id: data.id }, returning: true})
+                    return Cart.increment({ quantity: 1}, { where: { id: data.id }, returning: true})
                 } else {
                     return Cart.create({ UserId, ProductId, quantity: 1 }) 
 
@@ -47,8 +47,9 @@ class CartController {
             })
             .then(data => {
                 // kalo hasilnya 1 berhasil ke update, kalo hasilnya object berhasil bikin baru
+                // res.send(data)
                 if (Array.isArray(data)) {
-                    res.status(200).json(data[1])
+                    res.status(200).json({ message: 'Cart has been updated'})
                 } else {
                     res.status(201).json(data)
                 }
