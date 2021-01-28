@@ -13,12 +13,13 @@ class ProductController {
     }
   }
 
-  static async getAll(req, res, next) {
+  static async getAll(req, res, next) {    
     try {
-      const products = await Product.findAll({ order: ['id'] });      
+      const products = await Product.findAll();
       return res.status(200).json(products);
     }
     catch (err) {     
+      console.log(err);
       return next(err);
     }
   }
