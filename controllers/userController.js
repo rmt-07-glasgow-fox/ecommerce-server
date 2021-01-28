@@ -9,7 +9,6 @@ class UserController {
       const user = await User.findOne({
         where: {
           email,
-          role: 'admin'
         }
       })
       if(!user) {
@@ -56,8 +55,7 @@ class UserController {
       const { email, password } = req.body
       const user = await User.findOne({
         where: {
-          email,
-          role: 'customer'
+          email
         }
       })
       if(!user) {

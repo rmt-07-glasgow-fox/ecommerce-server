@@ -10,7 +10,7 @@ class CartController {
         },
         include: {
           model: Product,
-          attributes:['name', 'price', 'stock'],          
+          attributes:['name', 'price', 'stock', 'image_url'],          
         },
         order: [['createdAt', 'ASC']],
         where: {
@@ -73,13 +73,11 @@ class CartController {
       if ( product.stock < quantity ) {
         throw { name: 'outOfStock' }
       }
-      console.log(product)
       const updateProductInCart = await Cart.update({
         quantity
       },
       { where: {
-        id,
-        ProductId: productId,
+        ProductId: product.id,
         UserId: customerId,
         status: false
       },

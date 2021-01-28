@@ -17,10 +17,14 @@ const authenticate = async (req, res, next) => {
 
 const authorization = async (req, res, next) => {
   const id = req.user.id
-  const cartId = +req.params.id
+  const ProductId = +req.params.id
   try {
-    const cart = await Cart.findOne({ where: { id: cartId }})
-    if (cart.UserId !== id) {
+    const cart = await Cart.findOne({
+       where: { 
+         UserId: id,
+         ProductId
+      }})
+    if (!cart) {
       return res.status(401).json({ message: 'This Product Cart not belongs to you'})
     }
     next()
