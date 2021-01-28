@@ -285,6 +285,50 @@
     ]
     ```
 
+### GET/carts/:id
+
+* **REQUEST HEADERS**
+    * **content**
+    ```json
+    [
+        {
+            "access_token": "string"
+        }
+    ]
+    ```
+* **SUCCESS RESPONSE**
+    * **code** 200
+    * **content**
+    ```json
+    [
+        {
+            "id": "number",
+            "UserId": "number",
+            "ProductId": "number",
+            "quantity": "number",
+            "isPaid": "boolean",
+            "totalPrice": "number",
+            "Product": {
+                "id": "number",
+                "name": "string",
+                "image_url": "string",
+                "price": "number",
+                "stock": "number",
+            }
+        }
+    ]
+    ```
+* **ERROR RESPONSE**
+    * **code** 500
+    * **content**
+    ```json
+    [
+        {
+            "message": "Internal Server Error"
+        }
+    ]
+    ```
+
 ### POST/carts
 
 * **REQUEST HEADERS**
@@ -384,6 +428,153 @@
                 "price": "number",
                 "stock": "number",
             }
+        }
+    ]
+    ```
+* **ERROR RESPONSE**
+    * **code** 500
+    * **content**
+    ```json
+    [
+        {
+            "message": "Internal Server Error"
+        }
+    ]
+    ```
+
+### GET/wishlist
+
+* **REQUEST HEADERS**
+    * **content**
+    ```json
+    [
+        {
+            "access_token": "string"
+        }
+    ]
+    ```
+* **SUCCESS RESPONSE**
+    * **code** 200
+    * **content**
+    ```json
+    [
+        {
+            "id": "number",
+            "UserId": "number",
+            "ProductId": "number",
+            "Product": {
+                "id": "number",
+                "name": "string",
+                "image_url": "string",
+                "price": "number",
+                "stock": "number",
+            }
+        }
+    ]
+    ```
+* **ERROR RESPONSE**
+    * **code** 500
+    * **content**
+    ```json
+    [
+        {
+            "message": "Internal Server Error"
+        }
+    ]
+    ```
+
+### GET/wishlist/:id
+
+* **REQUEST HEADERS**
+    * **content**
+    ```json
+    [
+        {
+            "access_token": "string"
+        }
+    ]
+    ```
+* **SUCCESS RESPONSE**
+    * **code** 200
+    * **content**
+    ```json
+    [
+        {
+            "id": "number",
+            "UserId": "number",
+            "ProductId": "number",
+            "Product": {
+                "id": "number",
+                "name": "string",
+                "image_url": "string",
+                "price": "number",
+                "stock": "number",
+            }
+        }
+    ]
+    ```
+* **ERROR RESPONSE**
+    * **code** 500
+    * **content**
+    ```json
+    [
+        {
+            "message": "Internal Server Error"
+        }
+    ]
+    ```
+
+### POST/wishlist
+
+* **REQUEST HEADERS**
+    * **content**
+    ```json
+    [
+        {
+            "access_token": "string"
+        }
+    ]
+    ```
+* **SUCCESS RESPONSE**
+    * **code** 200
+    * **content**
+    ```json
+    [
+        {
+            "id": "number",
+            "UserId": "number",
+            "ProductId": "number"
+        }
+    ]
+    ```
+* **ERROR RESPONSE**
+    * **code** 500
+    * **content**
+    ```json
+    [
+        {
+            "message": "Internal Server Error"
+        }
+    ]
+    ```
+### DELETE/wishlist/:id
+
+* **REQUEST HEADERS**
+    * **content**
+    ```json
+    [
+        {
+            "access_token": "string"
+        }
+    ]
+    ```
+* **SUCCESS RESPONSE**
+    * **code** 200
+    * **content**
+    ```json
+    [
+        {
+            "message": "Wishlist Has Been Succesfully Deleted"
         }
     ]
     ```
