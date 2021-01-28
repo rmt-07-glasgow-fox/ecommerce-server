@@ -52,6 +52,31 @@ class CartController {
     }
   }
 
+  static async checkout(req, res, next) {
+    try {
+      let cart = await Cart.findOne({
+        UserId: req.currentUser.id
+      })
+
+      let cartItems = await CartItem.findAll({
+        where: {CartId: cart.id},
+        include: {model: Product}
+      })
+
+      cartItems.forEach(async (el) => {
+        let product = await Product.findByPk(el.Product.id)
+        product.stock -= el.quantity
+        await product.save()
+      })
+
+      await cart.destroy()
+      // res.status(200).json({cart, cartItems})
+      res.status(200).json({msg: 'Checkout success'})
+    } catch(error) {
+      next(error)
+    }
+  }
+
 }
 
 module.exports = { CartController }
