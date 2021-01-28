@@ -78,12 +78,18 @@ class userController {
             include: [
                 {
                     model: Product,
-                    through: Wishlist,
+                    through: {
+                        model: Wishlist,
+                        attributes: ['id', 'userId', 'productId', 'createdAt', 'updateAt']
+                    },
                     as: 'itemonwishlist'
                 },
                 {
                     model: Product,
-                    through: Cart,
+                    through: {
+                        model: Cart,
+                        attributes: ['id', 'userId', 'productId', 'quantity', 'isBought', 'createdAt', 'updateAt']
+                    },
                     as: 'itemoncart'
                 }
             ],
