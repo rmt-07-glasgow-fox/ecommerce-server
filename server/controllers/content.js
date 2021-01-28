@@ -1,4 +1,4 @@
-const { Content } = require('../models')
+const { Content, Cart } = require('../models')
 const {format} = require('util');
 const gc = require('../config/')
 const bucket = gc.bucket('gardara_ecommerce')
@@ -6,6 +6,7 @@ const {Storage} = require('@google-cloud/storage');
 
 class Controller {
     static getContent(req, res, next) {
+        console.log('masuk getcontent')
         Content.findAll({
             order: [['name','ASC']]
         })
@@ -32,14 +33,25 @@ class Controller {
     }
 
     static postContent(req, res, next) {
-        const { name, category, price, stock, imageUrl} = req.body
+        console.log('masuk postContent')
+        let temp = {}
+        const { name, description, category, price, stock, tags, imageUrl} = req.body
         Content.create({
-            name, category, price, stock, imageUrl, UserId : +req.user.id
+            name, description, category, price, stock, tags, imageUrl
         })
-            .then(contents => {
-                res.status(201).json(contents)
+            .then(content => {
+                console.log(content, "berhasil content create")
+                temp = content
+                Cart.create({
+                    UserId: req.user.id,
+                    ContentId: content.id
+                })
+            })
+            .then(result => {
+                res.status(201).json(temp)
             })
             .catch(err => {
+                console.log(err.stack, 'GAGALLLL')
                 next(err)
             })
     }
@@ -63,6 +75,7 @@ class Controller {
             const publicUrl = format(
               `https://storage.googleapis.com/${bucket.name}/${blob.name}`
             );
+            console.log('image BERESS')
             res.status(200).json({ imageUrl: publicUrl })
           });
         
@@ -70,9 +83,9 @@ class Controller {
     }
 
     static putContent(req, res, next) {
-        const { name, category, price, stock, imageUrl } = req.body
+        const { name, description, category, price, stock, tags, imageUrl } = req.body
         Content.update({
-            name, category, price, stock, imageUrl, UserId : req.user.id
+            name, description, category, price, stock, tags, imageUrl
         }, {
             where: {
                 id: +req.params.id
@@ -87,16 +100,23 @@ class Controller {
     }
 
     static deleteContent(req, res, next) {
-        Content.destroy({
+        Cart.destroy({
             where: {
-                id: +req.params.id
+                ContentId: +req.params.id
             }
         })
-            .then(contents => {
+            .then(content => {
+                Content.destroy({
+                    where: {
+                        id: +req.params.id
+                    }
+                })
+            })
+            .then(result => {
                 res.status(200).json({ message: "data deleted" })
             })
             .catch(err => {
-                next(err)
+                next({name: "resourceNotFound"})
             })
     }
 }

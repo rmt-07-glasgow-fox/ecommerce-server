@@ -97,7 +97,7 @@ class Controller {
                 res.status(200).json({ message: "data deleted" })
             })
             .catch(err => {
-                next(err)
+                next({name: "resourceNotFound"})
             })
     }
 }

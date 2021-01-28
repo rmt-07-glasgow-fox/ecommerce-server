@@ -1,12 +1,14 @@
 const router = require('express').Router()
 const Controller = require('../controllers/content')
 const multer = require('../middlewares/multer')
+const { authenticate, authorizeAdmin } = require("../middlewares/auth")
 
 router.get("/", Controller.getContent)
-router.get('/:id', Controller.getOneContent)
-router.post('/', Controller.postContent)
-router.post('/image', multer.single('file'), Controller.postContentImage)
-router.put("/:id", Controller.putContent)
-router.delete("/:id", Controller.deleteContent)
+router.get('/list/:id', Controller.getOneContent)
+router.use(authenticate)
+router.post('/', authorizeAdmin, Controller.postContent)
+router.post('/image', authorizeAdmin, multer.single('file'), Controller.postContentImage)
+router.put("/:id", authorizeAdmin, Controller.putContent)
+router.delete("/:id", authorizeAdmin, Controller.deleteContent)
 
 module.exports = router

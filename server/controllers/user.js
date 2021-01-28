@@ -4,6 +4,7 @@ const { generateToken } = require('../helpers/jwt')
 
 class Controller {
     static login(req, res, next) {
+        console.log('masuk login')
         const { email, password } = req.body
         User.findOne({
             where: {
@@ -28,8 +29,32 @@ class Controller {
                 }
             })
             .catch(err => {
+                console.log(err.stack)
                 next(err)
             })
+    }
+
+    static register(req, res, next){
+        console.log(req.body, 'masuk register bray')
+        const { email, password } = req.body
+        User.create({ email, password, role: 'customer' })
+        .then(user => {
+            console.log('berhasil')
+            const payload = {
+                id: user.id,
+                email: user.email
+            }
+            const access_token = generateToken(payload)
+            const registeredUser = {
+                email: user.email,
+                access_token: access_token
+            }
+            return res.status(201).json(registeredUser)
+        })
+        .catch(err => {
+            console.log(err.stack)
+            next(err)
+        })
     }
 }
 
