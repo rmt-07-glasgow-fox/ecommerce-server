@@ -19,7 +19,6 @@ class CartController {
       })
       return res.status(200).json(cart)
     } catch (err) {
-      console.log(err)
       next(err)
     }
   }
@@ -77,6 +76,7 @@ class CartController {
         quantity
       },
       { where: {
+        id,
         ProductId: product.id,
         UserId: customerId,
         status: false
@@ -85,7 +85,6 @@ class CartController {
       const response = updateProductInCart[1][0]
       return res.status(200).json(response)
     } catch (err) {
-      console.log(err)
       next(err)
     }
   }
@@ -97,18 +96,21 @@ class CartController {
       const cart =  await Cart.findByPk(id)
       if (cart.UserId !== customerId) {
         return res.status(401).json({ message: 'This Product Cart not belongs to you'})
-      }
-      const deletedCart = await Cart.destroy({
-        where: {
-          id,
-          UserId: cart.UserId,
-          status: false
+      } else {
+        const deletedCart = await Cart.destroy({
+          where: {
+            id,
+            UserId: cart.UserId,
+            status: false
+          }
+        })
+        if (!deletedCart) {
+          throw { name: 'notFound' }
+        } else {
+          console.log(deletedCart)
+          return res.status(200).json({ message: 'Product success removed from cart' })
         }
-      })
-      if (!deletedCart) {
-        throw { name: 'notFound' }
       }
-      return res.status(200).json({ message: 'Product success removed from cart' })
     } catch (err) {
       next(err)
     }

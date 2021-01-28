@@ -12,12 +12,19 @@ Ecommerce is an web application for admin to organize their store. This app has 
 &nbsp;
 
 ## List Available endpoints
+- `POST /login`
+- `POST /register/customer`
+- `POST /login/customer`
 - `GET /products`
+- `GET /products/customer`
 - `GET /products/:id`
 - `POST /products`
+- `POST /products/customer`
 - `PUT /products/:id`
+- `PATCH /products/customer/:id`
 - `DELETE /products/:id`
-
+- `DELETE /products/customer/:id`
+	
 ## RESTful endpoints
 
 ### GET /products
