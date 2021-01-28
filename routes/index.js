@@ -3,12 +3,12 @@ const userRouter = require('./userRouter');
 const categoryRouter = require('./categoryRouter');
 const productRouter = require('./productRouter');
 const bannerRouter = require('./bannerRouter');
-const { authenticate } = require('../middlewares/auth');
+const cartRouter = require('./cartRouter');
 
 router.use('/', userRouter);
-router.use(authenticate);
 router.use('/categories', categoryRouter);
 router.use('/products', productRouter);
 router.use('/banners', bannerRouter);
+router.use('/carts', cartRouter);
 
 module.exports = router;
