@@ -102,6 +102,10 @@ class UserController {
         next(err);
       });
   }
+  
+  static getUser(req, res, next) {
+    //not used
+  }
 }
 
 module.exports = UserController;
