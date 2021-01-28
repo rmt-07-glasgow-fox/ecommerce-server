@@ -3,6 +3,8 @@ const productControl = require('../controller/product')
 const { authorization, authenticate } = require('../middleware/auth')
 
 product.use(authenticate)
+product.put('/customer/products/:id', productControl.productStock)
+
 product.get('/products', productControl.readProduct)
 product.get('/products/:id', productControl.getId)
 product.post('/products', authorization,productControl.createProduct)

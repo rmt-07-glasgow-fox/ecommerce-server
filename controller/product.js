@@ -80,6 +80,30 @@ class productController {
             console.log(err)
         }
     }
+    static async productStock (req, res, next) {
+        const id = req.params.id
+        const stock = req.body
+        try {
+            const findId = await Product.findByPk(id)
+            if (findId) {
+                const update = await Product.update({ stock }, {where: { id }})
+                const updateData = {
+                    id,
+                    name,
+                    image_url,
+                    price,
+                    stock
+                }
+                res.status(200).json(updateData)
+            } else {
+                next({
+                    name: 'undefined' 
+                })
+            }
+        } catch (err) {
+            next(err)
+        }
+    }
 }
 
 module.exports = productController
