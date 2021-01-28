@@ -44,6 +44,36 @@ class Controller {
     })
   }
 
+  static update (req, res, next) {
+    let { ProductId, quantity} = req.body
+
+    Cart.findOne({
+      where: {
+        UserId: +req.user.id,
+        ProductId: +req.body.ProductId,
+        status: false
+      },
+      include: [ Product ]
+    })
+    .then((data) => {
+      if (!data) {
+        res.status(404).json({ message: "Cart not found!" })
+      }
+      return Cart.update({quantity: quantity},{
+        where: {
+          UserId: +req.user.id,
+          ProductId: +ProductId
+        }
+      })
+    })
+    .then((data) => {
+      res.status(201).json({ message: "Cart updated!" })
+    })
+    .catch((err) => {
+      next(err)
+    })
+  }
+
   static showAll (req, res, next) {
     console.log('showAll TRIGGETED');
     Cart.findAll({

@@ -304,10 +304,8 @@ __Response (500 - Internal Server Error)__
 ### *Request Body*
 ```json
 {
-  "UserId": 66,
   "ProductId": 100,
   "quantity": 1,
-  "status": false
 }
 ```
 ### *Success Response*
@@ -322,6 +320,50 @@ __Response (401 - Invalid User)__
 ```json
 {
   "message": "Please provide token!"
+}
+```
+__Response (500 - Internal Server Error)__
+```json
+{
+  "message": "Internal server error"
+}
+```
+
+---
+
+### PUT /cart
+> Update cart
+### *Request Header*
+```json
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NjksImVtYWlsIjoiYWRtaW4xMDBAbWFpbC5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2MTE0ODAxNTl9.2PFDCNb4mUtgiLxC77tr_UM6epZyEVJ29LJaFqythnA"
+}
+```
+### *Request Body*
+```json
+{
+  "ProductId": 100,
+  "quantity": 1,
+}
+```
+### *Success Response*
+__Response (200)__
+ ```json
+{
+  "message": "Cart updated!"
+}
+```
+### *Error Responses*
+__Response (401 - Invalid User)__
+```json
+{
+  "message": "Please provide token!"
+}
+```
+__Response (404 - Not Found)__
+```json
+{
+  "message": "Cart not found!"
 }
 ```
 __Response (500 - Internal Server Error)__
