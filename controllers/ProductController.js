@@ -10,6 +10,7 @@ class ProductController {
       price: req.body.price,
       stock: req.body.stock,
       UserId: decoded.id,
+      CategoryId: req.body.CategoryId
     };
     Product.create(payload)
       .then((product) => {
@@ -49,6 +50,8 @@ class ProductController {
       image_url: req.body.image_url,
       price: req.body.price,
       stock: req.body.stock,
+      UserId: req.user.id, // updated person who update product
+      CategoryId: req.body.CategoryId
     };
 
     Product.update(payload, { where: { id } })

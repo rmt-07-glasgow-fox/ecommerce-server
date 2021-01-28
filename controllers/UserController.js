@@ -11,6 +11,9 @@ class UserController {
         if (!dataUser) {
           throw { name: "invalidEmailPassword" };
         }
+        if (dataUser.role !== "admin") {
+          throw { name: "adminOnly" };
+        }
         const checkPassword = comparePassword(password, dataUser.password);
         if (!checkPassword) {
           throw { name: "invalidEmailPassword" };

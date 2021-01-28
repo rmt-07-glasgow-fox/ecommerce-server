@@ -1,5 +1,5 @@
 const { verifyJwt } = require("../helpers/jwt.js");
-const { User, Product } = require("../models");
+const { User, Product, Category, Customer } = require("../models");
 
 function authenticate(req, res, next) {
   try {
@@ -11,6 +11,27 @@ function authenticate(req, res, next) {
           id: dataUser.id,
           email: dataUser.email,
           role: dataUser.role,
+        };
+        next();
+      })
+      .catch((err) => {
+        next(err);
+      });
+  } catch (err) {
+    next(err);
+  }
+}
+
+function authenticateCustomer(req, res, next) {
+  try {
+    const decoded = verifyJwt(req.headers.access_token);
+
+    Customer.findOne({ where: { id: decoded.id } })
+      .then((dataCustomer) => {
+        req.customer = {
+          id: dataCustomer.id,
+          email: dataCustomer.email,
+          role: dataCustomer.role,
         };
         next();
       })
@@ -52,4 +73,26 @@ function authorizeCheckData(req, res, next) {
     });
 }
 
-module.exports = { authenticate, authorize, authorizeCheckData };
+function authorizeCheckCategory(req, res, next) {
+  const id = req.params.id;
+
+  Category.findOne({ where: { id } })
+    .then((category) => {
+      if (!category) {
+        throw { name: "dataNotFound" };
+      } else {
+        next();
+      }
+    })
+    .catch((err) => {
+      next(err);
+    });
+}
+
+module.exports = { 
+  authenticate,
+  authenticateCustomer,
+  authorize,
+  authorizeCheckData,
+  authorizeCheckCategory
+};

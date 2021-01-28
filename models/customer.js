@@ -3,7 +3,7 @@ const { Model } = require("sequelize");
 const { hashPassword } = require("../helpers/bcrypt.js");
 
 module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
+  class Customer extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,16 +11,27 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      User.hasMany(models.Product);
-      User.hasMany(models.Category);
+      Customer.belongsToMany(models.Product, { through: models.Cart });
     }
   }
-  User.init(
+  Customer.init(
     {
-      email: {
+      name: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          notNull: {
+            msg: "Name is required",
+          },
+          notEmpty: {
+            msg: "Name is required",
+          },
+        },
+      },
+      email: {
+        type: DataTypes.STRING,
         unique: { msg: 'Email already used' },
+        allowNull: false,
         validate: {
           isEmail: {
             msg: "Invalid email format",
@@ -49,15 +60,18 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
-      role: DataTypes.STRING,
+      role: DataTypes.STRING
     },
     {
       sequelize,
-      modelName: "User",
+      modelName: "Customer",
     }
   );
-  User.addHook("beforeCreate", "hashPassword", (instance, options) => {
+  Customer.addHook("beforeCreate", "hashPassword", (instance, options) => {
     instance.password = hashPassword(instance.password);
   });
-  return User;
+  Customer.addHook("beforeCreate", "addCustomerRole", (instance, options) => {
+    instance.role = "customer"
+  });
+  return Customer;
 };
