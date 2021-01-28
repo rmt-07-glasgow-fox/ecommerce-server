@@ -4,7 +4,7 @@ exports.create = async (req, res, next) => {
   try {
     const userId = req.user.id;
     const cart = await Cart.findOne({ where: { UserId: userId, ProductId: req.body.ProductId } });
-    const product = await Product.findByPk(cart.ProductId);
+    const product = await Product.findByPk(Number(req.body.ProductId));
 
     if (cart) {
       if (product.stock < cart.quantity + 1) {
