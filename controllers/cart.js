@@ -76,88 +76,33 @@ class cartController {
     }
 
     static checkout(req, res, next) {
-        // let obj = { isBought: req.body.isBought }
-        let quantityToBuy = 0
-        let stock = 0
-        let productIdTarget = 0
-        let userIdTarget = 0
-        let sum = 0
-        let productImage = ''
-        let productName = ''
-
+        let obj = {
+            isBought: true
+        }
+        console.log(+req.user.id);
         Cart.findAll({
             where: {
-                userId: req.user.id,
+                userId: +req.user.id,
                 isBought: false
-            }
+            },
+            attributes: ['id', 'productId', 'isBought','quantity']
         })
         .then(cart => {
-            if (cart[0]) {
-                // mencari jumlah stock via productId
-                quantityToBuy = cart[0].quantity
-                userIdTarget = cart[0].userId
-                productIdTarget = +cart[0].productId
-                return Product.findAll({
-                    where: {
-                        id: productIdTarget
-                    }
-                })
-            } else {
-                throw { name: "ResourceNotFound" }
-            }
-        })
-        .then(product => {
-            productName = product[0].name
-            productImage = product[0].image_url
-            stock = product[0].stock
-            console.log('pengecekan stock');
-            // eksekusi pengecekkan
-            if (stock === 0) {
-                throw {
-                    name: "Product is out of stock"
-                } 
-            } else if (quantityToBuy > stock) {
-                throw {
-                    name: "Product is not enough"
-                }
-            } else if (quantityToBuy <= stock) {
-                console.log('eksekusi pengubahan stock');
-                sum = stock - quantityToBuy
-                let obj = { stock: sum }
-                return Product.update(obj, {
-                    where: {
-                        id: productIdTarget
-                    },
-                    returning: true
-                })
-            }
-        })
-        .then(data => {
-            console.log('masuk pengubahan stock')
-            if (data[0]) {
-                // pengubahan is bought
-                let status = { isBought: true }
-                return Cart.update(status, {
-                    where: {
-                        id: id,
-                        userId: userIdTarget,
-                        productId: productIdTarget,
-                    }
-                })
-            } else {
-                throw {
-                    name: "ResourceNotFound"
-                } 
-            }
-        })
-        .then(() => {
-            // send email here
-            return User.findByPk(userIdTarget)
+            console.log(cart);
+           return Promise.all(cart.map(data => Cart.update(obj, {
+               where: {
+                   id: data.dataValues.id
+               },
+               returning: true
+            }))
+        )})
+        .then(value => {
+            console.log(value);
+            return User.findByPk(+req.user.id)
         })
         .then(user => {
-            sendReceipt(user.dataValues.email, productImage, productName)
-            console.log('success');
-            res.status(200).json('CHECKOUT :)') // message checkout obj
+            sendReceipt(user.dataValues.email)
+            res.status(200).json({ message: 'Checkout Success'})
         })
         .catch(err => {
             next(err)

@@ -11,7 +11,7 @@ const errorHandler = (err, req, res, next) => {
             res.status(400).json({ errors: error })
             break;
         case "ResourceNotFound":
-            res.status(404).json({ errors: [ "Item Not Found" ] })
+            res.status(404).json({ errors: [  err.name  ] })
             break;
         case "SequelizeUniqueConstraintError":
             res.status(400).json({ errors: [ "Email already registered" ] }) 

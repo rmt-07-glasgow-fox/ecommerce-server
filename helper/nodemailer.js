@@ -30,22 +30,15 @@ function sendEmail (email) {
     })
 }
 
-function sendReceipt (email, image, name) {
-    console.log(email, name);
+function sendReceipt (email) {
     const mailOptions = {
         from: adminEmail,
         to: email,
         subject: 'Receipt',
         text: `Hi ${email}, thank you for ordering :)`,
         html: `<div class="card">
-        <img src="${image}" alt="Avatar" style="width:100%">
-        <div class="container">
-          <h4><b>${name}</b></h4>
-          <p>usedaircraft.com</p>
-          <hr>
           Hi ${email}, thank you for ordering :) 
           <p>by Dzakyalr</p>
-        </div>
       </div>`,
     }
     
