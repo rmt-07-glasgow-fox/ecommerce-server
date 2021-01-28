@@ -67,6 +67,31 @@ Closed endpoints require a Valid Token to be included in the header of the reque
 * [Update a Banner](#update-a-banner) : `PUT /api/banners/:id`
 * [Delete a Banner](#delete-a-banner) : `DELETE /api/banners/:id`
 
+## Category Related
+
+* [Create Category](#create-a-category) : `POST /api/categories/`
+* [Show Carts](#show-categories) : `GET /api/categories/`
+* [Show a Category](#show-a-category) : `GET /api/categories/:id`
+* [Update a Category](#update-a-category) : `PUT /api/categories/:id`
+* [Delete a Category](#delete-a-category) : `DELETE /api/categories/:id`
+
+## Cart Related
+
+* [Create Cart](#create-a-cart) : `POST /api/carts/`
+* [Show Carts](#show-carts) : `GET /api/carts/`
+* [Show a Cart](#show-a-cart) : `GET /api/carts/:id`
+* [Update a Cart](#update-a-cart) : `PUT /api/carts/:id`
+* [Delete a Cart](#delete-a-cart) : `DELETE /api/carts/:id`
+
+## Wishlist Related
+
+* [Create Wishlist](#create-a-wishlist) : `POST /api/wishlists/`
+* [Show Wishlists](#show-wishlists) : `GET /api/wishlists/`
+* [Show a Wishlist](#show-a-wishlist) : `GET /api/wishlists/:id`
+* [Update a Wishlist](#update-a-wishlist) : `PUT /api/wishlists/:id`
+* [Delete a Wishlist](#delete-a-wishlist) : `DELETE /api/wishlists/:id`
+
+
 ## Error Response because Server Error
 
 **Condition** : Internal Server Error
@@ -515,7 +540,7 @@ Used to collect a Token for registered User.
 
 # Create a Banner
 
-**URL**: `/api/banners/`
+**URL**: `/api/categorys/`
 
 **Method** : `POST`
 
@@ -608,7 +633,7 @@ Used to collect a Token for registered User.
 
 # Show Banners
 
-**URL** : `/api/banners/`
+**URL** : `/api/categorys/`
 
 **Method** : `GET`
 
@@ -635,7 +660,7 @@ Used to collect a Token for registered User.
 
 # Show a Banner
 
-**URL** : `/api/banners/:id`
+**URL** : `/api/categorys/:id`
 
 **Method** : `GET`
 
