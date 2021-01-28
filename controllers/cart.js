@@ -46,6 +46,8 @@ class cartController {
         .then(data => {
             if (!data[0]) {
                 return Cart.create(obj)
+            } else if (data[0].isBought === true) {
+                return Cart.create(obj)
             } else {
                 if (currentStock > obj.quantity) {
                     flag = true
