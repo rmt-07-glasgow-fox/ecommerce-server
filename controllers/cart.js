@@ -49,7 +49,7 @@ class cartController {
             } else {
                 if (currentStock > obj.quantity) {
                     flag = true
-                    return Cart.update({quantity: data[0].quantity++}, {
+                    return Cart.increment('quantity', {
                         where: {
                             id: data[0].dataValues.id
                         },
