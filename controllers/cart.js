@@ -14,12 +14,16 @@ exports.create = async (req, res, next) => {
         res.status(200).json({ message: 'Cart has been updated' });
       }
     } else {
-      const c = await Cart.create({
-        ProductId: req.body.ProductId,
-        UserId: userId,
-        quantity: req.body.quantity,
-      });
-      return res.status(201).json(c);
+      if (product.stock < 1) {
+        return next({ name: 'LimitStock' });
+      } else {
+        const c = await Cart.create({
+          ProductId: req.body.ProductId,
+          UserId: userId,
+          quantity: req.body.quantity,
+        });
+        return res.status(201).json(c);
+      }
     }
   } catch (err) {
     return next(err);
