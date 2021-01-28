@@ -7,7 +7,8 @@ class userController {
     static regist(req, res, next) {
         const data = {
             email: req.body.email,
-            password: req.body.password
+            password: req.body.password,
+            role: req.body.role ? req.body.role : 'customer'
         }
 
         User.create(data)

@@ -5,6 +5,7 @@ class productController {
     static get(req, res, next) {
         Product.findAll()
         .then(data => {
+            console.log(data)
             res.status(200).json(data)
         })
         .catch(next)
