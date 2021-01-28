@@ -5,7 +5,10 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class Content extends Model {
     static associate(models) {
-      Content.belongsTo(models.User, {foreignKey: 'UserId'})
+      this.hasMany(models.Wishlist, {foreignKey: 'ContentId', targetKey: 'id'})
+      this.belongsToMany(models.User, {through: models.Wishlist, foreignKey: 'ContentId'})
+      this.hasMany(models.Cart, {foreignKey: 'ContentId', targetKey: 'id'})
+      this.belongsToMany(models.User, {through: models.Cart, foreignKey: 'ContentId'})
     }
   };
   Content.init({
@@ -15,6 +18,15 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: {
           args: true,
           msg: "Name is required"
+        }
+      }
+    },
+    description: {
+      type: DataTypes.TEXT,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: "Description is required"
         }
       }
     },
@@ -47,21 +59,21 @@ module.exports = (sequelize, DataTypes) => {
         min: 0
       }
     },
+     tags: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: "Tags is required"
+        }
+      }
+    },
     imageUrl: {
       type: DataTypes.STRING,
       validate: {
         notEmpty: {
           args: true,
           msg: "ImageUrl is required"
-        }
-      }
-    },
-    UserId: {
-      type: DataTypes.INTEGER,
-      validate: {
-        notEmpty: {
-          args: true,
-          msg: "UserId is required"
         }
       }
     }

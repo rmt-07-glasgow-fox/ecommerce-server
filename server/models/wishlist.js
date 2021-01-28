@@ -3,36 +3,24 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Banner extends Model {
+  class Wishlist extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
     static associate(models) {
-      Banner.belongsTo(models.User, {foreignKey: 'UserId'})
+      this.belongsTo(models.User, {foreignKey: 'UserId'})
+      this.belongsTo(models.Content, {foreignKey: 'ContentId'})
     }
   };
-  Banner.init({
-    title: {
-      type: DataTypes.STRING,
-      validate: {
-        notEmpty: {
-          args: true,
-          msg: "Title is required"
-        }
-      }
-    },
+  Wishlist.init({
     status: {
-      type: DataTypes.STRING,
+      type: DataTypes.BOOLEAN,
       validate: {
         notEmpty: {
           args: true,
           msg: "Status is required"
-        }
-      }
-    },
-    imageUrl: {
-      type: DataTypes.STRING,
-      validate: {
-        notEmpty: {
-          args: true,
-          msg: "ImageUrl is required"
         }
       }
     },
@@ -44,10 +32,19 @@ module.exports = (sequelize, DataTypes) => {
           msg: "UserId is required"
         }
       }
+    },
+    ContentId: {
+      type: DataTypes.INTEGER,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: "UserId is required"
+        }
+      }
     }
   }, {
     sequelize,
-    modelName: 'Banner',
+    modelName: 'Wishlist',
   });
-  return Banner;
+  return Wishlist;
 };
