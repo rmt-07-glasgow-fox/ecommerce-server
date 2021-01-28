@@ -29,7 +29,7 @@ class Controller {
                 }
             })
             .catch(err => {
-                console.log(err.stack)
+                console.log(err.stack, 'ini error')
                 next(err)
             })
     }
