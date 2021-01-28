@@ -49,9 +49,10 @@ const authorizationCart = (req, res, next) => {
         UserId: req.user.id
     }})
     .then(data => {
+        console.log(req.user.id);
         if (!data) {
             next({name: 'resourceNotFound'})
-        } else if(decoded.UserId == req.user.id){
+        } else if(decoded.id == req.user.id){
             next()
         } else {
             next({name: 'unauthorized'})

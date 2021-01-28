@@ -48,19 +48,19 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     role: {
-      allowNull: false,
-      type: DataTypes.STRING,
-      validate: {
-        notEmpty : { msg : "Role Required"},
-        notNull: { msg : "Role Required"}
-      }
+      type: DataTypes.STRING
     }
   }, {
     sequelize,
     modelName: 'User',
     hooks: {
       beforeCreate: (user, options) => {
-        user.password = hashPassword(user.password)
+        if (!user.role) {
+          user.role = 'customer'
+          user.password = hashPassword(user.password)
+        } else {
+          user.password = hashPassword(user.password)
+        }
       }
     }
   });

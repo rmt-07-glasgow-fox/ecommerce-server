@@ -26,6 +26,7 @@ class CartController {
             }
         })
            .then(data => {
+               console.log(data);
                if (!data) {
                    next({name: 'resourceNotFound'})
                } else {
@@ -39,16 +40,15 @@ class CartController {
                }
            })
            .then(data => {
+               console.log(data);
                if (data) {
                    let newQti = data.quantity + quantity
                    if (stock >= newQti) {
-                       console.log(data);
                        let newData = {
                            ProductId,
                            UserId,
                            quantity: newQti
                        }
-                       console.log(newData);
                        return Cart.update(newData, {
                            returning: true,
                            where: {
@@ -87,7 +87,6 @@ class CartController {
     static updateCarts (req, res, next) {
         let id = +req.params.id
         let quantity = +req.body.quantity
-        console.log(id);
         Cart.findOne({include: [Product], where: {id}})
             .then(data => {
                 if (data) {
