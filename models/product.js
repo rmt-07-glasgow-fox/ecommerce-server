@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      product.belongsToMany(models.user, {through: models.cart})
     }
   };
   product.init({
@@ -31,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     price: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       validate: {
         isNumeric: {
           msg: 'Price must be number'
@@ -61,12 +62,6 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   }, {
-    hooks: {
-      beforeCreate (product, option){
-        let newPrice = product.price.toLocaleString("id-ID", {style: "currency", currency: "IDR"})
-        product.price = newPrice
-      }
-    },
     sequelize,
     modelName: 'product',
   });
