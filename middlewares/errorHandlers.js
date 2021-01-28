@@ -10,6 +10,9 @@ let errorHandlers = (err, req, res, next) => {
         res.status(400).json({ errors: ['Please insert you category!'] });
         break;
       case "notEnoughStock":
+        res.status(400).json({ errors: ['Stock is not enough!'] });
+        break;
+      case "notEnoughStock":
         res.status(400).json({ errors: ['Maximum stock exceeded!'] });
         break;
       case "invalidLogin":

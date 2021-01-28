@@ -1,4 +1,4 @@
-const { Wishlist, User, Product } = require('../models/index.js');
+const { Wishlist, User, Product, Category } = require('../models/index.js');
 
 class WishlistController {
   static async readWishlist (req, res, next) {
@@ -9,7 +9,7 @@ class WishlistController {
           attributes: { exclude: ['password', 'role', 'createdAt', 'updatedAt'] }
         }, {
           model: Product,
-          attributes: { exclude: ['UserId'] }
+          attributes: { exclude: ['UserId'] }, include: [{ model: Category }]
         }],
       })
 
