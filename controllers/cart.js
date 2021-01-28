@@ -8,7 +8,8 @@ class CartController {
 
     Cart.findAll({
       where: {
-        UserId
+        UserId,
+        status: false
       },
       include: [{
         model: Product, attributes: {
@@ -171,6 +172,29 @@ class CartController {
         }
       })
       .catch(next)
+  }
+
+  static checkOut (req, res, next) {
+    const UserId = +req.user.id
+
+    Cart.findAll({
+      where: {
+        UserId,
+        status: false
+      }
+    })
+      .then((foundCarts) => {
+        return foundCarts.update({
+          status: true
+        })
+      })
+      .then((checkedOutCarts) => {
+        const messages = ["Checkout successful"]
+        res.status(200).json({ messages })
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
 }
 
