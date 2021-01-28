@@ -2,27 +2,25 @@ const { checkToken } = require('../helpers/jwt')
 const { User, Product, Cart } = require('../models')
 
 function authUser(req, res, next) {
-    if (req.headers.access_token) {
-        console.log('hai');
-        let login = checkToken(req.headers.access_token)
-        console.log(login);
-        User.findOne({
-            where: {email: login.email}
-        })
-        .then(data => {
-            // console.log('masuk then',data);
-            if (data) {
-                req.user = login
-                next()
-            } else {
-                console.log('imel ga ktemu');
-                next({name: 'NotLogin', message: 'please login first'})
-            }
-        })
-        .catch(next)
-    } else {
-        next({name: 'NotLogin', message: 'please login first'})
-    }
+    console.log(req.headers);
+    let { access_token } = req.headers
+    console.log('hai');
+    let login = checkToken(access_token)
+    console.log(login);
+    User.findOne({
+        where: {email: login.email}
+    })
+    .then(data => {
+        // console.log('masuk then',data);
+        if (data) {
+            req.user = login
+            next()
+        } else {
+            console.log('imel ga ktemu');
+            next({name: 'NotLogin', message: 'please login first'})
+        }
+    })
+    .catch(next)
 }
 
 function authorizeUser(req, res, next) {
@@ -33,6 +31,7 @@ function authorizeUser(req, res, next) {
             next({name: 'NotFound', message: 'data not found'})
         } else {
             if (data.UserId === req.user.id) {
+                console.log('masuk');
                 next()
             } else {
                 next({name: 'Unauthorized', message: 'not your own'})

@@ -5,7 +5,7 @@ const { authorizeUser } = require('../middlewares/auth')
 
 router.get('/', CartController.getUserCart)
 router.post('/:id', CartController.create)
-router.patch('/:id', authorizeUser, CartController,patchUserCart)
+router.patch('/:id', authorizeUser, CartController.patchUserCart)
 router.delete('/:id', authorizeUser, CartController.deleteUserCart)
 
 module.exports = router

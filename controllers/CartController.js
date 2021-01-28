@@ -47,7 +47,8 @@ class CartController {
 
     static getUserCart(req, res, next) {
         Cart.findAll({where: {UserId: req.user.id},
-            include: [Product]
+            include: [Product],
+            order: [['id', 'ASC']]
         })
         .then(data => {
             res.status(200).json(data)
@@ -56,25 +57,28 @@ class CartController {
     }
 
     static patchUserCart(req, res, next) {
-        let { change, ProductId } = req.body
+        let { change, id } = req.body
         let quantity
-
-        Product.findByPk(+ProductId)
-        .then(findProduct => {
-            console.log(findProduct);
-            quantity = findProduct.quantity
-            return Cart.findOne({where: {id: req.params.id}})
+        console.log('masuk controller');
+        Cart.findOne({where: {id},
+            include: [Product]
         })
         .then(findCart => {
-            console.log('find cart>>>>>>>>>>>>>>>>', findCart);
+            // console.log(findCart);
+            quantity = findCart.Product.stock
+            // return Product.findByPk(+ProductId)
+        // })
+        // .then(findProduct => {
+            // console.log('find cart>>>>>>>>>>>>>>>>', findProduct);
+            console.log(findCart.quantity, quantity);
             if (change === '1' && findCart.quantity < quantity) {
                 return Cart.update({quantity: +(findCart.quantity) + 1}, {
-                    where: {id: req.params.id},
+                    where: {id},
                     returning: true
                 })
             } else if (change === '-1' && findCart.quantity > 0) {
                 return Cart.update({quantity: +(findCart.quantity) - 1}, {
-                    where: {id: req.params.id},
+                    where: {id},
                     returning: true
                 })
             }
