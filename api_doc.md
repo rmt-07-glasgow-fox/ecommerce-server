@@ -253,9 +253,7 @@
 * **Request Headers**
 
   ```
-  {
-    access_token : <your access_token>
-  }
+  not needed
   ```
 
 * **Success Response:** <br />
@@ -313,24 +311,6 @@
   ```
 
 * **Failed Response:** <br />
-  **Code:** 401 <br />
-  **Content:**
-  ```
-  {
-    "status": "Error",
-    "name": "ErrorAuthenticate",
-    "message": "you need to login first"
-  }
-  ```
-  **Code:** 403 <br />
-  **Content:**
-  ```
-  {
-    "status": "Error",
-    "name": "ErrorAccessToken",
-    "message": "Jwt needed"
-  }
-  ```
   **Code:** 500 <br />
   **Content:**
   ```
@@ -355,9 +335,7 @@
 * **Request Headers**
 
   ```
-  {
-    access_token : <your access_token>
-  }
+  not needed
   ```
 
 * **Success Response:** <br />
@@ -386,24 +364,6 @@
   ```
 
 * **Failed Response:** <br />
-  **Code:** 401 <br />
-  **Content:**
-  ```
-  {
-    "status": "Error",
-    "name": "ErrorAuthenticate",
-    "message": "you need to login first"
-  }
-  ```
-  **Code:** 403 <br />
-  **Content:**
-  ```
-  {
-    "status": "Error",
-    "name": "ErrorAccessToken",
-    "message": "Jwt needed"
-  }
-  ```
   **Code:** 404 <br />
   **Content:**
   ```
@@ -720,9 +680,7 @@
 * **Request Headers**
 
   ```
-  {
-    access_token : <your access_token>
-  }
+  not needed
   ```
 
 * **Success Response:** <br />
@@ -751,24 +709,6 @@
   ```
 
 * **Failed Response:** <br />
-  **Code:** 401 <br />
-  **Content:**
-  ```
-  {
-    "status": "Error",
-    "name": "ErrorAuthenticate",
-    "message": "you need to login first"
-  }
-  ```
-  **Code:** 403 <br />
-  **Content:**
-  ```
-  {
-    "status": "Error",
-    "name": "ErrorAccessToken",
-    "message": "Jwt needed"
-  }
-  ```
   **Code:** 500 <br />
   **Content:**
   ```
@@ -793,9 +733,7 @@
 * **Request Headers**
 
   ```
-  {
-    access_token : <your access_token>
-  }
+  not needed
   ```
 
 * **Success Response:** <br />
@@ -814,24 +752,6 @@
   ```
 
 * **Failed Response:** <br />
-  **Code:** 401 <br />
-  **Content:**
-  ```
-  {
-    "status": "Error",
-    "name": "ErrorAuthenticate",
-    "message": "you need to login first"
-  }
-  ```
-  **Code:** 403 <br />
-  **Content:**
-  ```
-  {
-    "status": "Error",
-    "name": "ErrorAccessToken",
-    "message": "Jwt needed"
-  }
-  ```
   **Code:** 404 <br />
   **Content:**
   ```
@@ -1138,9 +1058,7 @@
 * **Request Headers**
 
   ```
-  {
-    access_token : <your access_token>
-  }
+  not needed
   ```
 
 * **Success Response:** <br />
@@ -1166,24 +1084,6 @@
   ```
 
 * **Failed Response:** <br />
-  **Code:** 401 <br />
-  **Content:**
-  ```
-  {
-    "status": "Error",
-    "name": "ErrorAuthenticate",
-    "message": "you need to login first"
-  }
-  ```
-  **Code:** 403 <br />
-  **Content:**
-  ```
-  {
-    "status": "Error",
-    "name": "ErrorAccessToken",
-    "message": "Jwt needed"
-  }
-  ```
   **Code:** 500 <br />
   **Content:**
   ```
@@ -1208,9 +1108,7 @@
 * **Request Headers**
 
   ```
-  {
-    access_token : <your access_token>
-  }
+  not needed
   ```
 
 * **Success Response:** <br />
@@ -1227,24 +1125,6 @@
   ```
 
 * **Failed Response:** <br />
-  **Code:** 401 <br />
-  **Content:**
-  ```
-  {
-    "status": "Error",
-    "name": "ErrorAuthenticate",
-    "message": "you need to login first"
-  }
-  ```
-  **Code:** 403 <br />
-  **Content:**
-  ```
-  {
-    "status": "Error",
-    "name": "ErrorAccessToken",
-    "message": "Jwt needed"
-  }
-  ```
   **Code:** 404 <br />
   **Content:**
   ```
@@ -1263,12 +1143,12 @@
   }
   ```
 
-**Edit banner**
+**Edit category**
 ----
 
 * **URL**
 
-  /banners/:id
+  /categories/:id
 
 * **Method**
 
@@ -1385,6 +1265,479 @@
   ```
   {
     "message": "Category deleted successfully"
+  }
+  ```
+
+* **Failed Response:** <br />
+  **Code:** 401 <br />
+  **Content:**
+  ```
+  {
+    "status": "Error",
+    "name": "ErrorAuthenticate",
+    "message": "you need to login first"
+  }
+  ```
+  **Code:** 403 <br />
+  **Content:**
+  ```
+  {
+    "status": "Error",
+    "name": "ErrorAccessToken",
+    "message": "Jwt needed"
+  }
+  ```
+  **Code:** 403 <br />
+  **Content:**
+  ```
+  {
+    "status": "Error",
+    "name": "ErrorAuthorize",
+    "message": "you dont have access"
+  }
+  ```
+  **Code:** 404 <br />
+  **Content:**
+  ```
+  {
+    "status": "Error",
+    "name": "ErrorNotFound",
+    "message": "not found"
+  }
+  ```
+  **Code:** 500 <br />
+  **Content:**
+  ```
+  {
+    "status": "Error",
+    "error": <internal server error>
+  }
+  ```
+
+## _Cart Endpoint_
+- `POST /carts`
+- `GET /carts`
+- `GET /carts/transactions`
+- `PATCH /carts`
+- `PATCH /carts/:id`
+- `DELETE /carts/:id`
+
+**Create cart**
+----
+  Create cart into server
+
+* **URL**
+
+  /carts
+
+* **Method**
+
+  `POST`
+
+* **Request Body**
+
+  ```
+  {
+    "ProductId" : 2
+  }
+  ```
+
+* **Request Headers**
+
+  ```
+  {
+    access_token : <your access_token>
+  }
+  ```
+
+* **Success Response:** <br />
+  **Code:** 201 <br />
+  **Content:**
+  ```
+  {
+    "id": 104,
+    "UserId": 2,
+    "ProductId": 2,
+    "updatedAt": "2021-01-28T02:03:55.418Z",
+    "createdAt": "2021-01-28T02:03:55.418Z",
+    "status": false,
+    "quantity": 1
+  }
+  ```
+
+* **Failed Response:** <br />
+  **Code:** 401 <br />
+  **Content:**
+  ```
+  {
+    "status": "Error",
+    "name": "ErrorAuthenticate",
+    "message": "you need to login first"
+  }
+  ```
+  **Code:** 403 <br />
+  **Content:**
+  ```
+  {
+    "status": "Error",
+    "name": "ErrorAccessToken",
+    "message": "Jwt needed"
+  }
+  ```
+  **Code:** 500 <br />
+  **Content:**
+  ```
+  {
+    "status": "Error",
+    "error": <internal server error>
+  }
+  ```
+
+**Read cart**
+----
+  Read cart from server
+
+* **URL**
+
+  /carts
+
+* **Method**
+
+  `GET`
+
+* **Request Headers**
+
+  ```
+  {
+    access_token : <your access_token>
+  }
+  ```
+
+* **Success Response:** <br />
+  **Code:** 200 <br />
+  **Content:**
+  ```
+  [
+    {
+        "id": 104,
+        "UserId": 2,
+        "ProductId": 2,
+        "quantity": 1,
+        "status": false,
+        "createdAt": "2021-01-28T02:03:55.418Z",
+        "updatedAt": "2021-01-28T02:03:55.418Z",
+        "Product": {
+            "id": 2,
+            "name": "Xiaomi Redmi note 8 pro",
+            "image_url": "https://cdn.idntimes.com/content-images/community/2019/11/ejziz-sxyaa665x-a87937ecd17a7854c4b073350b97e823_600x400.jpg",
+            "price": 210000,
+            "stock": 0,
+            "UserId": 1,
+            "CategoryId": 1,
+            "createdAt": "2021-01-23T01:03:30.815Z",
+            "updatedAt": "2021-01-27T09:06:58.668Z"
+        }
+    }
+  ]
+  ```
+
+* **Failed Response:** <br />
+  **Code:** 401 <br />
+  **Content:**
+  ```
+  {
+    "status": "Error",
+    "name": "ErrorAuthenticate",
+    "message": "you need to login first"
+  }
+  ```
+  **Code:** 403 <br />
+  **Content:**
+  ```
+  {
+    "status": "Error",
+    "name": "ErrorAccessToken",
+    "message": "Jwt needed"
+  }
+  ```
+  **Code:** 500 <br />
+  **Content:**
+  ```
+  {
+    "status": "Error",
+    "error": <internal server error>
+  }
+  ```
+
+**Read history transaction**
+----
+
+* **URL**
+
+  /carts/transactions
+
+* **Method**
+
+  `GET`
+
+* **Request Headers**
+
+  ```
+  {
+    access_token : <your access_token>
+  }
+  ```
+
+* **Success Response:** <br />
+  **Code:** 200 <br />
+  **Content:**
+  ```
+  [
+    {
+        "id": 103,
+        "UserId": 2,
+        "ProductId": 5,
+        "quantity": 2,
+        "status": true,
+        "createdAt": "2021-01-28T00:57:52.054Z",
+        "updatedAt": "2021-01-28T00:57:56.624Z",
+        "Product": {
+            "id": 5,
+            "name": "Xiaomi Redmi note 8 pro",
+            "image_url": "https://cdn.idntimes.com/content-images/community/2019/11/ejziz-sxyaa665x-a87937ecd17a7854c4b073350b97e823_600x400.jpg",
+            "price": 210000,
+            "stock": 12,
+            "UserId": 1,
+            "CategoryId": 1,
+            "createdAt": "2021-01-27T22:48:21.594Z",
+            "updatedAt": "2021-01-28T00:57:56.619Z"
+        }
+    },
+    {
+        "id": 102,
+        "UserId": 2,
+        "ProductId": 5,
+        "quantity": 1,
+        "status": true,
+        "createdAt": "2021-01-28T00:56:04.854Z",
+        "updatedAt": "2021-01-28T00:57:40.242Z",
+        "Product": {
+            "id": 5,
+            "name": "Xiaomi Redmi note 8 pro",
+            "image_url": "https://cdn.idntimes.com/content-images/community/2019/11/ejziz-sxyaa665x-a87937ecd17a7854c4b073350b97e823_600x400.jpg",
+            "price": 210000,
+            "stock": 12,
+            "UserId": 1,
+            "CategoryId": 1,
+            "createdAt": "2021-01-27T22:48:21.594Z",
+            "updatedAt": "2021-01-28T00:57:56.619Z"
+        }
+    }
+  ]
+  ```
+
+* **Failed Response:** <br />
+  **Code:** 401 <br />
+  **Content:**
+  ```
+  {
+    "status": "Error",
+    "name": "ErrorAuthenticate",
+    "message": "you need to login first"
+  }
+  ```
+  **Code:** 403 <br />
+  **Content:**
+  ```
+  {
+    "status": "Error",
+    "name": "ErrorAccessToken",
+    "message": "Jwt needed"
+  }
+  ```
+  **Code:** 500 <br />
+  **Content:**
+  ```
+  {
+    "status": "Error",
+    "error": <internal server error>
+  }
+  ```
+
+**Checkout**
+----
+  update status cart & update product stock
+
+* **URL**
+
+  /carts
+
+* **Method**
+
+  `PATCH`
+
+* **Request Body**
+  ```
+  not needed
+  ```
+
+* **Request Headers**
+
+  ```
+  {
+    access_token : <your access_token>
+  }
+  ```
+
+* **Success Response:** <br />
+  **Code:** 200 <br />
+  **Content:**
+  ```
+  {
+    "message": "Checkout success"
+  }
+  ```
+
+* **Failed Response:** <br />
+  **Code:** 401 <br />
+  **Content:**
+  ```
+  {
+    "status": "Error",
+    "name": "ErrorAuthenticate",
+    "message": "you need to login first"
+  }
+  ```
+  **Code:** 403 <br />
+  **Content:**
+  ```
+  {
+    "status": "Error",
+    "name": "ErrorAccessToken",
+    "message": "Jwt needed"
+  }
+  ```
+  **Code:** 404 <br />
+  **Content:**
+  ```
+  {
+    "name": "NoCart",
+    "message": "cart not found"
+  }
+  ```
+  **Code:** 500 <br />
+  **Content:**
+  ```
+  {
+    "status": "Error",
+    "error": <internal server error>
+  }
+  ```
+
+**Update quantity cart**
+----
+  update quantity cart
+
+* **URL**
+
+  /carts/:id
+
+* **Method**
+
+  `PATCH`
+
+* **Request Body**
+  ```
+  {
+    quantity: integer
+  }
+  ```
+
+* **Request Headers**
+
+  ```
+  {
+    access_token : <your access_token>
+  }
+  ```
+
+* **Success Response:** <br />
+  **Code:** 200 <br />
+  **Content:**
+  ```
+  {
+    "id": 106,
+    "UserId": 2,
+    "ProductId": 6,
+    "quantity": 2,
+    "status": false,
+    "createdAt": "2021-01-28T02:20:10.836Z",
+    "updatedAt": "2021-01-28T02:20:46.565Z"
+  }
+  ```
+
+* **Failed Response:** <br />
+  **Code:** 401 <br />
+  **Content:**
+  ```
+  {
+    "status": "Error",
+    "name": "ErrorAuthenticate",
+    "message": "you need to login first"
+  }
+  ```
+  **Code:** 403 <br />
+  **Content:**
+  ```
+  {
+    "status": "Error",
+    "name": "ErrorAccessToken",
+    "message": "Jwt needed"
+  }
+  ```
+  **Code:** 404 <br />
+  **Content:**
+  ```
+  {
+    "status": "Error",
+    "name": "ErrorNotFound",
+    "message": "not found"
+  }
+  ```
+  **Code:** 500 <br />
+  **Content:**
+  ```
+  {
+    "status": "Error",
+    "error": <internal server error>
+  }
+  ```
+
+**Delete cart**
+----
+
+* **URL**
+
+  /carts/:id
+
+* **Method**
+
+  `DELETE`
+
+* **Request Headers**
+
+  ```
+  {
+    access_token : <your access_token>
+  }
+  ```
+
+* **Success Response:** <br />
+  **Code:** 200 <br />
+  **Content:**
+  ```
+  {
+    "message": "successfully delete cart"
   }
   ```
 
