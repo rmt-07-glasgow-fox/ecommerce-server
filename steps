@@ -1,0 +1,26 @@
+"db:create:development":"NODE_ENV=development npx sequelize-cli db:create",
+"db:create:test":"NODE_ENV=test npx sequelize-cli db:create",
+"db:migrate:development":"NODE_ENV=development npx sequelize-cli db:migrate",
+"db:migrate:test":"NODE_ENV=test npx sequelize-cli db:migrate",
+"test": "NODE_ENV=test npx jest"
+
+NODE_ENV=test npx sequelize db:migrate:undo:all
+
+npm install --save-dev jest supertest
+
+npx sequelize init
+npx sequelize model:generate --name User --attributes email:string,password:string,role:string
+npx sequelize model:generate --name Product --attributes name:string,image_url:string,price:integer,stock:integer,UserId:integer
+
+npx sequelize seed:generate --name productsSeeds
+
+WINDOWS USER!!
+npm install -g win-node-env
+
+npm run db:create:test
+npm run db:migrate:test
+
+# cart
+npx sequelize model:generate --name Cart --attributes UserId:integer,ProductId:integer,quantity:integer,status:boolean
+add references
+migrate
