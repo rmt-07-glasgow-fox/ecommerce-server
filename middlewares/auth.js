@@ -1,5 +1,5 @@
 const { checkToken } = require('../helpers/jwt')
-const { User, Cart } = require('../models')
+const { User, Cart, Wishlist } = require('../models')
 
 class Auth {
   static authLoginAdmin(req, res, next) {
@@ -80,6 +80,21 @@ class Auth {
         .findByPk(+req.params.id)
         .then(data => {
           !data ? next({ name: 'CustomError', statusCode: 404, message: 'Cart Not Found' }) :
+            data.UserId !== req.UserData.id ? next({ name: 'ForbiddenError' }) :
+            next()
+        })
+        .catch(next)
+    } catch (err) {
+      next(err)
+    }
+  }
+
+  static authorizationWishlist(req, res, next) {
+    try {
+      Wishlist
+        .findByPk(+req.params.id)
+        .then(data => {
+          !data ? next({ name: 'CustomError', statusCode: 404, message: 'Wishlist Not Found' }) :
             data.UserId !== req.UserData.id ? next({ name: 'ForbiddenError' }) :
             next()
         })
