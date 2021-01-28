@@ -86,12 +86,13 @@ class CartController {
               if(!update) throw {name: "updateFailed"}
             }
             const cart = await Cart.update({ status: true }, {
-              where: {UserId, ProductId: e.ProductId},
+              where: {id: e.id},
               returning: true
             })
             res.status(200).json({message: 'Checkout success'})
             await transaction.commit()
           } catch (err) {
+            console.log(err)
             if (transaction) await transaction.rollback()
             next(err)
           }
