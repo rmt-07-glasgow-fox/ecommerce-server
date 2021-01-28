@@ -427,17 +427,16 @@ _Response (201 - Created)_
 ```
 {
   "id": <given id by system>,
-  name: "posted title",
-  image_url: "posted url",
-  price: "posted price,
-  stock: "posted stock,
+  UserID: "Posted UserId",
+  ProductId: "Posted ProductId",
+  quantity: "Posted Quantity",
 }
 ```
 _Response(400- bad request)_
 ```
 {
   "Error" :  "VALIDATION_ERROR"
-  "message": "Name is required, Image Url is required, Price is required, Price cannot less then 0, Price must be integer, Stock cannot less then 0, Stock is required"
+  "message": "Stock is Out"
 }
 ```
 _Response(401- Not Logged In)_
