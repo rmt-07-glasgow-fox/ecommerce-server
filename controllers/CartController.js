@@ -156,8 +156,30 @@ class CartController {
       })
     }
     await Promise.all(cartPromise)
-    let promiseReturn = await Promise.all(productPromise)
-    res.status(200).json(promiseReturn)
+    await Promise.all(productPromise)
+    res.status(200).json({
+      message: 'Your order has been processed.'
+    })
+  }
+  static getOrderHistory (req, res, next) {
+    Cart.findAll({
+      where: {
+        UserId: req.userData.id,
+        status: false
+      },
+      include: {
+        model: Product
+      },
+      order: [
+        ['updatedAt', 'DESC']
+      ]
+    })
+      .then(data => {
+        res.status(200).json(data)
+      })
+      .catch(err => {
+        next(err)
+      })
   }
 }
 

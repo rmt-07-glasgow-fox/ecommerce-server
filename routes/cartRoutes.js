@@ -7,5 +7,6 @@ router.get('/', CartController.getCartByUserId)
 router.post('/:productId', CartController.addCart)
 router.delete('/:id', CartController.deleteCartById)
 router.patch('/', CartController.checkoutCart)
+router.get('/order/histories', CartController.getOrderHistory)
 
 module.exports = router
