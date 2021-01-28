@@ -146,40 +146,78 @@ class CartController {
         next(err)
       })
   }
-  static checkout (req, res, next) {
-    Cart.findAll({
-      where: {
-        UserId: req.user.id,
-        status: false
-      },
-      include: [Product]
-    })
-      .then(data => {
-        data.map(cart => {
-          if (cart.Product.stock < cart.quantity) {
-            throw { name: 'outOfStock' }
-          }
-        })
-        data.map(cart => {
-          Product.update({ stock: cart.Product.stock - cart.quantity },
-            { where: { id: cart.ProductId }
-          })
-        })
-        const dataUpdate = data.map(cart => {
-          Cart.update({ status: true }, {
-              where: { id: cart.id },
-              returning: true
-          })
-        })
-        console.log(dataUpdate)
-        return Promise.all(dataUpdate)
+  // static checkout (req, res, next) {
+  //   Cart.findAll({
+  //     where: {
+  //       UserId: req.user.id,
+  //       status: false
+  //     },
+  //     include: [Product]
+  //   })
+  //     .then(data => {
+  //       data.map(cart => {
+  //         if (cart.Product.stock < cart.quantity) {
+  //           throw { name: 'outOfStock' }
+  //         }
+  //       })
+  //       data.map(cart => {
+  //         Product.update({ stock: cart.Product.stock - cart.quantity },
+  //           { where: { id: cart.ProductId }
+  //         })
+  //       })
+  //       const dataUpdate = data.map(cart => {
+  //         Cart.update({ status: true }, {
+  //             where: { id: cart.id },
+  //             returning: true
+  //         })
+  //       })
+  //       console.log(dataUpdate)
+  //       return Promise.all(dataUpdate)
+  //     })
+  //     .then(data => {
+  //       res.status(200).json(data)
+  //     })
+  //     .catch(err => {
+  //       next(err)
+  //     })
+  // }
+  static async checkout (req, res, next) {
+    try {
+      const data = await Cart.findAll({
+        where: {
+          UserId: req.user.id,
+          status: false
+        },
+        include: [Product]
       })
-      .then(data => {
-        res.status(200).json(data)
+      data.map(cart => {
+        if (cart.Product.stock < cart.quantity) {
+          throw { name: 'outOfStock' }
+        }
       })
-      .catch(err => {
-        next(err)
+      const productUpdate = []
+      const cartUpdate = []
+      data.map(cart => {
+        productUpdate.push(Product.update({ stock: cart.Product.stock - cart.quantity },
+          { where: { id: cart.ProductId },
+          returning: true
+        }))
       })
+      data.map(cart => {
+        cartUpdate.push(Cart.update({ status: true }, {
+          where: { id: cart.id },
+          returning: true
+        }))
+      })
+      const results = await Promise.all(cartUpdate)
+      const dataCarts = results.map(res => {
+        return res[1][0]
+      })
+      res.status(200).json(dataCarts)
+    }
+    catch (err) {
+      next(err)
+    }
   }
 }
 

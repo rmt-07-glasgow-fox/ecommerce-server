@@ -16,10 +16,62 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Cart.init({
-    UserId: DataTypes.INTEGER,
-    ProductId: DataTypes.INTEGER,
-    quantity: DataTypes.INTEGER,
-    status: DataTypes.BOOLEAN
+    UserId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notNull: {
+          args: true,
+          msg: 'UserId is required'
+        },
+        notEmpty: {
+          args: true,
+          msg: 'UserId is required'
+        }
+      }
+    },
+    ProductId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notNull: {
+          args: true,
+          msg: 'ProductId is required'
+        },
+        notEmpty: {
+          args: true,
+          msg: 'ProductId is required'
+        }
+      }
+    },
+    quantity: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notNull: {
+          args: true,
+          msg: 'quantity is required'
+        },
+        notEmpty: {
+          args: true,
+          msg: 'quantity is required'
+        }
+      }
+    },
+    status: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      validate: {
+        notNull: {
+          args: true,
+          msg: 'status is required'
+        },
+        notEmpty: {
+          args: true,
+          msg: 'status is required'
+        }
+      }
+    }
   }, {
     sequelize,
     modelName: 'Cart',
