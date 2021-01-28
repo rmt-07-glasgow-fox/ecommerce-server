@@ -14,7 +14,7 @@ class productController {
     }
 
     static getProducts(req, res, next) {
-      Product.findAll()
+      Product.findAll({order: [['createdAt', 'DESC']]})
       .then(products => {
         const output = products.map(el => {
           return { 
