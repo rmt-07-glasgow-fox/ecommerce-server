@@ -57,7 +57,7 @@ describe('Login User POST /login', () => {
                 .end((err, res) => {
                     const { status, body } = res
                     if(err)return done(err)
-                    .expect(status).toBe(404)
+                    .expect(status).toBe(400)
                     .expect(body).toHaveProperty('msg', 'Invalid email/password')
                     done()
                 })
@@ -69,7 +69,7 @@ describe('Login User POST /login', () => {
                 .end((err, res) => {
                     const { status, body } = res
                     if(err)return done(err)
-                    .expect(status).toBe(404)
+                    .expect(status).toBe(400)
                     .expect(body).toHaveProperty('msg', 'Invalid email / password')
                     done()
                 })
@@ -80,7 +80,7 @@ describe('Login User POST /login', () => {
                 .end((err, res) => {
                     const { status, body } = res
                     if(err)return done(err)
-                    .expect(status).toBe(404)
+                    .expect(status).toBe(400)
                     .expect(body).toHaveProperty('msg', 'Please Enter Email / Password')
                     done()
                 })

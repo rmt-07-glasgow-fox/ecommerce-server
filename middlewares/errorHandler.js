@@ -19,6 +19,11 @@ module.exports = (err, req, res, next) => {
             msg: "Invalid email/password"
         })
     }
+    else if (err.name === 'idNotFound'){
+        res.status(err.status).json({
+            msg: "Id Not Found"
+        })
+    }
     else if (err.name === "InvalidLogin") {
         res.status(400).json({
             msg: "Invalid email / password"

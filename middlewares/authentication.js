@@ -15,6 +15,7 @@ async function authentication(req, res, next){
             console.log(decoded)
             const user = await User.findOne({where: { id: decoded.id }})
             if(!user){
+                console.log(req.headers.access_token)
                 throw {
                     name: "noAuthentication",
                     status: 401
