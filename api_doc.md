@@ -16,8 +16,6 @@ Ecommerce App is an application where you can input your product and go online s
 - `PATCH /products/:id`
 - `DELETE /products/:id`
 - `GET /categories`
-- `POST /categories`
-- `DELETE /categories/:id`
 
 ## RESTful endpoints
 ### POST /register
@@ -107,9 +105,9 @@ _Response (500 - Internal Server Error)_
 > Get all products
 
 _Request Header_
-```json
+```
 {
-  "access_token": "<your access token>"
+not needed
 }
 ```
 
@@ -421,4 +419,62 @@ _Response (500 - Internal Server Error)_
   "message": "Internal server error"
 }
 ```
+---
+### GET /categories
+
+> Get all products
+
+_Request Header_
+```
+{
+not needed
+}
+```
+
+_Request Body_
+```
+not needed
+```
+
+_Response (200)_
+```json
+[
+  {
+    "id": 1,
+    "tag": "<tag category>"
+  },
+  {
+    "id": 2,
+    "tag": "<tag category>"
+  }
+]
+```
+
+_Response (500 - Internal Server Error)_
+```json
+{
+  "message": "Internal server error"
+}
+```
+---
+### GET /cart
+
+---
+### POST /cart
+
+---
+### PATCH /cart/:id
+
+---
+### DELETE /cart/:id
+
+---
+### GET /wishlist
+
+---
+### POST /wishlist
+
+---
+### GET /banner
+
 ---
