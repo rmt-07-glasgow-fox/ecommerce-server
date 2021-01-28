@@ -29,7 +29,7 @@ class Controller {
             })
         })
         .then(result => {
-            res.status(201).json(result[0]);
+            res.status(201).json(result);
         })
         .catch(err => {
             console.log(err);
@@ -124,7 +124,7 @@ class Controller {
     static editCart(req, res, next) {
         const { status } = req.body;
         const id = +req.params.id;
-        CartProduct.update({ status }, { where: { id } , returning: true})
+        Cart.update({ status }, { where: { id } , returning: true})
         .then(cartProduct => {
             if (cartProduct[0]) {
                 res.status(200).json(cartProduct[1]);
@@ -139,6 +139,7 @@ class Controller {
 
     static deleteCartProduct(req, res, next) {
         const id = +req.params.id;
+        console.log(id);
         CartProduct.destroy({ where: { id } })
         .then(cartProduct => {
             if (cartProduct) {

@@ -1,4 +1,4 @@
-const { User } = require('../models');
+const { User, CartProduct } = require('../models');
 
 function authorization(req, res, next) {
     const id = req.headers.user.id;
@@ -39,7 +39,24 @@ function authorizationCustomer(req, res, next) {
     });
 };
 
+function authorizationId(req, res, next) {
+    const id = req.headers.user.id;
+    const idCartProduct = req.params.id;
+    CartProduct.findOne({ where: { id: idCartProduct }, include: ['Product', 'Cart'] })
+    .then(cartProduct => {
+        if ( cartProduct.Cart.UserId === id) {
+            next();
+        } else {
+            throw { name: "You not authorize to continue" };
+        }
+    })
+    .catch(err => {
+        next(err);
+    });
+};
+
 module.exports = {
     authorization,
-    authorizationCustomer
+    authorizationCustomer,
+    authorizationId
 };

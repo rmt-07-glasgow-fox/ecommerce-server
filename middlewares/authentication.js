@@ -6,7 +6,6 @@ function authentication(req, res, next) {
     const email = decoded.email;
     User.findOne({ where: { email } })
     .then(user => {
-        console.log(user, `>>>>> ini dari auth`);
         if (user) {
             req.headers.user = {
                 id: user.id,

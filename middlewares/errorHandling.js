@@ -18,10 +18,15 @@ const errorHandlers = (err, req, res, next) => {
             res.status(404).json({ message: "Email / Password not found"});
             break;
         case "Please login / register first":
+        case "TypeError":
             res.status(403).json({ message: "Please login / register first"});
             break;
         case "This user is not admin":
             res.status(403).json({ message: "This user is not admin"});
+            break;
+        case "You not authorize to continue":
+            res.status(403).json({ message: "You not authorize to continue"});
+            break;
         default:
             res.status(500).json({ message: "Internal Server Error"});
             break;
