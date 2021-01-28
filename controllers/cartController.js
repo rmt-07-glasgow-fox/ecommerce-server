@@ -33,35 +33,26 @@ class CartController {
       if (!findProduct) throw { name: 'productNotFound' };
       if (findProduct.stock < quantity) throw { name: 'notEnoughStock' };
 
-      const findOne = await Cart.findOne({ where: { UserId, ProductId } });
+      const findOne = await Cart.findOne({ where: { UserId, ProductId, isPaid: false } });
 
       console.log(findOne, '<<<<<<<<<<<< PAID LHO')
 
-      if (findOne && !findOne.isPaid) {
+      if (!findOne) {
+        const create = await Cart.create({ UserId, ProductId, quantity, isPaid });
+
+        return res.status(201).json(create);
+      }
+
+      if (!findOne.isPaid) {
         let oldQuantity = findOne.quantity;
         let newQuantity = oldQuantity + quantity;
 
-        await Cart.update({ UserId, ProductId, quantity: newQuantity, isPaid }, { where: { id: findOne.id, isPaid: false } });
+        await Cart.update({ quantity: newQuantity }, { where: { id: findOne.id } });
 
         const find = await Cart.findByPk(findOne.id);
 
         return res.status(200).json(find);
       };
-
-      // if (findOne && findOne.isPaid) {
-      //   let oldQuantity = findOne.quantity;
-      //   let newQuantity = oldQuantity + quantity;
-
-      //   await Cart.update({ UserId, ProductId, quantity: newQuantity, isPaid }, { where: { id: findOne.id } });
-
-      //   const find = await Cart.findByPk(findOne.id);
-
-      //   return res.status(200).json(find);
-      // };
-
-      const create = await Cart.create({ UserId, ProductId, quantity, isPaid });
-
-      return res.status(201).json(create);
     } catch (err) {
       next(err);
     };
