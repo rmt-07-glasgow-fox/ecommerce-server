@@ -26,7 +26,8 @@
     "db:migrate:development": "NODE_ENV=development npx sequelize db:migrate",
     "db-seed-dev": "NODE_ENV=development npx sequelize db:seed:all",
     "test": "NODE_ENV=test npx jest",
-    "dev": "NODE_ENV=development nodemon bin/http.js"
+    "dev": "NODE_ENV=development nodemon bin/http.js",
+    "start": "node bin/http.js"
   },
   "repository": {
     "type": "git",

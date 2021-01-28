@@ -22,6 +22,7 @@ router.delete('/products/:id', authorization, productsController.delete)
 
 // Cart
 router.post('/cart', cartsController.addToCart)
+router.put('/cart', cartsController.update)
 router.get('/cart', cartsController.showAll)
 router.post('/cart/checkout', cartsController.checkout)
 router.delete('/cart/:id', cartsController.delete)
