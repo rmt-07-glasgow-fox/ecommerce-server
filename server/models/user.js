@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.hasMany(models.Cart, { foreignKey: "UserId" })
     }
   };
   User.init({
@@ -68,6 +69,9 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Password Should Not Be Empty"
         }
       }
+    },
+    role: {
+      type: DataTypes.STRING
     }
   }, {
     sequelize,
@@ -75,6 +79,7 @@ module.exports = (sequelize, DataTypes) => {
     hooks: {
       beforeCreate: (user, options) => {
         user.password = getHashPassword(user.password)
+        user.role = 'customer'
       }
     }
   });

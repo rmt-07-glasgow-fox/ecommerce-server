@@ -21,8 +21,12 @@ function errorHandler (err, req, res, next) {
                 res.status(401).json({ errors: ["Please Login First"] })
             break
 
+            case "OutOfStock":
+                res.status(400).json({ errors: ['Sorry..We Ran Out of Product'] })
+            break
+
             case "Unauthorized":
-                // res.status(401).json({})
+                res.status(401).json({ errors: ['You Have No Authorize to Make Change'] })
             break
 
             case "ResourceNotFound":

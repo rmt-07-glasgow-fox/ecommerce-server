@@ -11,14 +11,13 @@ class ProductController {
             })
     }
     static addProduct (req, res, next) {
-        const { name, imageUrl, price, stock, status } = req.body
-        const UserId = +req.user.id
+        const { name, imageUrl, price, stock, status, category } = req.body
         const image_url = imageUrl
 
-        Product.create ({ name, image_url, price, stock, status, UserId })
+        Product.create ({ name, image_url, price, stock, status, category })
             .then(result => {
-                const { id, name, image_url, price, stock, status, UserId } = result
-                const output = { id, name, image_url, price, stock, status, UserId }
+                const { id, name, image_url, price, stock, status, category } = result
+                const output = { id, name, image_url, price, stock, status, category }
                 return res.status(201).json(output)
             })
             .catch(err => {
@@ -37,18 +36,18 @@ class ProductController {
             })
     }
     static editProduct (req, res, next) {
-        const { name, imageUrl, price, stock } = req.body
+        const { name, imageUrl, price, stock, category } = req.body
         const id = +req.params.id
         const image_url = imageUrl
 
-        Product.update({ name, image_url, price, stock }, {
+        Product.update({ name, image_url, price, stock, category }, {
             where: {
                 id
             }, fields: [ "name", "image_url", "price", "stock" ]
         })
             .then(result => {
                 if (result[0] === 1) {
-                    res.status(201).json()
+                    res.status(201).json({ message: "SuccessFully Update Product" })
                 } else {
                     next({ name: "ResourceNotFound" })
                 }
@@ -68,7 +67,7 @@ class ProductController {
         })
             .then(result => {
                 if(result[0] === 1) {
-                    res.status(201).json()
+                    res.status(201).json({ message: "SuccessFully Update Product" })
                 } else {
                     next({ name: "ResourceNotFound" })
                 }

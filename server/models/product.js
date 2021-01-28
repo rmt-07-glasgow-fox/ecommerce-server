@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.hasMany(models.Cart, { foreignKey: "ProductId" })
     }
   };
   Product.init({
@@ -78,8 +79,10 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    status: DataTypes.BOOLEAN,
-    UserId: DataTypes.INTEGER
+    category: {
+      type:DataTypes.STRING
+    },
+    status: DataTypes.BOOLEAN
   }, {
     sequelize,
     modelName: 'Product',
