@@ -80,11 +80,13 @@ class userController {
                     model: Product,
                     through: Wishlist,
                     as: 'itemonwishlist',
+                    attributes: ['id','userId','isBought','quantity','createdAt','updatedAt']
                 },
                 {
                     model: Product,
                     through: Cart,
                     as: 'itemoncart',
+                    attributes: ['id','userId','isBought','quantity','createdAt','updatedAt']
                 }
             ],
             attributes: ['email']
