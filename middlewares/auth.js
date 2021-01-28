@@ -2,25 +2,28 @@ const { checkToken } = require('../helpers/jwt')
 const { User, Product } = require('../models')
 
 
-async function authentication(req, res, next) {
-    if (!req.headers.access_token) {
-        next({name:"NotAuthorized"})
-      }
+function authentication(req, res, next) {
     try {
         let decoded = checkToken(req.headers.access_token)
-        let data = await User.findOne({ 
+        User.findOne({
             where: {
-            email: decoded.email
-        }})
-                if(!data) {
-                    next({name: "invalid"})
-                }
-                else {
-                    req.user = data
-                }
+                email: decoded.email
+            }
+        })
+        .then( data => {
+            if (!data) {
+                next({name: `Unauthorized`})
+            }
+            else{
+                req.user = data
                 next()
-    }
-    catch(err) {
+            }
+        })
+        .catch( err => {
+            next(err)
+
+        })
+    } catch (err) {
         next(err)
     }
 }
