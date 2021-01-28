@@ -3,7 +3,9 @@ const { History, Cart, Product, sequelize, Category, ProductCart } = require('..
 class TransactionController {
   static async history(req, res, next) {
     try {
-      const history = await History.findAll({ where: { userId: req.user.id } });
+      const history = await History.findAll({ order: [
+          ['createdAt', 'desc']
+        ], where: { userId: req.user.id } });
 
       return res.status(200).json(history);
     } catch (error) {

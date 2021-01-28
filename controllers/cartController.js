@@ -3,7 +3,7 @@ const { Cart, Product, ProductCart, Category } = require('../models');
 class CartController {
   static async getAll(req, res, next) {
     try {
-      const cart = await Cart.findAll({
+      const cart = await Cart.findOne({
         where: { userId: req.user.id },
         include: [{
           model: Product,
