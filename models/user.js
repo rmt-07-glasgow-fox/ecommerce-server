@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       User.belongsToMany(models.Product,{
         through: models.Cart
       })
+      User.hasMany(models.History)
     }
   };
   User.init({
@@ -27,7 +28,8 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: {
           msg: 'Email can\'t be empty'
         }
-      }
+      },
+      unique: true
     },
     password: {
       type: DataTypes.STRING,

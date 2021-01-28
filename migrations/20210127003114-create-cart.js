@@ -10,7 +10,7 @@ module.exports = {
       },
       ProductId: {
         type: Sequelize.INTEGER,
-        refences: {
+        references: {
           model: {
             tableName: 'Products'
           },
@@ -21,7 +21,7 @@ module.exports = {
       },
       UserId: {
         type: Sequelize.INTEGER,
-        refences: {
+        references: {
           model: {
             tableName: 'Users'
           },

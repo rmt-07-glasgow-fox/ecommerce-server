@@ -15,6 +15,7 @@ class ProductController {
     static async get(req,res,next){
         try {
             let result = await Product.findAll()
+            // console.log(result);
             res.status(200).json(result)            
         } catch (error) {
             next(error)
@@ -40,8 +41,7 @@ class ProductController {
 
     static async updateStock(req,res,next){
         try {
-            let {stock} = req.body
-            let result = await Product.update({stock},{
+            let result = await Product.update(req.body,{
                 where:{
                     id: req.params.id
                 },

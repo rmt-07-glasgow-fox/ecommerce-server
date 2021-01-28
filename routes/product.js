@@ -1,8 +1,9 @@
 const router = require('express').Router()
 const ProductController = require('../controllers/productController')
-const { authorization } = require('../middleware/auth')
+const { authentication,authorization } = require('../middleware/auth')
 
 router.get('/',ProductController.get)
+router.use(authentication)
 router.put('/:id/stock',ProductController.updateStock)
 router.use(authorization)
 router.put('/:id',ProductController.update)

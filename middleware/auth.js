@@ -13,7 +13,7 @@ module.exports = {
                     }
                 })
                 if(result){
-                    res.user = payload
+                    req.user = payload
                     next()
                 }else{
                     next({name:'NotFound',message:'User not found'})
@@ -27,7 +27,7 @@ module.exports = {
     },
     async authorization(req,res,next){
         try {
-            if(res.user.role !== 'admin'){
+            if(req.user.role !== 'admin'){
                 next({name:'Forbidden', message:'You don\'t have access only admin'})
             }else{
                 next()

@@ -18,6 +18,7 @@ class AuthController {
                         email: result.email,
                         role: result.role
                     }
+                    console.log('tessssssss',payload);
                     let access_token = generateToken(payload)
                     res.status(200).json({access_token})
                 }else{
