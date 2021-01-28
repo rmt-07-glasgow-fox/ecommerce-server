@@ -4,12 +4,13 @@ E-commerce CMS is a content management system to manage your online store. This 
 * JSON formatted reponse
 
 # URL
-    http://localhost:3000
+    https://radiant-headland-12217.herokuapp.com
 
 # Method
 
 ## Available Endpoints List
-- `POST /login`
+- `POST users/login`
+- `POST users/register`
 - `GET /products`
 - `POST /products`
 - `GET /products/:id`
@@ -18,7 +19,54 @@ E-commerce CMS is a content management system to manage your online store. This 
 - `PATCH /products/stock/:id`
 - `PATCH /products/price/:id`
 ---
-### POST /login
+### POST users/register
+
+> User register
+
+### *Request Header*
+```Not Needed```
+
+### *Request Body*
+ ```javascript
+{
+    name: "<user name>"
+    email: "<user email>",
+    password: "<user password>"
+}  
+```
+
+### *Success Response*
+__Response (201 - Access Token Created)__
+```javascript
+{
+    id: "<user id>",
+    name: "<user email>",
+    email: "<user email>"
+    role: "<user role>"
+}
+```
+
+### *Error Responses*
+__Response (400 - Validation Error)__
+```javascript
+{
+    errors: [
+      "<error message 1>",
+      .
+      .
+      "<error message n>"
+    ]
+}
+```
+
+__Response (500 - Bad Request)__
+```javascript
+{
+    errors: "Internal server error"
+}
+```
+---
+### POST users/login
 
 > User login
 
@@ -28,8 +76,8 @@ E-commerce CMS is a content management system to manage your online store. This 
 ### *Request Body*
  ```javascript
 {
-    email: 'admin@mail.com',
-    password: hashPassword('123456')
+    email: "<user email>",
+    password: "<user password>"
 }  
 ```
 
@@ -45,14 +93,14 @@ __Response (200 - Access Token Created)__
 __Response (404 - Not Found)__
 ```javascript
 {
-    message: 'Invalid email / password'
+    errors: 'Invalid email / password'
 }
 ```
 
 __Response (500 - Bad Request)__
 ```javascript
 {
-  message: "Internal server error"
+  errors: "Internal server error"
 }
 ```
 ---
@@ -108,14 +156,14 @@ __Response (200)__
 __Response (401 - Invalid user)__
 ```javascript
 {
-    message: 'Forbidden access'
+    errors: 'Forbidden access'
 }
 ```
 
 __Response (500 - Internal Server Error)__
 ```javascript
 {
-  message: "Internal server error"
+  errors: "Internal server error"
 }
 ```
 ---
@@ -164,20 +212,20 @@ __Response (201 - Product Created)__
 __Response (401 - Invalid User)__
 ```javascript
 {
-    message: 'Forbidden access'
+    errors: 'Forbidden access'
 }
 ```
 __Response (403 - Not Authorize)__
 ```javascript
 {
-    message: 'Not authorize'
+    errors: 'Not authorize'
 }
 ```
 
 __Response (500 - Internal Server Error)__
 ```javascript
 {
-  message: "Internal server error"
+  errors: "Internal server error"
 }
 ```
 ---
@@ -217,21 +265,21 @@ __Response (200)__
 __Response (401 - Invalid User)__
 ```javascript
 {
-    message: 'Forbidden access'
+    errors: 'Forbidden access'
 }
 ```
 
 __Response (404 - Not Found)__
 ```javascript
 {
-  message: "Product not found"
+  errors: "Product not found"
 }
 ```
 
 __Response (500 - Internal Server Error)__
 ```javascript
 {
-  message: "Internal server error"
+  errors: "Internal server error"
 }
 ```
 ---
@@ -280,26 +328,26 @@ __Response (200)__
 __Response (401 - Invalid User)__
 ```javascript
 {
-    message: 'Forbidden access'
+    errors: 'Forbidden access'
 }
 ```
 __Response (403 - Not Authorize)__
 ```javascript
 {
-    message: 'Not authorize'
+    errors: 'Not authorize'
 }
 ```
 __Response (404 - Not Found)__
 ```javascript
 {
-  message: "Product not found"
+  errors: "Product not found"
 }
 ```
 
 __Response (500 - Internal Server Error)__
 ```javascript
 {
-  message: "Internal server error"
+  errors: "Internal server error"
 }
 ```
 ---
@@ -343,26 +391,26 @@ __Response (200)__
 __Response (401 - Invalid User)__
 ```javascript
 {
-    message: 'Forbidden access'
+    errors: 'Forbidden access'
 }
 ```
 __Response (403 - Not Authorize)__
 ```javascript
 {
-    message: 'Not authorize'
+    errors: 'Not authorize'
 }
 ```
 __Response (404 - Not Found)__
 ```javascript
 {
-  message: "Product not found"
+  errors: "Product not found"
 }
 ```
 
 __Response (500 - Internal Server Error)__
 ```javascript
 {
-  message: "Internal server error"
+  errors: "Internal server error"
 }
 ```
 ---
@@ -405,27 +453,27 @@ __Response (200)__
 __Response (401 - Invalid User)__
 ```javascript
 {
-    message: 'Forbidden access'
+    errors: 'Forbidden access'
 }
 ```
 __Response (403 - Not Authorize)__
 ```javascript
 {
-    message: 'Not authorize'
+    errors: 'Not authorize'
 }
 ```
 
 __Response (404 - Not Found)__
 ```javascript
 {
-  message: "Product not found"
+  errors: "Product not found"
 }
 ```
 
 __Response (500 - Internal Server Error)__
 ```javascript
 {
-  message: "Internal server error"
+  errors: "Internal server error"
 }
 ```
 ---
@@ -467,27 +515,27 @@ __Response (200)__
 __Response (401 - Invalid User)__
 ```javascript
 {
-    message: 'Forbidden access'
+    errors: 'Forbidden access'
 }
 ```
 __Response (403 - Not Authorize)__
 ```javascript
 {
-    message: 'Not authorize'
+    errors: 'Not authorize'
 }
 ```
 
 __Response (404 - Not Found)__
 ```javascript
 {
-  message: "Product not found"
+  errors: "Product not found"
 }
 ```
 
 __Response (500 - Internal Server Error)__
 ```javascript
 {
-  message: "Internal server error"
+  errors: "Internal server error"
 }
 ```
 ---
@@ -521,7 +569,7 @@ __Response (200)__
         id: "<category id>",
         categoryName: "<categoryName>"
       }
-    message: 'Product has been deleted'
+    errors: 'Product has been deleted'
 }
 ```
 
@@ -529,25 +577,25 @@ __Response (200)__
 __Response (401 - Invalid User)__
 ```javascript
 {
-    message: 'Forbidden access'
+    errors: 'Forbidden access'
 }
 ```
 __Response (403 - Not Authorize)__
 ```javascript
 {
-    message: 'Not authorize'
+    errors: 'Not authorize'
 }
 ```
 __Response (404 - Not Found)__
 ```javascript
 {
-  message: "Product not found"
+  errors: "Product not found"
 }
 ```
 
 __Response (500 - Internal Server Error)__
 ```javascript
 {
-  message: "Internal server error"
+  errors: "Internal server error"
 }
 ```
