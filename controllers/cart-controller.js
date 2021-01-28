@@ -6,7 +6,7 @@ class CartController {
             let newCart = {
                   CartId: cartid,
                   ProductId: productid,
-                  quantity: req.body.quantity
+                  quantity: 1
             }
             let cart = ''
             CartProduct.findOne({where: 
