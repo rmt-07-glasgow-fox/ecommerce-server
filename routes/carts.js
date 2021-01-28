@@ -7,6 +7,6 @@ router.post('/', CartController.addNewCart)
 router.patch('/increase', CartController.increaseQty)
 router.patch('/decrease', CartController.decreaseQty)
 router.delete('/', CartController.deleteCart)
-router.put('/', CartController.checkout)
+router.patch('/', CartController.checkout)
 
 module.exports = router
