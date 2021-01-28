@@ -1,0 +1,43 @@
+{
+  "name": "ecommerce-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "db:create": "npx sequelize-cli db:create",
+    "db:migrate": "npx sequelize-cli db:migrate",
+    "db:create:development": "NODE_ENV=development npm run db:create",
+    "db:create:test": "NODE_ENV=test npm run db:create",
+    "db:migrate:development": "NODE_ENV=development npm run db:migrate",
+    "db:migrate:test": "NODE_ENV=test npm run db:migrate",
+    "dev": "NODE_ENV=development nodemon bin/http.js",
+    "testdev": "NODE_ENV=test nodemon bin/http.js",
+    "start": "node bin/http.js",
+    "test": "NODE_ENV=test npx jest --detectOpenHandles"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ifansatyahudaya/ecommerce-server.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ifansatyahudaya/ecommerce-server/issues"
+  },
+  "homepage": "https://github.com/ifansatyahudaya/ecommerce-server#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "pg": "^8.5.1",
+    "sequelize": "^6.3.5",
+    "sequelize-cli": "^6.2.0"
+  },
+  "devDependencies": {
+    "jest": "^26.6.3",
+    "supertest": "^6.1.1"
+  }
+}
