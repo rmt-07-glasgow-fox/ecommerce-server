@@ -15,7 +15,7 @@ router.post('/', requireToken, create);
 router.get('/', requireToken, list);
 router.patch('/:id/increment', requireToken, incrementQty);
 router.patch('/:id/decrement', requireToken, decrementQty);
-router.put('/:id/status', changeStatus);
+router.put('/:id/status', requireToken, changeStatus);
 router.delete('/:id', requireToken, destroy);
 
 module.exports = router;
