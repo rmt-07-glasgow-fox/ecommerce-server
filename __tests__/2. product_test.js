@@ -11,14 +11,14 @@ let access_token_user = '';
 describe('POST /products', () => {
   beforeAll( async () => {
     const body = {
-      email: 'admin@mail.com',
+      email: 'admi2n@mail.com',
       password: '123456',
       role: 'admin'
     }
     // Execute login admin
-    // await request(app)
-    // .post('/register')
-    // .send(body)
+    await request(app)
+    .post('/register')
+    .send(body)
 
 
     const response = await request(app)

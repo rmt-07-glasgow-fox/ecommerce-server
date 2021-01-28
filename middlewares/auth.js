@@ -1,4 +1,4 @@
-const { User } = require('../models');
+const { User, Cart } = require('../models');
 const { checkToken } = require('../helpers/jwt.js');
 
 const authenticate = async (req, res, next) => {
@@ -28,7 +28,22 @@ const authorize = async (req, res, next) => {
   }
 }
 
+const cartAuthorize = async (req, res, next) => {
+  try {
+    const UserId = req.userId;
+    const id = req.params.id;
+    console.log(UserId, id, '<<<<');
+    const cart = await Cart.findOne({ where: { id , UserId } });
+    if(!cart) return next({ name: 'Unauthorized' });
+    return next();
+  }
+  catch (err) {
+    return next(err);    
+  }
+}
+
 module.exports = {
   authenticate,
-  authorize
+  authorize,
+  cartAuthorize
 };
