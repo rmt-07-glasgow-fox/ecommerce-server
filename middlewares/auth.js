@@ -3,17 +3,17 @@ const { User, Cart } = require("../models");
 
 function authenticateGeneral(req, res, next) {
   if (!req.headers.access_token) {
-    return next({ name: "NoToken" });
+    next({ name: "NoToken" });
   }
   try {
     const decoded = checkToken(req.headers.access_token);
     if (!decoded.id || !decoded.email) {
-      return next({ name: "InvalidToken" });
+      next({ name: "InvalidToken" });
     }
 
     User.findByPk(decoded.id).then((user) => {
       if (!user || user.email !== decoded.email) {
-        return next({ name: "InvalidToken" });
+        next({ name: "InvalidToken" });
       } else {
         const current = {
           id: user.id,
@@ -25,20 +25,20 @@ function authenticateGeneral(req, res, next) {
       }
     });
   } catch (error) {
-    return next({ name: "InvalidToken" });
+    next({ name: "InvalidToken" });
   }
 }
 
 function authenticateAdmin(req, res, next) {
   if (!req.headers.access_token) {
-    return next({ name: "NoToken" });
+    next({ name: "NoToken" });
   }
   try {
     const decoded = checkToken(req.headers.access_token);
     if (!decoded.id || !decoded.email) {
-      return next({ name: "InvalidToken" });
+      next({ name: "InvalidToken" });
     } else if (decoded.role !== "admin") {
-      return next({ name: "Unauthorized" });
+      next({ name: "Unauthorized" });
     }
 
     User.findByPk(decoded.id).then((user) => {
@@ -55,7 +55,7 @@ function authenticateAdmin(req, res, next) {
       }
     });
   } catch (error) {
-    return next({ name: "InvalidToken" });
+    next({ name: "InvalidToken" });
   }
 }
 
