@@ -9,5 +9,6 @@ router.get("/", CartController.listCart);
 // router.put("/:id", authorizeCart, CartController.updateCart);
 router.patch("/:id", authorizeCart, CartController.patchCart); // ganti amount
 router.delete("/:id", authorizeCart, CartController.deleteCart);
+router.post("/checkout", CartController.checkOut);
 
 module.exports = router;

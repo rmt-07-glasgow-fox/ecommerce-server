@@ -23,6 +23,7 @@ E-Commerce CMS is a content management system for our E-commerce site. This app 
 - POST /carts
 - PATCH /carts/:id
 - DELETE /carts/:id
+- POST /carts/checkout
 
 ### POST /register
 
@@ -510,7 +511,6 @@ _Response (200)_
             }
         }
     },
-    
 ]
 ```
 
@@ -682,6 +682,69 @@ _Response (200 - Ok)_
 ```
 
 _Response (400 - Bad Request)_
+
+```
+{
+    "errors": [
+        "< error message >"
+    ]
+}
+```
+
+---
+
+### POST /carts/checkout
+
+> Checkout cart
+
+_Request Header_
+
+```
+{
+  "access_token": "< your access token >"
+}
+```
+
+_Request Body_
+
+```
+[
+    {
+        "id": < cart id >,
+        "UserId": < user id >,
+        "ProductId": < product id >,
+        "amount": < amount >,
+        "isBought": < status bought or not >,
+        "User": {
+            "id": < user id >,
+            "email": "< user email >",
+            "role": "< user role >"
+        },
+        "Product": {
+            "id": < product id >,
+            "name": "< product name >",
+            "image_url": "< product image url >",
+            "price": < product price >,
+            "stock": < product stock >,
+            "CategoryId": < product's category id >,
+            "Category": {
+                "id": < product's category id >,
+                "name": "< product's category name >"
+            }
+        }
+    },
+]
+```
+
+_Response (200 - Ok)_
+
+```
+{
+  message: 'Checkout successful'
+}
+```
+
+_Response (500 - Internal Server Error)_
 
 ```
 {

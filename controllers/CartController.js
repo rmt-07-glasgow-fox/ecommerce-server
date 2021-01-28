@@ -1,4 +1,4 @@
-const { Cart, User, Product, Category } = require("../models");
+const { Cart, User, Product, Category, sequelize } = require("../models");
 
 class CartController {
   static addCart(req, res, next) {
@@ -9,24 +9,26 @@ class CartController {
 
     Product.findByPk(ProductId)
       .then((data) => {
-        productData = data
-        if (amount > data.stock) {
+        productData = data;
+        if (amount > data.stock || !data.stock) {
           next({ name: "AmountExceedsStock" });
         }
-        return Cart.findOne({
-          attributes: ["id", "UserId", "ProductId", "amount"],
-          where: {
-            UserId,
-            ProductId,
-            isBought: false,
-          },
-        });
+        else {
+          return Cart.findOne({
+            attributes: ["id", "UserId", "ProductId", "amount"],
+            where: {
+              UserId,
+              ProductId,
+              isBought: false,
+            },
+          });
+        }
       })
       .then((cartItem) => {
         if (cartItem) {
-          let add = cartItem.amount
-          if(cartItem.amount < productData.stock){
-            ++ add
+          let add = cartItem.amount;
+          if (cartItem.amount < productData.stock) {
+            ++add;
           }
           // console.log(add, cartItem.amount, 'ini add lohhhhh');
           return Cart.update(
@@ -61,7 +63,7 @@ class CartController {
         UserId,
         isBought: false,
       },
-      order: [['id', 'ASC']],
+      order: [["id", "ASC"]],
       attributes: ["id", "UserId", "ProductId", "amount", "isBought"],
       include: [
         {
@@ -125,6 +127,58 @@ class CartController {
         res.status(200).json({ message: "Cart item successfully deleted" });
       })
       .catch((err) => next(err));
+  }
+
+  static async checkOut(req, res, next) {
+    const t = await sequelize.transaction();
+    const cartItems = req.body;
+    if (cartItems.length === 0) next({ name: "EmptyCart" });
+
+    // res.status(200).json(cartItems)
+    try {
+      const result = await sequelize.transaction(async (t) => {
+        let UserId;
+
+        cartItems.forEach(async (item) => {
+          const { id, ProductId, amount } = item;
+          UserId = item.UserId;
+
+          const product = await Product.findByPk(ProductId, { transaction: t });
+
+          if (product.stock < amount) next({ name: "AmountExceedsStock" });
+          else {
+            await Product.update(
+              {
+                stock: product.stock - amount,
+              },
+              {
+                where: {
+                  id: ProductId,
+                },
+                transaction: t,
+              }
+            );
+          }
+        });
+
+        await Cart.update(
+          { isBought: true },
+          {
+            where: { UserId },
+            transaction: t,
+          }
+        );
+
+        return 'Checkout successful'
+      });
+
+      res.status(200).json({
+        message: result
+      })
+
+    } catch (error) {
+      next(error);
+    }
   }
 }
 
