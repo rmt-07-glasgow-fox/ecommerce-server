@@ -1,14 +1,26 @@
-const { Cart, User } = require("../models");
+const { Cart, User, Product } = require("../models");
 
 exports.create = async (req, res, next) => {
   try {
+    const isCart = await Cart.findOne({where: {ProdId: +req.body.ProdId}})
     const data = {
-      qty: req.body.quantity,
-      UserId: req.user.id,
+      qty: +req.body.qty,
+      UserId: +req.user.id,
       ProdId: +req.body.ProdId
     };
-    const cart = await Cart.create(data, {w: 1}, {returning: true});
-    res.status(201).json(cart);
+    if (isCart) {
+      data.qty = isCart.qty+1
+      const cart = await Cart.update(data, {
+        where: { id: isCart.id },
+        returning: true,
+      });
+      cart
+        ? res.status(200).json(cart[1][0].dataValues)
+        : next({ name: "NotFound", item:  "Cart"});
+    } else {
+      const cart = await Cart.create(data, {w: 1}, {returning: true});
+      res.status(201).json(cart);
+    }
   } catch (error) {
     next(error);
   }
@@ -25,7 +37,11 @@ exports.carts = async (req, res, next) => {
 
 exports.cartsUser = async (req, res, next) => {
   try {
-    const carts = await Cart.findAll({include: User});
+    const UserId = req.user.id
+    const carts = await Cart.findAll({
+      where: {UserId},
+      include: Product
+    });
     res.status(200).json(carts);
   } catch (error) {
     next(error);
