@@ -27,6 +27,10 @@ Server URL : http://localhost:3000
 - GET /products/:id
 - PUT /products/:id
 - DELETE /products/:id
+- GET /carts
+- POST /carts
+- PUT /carts/:id
+- DELETE /carts/:id
 - POST /register
 - POST /login
 
@@ -357,5 +361,96 @@ _Response (500)_
 {
   "Error": "INTERNAL_SERVER_ERROR",
   "message": "internal server error"
+}
+```
+
+## GET/carts
+
+>get all carts list
+
+_Request Header_
+```
+{
+  access_token: token
+}
+```
+_Request Body_
+```
+not needed
+```
+_Response (200)_
+```
+[
+    {
+        "id": 4
+        "UserId": 5
+        "ProductId": 2
+        "quantity": 1
+        "createdAt": "2021-01-28T04:53:37.864Z"
+        "updatedAt": "2021-01-28T04:53:37.864Z"
+    }
+]
+```
+_Response(401- Not Logged In)_
+```
+{
+  "Error" :  "notLogin"
+  "message": "You Must login First"
+}
+```
+_Response (500)_
+```
+{
+  "Error": "INTERNAL_SERVER_ERROR",
+  "message": "Your Internal Server Is not Connect / Error"
+}
+```
+
+## POST/products
+
+>Create new product
+_Request Header_
+```
+{
+  access_token: token
+}
+```
+_Request Body_
+```
+{
+  "UserId": 5
+  "ProductId": 2
+  "quantity": 1
+}
+```
+_Response (201 - Created)_
+```
+{
+  "id": <given id by system>,
+  name: "posted title",
+  image_url: "posted url",
+  price: "posted price,
+  stock: "posted stock,
+}
+```
+_Response(400- bad request)_
+```
+{
+  "Error" :  "VALIDATION_ERROR"
+  "message": "Name is required, Image Url is required, Price is required, Price cannot less then 0, Price must be integer, Stock cannot less then 0, Stock is required"
+}
+```
+_Response(401- Not Logged In)_
+```
+{
+  "Error" :  "notLogin"
+  "message": "You Must login First"
+}
+```
+_Response (500)_
+```
+{
+  "Error": "INTERNAL_SERVER_ERROR",
+  "message": "Your Internal Server Is not Connect / Error"
 }
 ```
