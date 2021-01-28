@@ -11,6 +11,7 @@ E-commerce CMS is a content management system to manage your online store. This 
 ## Available Endpoints List
 - `POST users/login`
 - `POST users/register`
+- `GET users/product`
 - `GET /products`
 - `POST /products`
 - `GET /products/:id`
@@ -98,6 +99,60 @@ __Response (404 - Not Found)__
 ```
 
 __Response (500 - Bad Request)__
+```javascript
+{
+  errors: "Internal server error"
+}
+```
+---
+### GET users/products
+> Get all users products
+
+### *Request Header*
+```javascript
+{
+  access_token: "<user access token>"
+}
+```
+
+### *Request Body*
+```Not Needed```
+
+### *Success Response*
+__Response (200)__
+ ```javascript
+[
+  {
+    id: 1,
+    UserId: "<UserId>",
+    ProductId: "<ProductId>",
+    quantity: "<quantity>",
+    wishlist: "<wishlist>",
+    invoice: "<invoice>", // Boolean
+    paymentStatus: "<paymentStatus>", // Integer
+    Product: {
+        id: 2,
+        name: "<product name>",
+        image_url: "<product image_url>",
+        price: "<product price>",
+        stock: "<product stock>",
+        status: "<product status>", // Boolean
+        description: "<product description>",
+        categoryId: "<category id>", // Integer
+    }
+  }
+]
+
+```
+### *Error Responses*
+__Response (401 - Invalid user)__
+```javascript
+{
+    errors: 'Forbidden access'
+}
+```
+
+__Response (500 - Internal Server Error)__
 ```javascript
 {
   errors: "Internal server error"
