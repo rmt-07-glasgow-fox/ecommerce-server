@@ -8,8 +8,9 @@ module.exports = class Controller {
             })
 
             if (!cart) await Cart.create({ UserId: req.user })
-            const data = await CartProduct.findAll({
-                where: { CartId: cart.id }
+            const data = await Cart.findAll({
+                where: { UserId: req.user },
+                include: Product
             })
             return res.status(200).json(data)
         } catch (err) {

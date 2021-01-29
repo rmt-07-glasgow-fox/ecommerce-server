@@ -9,6 +9,7 @@ module.exports = {
       price: 76999,
       stock: 100,
       UserId: 1,
+      CategoryId: 4,
       createdAt: new Date(),
       updatedAt: new Date()
     },
@@ -18,6 +19,7 @@ module.exports = {
       price: 77777,
       stock: 100,
       UserId: 1,
+      CategoryId: 4,
       createdAt: new Date(),
       updatedAt: new Date()
     },
@@ -27,6 +29,7 @@ module.exports = {
       price: 200000,
       stock: 100,
       UserId: 1,
+      CategoryId: 5,
       createdAt: new Date(),
       updatedAt: new Date()
     },
@@ -36,6 +39,7 @@ module.exports = {
       price: 180000,
       stock: 100,
       UserId: 1,
+      CategoryId: 5,
       createdAt: new Date(),
       updatedAt: new Date()
     }
