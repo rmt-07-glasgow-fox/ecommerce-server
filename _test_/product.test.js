@@ -522,7 +522,7 @@ describe("Product Test", () => {
         })
     })
     describe("Delete Product success", () => {
-        test("Fail Edit Product because not access_token", done => {
+        test("Fail Delete Product because not access_token", done => {
             request(app)
                 .delete(`/products/${productId}`)
                 .set('access_token', access_token)
@@ -536,7 +536,7 @@ describe("Product Test", () => {
         })
     })
     describe('Delete Product Fail', () =>  {
-        test("Fail Edit Product because access_token is not the same", done => {
+        test("Fail Delete Product because access_token is not the same", done => {
             request(app)
                 .delete(`/products/${productId}`)
                 .set('access_token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NjcsImVtYWlsIjoia2lybm80MkBtYWlsLmNvbSIsImlhdCI6MTYwNzUwNzQ3NH0.bNOVWDrtDbcgsNJVTs5YSJ7dkTCZ6u1TyjTSvS6puqE')
