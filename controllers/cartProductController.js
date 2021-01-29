@@ -3,8 +3,17 @@ const { CartProduct, Cart, Product } = require('../models')
 class CartProductController {
     static async get (req, res) {
       try {
+        const findUserId = await Cart.findOne({
+          where: {
+            userId: req.user.id
+          }
+        })
+
         const result = await CartProduct.findAll({
-            include: [Product]
+          include: [Product],
+            where: {
+              cartId: findUserId.id
+            }
         })
 
         return res.status(200).json(result)
@@ -17,7 +26,6 @@ class CartProductController {
       try {
         const opt = {
           productId: req.body.productId,
-          quantity: req.body.quantity
         }
 
         const dataProduct = await Product.findOne({
@@ -46,7 +54,6 @@ class CartProductController {
         const dataCartProduct = {
           cartId: checkCart.id,
           productId: opt.productId,
-          quantity: opt.quantity
         }
 
         const isProductExist = await CartProduct.findOne({
@@ -54,8 +61,10 @@ class CartProductController {
             cartId: dataCartProduct.cartId
           }
         })
+        console.log(isProductExist,'data isProductExist')
 
-        if (isProductExist.productId === +dataCartProduct.productId) return res.status(401).json({
+
+        if (isProductExist && isProductExist.productId === +dataCartProduct.productId) return res.status(401).json({
           message: 'Product already exist in cart'
         })
 
@@ -79,6 +88,7 @@ class CartProductController {
            id
          }
        })
+      //  console.log(dataCartProduct, 'data cart product')
 
        const dataProduct = await Product.findOne({
           where: {

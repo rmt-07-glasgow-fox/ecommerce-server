@@ -27,12 +27,13 @@ async function customerAuthenticate (req, res, next) {
 async function adminAuthenticate (req, res, next) {
     try {
         let decoded = verifyToken(req.headers.access_token)
-
+        console.log(decoded, 'ini decoded')
         let result = await User.findOne({
             where: {
                 email: decoded.email
             }
         })
+        console.log(result, 'result admin auth')
 
         if(result.role === 'admin'){
             req.user = result

@@ -3,7 +3,26 @@ const { comparePassword } = require('../helpers/bcrypt')
 const { generateToken } = require('../helpers/jwt')
 
 class UserController{
-    static async adminLogin(req, res){
+    static async register(req, res){
+        try {
+            const opt = {
+                email: req.body.email,
+                password: req.body.password
+            }
+
+            const result = await User.create(opt)
+            const response = {
+                id: result.id,
+                email: result.email
+            }
+
+            return res.status(201).json(response)
+        } catch (error) {
+            return res.status(500).json(error)
+        }
+    }
+
+    static async login(req, res){
         try {
            const opt = {
                 email: req.body.email,
