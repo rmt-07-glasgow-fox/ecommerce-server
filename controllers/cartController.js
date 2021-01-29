@@ -14,7 +14,8 @@ class CartController {
         },
         order: [['createdAt', 'ASC']],
         where: {
-          UserId: customerId
+          UserId: customerId,
+          status: false
         }
       })
       return res.status(200).json(cart)
@@ -27,10 +28,6 @@ class CartController {
     const customerId = +req.user.id
     const { id, quantity } = req.body
     try {
-      const product =  await Product.findByPk(id)
-      if ( product.stock < quantity ) {
-        throw { name: 'outOfStock' }
-      }
       const productCart = await Cart.findOne({
         where: {
           ProductId: id,
@@ -39,6 +36,10 @@ class CartController {
         }
       })
       if (!productCart) {
+        const product =  await Product.findByPk(id)
+        if ( product.stock < quantity ) {
+          throw { name: 'outOfStock' }
+        }
         const addedProductToCart = await Cart.create({
           UserId: customerId,
           ProductId: id,
@@ -46,17 +47,23 @@ class CartController {
         })
         return res.status(201).json(addedProductToCart)
       } else if (productCart.ProductId) {
-        const updateProductInCart = await Cart.update({
-          quantity
-        },
-        { where: {
-          ProductId: id,
-          UserId: customerId,
-          status: false
-        },
-        returning: true})
-        const response = updateProductInCart[1][0]
-        return res.status(200).json(response)
+        const cartQuantity = productCart.quantity
+        const product =  await Product.findByPk(id)
+        if ( product.stock < (quantity + cartQuantity) ) {
+          throw { name: 'outOfStock' }
+        } else {
+          const updateProductInCart = await Cart.update({
+            quantity: quantity + cartQuantity
+          },
+          { where: {
+            ProductId: id,
+            UserId: customerId,
+            status: false
+          },
+          returning: true})
+          const response = updateProductInCart[1][0]
+          return res.status(200).json(response)
+        }
       }
     } catch (err) {
       next(err)
@@ -111,6 +118,23 @@ class CartController {
           return res.status(200).json({ message: 'Product success removed from cart' })
         }
       }
+    } catch (err) {
+      next(err)
+    }
+  }
+
+  static async checkout (req, res, next) {
+    const UserId = req.user.id
+    try {
+      const checkout = await Cart.update({
+        status: true
+      },
+      { where: {
+        UserId
+      },
+      returning: true})
+      const checkoutResult = checkout[1]
+      return res.status(200).json(checkoutResult)
     } catch (err) {
       next(err)
     }
