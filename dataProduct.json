@@ -1,0 +1,27 @@
+[
+    {
+        "name": "Asus ROG GL702",
+        "image_url": "https://thumbnail.imgbin.com/20/22/1/imgbin-gaming-laptop-gl702-asus-intel-core-i7-laptop-AqdBuVEXzJPDx5HbNSPixNAbs_t.jpg",
+        "stock": 15,
+        "price": 18000000
+    },
+    {
+        "name": "Asus ROG G752",
+        "image_url": "https://thumbnail.imgbin.com/15/19/11/imgbin-laptop-asus-gaming-notebook-g752-series-intel-core-i7-laptop-vme9TUucLkrpVn5cuvyGmveS2_t.jpg",
+        "stock": 7 ,
+        "price": 17500000
+    },
+    {
+        "name": "Asus ROG Strix Scar Edition GL503",
+        "image_url": "https://img1.pngdownload.id/20180729/hib/kisspng-rog-strix-scar-edition-gaming-laptop-gl503-intel-c-asus-rog-5b5d6dfb9a2304.2857837115328496596314.jpg",
+        "stock": 10,
+        "price": 22000000
+    },
+    {
+        "name": "MSI GT80 Titan SLI",
+        "image_url": "https://thumbnail.imgbin.com/20/13/21/imgbin-extreme-performance-gaming-laptop-gt80-titan-sli-msi-wind-netbook-computer-keyboard-notebook-GkjVtuLjyEeS4yMt2triPqSNZ_t.jpg",
+        "stock": 5,
+        "price": 29000000
+    }
+
+]
