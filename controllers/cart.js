@@ -28,7 +28,7 @@ exports.create = async (req, res, next) => {
 
 exports.carts = async (req, res, next) => {
   try {
-    const carts = await Cart.findAll();
+    const carts = await Cart.findAll({order: [['createdAt', 'DESC']]});
     res.status(200).json(carts);
   } catch (error) {
     next(error);
@@ -62,7 +62,7 @@ exports.update = async (req, res, next) => {
   try {
     const id = req.params.id;
     const data = {
-      quantity: req.body.quantity,
+      qty: req.body.qty,
       UserId: req.user.id,
       ProdId: req.body.ProdId
     };
