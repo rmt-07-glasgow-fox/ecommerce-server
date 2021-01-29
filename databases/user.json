@@ -1,0 +1,26 @@
+[
+  {
+    "firstname": "Admin",
+    "lastname": "Admin",
+    "profpic": "https://www.vettedpetcare.com/vetted-blog/wp-content/uploads/2017/09/How-To-Travel-With-a-Super-Anxious-Cat-square.jpeg",
+    "email": "admin@mail.com",
+    "password": "$2a$10$RYOKCEzgF/wGtkIznchHZe036eHjOKQty06VR/K9v3fxQLrLiv9FC",
+    "role": "admin"
+  },
+  {
+    "firstname": "Ralfarios",
+    "lastname": "Koizumi",
+    "profpic": "https://i.imgur.com/nt4cEka.jpg",
+    "email": "ralfarios@mail.com",
+    "password": "$2a$10$I4Tpcn75UkjhbN0Iz/ZJkeCiVCbgJDPRajPYbWffqb5IztaS/smMS",
+    "role": "admin"
+  },
+  {
+    "firstname": "Ai",
+    "lastname": "Ohto",
+    "profpic": "https://i.imgur.com/dDkSAPb.jpg",
+    "email": "ohtoai@mail.com",
+    "password": "$2a$10$RYOKCEzgF/wGtkIznchHZe036eHjOKQty06VR/K9v3fxQLrLiv9FC",
+    "role": "customer"
+  }
+]

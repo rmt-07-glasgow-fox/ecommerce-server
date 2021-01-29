@@ -1,0 +1,49 @@
+{
+  "name": "ecommerce-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node bin/http.js",
+    "db:create": "sequelize db:create",
+    "db:migrate": "sequelize db:migrate",
+    "db:migrate:undo": "sequelize db:migrate:undo",
+    "db:seed:all": "sequelize db:seed:all",
+    "db:seed:undo": "sequelize db:seed:undo",
+    "db:create:development": "SET NODE_ENV=development&npm run db:create",
+    "db:create:test": "SET NODE_ENV=test&npm run db:create",
+    "db:migrate:development": "SET NODE_ENV=development&npm run db:migrate",
+    "db:migrate:test": "SET NODE_ENV=test&npm run db:migrate",
+    "db:migrate:undo:development": "SET NODE_ENV=development&npm run db:migrate:undo",
+    "db:migrate:undo:test": "SET NODE_ENV=test&npm run db:migrate:undo",
+    "db:seed:all:development": "SET NODE_ENV=development&npm run db:seed:all",
+    "db:seed:all:test": "SET NODE_ENV=test&npm run db:seed:all",
+    "db:seed:undo:development": "SET NODE_ENV=development&npm run db:seed:undo",
+    "db:seed:undo:test": "SET NODE_ENV=test&npm run db:seed:undo",
+    "dev": "SET NODE_ENV=development&nodemon bin/http.js",
+    "test": "SET NODE_ENV=test&npx jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ralfarios/ecommerce-server.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ralfarios/ecommerce-server/issues"
+  },
+  "homepage": "https://github.com/Ralfarios/ecommerce-server#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "google-auth-library": "^6.1.6",
+    "jest": "^26.6.3",
+    "jsonwebtoken": "^8.5.1",
+    "pg": "^8.5.1",
+    "sequelize": "^6.3.5",
+    "supertest": "^6.1.1"
+  }
+}
