@@ -13,6 +13,13 @@ const clearUser = require('./helpers/clear-users')
 //For register
 
 describe('User register and login', function(){
+    afterAll(function(done) {
+       clearUser()
+        .then(function() {
+            done()
+        })
+        .catch()
+    })
     describe('POST /register (SUCCESS)',  function(){
         it('should send response with 201 status code and return an object with id and email', function(done){
             //setup

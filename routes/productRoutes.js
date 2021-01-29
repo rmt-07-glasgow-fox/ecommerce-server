@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const productController = require('../controllers/productController')
-const { authenticate, authorization } = require('../middlewares/authentication')
+const { authorization } = require('../middlewares/authentication')
 
 router.get('/products', productController.getProducts)
 router.get('/products/:id', productController.getOneProduct)

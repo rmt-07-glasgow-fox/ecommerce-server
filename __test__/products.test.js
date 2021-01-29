@@ -1,5 +1,8 @@
 const request = require('supertest')
 const app = require('../app')
+const { User, Product } = require('../models/')
+const { generateToken } = require('../helpers/jsonwebtoken')
+const clearUser = require('./helpers/clear-users')
 
 /*
 Plan for products
@@ -22,12 +25,58 @@ urutan CRUD
 */
 
 let id = ''
-let token_admin = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJhZG1pbkBtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTYxMTEwNDMyMn0.OMluxrxICoMEP3PframUgh8aV2UqlECVjyEhBuYoOds"
-let token_user = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZW1haWwiOiJleGFtcGxlQG1haWwuY29tIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2MTExMDQ0NDR9.Cw561M_JylrFdUba5sX_HMiG2dA3AEUUnlzxv3lTJFo"
+let token_admin = ""
+let token_user = ""
 
 //POST 
 
 describe('CRUD for products', function(){
+    beforeAll(function(done){
+        User.create({
+            email: 'example1@mail.com',
+            password: 'password',
+            role: 'user'
+        })
+        .then(data => {
+            return User.findOne({
+                where: {
+                    email: data.email
+                }
+            })
+        })
+        .then(user => {
+            const payload = {
+                id : user.id,
+                email : user.email,
+                role : user.role
+            }
+            const access_token = generateToken(payload)
+            token_user = access_token
+            return User.findOne({
+                where: {
+                    email: 'admin@mail.com'
+                }
+            })
+        })
+        .then(user => {
+            const payload = {
+                id : user.id,
+                email : user.email,
+                role : user.role
+            }
+            const access_token = generateToken(payload)
+            token_admin = access_token
+            done()
+        })
+        .catch()
+    })
+    afterAll(function(done) {
+        clearUser()
+        .then(function() {
+            done()
+        })
+        .catch()
+     })
     describe('POST /products (SUCCESS)', function(){
         it('should send response 201 status code', function(done){
             const body = {
