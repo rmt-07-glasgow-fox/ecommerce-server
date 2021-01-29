@@ -1,0 +1,45 @@
+{
+  "name": "ecommerce-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "db:create:development": "SET NODE_ENV=development&npx sequelize db:create",
+    "db:migrate:development": "SET NODE_ENV=development&npx sequelize db:migrate",
+    "db:migrate:undo:development": "SET NODE_ENV=development&npx sequelize db:migrate:undo:all",
+    "db:seed:development": "SET NODE_ENV=development&npx sequelize db:seed:all",
+    "db:create:test": "SET NODE_ENV=test&npx sequelize db:create",
+    "db:migrate:test": "SET NODE_ENV=test&npx sequelize db:migrate",
+    "db:migrate:undo:test": "SET NODE_ENV=test&npx sequelize db:migrate:undo:all",
+    "db:seed:test": "SET NODE_ENV=test&npx sequelize db:seed --seed 20210119000106-seed-data-user-admin",
+
+    "test": "SET NODE_ENV=test&npx jest",
+    "start": "node bin/http.js",
+    "dev": "SET NODE_ENV=development&nodemon bin/http.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lordzerato/ecommerce-server.git"
+  },
+  "keywords": [],
+  "author": "RamadanFauzi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lordzerato/ecommerce-server/issues"
+  },
+  "homepage": "https://github.com/lordzerato/ecommerce-server#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "pg": "^8.5.1",
+    "sequelize": "^6.3.5"
+  },
+  "devDependencies": {
+    "jest": "^26.6.3",
+    "nodemon": "^2.0.7",
+    "sequelize-cli": "^6.2.0"
+  }
+}
