@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "title": "Book Flash Sale",
+    "status": true,
+    "image_url": "https://cf.shopee.co.id/file/e42dd3f5beac8178d6e90f1053b52a78_xxhdpi"
+  },
+  {
+    "id": 2,
+    "title": "Discount 50%",
+    "status": true,
+    "image_url": "https://cf.shopee.co.id/file/bb4b2698cd00d7275ff6ad8e0abc77bf_xxhdpi"
+  },
+  {
+    "id": 3,
+    "title": "Hot Item",
+    "status": true,
+    "image_url": "https://cf.shopee.co.id/file/59ba5a4eea75b13940be9e48fe6162bb_xxhdpi"
+  },
+  {
+    "id": 4,
+    "title": "Hot Item",
+    "status": true,
+    "image_url": "https://cf.shopee.co.id/file/f07c45af1878f87917e3ef1174eda779_xxhdpi"
+  },
+  {
+    "id": 5,
+    "title": "Hot Item",
+    "status": true,
+    "image_url": "https://cf.shopee.co.id/file/e459e10c37228d246a9da62fed325025_xxhdpi"
+  },
+  {
+    "id": 6,
+    "title": "Hot Item",
+    "status": true,
+    "image_url": "https://cf.shopee.co.id/file/a03a6640d36e63ef8f1429bd07953a84_xxhdpi"
+  }
+]

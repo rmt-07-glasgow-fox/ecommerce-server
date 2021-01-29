@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "categoryName": "Electronic"
+  },
+  {
+    "id": 2,
+    "categoryName": "Fashion"
+  },
+  {
+    "id": 3,
+    "categoryName": "Book"
+  },
+  {
+    "id": 4,
+    "categoryName": "Inventory"
+  },
+  {
+    "id": 5,
+    "categoryName": "Toy"
+  }
+]
