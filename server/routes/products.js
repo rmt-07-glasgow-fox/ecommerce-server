@@ -7,6 +7,6 @@ router.post ("/", ProductController.addProduct)
 router.get ("/:id", authorization, ProductController.getOne)
 router.put ("/:id", authorization, ProductController.editProduct)
 router.patch ("/:id", authorization, ProductController.moveProduct)
-router.delete (":id", authorization, ProductController.removeProduct)
+router.delete ("/:id", authorization, ProductController.removeProduct)
 
 module.exports = router

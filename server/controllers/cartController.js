@@ -27,6 +27,7 @@ class CartController {
                 next(err)
             })
     }
+
     static addToCart (req, res, next) {
         const ProductId = req.body.id
         const UserId = req.user.id
@@ -75,6 +76,7 @@ class CartController {
                 next(err)
             })
     }
+    
     static changeCart (req, res, next) {
         const id = +req.params.id
         const UserId = req.user.id

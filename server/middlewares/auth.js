@@ -32,6 +32,7 @@ authorization = async (req, res, next) => {
             next({ name: "Unauthorized" })
         }
     } catch (err) {
+        console.log(err)
         next(err)
     }
 }

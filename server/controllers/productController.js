@@ -78,7 +78,7 @@ class ProductController {
     }
     static removeProduct (req, res, next) {
         const id = +req.params.id
-
+        console.log(id)
         Product.destroy({ where: { id } })
             .then(result => {
                 if (result === 1) {
@@ -88,6 +88,7 @@ class ProductController {
                 }
             })
             .catch(err => {
+                console.log(err)
                 next(err)
             })
     }
