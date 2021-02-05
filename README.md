@@ -6,7 +6,7 @@
 - [x] TDD
 
 > ### _**Deploy ‌**_
-[https://server-used-aircraft.com](https://cms-used-aircraft.herokuapp.com/)
+[Heroku Hosting Site](https://cms-used-aircraft.herokuapp.com/)
 
 > ### _**Rocket 🚀‌**_
 - [x] Banner
