@@ -17,6 +17,11 @@
 - [x] Wishlist
 - [x] Send Email when Register / Checkout
 - [x] Daftar Transaksi
+
+> ### .env
+SECRET_KEY=root
+GOOGLE_USER='email' -email asli
+GOOGLE_PASS='pass'     password email asli
 ---------------------------------------------------------------
 ## API LIST
 | ROUTES            | METHODS | DESCRIPTION                    |
