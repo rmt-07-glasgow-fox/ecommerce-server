@@ -1,4 +1,23 @@
 # Used Aircraft (cms ecommerce)
+> ### **Feature**
+- [x] Rest API PostgreSQL + Sequelize
+- [x] API Documentation
+- [x] Auth 
+- [x] TDD
+
+> ### _**Deploy ‌**_
+[https://server-used-aircraft.com](https://cms-used-aircraft.herokuapp.com/)
+
+> ### _**Rocket 🚀‌**_
+- [x] Banner
+- [x] Category
+- [x] Cloud Storage
+- [x] Slide Show
+- [x] Checkout
+- [x] Wishlist
+- [x] Send Email when Register / Checkout
+- [x] Daftar Transaksi
+---------------------------------------------------------------
 ## API LIST
 | ROUTES            | METHODS | DESCRIPTION                    |
 |-------------------|---------|--------------------------------|
