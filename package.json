@@ -1,0 +1,51 @@
+{
+  "name": "ecommerce-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node bin/http.js",
+    "db:c": "npx sequelize db:create",
+    "db:m": "npx sequelize db:migrate",
+    "db:u": "npx sequelize db:migrate:undo:all",
+    "db:s": "npx sequelize db:seed:all",
+    "db:c:dev": "NODE_ENV=development npm run db:c",
+    "db:m:dev": "NODE_ENV=development npm run db:m",
+    "db:u:dev": "NODE_ENV=development npm run db:u",
+    "db:s:dev": "NODE_ENV=development npm run db:s",
+    "db:c:test": "NODE_ENV=test npm run db:c",
+    "db:m:test": "NODE_ENV=test npm run db:m",
+    "db:u:test": "NODE_ENV=test npm run db:u",
+    "db:s:test": "NODE_ENV=test npm run db:s",
+    "dev": "NODE_ENV=development npx nodemon bin/http.js",
+    "test": "NODE_ENV=test npx jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DZAKYALR/ecommerce-server.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DZAKYALR/ecommerce-server/issues"
+  },
+  "homepage": "https://github.com/DZAKYALR/ecommerce-server#readme",
+  "devDependencies": {
+    "jest": "^26.6.3",
+    "nodemon": "^2.0.7",
+    "supertest": "^6.1.1"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "nodemailer": "^6.4.17",
+    "pg": "^8.5.1",
+    "sequelize": "^6.4.0",
+    "sequelize-cli": "^6.2.0",
+    "socket.io": "^3.1.0"
+  }
+}
