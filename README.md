@@ -42,4 +42,4 @@ Kang Bang server is built with getting help by a list of cool technologies. Whic
 
 
 ## Contact Me
-* [LinkedIn](https://www.linkedin.com/in/gianmarvin/
+* [LinkedIn](https://www.linkedin.com/in/gianmarvin/)
