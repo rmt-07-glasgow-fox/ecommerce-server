@@ -1,0 +1,34 @@
+[
+    {
+        "name": "NIKE AIR",
+        "image_url": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80",
+        "price": 2999999,
+        "stock": 30,
+        "status": true,
+        "category": "Shoes" 
+    },
+    {
+        "name": "TIMBERLAND",
+        "image_url": "https://www.pngkey.com/png/full/134-1345148_timberland-boots-png-graphic-black-and-white-stock.png",
+        "price": 2699699,
+        "stock": 40,
+        "status": true,
+        "category": "Shoes" 
+    },
+    {
+        "name": "ELHAUS",
+        "image_url": "https://image-cdn.hypb.st/https%3A%2F%2Fhypebeast.com%2Fimage%2F2020%2F05%2F542qsdfg.jpg?q=75&w=800&cbr=1&fit=max",
+        "price": 1775499,
+        "stock": 50,
+        "status": true,
+        "category": "Shirts" 
+    },
+    {
+        "name": "COSMONAUTS SHIRTS",
+        "image_url": "https://f4.bcbits.com/img/0015504832_10.jpg",
+        "price": 499800,
+        "stock": 100,
+        "status": true,
+        "category": "Shirts" 
+    }
+]
