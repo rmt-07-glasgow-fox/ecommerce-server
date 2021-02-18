@@ -1,0 +1,44 @@
+{
+  "name": "server_test",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js",
+    "db:create": "npx sequelize-cli db:create",
+    "db:migrate": "npx sequelize-cli db:migrate",
+    "db:seed": "npx sequelize-cli db:seed:all",
+    "db:create:development": "NODE_ENV=development npm run db:create",
+    "db:create:test": "NODE_ENV=test npm run db:create",
+    "db:migrate:development": "NODE_ENV=development npm run db:migrate",
+    "db:migrate:test": "NODE_ENV=test npm run db:migrate",
+    "db:seed:development": "NODE_ENV=development npm run db:seed",
+    "db:seed:test": "NODE_ENV=test npm run db:seed",
+    "dev": "NODE_ENV=development npx nodemon bin/http.js",
+    "test": "NODE_ENV=test npx jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@google-cloud/storage": "^5.7.2",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "multer": "^1.4.2",
+    "pg": "^8.5.1",
+    "sequelize": "^6.3.5"
+  },
+  "devDependencies": {
+    "dotenv": "^8.2.0",
+    "jest": "^26.6.3",
+    "nodemon": "^2.0.7",
+    "sequelize-cli": "^6.2.0",
+    "supertest": "^6.1.1"
+  },
+  "bin": {
+    "server_test": "http.js"
+  },
+  "description": ""
+}
