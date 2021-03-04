@@ -1,4 +1,5 @@
-const { Product } = require('../models')
+const { Product, Sequelize } = require('../models')
+const Op = Sequelize.Op
 
 class ProductController {
     static addProduct(req, res, next) {
@@ -17,7 +18,9 @@ class ProductController {
     }
 
     static getProducts(req, res, next) {
-        Product.findAll()
+        Product.findAll({
+            where: { stock: { [Op.gt]:0 } }
+        })
             .then(data => {
                 res.status(200).json(data)
             })

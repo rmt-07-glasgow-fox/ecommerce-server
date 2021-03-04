@@ -27,6 +27,14 @@ function errorHandler (err, req, res, next) {
             case 'Unauthorized':
                 res.status(401).json({ message: "Unauthorized"})
                 break;
+            case 'Out of Stock':
+                return res.status(400).json({ message: 'Out of Stock' })
+            case 'Empty Cart':
+                res.status(400).json({ message: 'Cart is empty'})
+                break;
+            default:
+                res.status(500).json({ message: 'Internal Server Error'})
+                break;
         }
     }
 }

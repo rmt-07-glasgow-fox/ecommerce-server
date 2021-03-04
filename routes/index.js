@@ -5,6 +5,7 @@ const { errorHandler } = require('../middlewares/errorHandler')
 const productRoutes = require('./products')
 const router = require('express').Router()
 const cartRoutes = require('./cart')
+const transactionRoutes = require('./transaction')
 
 router.post('/register', UserController.register)
 router.post('/login', UserController.login)
@@ -13,6 +14,7 @@ router.get('/products', ProductController.getProducts)
 
 router.use(authenticate)
 router.use('/carts', cartRoutes)
+router.use('/transactions', transactionRoutes)
 
 router.use(authAdmin)
 router.use('/products', productRoutes)

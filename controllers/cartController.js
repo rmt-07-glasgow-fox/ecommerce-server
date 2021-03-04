@@ -3,11 +3,14 @@ const { Cart, Product } = require('../models')
 class CartController {
     static showCart (req, res, next) {
         Cart.findAll({
-            where: { UserId: req.UserId },
-            include: [ Product ]
+            where: { UserId: req.UserId, status: 'In Cart' },
+            include: [ Product ],
+            order: [
+                ['updatedAt', 'DESC']
+            ]
         })
             .then(data => {
-                res.send(data)
+                // res.send(data)
                 res.status(200).json(data)
             })
             .catch(next)
@@ -27,11 +30,11 @@ class CartController {
             .then(data => {
                 if (!data || data.stock < 1) {
                     // ini apa ya
-                    res.status(400).json({ message: `Sorry, we don't have enough stock` })
+                   throw({ name: 'Out of Stock' })
                 } else {
                     // console.log(data)
                     return Cart.findOne({
-                        where: { UserId, ProductId },
+                        where: { UserId, ProductId, status: 'In Cart' },
                         include: [ Product ]
                     })
                 }
@@ -60,7 +63,7 @@ class CartController {
     static deleteCart (req, res, next) {
         let id = +req.params.id
         Cart.destroy({
-            where: { id }
+            where: { id, status: 'In Cart' }
         })
             .then(response => {
                 if (response === 1) {
@@ -81,9 +84,9 @@ class CartController {
         })
             .then(data => {
                 if (!data || data.stock < quantity) {
-                    res.status(400).json({ message: `Sorry, we don't have enough stock` })
+                    throw ({ name: `Out of Stock` })
                 } else {
-                    return Cart.update({ quantity }, { where: { id }, returning: true}) 
+                    return Cart.update({ quantity }, { where: { id, status: 'In Cart' }, returning: true}) 
                 }
             })
             .then(data => {
