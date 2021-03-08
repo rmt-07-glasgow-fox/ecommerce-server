@@ -7,7 +7,7 @@ const productsController = require('../controllers/productsController')
 const cartsController = require('../controllers/cartsController')
 
 router.get('/', (req, res) => {
-  res.send('<h1>Hello World!</h1>')
+  res.send('<h1>Welcome to Danuspedia server!</h1>')
 })
 
 router.post('/login', usersController.login)
